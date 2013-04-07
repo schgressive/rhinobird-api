@@ -30,6 +30,7 @@ These are the video stream resources.
 
 ###Stream Properties
 - id (string): Stream id (md5)
+- url (string): Stream data source
 - title (string): Title of the stream
 - desc (string): Description
 - lat (int): Latitude
@@ -125,121 +126,7 @@ GET /streams/{id}
 
 Deletes stream 
 DELETE /streams/{id}
-< 200
-< Content-Type: application/json
-{ "status": "ok" }
-
-List the current stream channels
-GET /streams/{id}/channels
-< 200
-< Content-Type: application/json
-[
-    {
-        "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-        "identifier": "LollapaloozaCL",
-        "streams": [
-            { 
-                "id": "ef18a7b75fc32246e46bd75ff910a582",
-                "title": "Lollapalooza en Chile",
-                "desc": "Excelent music!",
-                "lat": -33.462666,
-                "lng": -70.661713,
-                "geo_reference": "Parque O'higgins",
-                "channels": [
-                    "5c3e0faaf75d891ef3fcc8ba54119e4c",
-                    "7652acc25ca9744695de61f3ae0b527b"
-                ],
-                "started_on": "2012-01-23T12:00:00.000"
-            },
-            { 
-                "id": "51d1bc8ab4c5297843ea3f57b7800b30",
-                "title": "Lollapalooza!",
-                "desc": "Chancho en piedra",
-                "lat": -33.462666,
-                "lng": -70.661713,
-                "geo_reference": "Parque O'higgins",
-                "channels": [
-                    "7652acc25ca9744695de61f3ae0b527b",
-                    "bb2ee58f56a6b8d9e560f40ae1b0b91f"
-                ],
-                "started_on": "2012-01-23T12:00:00.000"
-            }
-        ],
-        "streams_count": 2,
-        "created_on": "2012-01-23T12:00:00.000"
-    },
-    {
-        "id": "9e879d7d0dbd3e5df40fd77d0cef7182",
-        "identifier": "LosPinguinos",
-        "streams": [
-            { 
-                "id": "cf58e551d63525613465878c183266f5",
-                "title": "No al lucro",
-                "desc": "",
-                "lat": -33.462666,
-                "lng": -70.661713,
-                "geo_reference": "Alameda",
-                "channels": [
-                    "9e879d7d0dbd3e5df40fd77d0cef7182",
-                    "5c3e0faaf75d891ef3fcc8ba54119e4c"
-                ],
-                "started_on": "2012-01-23T12:00:00.000"
-            }
-        ],
-        "streams_count": 1,
-        "created_on": "2012-01-23T12:00:00.000"
-    }    
-]
-
-Adds the current stream to a channel
-POST /streams/{id}/channels
-> Content-Type: application/json
-> Accept: application/json
-{ 
-    "channel_id": "5c3e0faaf75d891ef3fcc8ba54119e4c"
-}
-< 201
-< Content-Type: application/json
-{
-    "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-    "identifier": "LosPinguinos",
-    "streams": [
-        { 
-            "id": "ef18a7b75fc32246e46bd75ff910a582",
-            "title": "No al lucro",
-            "desc": "",
-            "lat": -33.462666,
-            "lng": -70.661713,
-            "geo_reference": "Alameda",
-            "channels": [
-                "5c3e0faaf75d891ef3fcc8ba54119e4c",
-                "9e879d7d0dbd3e5df40fd77d0cef7182"
-            ],
-            "started_on": "2012-01-23T12:00:00.000"
-        },
-        { 
-            "id": "51d1bc8ab4c5297843ea3f57b7800b30",
-            "title": "El wanaco",
-            "desc": "Esta pegando fuerte",
-            "lat": -33.462666,
-            "lng": -70.661713,
-            "geo_reference": "Nataniel Cox",
-            "channels": [
-                "5c3e0faaf75d891ef3fcc8ba54119e4c",
-                "7652acc25ca9744695de61f3ae0b527b"
-            ],
-            "started_on": "2012-01-23T12:00:00.000"
-        }
-    ],
-    "streams_count": 2,
-    "created_on": "2012-01-23T12:00:00.000"
-}   
-
-Removes the current stream from the channel
-DELETE /streams/{id}/channels/{id}
-< 200
-< Content-Type: application/json
-{ "status": "ok" }
+< 204
 
 -- 
 Channels Resources 
@@ -406,27 +293,34 @@ GET /channels/{id}/streams
     }
 ]
 
-Create a new stream in the current channel
-POST /channels/{id}/streams
+Lists bonds between streams and channels
+GET /bonds
 > Content-Type: application/json
 > Accept: application/json
 { 
-    "title": "Lollapalooza en Chile",
-    "desc": "Excelent music!",
-    "lat": -33.462666,
-    "lng": -70.661713,
-    "geo_reference": "Parque O'higgins"
+    "stream": "51d1bc8ab4c5297843ea3f57b7800b30"
+}
+< 200
+{ 
+    #TODO
+}
+
+Create a bond between a stream and a channel
+POST /bonds
+> Content-Type: application/json
+> Accept: application/json
+{ 
+    "stream": "51d1bc8ab4c5297843ea3f57b7800b30",
+    "channel":"bb2ee58f56a6b8d9e560f40ae1b0b91f"
 }
 < 201
 { 
-    "id": "51d1bc8ab4c5297843ea3f57b7800b30",
-    "title": "Lollapalooza en Chile",
-    "desc": "Excelent music!",
-    "lat": -33.462666,
-    "lng": -70.661713,
-    "geo_reference": "Parque O'higgins",
-    "channels": [
-        "bb2ee58f56a6b8d9e560f40ae1b0b91f"
-    ],
-    "started_on": "2012-01-23T12:00:00.000"
+    "id":"hdh373hjefw23823j823y32749j33hj28",
+    "created_at": "2013-04-05 12:02:45",
+    "stream":"51d1bc8ab4c5297843ea3f57b7800b30",
+    "channel":"bb2ee58f56a6b8d9e560f40ae1b0b91f"
 }
+
+Removes a bond between channel and stream
+DELETE /bonds/{id}
+< 204

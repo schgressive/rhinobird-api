@@ -46,7 +46,7 @@ GET /streams
 [
         { 
         "id": "ef18a7b75fc32246e46bd75ff910a582",
-        "title": "Lolapaluza en Chile",
+        "title": "Lollapalooza en Chile",
         "desc": "Excelent music!",
         "lat": -33.462666,
         "lng": -70.661713,
@@ -89,7 +89,7 @@ POST /streams
 > Content-Type: application/json
 > Accept: application/json
 { 
-    "title": "Lolapaluza en Chile",
+    "title": "Lollapalooza en Chile",
     "desc": "Excelent music!",
     "lat": -33.462666,
     "lng": -70.661713,
@@ -99,7 +99,7 @@ POST /streams
 < Content-Type: application/json
 { 
     "id": "812f16429fad2756693047f685b9956a",
-    "title": "Lolapaluza en Chile",
+    "title": "Lollapalooza en Chile",
     "desc": "Excelent music!",
     "lat": -33.462666,
     "lng": -70.661713,
@@ -114,7 +114,7 @@ GET /streams/{id}
 < Content-Type: application/json
 { 
     "id": "812f16429fad2756693047f685b9956a",
-    "title": "Lolapaluza en Chile",
+    "title": "Lollapalooza en Chile",
     "desc": "Excelent music!",
     "lat": -33.462666,
     "lng": -70.661713,
@@ -136,11 +136,11 @@ GET /streams/{id}/channels
 [
     {
         "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-        "identifier": "LolapaluzaCL",
+        "identifier": "LollapaloozaCL",
         "streams": [
             { 
                 "id": "ef18a7b75fc32246e46bd75ff910a582",
-                "title": "Lolapaluza en Chile",
+                "title": "Lollapalooza en Chile",
                 "desc": "Excelent music!",
                 "lat": -33.462666,
                 "lng": -70.661713,
@@ -153,7 +153,7 @@ GET /streams/{id}/channels
             },
             { 
                 "id": "51d1bc8ab4c5297843ea3f57b7800b30",
-                "title": "Lolapaluza!",
+                "title": "Lollapalooza!",
                 "desc": "Chancho en piedra",
                 "lat": -33.462666,
                 "lng": -70.661713,
@@ -259,11 +259,11 @@ GET /channels
 [
     {
         "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-        "identifier": "LolapaluzaCL",
+        "identifier": "LollapaloozaCL",
         "streams": [
             { 
                 "id": "51d1bc8ab4c5297843ea3f57b7800b30",
-                "title": "Lolapaluza en Chile",
+                "title": "Lollapalooza en Chile",
                 "desc": "Excelent music!",
                 "lat": -33.462666,
                 "lng": -70.661713,
@@ -276,7 +276,7 @@ GET /channels
             },
             { 
                 "id": "cf58e551d63525613465878c183266f5",
-                "title": "Lolapaluza!",
+                "title": "Lollapalooza!",
                 "desc": "Chancho en piedra",
                 "lat": -33.462666,
                 "lng": -70.661713,
@@ -319,13 +319,13 @@ POST /channels
 > Content-Type: application/json
 > Accept: application/json
 { 
-    "identifier": "LolapaluzaCL"
+    "identifier": "LollapaloozaCL"
 }
 < 201
 < Content-Type: application/json
 {
     "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-    "identifier": "LolapaluzaCL",
+    "identifier": "LollapaloozaCL",
     "streams": [],
     "streams_count": 0,
     "created_on": "2012-01-23T12:00:00.000"
@@ -336,11 +336,11 @@ GET /channels/{id}
 < 200
 {
     "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-    "identifier": "LolapaluzaCL",
+    "identifier": "LollapaloozaCL",
     "streams": [
         { 
             "id": "51d1bc8ab4c5297843ea3f57b7800b30",
-            "title": "Lolapaluza en Chile",
+            "title": "Lollapalooza en Chile",
             "desc": "Excelent music!",
             "lat": -33.462666,
             "lng": -70.661713,
@@ -353,7 +353,7 @@ GET /channels/{id}
         },
         { 
             "id": "cf58e551d63525613465878c183266f5",
-            "title": "Lolapaluza!",
+            "title": "Lollapalooza!",
             "desc": "Chancho en piedra",
             "lat": -33.462666,
             "lng": -70.661713,
@@ -380,7 +380,7 @@ GET /channels/{id}/streams
 [
     { 
         "id": "ef18a7b75fc32246e46bd75ff910a582",
-        "title": "Lolapaluza en Chile",
+        "title": "Lollapalooza en Chile",
         "desc": "Excelent music!",
         "lat": -33.462666,
         "lng": -70.661713,
@@ -393,7 +393,7 @@ GET /channels/{id}/streams
     },
     { 
         "id": "51d1bc8ab4c5297843ea3f57b7800b30",
-        "title": "Lolapaluza!",
+        "title": "Lollapalooza!",
         "desc": "Chancho en piedra",
         "lat": -33.462666,
         "lng": -70.661713,
@@ -411,7 +411,7 @@ POST /channels/{id}/streams
 > Content-Type: application/json
 > Accept: application/json
 { 
-    "title": "Lolapaluza en Chile",
+    "title": "Lollapalooza en Chile",
     "desc": "Excelent music!",
     "lat": -33.462666,
     "lng": -70.661713,
@@ -420,7 +420,7 @@ POST /channels/{id}/streams
 < 201
 { 
     "id": "51d1bc8ab4c5297843ea3f57b7800b30",
-    "title": "Lolapaluza en Chile",
+    "title": "Lollapalooza en Chile",
     "desc": "Excelent music!",
     "lat": -33.462666,
     "lng": -70.661713,

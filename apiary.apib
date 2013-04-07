@@ -293,6 +293,17 @@ GET /channels/{id}/streams
     }
 ]
 
+-- 
+Bonds Resource 
+This is the bonds resource definition.
+
+###Channel Properties
+- id (string): Bond UUID (md5)
+- stream (string): UUID of the stream
+- channel (string): UUID of the channel
+- created_at (string): Channel created date
+--
+
 Lists bonds between streams and channels
 GET /bonds
 > Content-Type: application/json

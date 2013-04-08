@@ -7,6 +7,7 @@ gem 'rails', '3.2.11'
 
 gem 'mysql2'
 gem "active_model_serializers", "~> 0.7.0"
+gem 'strong_parameters'
 
 group :development, :test do
   #gems for file notifications according to platform

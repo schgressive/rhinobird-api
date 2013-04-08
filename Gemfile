@@ -6,7 +6,23 @@ gem 'rails', '3.2.11'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'mysql2'
+gem "active_model_serializers", "~> 0.7.0"
 
+group :development, :test do
+  #gems for file notifications according to platform
+  gem 'rb-inotify', '~> 0.8.8', :require => false
+  gem 'rb-fsevent', :require => false
+  gem 'rb-fchange', :require => false
+
+  gem "guard"
+  gem "database_cleaner"
+  gem 'factory_girl_rails', '~> 3.0'
+  gem 'rspec-rails', "~> 2.0"
+  gem 'debugger', :require => 'ruby-debug'
+  gem "spork-rails"
+  gem "guard-rspec"
+  gem "guard-spork"
+end
 
 # Gems used only for assets and not required
 # in production environments by default.

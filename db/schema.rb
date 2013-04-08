@@ -17,8 +17,8 @@ ActiveRecord::Schema.define(:version => 20130408152535) do
     t.string   "url"
     t.string   "title"
     t.string   "desc"
-    t.decimal  "lat",           :precision => 10, :scale => 0
-    t.decimal  "lng",           :precision => 10, :scale => 0
+    t.decimal  "lat",           :precision => 10, :scale => 6
+    t.decimal  "lng",           :precision => 10, :scale => 6
     t.string   "geo_reference"
     t.time     "started_on"
     t.datetime "created_at",                                   :null => false

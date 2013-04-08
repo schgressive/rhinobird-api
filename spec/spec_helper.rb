@@ -1,7 +1,5 @@
 require 'rubygems'
 require 'spork'
-require "factory_girl"
-require "database_cleaner"
 #uncomment the following line to use spork with the debugger
 #require 'spork/ext/ruby-debug'
 
@@ -44,6 +42,7 @@ Spork.prefork do
     #     --seed 1234
     config.order = "random"
   end
+
 end
 
 Spork.each_run do
@@ -52,3 +51,7 @@ Spork.each_run do
   DatabaseCleaner.clean
 
 end
+
+
+
+

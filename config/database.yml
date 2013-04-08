@@ -1,0 +1,24 @@
+development:
+  adapter: mysql2
+  encoding: utf8
+  database: <%= ENV['DEV_DB_NAME'] %>
+  pool: 5
+  username: <%= ENV['DEV_DB_USER'] %>
+  password: <%= ENV['DEV_DB_PASSWORD'] %>
+
+test:
+  adapter: mysql2
+  encoding: utf8
+  database: <%= ENV['DEV_DB_NAME'] %>_test
+  pool: 5
+  username: <%= ENV['DEV_DB_USER'] %>
+  password: <%= ENV['DEV_DB_PASSWORD'] %>
+
+production:
+  adapter: mysql2
+  encoding: utf8
+  database: <%= ENV['PROD_DB_NAME'] %>
+  pool: 5
+  username: <%= ENV['PROD_DB_USER'] %>
+  password: <%= ENV['PROD_DB_PASSWORD'] %>
+  host: <%= ENV['PROD_DB_HOST'] %>

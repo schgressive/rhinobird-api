@@ -44,8 +44,13 @@ describe ChannelsController do
       expect(@json_channel["id"]).to eq(@new_channel.id)
       expect(@json_channel["identifier"]).to eq(@new_channel.identifier)
       expect(@json_channel["created_at"]).to eq(@new_channel.created_at.strftime("%Y-%m-%dT%H:%M:%S.000"))
-      expect(@json_channel["streams"]).to eq(@new_channel.streams.map(&:id))
       expect(@json_channel["streams_count"]).to eq(@new_channel.streams.count)
+      expect(@json_channel["streams"]).to have(1).items
+
+      stream = @json_channel["streams"].first
+      expect(stream["title"]).not_to be_empty
+      expect(stream["id"]).not_to be_empty
+      expect(stream["channels"]).not_to be_empty
     end
 
   end

@@ -50,4 +50,35 @@ describe ChannelsController do
 
   end
 
+  context "CREATE channel" do
+    
+    before do
+      @post_hash = {identifier: 'Hello from JSON'}
+
+      post :create, @post_hash
+      @json_channel = JSON.parse(response.body)
+    end
+
+    it "returns success code" do
+      expect(response.status).to be(201)
+    end
+
+    it "increments the channel count" do
+      expect{post :create, @post_hash}.to change(Channel, :count).by(1)
+    end
+
+    it "returns correct content type" do
+      expect(response.header['Content-Type']).to include("application/json")
+    end
+
+    it "returns a new channel object" do 
+      expect(@json_channel["id"]).not_to be("")
+      expect(@json_channel["identifier"]).to eq(@post_hash[:identifier])
+      expect(@json_channel["streams"]).to eq([])
+      expect(@json_channel["streams_count"]).to eq(0)
+    end
+
+  end
+
+
 end

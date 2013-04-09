@@ -1,0 +1,11 @@
+language: ruby
+rvm:
+  - "1.9.3"
+
+before_script:
+  - mysql -e 'create database peepoltv_test;'
+
+script: bundle exec rspec spec
+
+env:
+  - DEV_DB_NAME=peepoltv_test DEV_DB_USER=root

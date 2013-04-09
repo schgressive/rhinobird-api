@@ -81,6 +81,7 @@ describe ChannelsController do
       expect(@json_channel["identifier"]).to eq(@post_hash[:identifier])
       expect(@json_channel["streams"]).to eq([])
       expect(@json_channel["streams_count"]).to eq(0)
+      expect(@json_channel["created_at"]).not_to be_empty
     end
 
   end
@@ -98,6 +99,30 @@ describe ChannelsController do
     it "decreses the channel count" do 
       expect{delete :destroy, id: @delete_channel.id}.to change(Channel, :count).by(-1)
     end
+
+  end
+
+  context "GET :ID/streams" do
+    before do
+      @channel = FactoryGirl.create(:channel, streams: [FactoryGirl.create(:stream), FactoryGirl.create(:stream)])
+      get :streams, id: @channel.id
+      @streams = JSON.parse(response.body)
+    end
+
+    it "returns an array of streams" do
+      expect(@streams).to have(2).items
+      expect(@streams.first["title"]).not_to be_empty
+      expect(@streams.first["id"]).not_to be_empty
+    end
+
+    it "returns success code" do
+      expect(response.status).to be(200)
+    end
+
+    it "returns correct content type" do
+      expect(response.header['Content-Type']).to include("application/json")
+    end
+
 
   end
 

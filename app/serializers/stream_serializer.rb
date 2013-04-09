@@ -17,7 +17,7 @@ class StreamSerializer < ActiveModel::Serializer
 
   #format this column
   def started_on
-    object.started_on.try(:strftime, "%Y-%m-%dT%H:%M:%S.%3N")
+    object.started_on.to_s(:api)
   end
 
 end

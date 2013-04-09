@@ -77,7 +77,7 @@ describe StreamsController do
       expect(@json_stream["title"]).to eq(@new_stream.title)
       expect(@json_stream["desc"]).to eq(@new_stream.desc)
       expect(@json_stream["geo_reference"]).to eq(@new_stream.geo_reference)
-      expect(@json_stream["started_on"]).to eq(@new_stream.started_on.strftime("%Y-%m-%dT%H:%M:%S.000"))
+      expect(@json_stream["started_on"]).to eq(@new_stream.started_on.to_s(:api))
       expect(@json_stream["lat"]).to eq(-12.123456)
       expect(@json_stream["lng"]).to eq(-20.654321)
       expect(@json_stream["channels"]).to eq(@new_stream.channels.map(&:id))

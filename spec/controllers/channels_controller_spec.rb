@@ -43,7 +43,7 @@ describe ChannelsController do
     it "returns correct json structure" do 
       expect(@json_channel["id"]).to eq(@new_channel.id)
       expect(@json_channel["identifier"]).to eq(@new_channel.identifier)
-      expect(@json_channel["created_at"]).to eq(@new_channel.created_at.strftime("%Y-%m-%dT%H:%M:%S.000"))
+      expect(@json_channel["created_at"]).to eq(@new_channel.created_at.to_s(:api))
       expect(@json_channel["streams_count"]).to eq(@new_channel.streams.count)
       expect(@json_channel["streams"]).to have(1).items
 

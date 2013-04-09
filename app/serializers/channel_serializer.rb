@@ -5,7 +5,7 @@ class ChannelSerializer < ActiveModel::Serializer
 
   #format this column
   def created_at
-    object.created_at.try(:strftime, "%Y-%m-%dT%H:%M:%S.%3N")
+    object.created_at.to_s(:api)
   end
 
   def streams_count

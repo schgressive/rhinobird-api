@@ -80,5 +80,22 @@ describe ChannelsController do
 
   end
 
+  context "DELETE channel" do
+    before do 
+      @delete_channel = FactoryGirl.create(:channel) 
+    end
+
+    it "returns no content status" do
+      delete :destroy, id: @delete_channel.id
+      expect(response.status).to be(204)
+    end
+
+    it "decreses the channel count" do 
+      expect{delete :destroy, id: @delete_channel.id}.to change(Channel, :count).by(-1)
+    end
+
+  end
+
+
 
 end

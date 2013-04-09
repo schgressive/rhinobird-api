@@ -28,6 +28,8 @@ describe Stream do
 
     it "sets the started_on timestamp" do
       expect(stream.started_on).not_to be_nil
+      difference = Time.now - stream.started_on
+      expect(difference).to be < 2 #less than 2 seconds
     end
   end
 

@@ -11,7 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130408152535) do
+ActiveRecord::Schema.define(:version => 20130409125048) do
+
+  create_table "channels", :force => true do |t|
+    t.string   "identifier"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "streams", :force => true do |t|
     t.string   "url"
@@ -20,9 +26,9 @@ ActiveRecord::Schema.define(:version => 20130408152535) do
     t.decimal  "lat",           :precision => 10, :scale => 6
     t.decimal  "lng",           :precision => 10, :scale => 6
     t.string   "geo_reference"
-    t.datetime "started_on"
     t.datetime "created_at",                                   :null => false
     t.datetime "updated_at",                                   :null => false
+    t.datetime "started_on",                                   :null => false
   end
 
 end

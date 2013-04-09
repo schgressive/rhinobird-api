@@ -14,6 +14,12 @@ class StreamsController < ApplicationController
     render json: @stream, status: 201
   end
 
+  def destroy
+    @stream = Stream.find(params[:id])
+    @stream.destroy
+    head :no_content
+  end
+
   private
 
   def stream_params

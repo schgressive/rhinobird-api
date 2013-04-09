@@ -85,5 +85,21 @@ describe StreamsController do
 
   end
 
+  context "DELETE stream" do
+    before do 
+      @delete_stream = FactoryGirl.create(:stream) 
+    end
+
+    it "returns no content status" do
+      delete :destroy, id: @delete_stream.id
+      expect(response.status).to be(204)
+    end
+
+    it "decreses the stream count" do 
+      expect{delete :destroy, id: @delete_stream.id}.to change(Stream, :count).by(-1)
+    end
+
+  end
+
 
 end

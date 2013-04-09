@@ -19,4 +19,16 @@ describe Stream do
     end
   end
 
+  context "creating streams" do
+    let(:stream) { FactoryGirl.create(:stream) }
+
+    it "assigns a new MD5 for the ID" do
+      expect(stream.id).to match(/^[a-zA-Z0-9]{32}$/)
+    end
+
+    it "sets the started_on timestamp" do
+      expect(stream.started_on).not_to be_nil
+    end
+  end
+
 end

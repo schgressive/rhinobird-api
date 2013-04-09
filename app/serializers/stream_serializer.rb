@@ -2,11 +2,10 @@ class StreamSerializer < ActiveModel::Serializer
   attributes :id, :url, :title, :desc, :lat, :lng, :geo_reference, :started_on, :channels
   self.root = false
 
-  #TODO: change this to the relation
   def channels
-    []
+    object.channels.map(&:id)
   end
-  
+
   #convert BigDecimal -> Float
   def lat
     object.lat.to_f

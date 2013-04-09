@@ -11,12 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130409125048) do
+ActiveRecord::Schema.define(:version => 20130409133352) do
 
   create_table "channels", :force => true do |t|
     t.string   "identifier"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "channels_streams", :id => false, :force => true do |t|
+    t.string "stream_id",  :default => "", :null => false
+    t.string "channel_id", :default => "", :null => false
   end
 
   create_table "streams", :force => true do |t|

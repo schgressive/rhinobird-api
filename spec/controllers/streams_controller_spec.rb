@@ -31,7 +31,7 @@ describe StreamsController do
   context "POST stream" do
     
     before do
-      @post_hash = {title: 'Hello from JSON', desc: "Test POST", lat: -1.23, lng: 2.00}
+      @post_hash = {title: 'Hello from JSON', desc: "Test POST", lat: -25.2720623016357, lng: -57.585376739502}
 
       post :create, @post_hash
       @json_stream = JSON.parse(response.body)
@@ -59,7 +59,7 @@ describe StreamsController do
 
   context "GET :ID" do
     before do
-      @new_stream = create(:stream, lat: -12.123456, lng: -20.654321, id: "123", channels: [create(:channel)])
+      @new_stream = create(:stream, lat: -25.2720623016357, lng: -57.585376739502, id: "123", channels: [create(:channel)])
       get :show, id: @new_stream.id
       @json_stream = JSON.parse(response.body)
     end
@@ -78,8 +78,8 @@ describe StreamsController do
       expect(@json_stream["desc"]).to eq(@new_stream.desc)
       expect(@json_stream["geo_reference"]).to eq(@new_stream.geo_reference)
       expect(@json_stream["started_on"]).to eq(@new_stream.started_on.to_s(:api))
-      expect(@json_stream["lat"]).to eq(-12.123456)
-      expect(@json_stream["lng"]).to eq(-20.654321)
+      expect(@json_stream["lat"]).to eq(-25.272062301636)
+      expect(@json_stream["lng"]).to eq(-57.585376739502)
       expect(@json_stream["channels"]).to eq(@new_stream.channels.map(&:id))
     end
 

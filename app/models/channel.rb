@@ -1,5 +1,4 @@
 class Channel < ActiveRecord::Base
-  include ActiveModel::ForbiddenAttributesProtection
   validates :identifier, presence: true
 
   before_create :setup_channel

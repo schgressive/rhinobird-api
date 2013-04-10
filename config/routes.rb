@@ -1,5 +1,5 @@
 PeepoltvApi::Application.routes.draw do
-  resources :channels do
+  resources :channels, only: [:create, :show, :index, :destroy] do
     member do
       get 'streams'
     end

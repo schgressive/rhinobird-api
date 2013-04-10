@@ -3,7 +3,7 @@ require 'spec_helper'
 describe StreamsController do
 
   before do
-    @stream = FactoryGirl.create(:stream)
+    @stream = create(:stream)
   end
 
   context "GET index" do
@@ -59,7 +59,7 @@ describe StreamsController do
 
   context "GET :ID" do
     before do
-      @new_stream = FactoryGirl.create(:stream, lat: -12.123456, lng: -20.654321, id: "123", channels: [FactoryGirl.create(:channel)])
+      @new_stream = create(:stream, lat: -12.123456, lng: -20.654321, id: "123", channels: [create(:channel)])
       get :show, id: @new_stream.id
       @json_stream = JSON.parse(response.body)
     end
@@ -87,7 +87,7 @@ describe StreamsController do
 
   context "DELETE stream" do
     before do 
-      @delete_stream = FactoryGirl.create(:stream) 
+      @delete_stream = create(:stream) 
     end
 
     it "returns no content status" do

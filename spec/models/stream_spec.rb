@@ -3,24 +3,24 @@ require 'spec_helper'
 describe Stream do
 
   it "has a valid factory" do 
-    stream = FactoryGirl.build(:stream)
+    stream = build(:stream)
     expect(stream).to be_valid
   end
 
   context "validations" do
     it "requires a Description" do
-      stream = FactoryGirl.build(:stream, desc: '')
+      stream = build(:stream, desc: '')
       expect(stream).to be_invalid
     end
 
     it "requires a title" do
-      stream = FactoryGirl.build(:stream, title: '')
+      stream = build(:stream, title: '')
       expect(stream).to be_invalid
     end
   end
 
   context "creating streams" do
-    let(:stream) { FactoryGirl.create(:stream) }
+    let(:stream) { create(:stream) }
 
     it "assigns a new MD5 for the ID" do
       expect(stream.id).to match(/^[a-zA-Z0-9]{32}$/)

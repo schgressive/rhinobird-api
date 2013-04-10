@@ -4,7 +4,7 @@ describe ChannelsController do
 
   context "GET index" do
     before do
-      @channel = FactoryGirl.create(:channel)
+      @channel = create(:channel)
       get :index
       @channels = JSON.parse(response.body)
     end
@@ -27,7 +27,7 @@ describe ChannelsController do
 
   context "GET channel" do
     before do
-      @new_channel = FactoryGirl.create(:channel, streams: [FactoryGirl.create(:stream)])
+      @new_channel = create(:channel, streams: [create(:stream)])
       get :show, id: @new_channel.id
       @json_channel = JSON.parse(response.body)
     end
@@ -88,7 +88,7 @@ describe ChannelsController do
 
   context "DELETE channel" do
     before do 
-      @delete_channel = FactoryGirl.create(:channel) 
+      @delete_channel = create(:channel) 
     end
 
     it "returns no content status" do
@@ -104,7 +104,7 @@ describe ChannelsController do
 
   context "GET :ID/streams" do
     before do
-      @channel = FactoryGirl.create(:channel, streams: [FactoryGirl.create(:stream), FactoryGirl.create(:stream)])
+      @channel = create(:channel, streams: [create(:stream), create(:stream)])
       get :streams, id: @channel.id
       @streams = JSON.parse(response.body)
     end

@@ -5,7 +5,7 @@ PeepoltvApi::Application.routes.draw do
     end
   end
 
-  resources :streams
+  resources :streams, only: [:create, :show, :index, :destroy]
 
 
   # The priority is based upon order of creation:

@@ -69,7 +69,7 @@ describe ChannelsController do
     end
 
     it "increments the channel count" do
-      expect{post :create, @post_hash}.to change(Channel, :count).by(1)
+      expect{post :create, {identifier: 'Test channel creation'}}.to change(Channel, :count).by(1)
     end
 
     it "returns correct content type" do

@@ -28,12 +28,12 @@ ActiveRecord::Schema.define(:version => 20130409133352) do
     t.string   "url"
     t.string   "title"
     t.string   "desc"
-    t.decimal  "lat",           :precision => 10, :scale => 6
-    t.decimal  "lng",           :precision => 10, :scale => 6
+    t.decimal  "lat",           :precision => 18, :scale => 12
+    t.decimal  "lng",           :precision => 18, :scale => 12
     t.string   "geo_reference"
-    t.datetime "created_at",                                   :null => false
-    t.datetime "updated_at",                                   :null => false
-    t.datetime "started_on",                                   :null => false
+    t.datetime "started_on"
+    t.datetime "created_at",                                    :null => false
+    t.datetime "updated_at",                                    :null => false
   end
 
 end

@@ -5,8 +5,8 @@ class CreateStreams < ActiveRecord::Migration
       t.string :url
       t.string :title
       t.string :desc
-      t.decimal :lat, scale: 6, precision: 10
-      t.decimal :lng, precision: 10, scale: 6
+      t.decimal :lat, precision: 18, scale: 12
+      t.decimal :lng, precision: 18, scale: 12
       t.string :geo_reference
       t.datetime :started_on
 

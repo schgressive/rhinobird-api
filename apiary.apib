@@ -45,7 +45,7 @@ GET /streams
 < 200
 < Content-Type: application/json
 [
-    { 
+    {
         "id": "ef18a7b75fc32246e46bd75ff910a582",
         "title": "Lollapalooza en Chile",
         "desc": "Excelent music!",
@@ -58,12 +58,12 @@ GET /streams
         ],
         "started_on": "2012-01-23T12:00:00.000"
     },
-    { 
+    {
         "id": "51d1bc8ab4c5297843ea3f57b7800b30",
         "title": "No al lucro",
         "desc": "",
-        "lat": -33.462666,
-        "lng": -70.661713,
+        "lat": -33.44394,
+        "lng": -70.652132,
         "geo_reference": "Alameda",
         "channels": [
             "5c3e0faaf75d891ef3fcc8ba54119e4c",
@@ -71,12 +71,12 @@ GET /streams
         ],
         "started_on": "2012-01-23T12:00:00.000"
     },
-    { 
+    {
         "id": "cf58e551d63525613465878c183266f5",
         "title": "El wanaco",
         "desc": "Esta pegando fuerte",
-        "lat": -33.462666,
-        "lng": -70.661713,
+        "lat": -33.445301,
+        "lng": -70.654106,
         "geo_reference": "Nataniel Cox",
         "channels": [
             "9e879d7d0dbd3e5df40fd77d0cef7182"
@@ -89,7 +89,7 @@ Create a new stream
 POST /streams
 > Content-Type: application/json
 > Accept: application/json
-{ 
+{
     "title": "Lollapalooza en Chile",
     "desc": "Excelent music!",
     "lat": -33.462666,
@@ -98,7 +98,7 @@ POST /streams
 }
 < 201
 < Content-Type: application/json
-{ 
+{
     "id": "812f16429fad2756693047f685b9956a",
     "title": "Lollapalooza en Chile",
     "desc": "Excelent music!",
@@ -113,7 +113,7 @@ Stream information
 GET /streams/{id}
 < 200
 < Content-Type: application/json
-{ 
+{
     "id": "812f16429fad2756693047f685b9956a",
     "title": "Lollapalooza en Chile",
     "desc": "Excelent music!",
@@ -124,12 +124,12 @@ GET /streams/{id}
     "started_on": "2012-01-23T12:00:00.000"
 }
 
-Deletes stream 
+Deletes stream
 DELETE /streams/{id}
 < 204
 
--- 
-Channels Resources 
+--
+Channels Resources
 These are the channel resources.
 
 ###Channel Properties
@@ -148,7 +148,7 @@ GET /channels
         "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
         "identifier": "LollapaloozaCL",
         "streams": [
-            { 
+            {
                 "id": "51d1bc8ab4c5297843ea3f57b7800b30",
                 "title": "Lollapalooza en Chile",
                 "desc": "Excelent music!",
@@ -161,7 +161,7 @@ GET /channels
                 ],
                 "started_on": "2012-01-23T12:00:00.000"
             },
-            { 
+            {
                 "id": "cf58e551d63525613465878c183266f5",
                 "title": "Lollapalooza!",
                 "desc": "Chancho en piedra",
@@ -182,7 +182,7 @@ GET /channels
         "id": "9e879d7d0dbd3e5df40fd77d0cef7182",
         "identifier": "LosPinguinos",
         "streams": [
-            { 
+            {
                 "id": "e407e83a8589e03ed88b83b143d76036",
                 "title": "No al lucro",
                 "desc": "",
@@ -198,14 +198,14 @@ GET /channels
         ],
         "streams_count": 1,
         "created_at": "2012-01-23T12:00:00.000"
-    }    
+    }
 ]
 
 Create a new empty channel
 POST /channels
 > Content-Type: application/json
 > Accept: application/json
-{ 
+{
     "identifier": "LollapaloozaCL"
 }
 < 201
@@ -225,7 +225,7 @@ GET /channels/{id}
     "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
     "identifier": "LollapaloozaCL",
     "streams": [
-        { 
+        {
             "id": "51d1bc8ab4c5297843ea3f57b7800b30",
             "title": "Lollapalooza en Chile",
             "desc": "Excelent music!",
@@ -238,7 +238,7 @@ GET /channels/{id}
             ],
             "started_on": "2012-01-23T12:00:00.000"
         },
-        { 
+        {
             "id": "cf58e551d63525613465878c183266f5",
             "title": "Lollapalooza!",
             "desc": "Chancho en piedra",
@@ -265,7 +265,7 @@ Lists the current channel streams
 GET /channels/{id}/streams
 < 200
 [
-    { 
+    {
         "id": "ef18a7b75fc32246e46bd75ff910a582",
         "title": "Lollapalooza en Chile",
         "desc": "Excelent music!",
@@ -278,7 +278,7 @@ GET /channels/{id}/streams
         ],
         "started_on": "2012-01-23T12:00:00.000"
     },
-    { 
+    {
         "id": "51d1bc8ab4c5297843ea3f57b7800b30",
         "title": "Lollapalooza!",
         "desc": "Chancho en piedra",
@@ -293,8 +293,8 @@ GET /channels/{id}/streams
     }
 ]
 
--- 
-Bonds Resource 
+--
+Bonds Resource
 This is the bonds resource definition.
 
 ###Channel Properties
@@ -308,11 +308,11 @@ Lists bonds between streams and channels
 GET /bonds
 > Content-Type: application/json
 > Accept: application/json
-{ 
+{
     "stream": "51d1bc8ab4c5297843ea3f57b7800b30"
 }
 < 200
-{ 
+{
     #TODO
 }
 
@@ -320,12 +320,12 @@ Create a bond between a stream and a channel
 POST /bonds
 > Content-Type: application/json
 > Accept: application/json
-{ 
+{
     "stream": "51d1bc8ab4c5297843ea3f57b7800b30",
     "channel":"bb2ee58f56a6b8d9e560f40ae1b0b91f"
 }
 < 201
-{ 
+{
     "id":"hdh373hjefw23823j823y32749j33hj28",
     "created_at": "2013-04-05 12:02:45",
     "stream":"51d1bc8ab4c5297843ea3f57b7800b30",

@@ -169,6 +169,8 @@ GEM
     uglifier (2.0.1)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
+    zeus (0.13.3)
+      method_source (>= 0.6.7)
 
 PLATFORMS
   ruby
@@ -193,3 +195,4 @@ DEPENDENCIES
   spork-rails
   strong_parameters
   uglifier (>= 1.0.3)
+  zeus

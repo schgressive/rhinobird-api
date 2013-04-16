@@ -33,4 +33,25 @@ describe Stream do
     end
   end
 
+  describe "get streams by channel" do
+
+    before do
+      @lonely_stream = create(:stream)
+      @stream1 = create(:stream)
+      @stream2 = create(:stream)
+      channel = create(:channel, streams: [@stream1, @stream2])
+      @streams = Stream.by_channel(channel)
+    end
+
+    it "returns only streams of the channel" do
+      expect(@streams).to have(2).elements
+      expect(@streams).to include(@stream1)
+      expect(@streams).to include(@stream2)
+    end
+
+    it "filters streams not in this channel" do
+      expect(@streams).not_to include(@lonely_stream)
+    end
+  end
+
 end

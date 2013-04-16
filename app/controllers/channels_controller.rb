@@ -22,8 +22,7 @@ class ChannelsController < ApplicationController
   end
 
   def streams
-    @streams = Stream.joins(:channels).where("channel_id", params[:id])
-    render json: @streams
+    render json: Stream.by_channel(params[:id])
   end
 
   private

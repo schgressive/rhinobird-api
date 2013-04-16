@@ -5,7 +5,9 @@ rvm:
 before_script:
   - mysql -e 'create database peepoltv_test;'
 
-script: bundle exec rspec spec
+script:
+  - RAILS_ENV=test bundle exec rake db:migrate
+  - bundle exec rspec spec
 
 env:
   - DEV_DB_NAME=peepoltv DEV_DB_USER=root

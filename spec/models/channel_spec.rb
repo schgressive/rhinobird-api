@@ -8,14 +8,14 @@ describe Channel do
   end
 
   context "validations" do
-    it "requires an identifier" do
-      channel = build(:channel, identifier: '')
+    it "requires an name" do
+      channel = build(:channel, name: '')
       expect(channel).to be_invalid
     end
 
-    it "is invalid if identifier exists" do
-      create(:channel, identifier: 'New Concert')
-      channel = build(:channel, identifier: 'New Concert')
+    it "is invalid if name exists" do
+      create(:channel, name: 'New Concert')
+      channel = build(:channel, name: 'New Concert')
       expect(channel).to be_invalid
     end
   end

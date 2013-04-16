@@ -1,5 +1,5 @@
 class ChannelSerializer < ActiveModel::Serializer
-  attributes :id, :identifier, :created_at, :streams, :streams_count
+  attributes :id, :name, :created_at, :streams, :streams_count
   self.root = false
   has_many :streams
 

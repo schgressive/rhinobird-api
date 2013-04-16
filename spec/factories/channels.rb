@@ -2,6 +2,6 @@
 
 FactoryGirl.define do
   factory :channel do
-    identifier "Channel Name"
+    name "Channel Name"
   end
 end

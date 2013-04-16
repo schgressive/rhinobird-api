@@ -20,9 +20,9 @@ describe ChannelsController do
     it "returns an array of channels" do
       expect(@channels).to have(1).items
       expect(@channels[0]["id"]).to eq(@channel.id)
-      expect(@channels[0]["identifier"]).to eq(@channel.identifier)
+      expect(@channels[0]["name"]).to eq(@channel.name)
     end
-    
+
   end
 
   describe "GET #show" do
@@ -42,7 +42,7 @@ describe ChannelsController do
 
     it "returns correct json structure" do 
       expect(@json_channel["id"]).to eq(@new_channel.id)
-      expect(@json_channel["identifier"]).to eq(@new_channel.identifier)
+      expect(@json_channel["name"]).to eq(@new_channel.name)
       expect(@json_channel["created_at"]).to eq(@new_channel.created_at.to_s(:api))
       expect(@json_channel["streams_count"]).to eq(@new_channel.streams.count)
       expect(@json_channel["streams"]).to have(1).items
@@ -56,9 +56,9 @@ describe ChannelsController do
   end
 
   describe "POST #create" do
-    
+
     before do
-      @post_hash = {identifier: 'Hello from JSON'}
+      @post_hash = {name: 'Hello from JSON'}
 
       post :create, @post_hash
       @json_channel = JSON.parse(response.body)
@@ -69,16 +69,16 @@ describe ChannelsController do
     end
 
     it "increments the channel count" do
-      expect{post :create, {identifier: 'Test channel creation'}}.to change(Channel, :count).by(1)
+      expect{post :create, {name: 'Test channel creation'}}.to change(Channel, :count).by(1)
     end
 
     it "returns correct content type" do
       expect(response.header['Content-Type']).to include("application/json")
     end
 
-    it "returns a new channel object" do 
+    it "returns a new channel object" do
       expect(@json_channel["id"]).not_to be("")
-      expect(@json_channel["identifier"]).to eq(@post_hash[:identifier])
+      expect(@json_channel["name"]).to eq(@post_hash[:name])
       expect(@json_channel["streams"]).to eq([])
       expect(@json_channel["streams_count"]).to eq(0)
       expect(@json_channel["created_at"]).not_to be_empty
@@ -87,8 +87,8 @@ describe ChannelsController do
   end
 
   describe "DELETE #destroy" do
-    before do 
-      @delete_channel = create(:channel) 
+    before do
+      @delete_channel = create(:channel)
     end
 
     it "returns no content status" do
@@ -96,7 +96,7 @@ describe ChannelsController do
       expect(response.status).to be(204)
     end
 
-    it "decreses the channel count" do 
+    it "decreses the channel count" do
       expect{delete :destroy, id: @delete_channel.id}.to change(Channel, :count).by(-1)
     end
 

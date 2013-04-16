@@ -14,7 +14,7 @@ class ChannelsController < ApplicationController
     @channel = Channel.create(channel_params)
     render json: @channel, status: 201
   end
-  
+
   def destroy
     @channel = Channel.find(params[:id])
     @channel.destroy
@@ -28,6 +28,6 @@ class ChannelsController < ApplicationController
   private
 
   def channel_params
-    params.permit(:identifier)
+    params.permit(:name)
   end
 end

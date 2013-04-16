@@ -1,5 +1,5 @@
 class Channel < ActiveRecord::Base
-  validates :identifier, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: true
 
   before_create :setup_channel
   has_and_belongs_to_many :streams

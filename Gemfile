@@ -18,6 +18,7 @@ group :development do
   gem "spork-rails"
   gem "guard-rspec"
   gem "guard-spork"
+  gem "zeus"
 end
 
 group :test do

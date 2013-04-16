@@ -8,4 +8,4 @@ before_script:
 script: bundle exec rspec spec
 
 env:
-  - DEV_DB_NAME=peepoltv_test DEV_DB_USER=root
+  - DEV_DB_NAME=peepoltv DEV_DB_USER=root

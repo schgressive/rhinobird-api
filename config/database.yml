@@ -5,6 +5,7 @@ development:
   pool: 5
   username: <%= ENV['DEV_DB_USER'] %>
   password: <%= ENV['DEV_DB_PASSWORD'] %>
+  socket: <%= ENV['DEV_DB_SOCKET'] %>
 
 test:
   adapter: mysql2
@@ -13,6 +14,7 @@ test:
   pool: 5
   username: <%= ENV['DEV_DB_USER'] %>
   password: <%= ENV['DEV_DB_PASSWORD'] %>
+  socket: <%= ENV['DEV_DB_SOCKET'] %>
 
 production:
   adapter: mysql2

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ChannelsController do
 
-  context "GET index" do
+  describe "GET #index" do
     before do
       @channel = create(:channel)
       get :index
@@ -25,7 +25,7 @@ describe ChannelsController do
     
   end
 
-  context "GET channel" do
+  describe "GET #show" do
     before do
       @new_channel = create(:channel, streams: [create(:stream)])
       get :show, id: @new_channel.id
@@ -55,7 +55,7 @@ describe ChannelsController do
 
   end
 
-  context "CREATE channel" do
+  describe "POST #create" do
     
     before do
       @post_hash = {identifier: 'Hello from JSON'}
@@ -86,7 +86,7 @@ describe ChannelsController do
 
   end
 
-  context "DELETE channel" do
+  describe "DELETE #destroy" do
     before do 
       @delete_channel = create(:channel) 
     end
@@ -102,7 +102,7 @@ describe ChannelsController do
 
   end
 
-  context "GET :ID/streams" do
+  describe "GET #streams" do
     before do
       @channel = create(:channel, streams: [create(:stream), create(:stream)])
       get :streams, id: @channel.id

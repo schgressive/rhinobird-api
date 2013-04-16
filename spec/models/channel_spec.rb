@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Channel do
 
-  it "has a valid factory" do 
+  it "has a valid factory" do
     channel = build(:channel)
     expect(channel).to be_valid
   end
@@ -10,6 +10,12 @@ describe Channel do
   context "validations" do
     it "requires an identifier" do
       channel = build(:channel, identifier: '')
+      expect(channel).to be_invalid
+    end
+
+    it "is invalid if identifier exists" do
+      create(:channel, identifier: 'New Concert')
+      channel = build(:channel, identifier: 'New Concert')
       expect(channel).to be_invalid
     end
   end

@@ -11,7 +11,7 @@ gem 'strong_parameters'
 
 group :development, :test do
   #gems for file notifications according to platform
-  gem 'rb-inotify', '~> 0.8.8', :require => false
+  gem 'rb-inotify', '~> 0.9', :require => false
   gem 'rb-fsevent', :require => false
   gem 'rb-fchange', :require => false
 

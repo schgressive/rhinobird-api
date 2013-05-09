@@ -1,5 +1,5 @@
 class StreamSerializer < ActiveModel::Serializer
-  attributes :id, :url, :title, :desc, :started_on, :channels, :type, :properties, :geometry
+  attributes :id, :url, :title, :desc, :started_on, :channels, :type, :properties, :geometry, :token
   self.root = false
 
 
@@ -10,6 +10,10 @@ class StreamSerializer < ActiveModel::Serializer
   
   def geometry
     {"coordinates" => [object.lat.to_f, object.lng.to_f], "type" => "Point"}
+  end
+
+  def token
+    NUVE.createToken(object.id, "user#{Time.now.to_i}", "viewer")
   end
 
   def properties

@@ -1,5 +1,5 @@
 class Stream < ActiveRecord::Base
-  validates :title, :desc, presence: true
+  validates :title, presence: true
 
   before_create :setup_stream
   has_and_belongs_to_many :channels
@@ -9,7 +9,10 @@ class Stream < ActiveRecord::Base
   end
 
   def setup_stream
-    self.id = Digest::MD5.hexdigest(self.inspect + Time.now.to_s)
+    #HOOK for NUVE
+    room = JSON.parse(NUVE.createRoom(self.title))
+    self.id = room["_id"]
+    #self.id = Digest::MD5.hexdigest(self.inspect + Time.now.to_s)
     self.started_on = Time.now
   end
 end

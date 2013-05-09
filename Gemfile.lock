@@ -141,6 +141,7 @@ GEM
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
       rspec-mocks (~> 2.13.0)
+    ruby-hmac (0.4.0)
     sass (3.2.7)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
@@ -191,6 +192,7 @@ DEPENDENCIES
   rb-fsevent
   rb-inotify (~> 0.9)
   rspec-rails (~> 2.0)
+  ruby-hmac
   sass-rails (~> 3.2.3)
   spork-rails
   strong_parameters

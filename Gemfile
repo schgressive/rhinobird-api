@@ -6,6 +6,7 @@ gem 'mysql2'
 gem "active_model_serializers", "~> 0.7.0"
 gem 'strong_parameters'
 gem 'jquery-rails'
+gem 'ruby-hmac'
 
 group :development do
   gem 'debugger', :require => 'ruby-debug'

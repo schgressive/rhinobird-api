@@ -2,10 +2,15 @@ class Stream < ActiveRecord::Base
   validates :title, presence: true
 
   before_create :setup_stream
+  before_destroy :delete_room
   has_and_belongs_to_many :channels
 
   def self.by_channel(channel_id)
     Stream.joins(:channels).where("channel_id = ?", channel_id)
+  end
+
+  def delete_room
+    NUVE.deleteRoom(self.id)
   end
 
   def setup_stream

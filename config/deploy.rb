@@ -2,7 +2,7 @@
 server "church.peepol.tv", :web, :app, :db, primary: true
 
 # Server-side information.
-set :application, "peepoltv"
+set :application, "peepoltv-api"
 set :user,        "deploy"
 set :deploy_to,   "/home/#{user}/applications/#{application}"
 
@@ -14,13 +14,13 @@ set :branch,     "master"   # Optional, defaults to master
 # set :git_enable_submodules, 1
 
 # Web server configuration
-set :domains, "go.peepol.tv"
+set :domains, "api.peepol.tv"
+
+# Rails
+# set :rails_env, 		"production"
 
 # Database
 # set :migrate_env,    "migration"
-
-# Rails
-# set :rails_env, "production"
 
 # Unicorn
 set :unicorn_workers, 1

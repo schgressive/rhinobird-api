@@ -14,7 +14,7 @@ set :branch,     "master"   # Optional, defaults to master
 # set :git_enable_submodules, 1
 
 # Web server configuration
-set :domains, "peepoltv.peepol.tv"
+set :domains, "go.peepol.tv"
 
 # Database
 # set :migrate_env,    "migration"

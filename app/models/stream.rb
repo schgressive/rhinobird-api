@@ -1,11 +1,15 @@
 class Stream < ActiveRecord::Base
-  include ActiveModel::ForbiddenAttributesProtection
   validates :title, :desc, presence: true
 
   before_create :setup_stream
+  has_and_belongs_to_many :channels
+
+  def self.by_channel(channel_id)
+    Stream.joins(:channels).where("channel_id = ?", channel_id)
+  end
 
   def setup_stream
-    self.id = Digest::MD5.hexdigest(self.inspect)
+    self.id = Digest::MD5.hexdigest(self.inspect + Time.now.to_s)
     self.started_on = Time.now
   end
 end

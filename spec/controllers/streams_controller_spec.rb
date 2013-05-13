@@ -3,10 +3,10 @@ require 'spec_helper'
 describe StreamsController do
 
   before do
-    @stream = FactoryGirl.create(:stream)
+    @stream = create(:stream)
   end
 
-  context "GET index" do
+  context "GET #index" do
     before do
       get :index
       @streams = JSON.parse(response.body)
@@ -28,10 +28,10 @@ describe StreamsController do
     
   end
 
-  context "POST stream" do
+  context "POST #create" do
     
     before do
-      @post_hash = {title: 'Hello from JSON', desc: "Test POST", lat: -1.23, lng: 2.00}
+      @post_hash = {title: 'stream from POST JSON', desc: "Test POST", lat: -25.2720623016357, lng: -57.585376739502, geo_reference: 'Unkown location'}
 
       post :create, @post_hash
       @json_stream = JSON.parse(response.body)
@@ -48,18 +48,22 @@ describe StreamsController do
     it "returns a new stream object" do 
       expect(@json_stream["title"]).to eq(@post_hash[:title])
       expect(@json_stream["desc"]).to eq(@post_hash[:desc])
-      expect(@json_stream["geo_reference"]).to eq(@post_hash[:geo_reference])
-      expect(@json_stream["lat"]).to eq(@post_hash[:lat])
-      expect(@json_stream["lng"]).to eq(@post_hash[:lng])
       expect(@json_stream["id"]).not_to be("")
       expect(@json_stream["channels"]).to eq([])
     end
 
+    it "has a valid geoJSON format" do
+      expect(@json_stream["type"]).to eq("feature")
+      expect(@json_stream["geometry"]["type"]).to eq("Point")
+      expect(@json_stream["geometry"]["coordinates"]).to eq([@post_hash[:lat], @post_hash[:lng]])
+      expect(@json_stream["properties"]["geo_reference"]).to eq(@post_hash[:geo_reference])
+    end
+
   end
 
-  context "GET :ID" do
+  context "GET #show" do
     before do
-      @new_stream = FactoryGirl.create(:stream, lat: -12.123456, lng: -20.654321, id: "123")
+      @new_stream = create(:stream, lat: -25.2720623016357, lng: -57.585376739502, id: "123", channels: [create(:channel)])
       get :show, id: @new_stream.id
       @json_stream = JSON.parse(response.body)
     end
@@ -72,22 +76,26 @@ describe StreamsController do
       expect(response.header['Content-Type']).to include("application/json")
     end
 
-    it "returns correct stream data" do 
+    it "returns correct stream format" do 
       expect(@json_stream["id"]).to eq(@new_stream.id)
       expect(@json_stream["title"]).to eq(@new_stream.title)
       expect(@json_stream["desc"]).to eq(@new_stream.desc)
-      expect(@json_stream["geo_reference"]).to eq(@new_stream.geo_reference)
-      expect(@json_stream["started_on"]).to eq(@new_stream.started_on.strftime("%Y-%m-%dT%H:%M:%S.000"))
-      expect(@json_stream["lat"]).to eq(-12.123456)
-      expect(@json_stream["lng"]).to eq(-20.654321)
-      expect(@json_stream["channels"]).to eq([])
+      expect(@json_stream["started_on"]).to eq(@new_stream.started_on.to_s(:api))
+      expect(@json_stream["channels"]).to eq(@new_stream.channels.map(&:id))
+    end
+
+    it "has a valid geoJSON format" do
+      expect(@json_stream["type"]).to eq("feature")
+      expect(@json_stream["geometry"]["type"]).to eq("Point")
+      expect(@json_stream["geometry"]["coordinates"]).to eq([-25.272062301636, -57.585376739502])
+      expect(@json_stream["properties"]["geo_reference"]).to eq(@new_stream.geo_reference)
     end
 
   end
 
-  context "DELETE stream" do
+  context "DELETE #destroy" do
     before do 
-      @delete_stream = FactoryGirl.create(:stream) 
+      @delete_stream = create(:stream) 
     end
 
     it "returns no content status" do

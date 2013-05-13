@@ -1,24 +1,29 @@
 class StreamSerializer < ActiveModel::Serializer
-  attributes :id, :url, :title, :desc, :lat, :lng, :geo_reference, :started_on, :channels
+  attributes :id, :url, :title, :desc, :started_on, :channels, :type, :properties, :geometry
   self.root = false
 
-  #TODO: change this to the relation
-  def channels
-    []
+
+  #to make valid geoJSON
+  def type
+    "feature"
   end
   
-  #convert BigDecimal -> Float
-  def lat
-    object.lat.to_f
+  def geometry
+    {"coordinates" => [object.lat.to_f, object.lng.to_f], "type" => "Point"}
   end
 
-  def lng
-    object.lng.to_f
+  def properties
+    {"geo_reference" => object.geo_reference}
   end
 
-  #format this column
+
+  def channels
+    object.channels.map(&:id)
+  end
+
+  #format this date
   def started_on
-    object.started_on.try(:strftime, "%Y-%m-%dT%H:%M:%S.%3N")
+    object.started_on.to_s(:api)
   end
 
 end

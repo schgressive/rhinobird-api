@@ -18,7 +18,7 @@ class StreamSerializer < ActiveModel::Serializer
   end
 
   def token
-    NUVE.createToken(object.id, "user#{Time.now.to_i}", "viewer")
+    NUVE.createToken(object.to_param, "user#{Time.now.to_i}", "viewer")
   end
 
   def properties

@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe Stream do
   before(:each) do
-    puts Time.now.to_s
     nuve = stub_const('NUVE', Class.new)
     nuve.stub(:createRoom).and_return('{"_id": "' + Digest::MD5.hexdigest(Time.now.to_f.to_s)  +  '"}')
   end

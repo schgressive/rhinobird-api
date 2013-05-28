@@ -13,7 +13,7 @@ class Stream < ActiveRecord::Base
   end
 
   def delete_room
-    NUVE.deleteRoom(self.id)
+    NUVE.deleteRoom(self.to_param)
   end
 
   def setup_stream

@@ -19,7 +19,7 @@ describe ChannelsController do
 
     it "returns an array of channels" do
       expect(@channels).to have(1).items
-      expect(@channels[0]["id"]).to eq(@channel.id)
+      expect(@channels[0]["id"]).to eq(@channel.hash_token)
       expect(@channels[0]["name"]).to eq(@channel.name)
     end
 
@@ -41,7 +41,7 @@ describe ChannelsController do
     end
 
     it "returns correct json structure" do 
-      expect(@json_channel["id"]).to eq(@new_channel.id)
+      expect(@json_channel["id"]).to eq(@new_channel.hash_token)
       expect(@json_channel["name"]).to eq(@new_channel.name)
       expect(@json_channel["created_at"]).to eq(@new_channel.created_at.to_s(:api))
       expect(@json_channel["streams_count"]).to eq(@new_channel.streams.count)
@@ -104,15 +104,17 @@ describe ChannelsController do
 
   describe "GET #streams" do
     before do
-      @channel = create(:channel, streams: [create(:stream), create(:stream)])
+      @stream1 = create(:stream)
+      @stream2 = create(:stream)
+      @channel = create(:channel, streams: [@stream1, @stream2])
       get :streams, id: @channel.id
       @streams = JSON.parse(response.body)
     end
 
     it "returns an array of streams" do
       expect(@streams).to have(2).items
-      expect(@streams.first["title"]).not_to be_empty
-      expect(@streams.first["id"]).not_to be_empty
+      expect(@streams.first["title"]).to eql(@stream1.title)
+      expect(@streams.first["id"]).to eql(@stream1.hash_token)
     end
 
     it "returns success code" do

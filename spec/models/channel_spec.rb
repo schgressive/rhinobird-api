@@ -8,7 +8,7 @@ describe Channel do
   end
 
   context "validations" do
-    it "requires an name" do
+    it "requires a name" do
       channel = build(:channel, name: '')
       expect(channel).to be_invalid
     end
@@ -23,8 +23,8 @@ describe Channel do
   context "creating channels" do
     let(:channel) { create(:channel) }
 
-    it "assigns a new MD5 for the ID" do
-      expect(channel.id).to match(/^[a-zA-Z0-9]{32}$/)
+    it "assigns a new MD5 for the hash token" do
+      expect(channel.hash_token).to match(/^[a-zA-Z0-9]{32}$/)
     end
   end
 

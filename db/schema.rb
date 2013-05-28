@@ -15,19 +15,23 @@ ActiveRecord::Schema.define(:version => 20130409133352) do
 
   create_table "channels", :force => true do |t|
     t.string   "name"
+    t.string   "hash_token", :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
+  add_index "channels", ["hash_token"], :name => "index_channels_on_hash_token", :unique => true
+
   create_table "channels_streams", :id => false, :force => true do |t|
-    t.string "stream_id",  :default => "", :null => false
-    t.string "channel_id", :default => "", :null => false
+    t.integer "stream_id"
+    t.integer "channel_id"
   end
 
   create_table "streams", :force => true do |t|
     t.string   "url"
     t.string   "title"
     t.string   "desc"
+    t.string   "hash_token",                                    :null => false
     t.decimal  "lat",           :precision => 18, :scale => 12
     t.decimal  "lng",           :precision => 18, :scale => 12
     t.string   "geo_reference"
@@ -35,5 +39,7 @@ ActiveRecord::Schema.define(:version => 20130409133352) do
     t.datetime "created_at",                                    :null => false
     t.datetime "updated_at",                                    :null => false
   end
+
+  add_index "streams", ["hash_token"], :name => "index_streams_on_hash_token", :unique => true
 
 end

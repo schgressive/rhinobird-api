@@ -1,14 +1,11 @@
 class CreateChannels < ActiveRecord::Migration
-  def up
-    create_table :channels, id: false do |t|
-      t.string :id, primary: true
+  def change
+    create_table :channels do |t|
       t.string :name
+      t.string :hash_token, null: false
 
       t.timestamps
     end
-    execute "ALTER TABLE channels ADD PRIMARY KEY (id)"
-  end
-  def down
-    drop_table :channels
+    add_index :channels, :hash_token, unique: true
   end
 end

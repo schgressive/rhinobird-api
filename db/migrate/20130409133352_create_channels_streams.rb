@@ -1,13 +1,8 @@
 class CreateChannelsStreams < ActiveRecord::Migration
-  def up
+  def change
     create_table :channels_streams, id: false do |t|
-      t.string :stream_id
-      t.string :channel_id
+      t.references :stream
+      t.references :channel
     end
-    execute "ALTER TABLE channels_streams ADD PRIMARY KEY (channel_id, stream_id)"
-  end
-
-  def down
-    drop_table :channels_streams
   end
 end

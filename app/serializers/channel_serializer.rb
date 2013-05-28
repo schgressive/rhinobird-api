@@ -8,6 +8,10 @@ class ChannelSerializer < ActiveModel::Serializer
     object.created_at.to_s(:api)
   end
 
+  def id
+    object.to_param
+  end
+
   def streams_count
     object.streams.count
   end

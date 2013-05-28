@@ -61,6 +61,7 @@ GEM
       railties (>= 3.0.0)
     ffi (1.7.0)
     formatador (0.2.4)
+    friendly_id (4.0.9)
     guard (1.7.0)
       formatador (>= 0.2.4)
       listen (>= 0.6.0)
@@ -192,6 +193,7 @@ DEPENDENCIES
   database_cleaner
   debugger
   factory_girl_rails (~> 3.0)
+  friendly_id
   guard
   guard-rspec
   guard-spork

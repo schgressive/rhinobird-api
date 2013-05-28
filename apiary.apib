@@ -1,4 +1,4 @@
-HOST: http://www.peepol.tv/
+HOST: http://api.peepol.tv/
 
 --- Peepol.tv ---
 
@@ -35,6 +35,7 @@ These are the video stream resources.
 - desc (string): Description
 - channels (array): Channels list
 - started_on (string): Stream started date
+- thumbs: (hash) hash with thumb urls
 
 Plus geoJSON properties ([geoJSON Specs](http://www.geojson.org/geojson-spec.html))
 
@@ -56,6 +57,11 @@ GET /streams
             "5c3e0faaf75d891ef3fcc8ba54119e4c",
             "9e879d7d0dbd3e5df40fd77d0cef7182"
         ],
+        "thumbs": {
+            "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
+            "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
+            "large": "http://img.youtube.com/vi/fopr63yr3ps/maxresdefault.jpg"
+        },
         "type": "Feature",
         "geometry": {
             "type": "Point",
@@ -77,6 +83,11 @@ GET /streams
             "5c3e0faaf75d891ef3fcc8ba54119e4c",
             "7652acc25ca9744695de61f3ae0b527b"
         ],
+        "thumbs": {
+            "small": "http://img.youtube.com/vi/VgPBse5BkA8/default.jpg",
+            "medium": "http://img.youtube.com/vi/VgPBse5BkA8/hqdefault.jpg",
+            "large": "http://img.youtube.com/vi/VgPBse5BkA8/maxresdefault.jpg"
+        },
         "type": "Feature",
         "geometry": {
             "type": "Point",
@@ -97,12 +108,94 @@ GET /streams
         "channels": [
             "9e879d7d0dbd3e5df40fd77d0cef7182"
         ],
+        "thumbs": {
+            "small": "http://img.youtube.com/vi/NR7JUM23WN8/default.jpg",
+            "medium": "http://img.youtube.com/vi/NR7JUM23WN8/hqdefault.jpg",
+            "large": "http://img.youtube.com/vi/NR7JUM23WN8/maxresdefault.jpg"
+        },
         "type": "Feature",
         "geometry": {
             "type": "Point",
             "coordinates":[
                 -70.654106,
                 -33.445301
+            ]
+        },
+        "properties": {
+            "geo_reference": "Nataniel Cox"
+        },
+        "started_on": "2012-01-23T12:00:00.000"
+    },
+    {
+        "id": "ef18a7b75fc32246e46bd75ff910a582",
+        "title": "Lollapalooza en Chile",
+        "desc": "Excelent music!",
+        "channels": [
+            "5c3e0faaf75d891ef3fcc8ba54119e4c",
+            "9e879d7d0dbd3e5df40fd77d0cef7182"
+        ],
+        "thumbs": {
+            "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
+            "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
+            "large": "http://img.youtube.com/vi/fopr63yr3ps/maxresdefault.jpg"
+        },
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates":[
+                -70.650531,
+                -33.459518
+            ]
+        },
+        "properties": {
+            "geo_reference": "Parque O'higgins"
+        },
+        "started_on": "2012-01-23T12:00:00.000"
+    },
+    {
+        "id": "51d1bc8ab4c5297843ea3f57b7800b30",
+        "title": "No al lucro",
+        "desc": "",
+        "channels": [
+            "5c3e0faaf75d891ef3fcc8ba54119e4c",
+            "7652acc25ca9744695de61f3ae0b527b"
+        ],
+        "thumbs": {
+            "small": "http://img.youtube.com/vi/VgPBse5BkA8/default.jpg",
+            "medium": "http://img.youtube.com/vi/VgPBse5BkA8/hqdefault.jpg",
+            "large": "http://img.youtube.com/vi/VgPBse5BkA8/maxresdefault.jpg"
+        },
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates":[
+                -70.647055,
+                -33.451534
+            ]
+        },
+        "properties": {
+            "geo_reference": "Alameda"
+        },
+        "started_on": "2012-01-23T12:00:00.000"
+    },
+    {
+        "id": "cf58e551d63525613465878c183266f5",
+        "title": "El wanaco",
+        "desc": "Esta pegando fuerte",
+        "channels": [
+            "9e879d7d0dbd3e5df40fd77d0cef7182"
+        ],
+        "thumbs": {
+            "small": "http://img.youtube.com/vi/NR7JUM23WN8/default.jpg",
+            "medium": "http://img.youtube.com/vi/NR7JUM23WN8/hqdefault.jpg",
+            "large": "http://img.youtube.com/vi/NR7JUM23WN8/maxresdefault.jpg"
+        },
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates":[
+                -70.664393,
+                -33.45157
             ]
         },
         "properties": {
@@ -130,6 +223,11 @@ POST /streams
     "title": "Lollapalooza en Chile",
     "desc": "Excelent music!",
     "channels": [],
+    "thumbs": {
+        "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
+        "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
+        "large": "http://img.youtube.com/vi/fopr63yr3ps/maxresdefault.jpg"
+    },
     "type": "Feature",
     "geometry": {
         "type": "Point",
@@ -153,6 +251,11 @@ GET /streams/{id}
     "title": "Lollapalooza en Chile",
     "desc": "Excelent music!",
     "channels": [],
+    "thumbs": {
+        "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
+        "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
+        "large": "http://img.youtube.com/vi/fopr63yr3ps/maxresdefault.jpg"
+    },
     "type": "Feature",
     "geometry": {
         "type": "Point",
@@ -177,7 +280,7 @@ These are the channel resources.
 
 ###Channel Properties
 - id (string): Channel id (md5)
-- identifier (string): Unique name for the channel
+- name (string): Unique name for the channel
 - streams (array): List of streams
 - streams_count: Count of streams in the channel
 - created_at (string): Channel created date
@@ -189,7 +292,7 @@ GET /channels
 [
     {
         "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-        "identifier": "LollapaloozaCL",
+        "name": "LollapaloozaCL",
         "streams": [
             {
                 "id": "51d1bc8ab4c5297843ea3f57b7800b30",
@@ -199,6 +302,11 @@ GET /channels
                     "5c3e0faaf75d891ef3fcc8ba54119e4c",
                     "9e879d7d0dbd3e5df40fd77d0cef7182"
                 ],
+                "thumbs": {
+                    "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
+                    "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
+                    "large": "http://img.youtube.com/vi/fopr63yr3ps/maxresdefault.jpg"
+                },
                 "type": "Feature",
                 "geometry": {
                     "type": "Point",
@@ -220,6 +328,11 @@ GET /channels
                     "5c3e0faaf75d891ef3fcc8ba54119e4c",
                     "7652acc25ca9744695de61f3ae0b527b"
                 ],
+                "thumbs": {
+                    "small": "http://img.youtube.com/vi/NR7JUM23WN8/default.jpg",
+                    "medium": "http://img.youtube.com/vi/NR7JUM23WN8/hqdefault.jpg",
+                    "large": "http://img.youtube.com/vi/NR7JUM23WN8/maxresdefault.jpg"
+                },
                 "type": "Feature",
                 "geometry": {
                     "type": "Point",
@@ -239,7 +352,7 @@ GET /channels
     },
     {
         "id": "9e879d7d0dbd3e5df40fd77d0cef7182",
-        "identifier": "LosPinguinos",
+        "name": "LosPinguinos",
         "streams": [
             {
                 "id": "e407e83a8589e03ed88b83b143d76036",
@@ -249,6 +362,11 @@ GET /channels
                     "9e879d7d0dbd3e5df40fd77d0cef7182",
                     "bb2ee58f56a6b8d9e560f40ae1b0b91f"
                 ],
+                "thumbs": {
+                    "small": "http://img.youtube.com/vi/VgPBse5BkA8/default.jpg",
+                    "medium": "http://img.youtube.com/vi/VgPBse5BkA8/hqdefault.jpg",
+                    "large": "http://img.youtube.com/vi/VgPBse5BkA8/maxresdefault.jpg"
+                },
                 "type": "Feature",
                 "geometry": {
                     "type": "Point",
@@ -273,13 +391,13 @@ POST /channels
 > Content-Type: application/json
 > Accept: application/json
 {
-    "identifier": "LollapaloozaCL"
+    "name": "LollapaloozaCL"
 }
 < 201
 < Content-Type: application/json
 {
     "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-    "identifier": "LollapaloozaCL",
+    "name": "LollapaloozaCL",
     "streams": [],
     "streams_count": 0,
     "created_at": "2012-01-23T12:00:00.000"
@@ -288,9 +406,10 @@ POST /channels
 Channel information
 GET /channels/{id}
 < 200
+< Content-Type: application/json
 {
     "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-    "identifier": "LollapaloozaCL",
+    "name": "LollapaloozaCL",
     "streams": [
         {
             "id": "51d1bc8ab4c5297843ea3f57b7800b30",
@@ -299,6 +418,11 @@ GET /channels/{id}
                 "5c3e0faaf75d891ef3fcc8ba54119e4c",
                 "9e879d7d0dbd3e5df40fd77d0cef7182"
             ],
+            "thumbs": {
+                "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
+                "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
+                "large": "http://img.youtube.com/vi/fopr63yr3ps/maxresdefault.jpg"
+            },
             "type": "Feature",
             "geometry": {
                 "type": "Point",
@@ -321,6 +445,11 @@ GET /channels/{id}
                 "5c3e0faaf75d891ef3fcc8ba54119e4c",
                 "7652acc25ca9744695de61f3ae0b527b"
             ],
+            "thumbs": {
+                "small": "http://img.youtube.com/vi/NR7JUM23WN8/default.jpg",
+                "medium": "http://img.youtube.com/vi/NR7JUM23WN8/hqdefault.jpg",
+                "large": "http://img.youtube.com/vi/NR7JUM23WN8/maxresdefault.jpg"
+            },
             "geometry": {
                 "type": "Point",
                 "coordinates":[
@@ -355,6 +484,11 @@ GET /channels/{id}/streams
             "5c3e0faaf75d891ef3fcc8ba54119e4c",
             "9e879d7d0dbd3e5df40fd77d0cef7182"
         ],
+        "thumbs": {
+            "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
+            "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
+            "large": "http://img.youtube.com/vi/fopr63yr3ps/maxresdefault.jpg"
+        },
         "type": "Feature",
         "geometry": {
             "type": "Point",
@@ -376,6 +510,11 @@ GET /channels/{id}/streams
             "5c3e0faaf75d891ef3fcc8ba54119e4c",
             "7652acc25ca9744695de61f3ae0b527b"
         ],
+        "thumbs": {
+            "small": "http://img.youtube.com/vi/NR7JUM23WN8/default.jpg",
+            "medium": "http://img.youtube.com/vi/NR7JUM23WN8/hqdefault.jpg",
+            "large": "http://img.youtube.com/vi/NR7JUM23WN8/maxresdefault.jpg"
+        },
         "type": "Feature",
         "geometry": {
             "type": "Point",

@@ -1,10 +1,10 @@
 class CreateStreams < ActiveRecord::Migration
-  def up
-    create_table :streams, id: false do |t|
-      t.string :id, primary: true
+  def change
+    create_table :streams do |t|
       t.string :url
       t.string :title
       t.string :desc
+      t.string :hash_token, null: false
       t.decimal :lat, precision: 18, scale: 12
       t.decimal :lng, precision: 18, scale: 12
       t.string :geo_reference
@@ -12,9 +12,6 @@ class CreateStreams < ActiveRecord::Migration
 
       t.timestamps
     end
-    execute "ALTER TABLE streams ADD PRIMARY KEY (id)"
-  end
-  def down
-    drop_table :streams
+    add_index :streams, :hash_token, unique: true
   end
 end

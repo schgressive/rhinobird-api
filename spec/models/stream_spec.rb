@@ -1,6 +1,11 @@
 require 'spec_helper'
 
 describe Stream do
+  before(:each) do
+    puts Time.now.to_s
+    nuve = stub_const('NUVE', Class.new)
+    nuve.stub(:createRoom).and_return('{"_id": "' + Digest::MD5.hexdigest(Time.now.to_f.to_s)  +  '"}')
+  end
 
   it "has a valid factory" do 
     stream = build(:stream)
@@ -23,7 +28,7 @@ describe Stream do
     let(:stream) { create(:stream) }
 
     it "assigns a new MD5 for the ID" do
-      expect(stream.id).to match(/^[a-zA-Z0-9]{32}$/)
+      expect(stream.hash_token).to match(/^[a-zA-Z0-9]{32}$/)
     end
 
     it "sets the started_on timestamp" do

@@ -7,7 +7,12 @@ class StreamSerializer < ActiveModel::Serializer
   def type
     "feature"
   end
-  
+
+  # Use hash_token as ID
+  def id
+    object.to_param
+  end
+
   def geometry
     {"coordinates" => [object.lat.to_f, object.lng.to_f], "type" => "Point"}
   end
@@ -22,7 +27,7 @@ class StreamSerializer < ActiveModel::Serializer
 
 
   def channels
-    object.channels.map(&:id)
+    object.channels.map(&:to_param)
   end
 
   #format this date

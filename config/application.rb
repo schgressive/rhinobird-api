@@ -68,5 +68,13 @@ module PeepoltvApi
       g.javascripts = false
       g.helper = false
     end
+
+    # Configure CORS for every request
+    config.middleware.use Rack::Cors do
+      allow do
+        origins '*'
+        resource '*', :headers => :any, :methods => [:get, :post, :delete, :put, :options]
+      end
+    end
   end
 end

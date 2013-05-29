@@ -12,17 +12,13 @@ class ChannelsController < ApplicationController
 
   def create
     @channel = Channel.create(channel_params)
-    render json: @channel, status: 201
+    render json: @channel, status: :created
   end
 
   def destroy
     @channel = Channel.find(params[:id])
     @channel.destroy
     head :no_content
-  end
-
-  def streams
-    render json: Stream.by_channel(params[:id])
   end
 
   private

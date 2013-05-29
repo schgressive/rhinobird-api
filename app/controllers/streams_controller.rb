@@ -1,7 +1,9 @@
 class StreamsController < ApplicationController
+
   def index
-    @streams = Stream.all
-    render json: @streams
+    @streams = Stream
+    @streams = @streams.by_channel(params[:channel_id]) if params.has_key? :channel_id
+    render json: @streams.all
   end
 
   def show
@@ -11,7 +13,7 @@ class StreamsController < ApplicationController
 
   def create
     @stream = Stream.create(stream_params)
-    render json: @stream, status: 201
+    render json: @stream, status: :created
   end
 
   def destroy

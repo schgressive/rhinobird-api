@@ -11,7 +11,7 @@ describe ChannelsController do
     end
 
     it "routes to #streams" do
-      expect(get: "/channels/1/streams").to route_to("channels#streams", id: "1")
+      expect(get: "/channels/1/streams").to route_to("streams#index", channel_id: "1")
     end
 
     it "routes to #show" do

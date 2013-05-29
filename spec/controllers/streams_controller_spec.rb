@@ -6,24 +6,47 @@ describe StreamsController do
     @stream = create(:stream)
   end
 
-  context "GET #index" do
-    before do
-      get :index
-      @streams = JSON.parse(response.body)
+  describe "GET #index" do
+    context "without a channel" do
+      before do
+        get :index
+        @streams = JSON.parse(response.body)
+      end
+
+      it "returns success code" do
+        expect(response.status).to be(200)
+      end
+
+      it "returns correct content type" do
+        expect(response.header['Content-Type']).to include("application/json")
+      end
+
+      it "returns an array of items" do
+        expect(@streams).to have(1).items
+        expect(@streams[0]["id"]).to eq(@stream.to_param)
+        expect(@streams[0]["title"]).to eq(@stream.title)
+      end
     end
 
-    it "returns success code" do
-      expect(response.status).to be(200)
-    end
+    context "with a channel" do
+      before do
+        create(:stream)
+        @channel = create(:channel, streams: [create(:stream), create(:stream)])
+        get :index, channel_id: @channel.id
+        @streams = JSON.parse(response.body)
+      end
 
-    it "returns correct content type" do
-      expect(response.header['Content-Type']).to include("application/json")
-    end
+      it "returns success code" do
+        expect(response.status).to be(200)
+      end
 
-    it "returns an array of items" do
-      expect(@streams).to have(1).items
-      expect(@streams[0]["id"]).to eq(@stream.to_param)
-      expect(@streams[0]["title"]).to eq(@stream.title)
+      it "returns correct content type" do
+        expect(response.header['Content-Type']).to include("application/json")
+      end
+
+      it "returns the streams related to this channel" do
+        expect(@streams).to have(2).items
+      end
     end
 
   end

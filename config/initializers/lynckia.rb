@@ -1,7 +1,7 @@
 require "nuve"
-superserviceID = '51a4f2b4c80d2484cb87b51c'
-superserviceKey = '20927'
-NUVE = Nuve.new(superserviceID, superserviceKey, "http://192.168.1.7:3000/")
+superserviceID = ENV['NUVE_SERVICE_ID']
+superserviceKey = ENV['NUVE_SERVICE_KEY']
+NUVE = Nuve.new(superserviceID, superserviceKey, ENV['NUVE_SERVICE_HOST'])
 
 ActionDispatch::Callbacks.to_prepare do
   # configure stuff or initialize

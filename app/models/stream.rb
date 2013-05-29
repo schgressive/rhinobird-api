@@ -2,7 +2,6 @@ class Stream < ActiveRecord::Base
   validates :title, presence: true
 
   before_create :setup_stream
-  before_destroy :delete_room
   has_and_belongs_to_many :channels
 
   extend FriendlyId
@@ -12,15 +11,12 @@ class Stream < ActiveRecord::Base
     Stream.joins(:channels).where("channel_id = ?", channel_id)
   end
 
-  def delete_room
-    NUVE.deleteRoom(self.to_param)
+  def setup_stream
+    self.hash_token = Digest::MD5.hexdigest(self.inspect + Time.now.to_s)
+    self.started_on = Time.now
   end
 
-  def setup_stream
-    #HOOK for NUVE
-    room = JSON.parse(NUVE.createRoom(self.title))
-    self.hash_token = room["_id"]
-    #self.hash_token = Digest::MD5.hexdigest(self.inspect + Time.now.to_s)
-    self.started_on = Time.now
+  #placeholder for lynckia token
+  def token
   end
 end

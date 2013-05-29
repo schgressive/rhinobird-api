@@ -17,10 +17,6 @@ class StreamSerializer < ActiveModel::Serializer
     {"coordinates" => [object.lat.to_f, object.lng.to_f], "type" => "Point"}
   end
 
-  def token
-    NUVE.createToken(object.to_param, "user#{Time.now.to_i}", "viewer")
-  end
-
   def properties
     {"geo_reference" => object.geo_reference}
   end

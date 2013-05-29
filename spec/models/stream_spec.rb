@@ -12,11 +12,6 @@ describe Stream do
   end
 
   context "validations" do
-    it "requires a Description" do
-      stream = build(:stream, desc: '')
-      expect(stream).to be_invalid
-    end
-
     it "requires a title" do
       stream = build(:stream, title: '')
       expect(stream).to be_invalid

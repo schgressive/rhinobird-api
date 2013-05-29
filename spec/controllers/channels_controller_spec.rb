@@ -58,7 +58,7 @@ describe ChannelsController do
   describe "POST #create" do
 
     before do
-      @post_hash = {name: 'Hello from JSON'}
+      @post_hash = {name: 'MyNewChannel123'}
 
       post :create, @post_hash
       @json_channel = JSON.parse(response.body)
@@ -69,7 +69,7 @@ describe ChannelsController do
     end
 
     it "increments the channel count" do
-      expect{post :create, {name: 'Test channel creation'}}.to change(Channel, :count).by(1)
+      expect{post :create, {name: 'Testchannelcreation'}}.to change(Channel, :count).by(1)
     end
 
     it "returns correct content type" do

@@ -5,7 +5,7 @@ class StreamSerializer < ActiveModel::Serializer
 
   #to make valid geoJSON
   def type
-    "feature"
+    "Feature"
   end
 
   # Use hash_token as ID

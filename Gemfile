@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.12'
 
 gem 'mysql2'
-gem "active_model_serializers", "~> 0.7.0"
+gem "active_model_serializers", "~> 0.8.0"
 gem 'strong_parameters'
 gem 'jquery-rails'
 gem 'friendly_id'

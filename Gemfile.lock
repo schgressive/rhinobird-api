@@ -14,7 +14,7 @@ GEM
       rack-cache (~> 1.2)
       rack-test (~> 0.6.1)
       sprockets (~> 2.2.1)
-    active_model_serializers (0.7.0)
+    active_model_serializers (0.8.1)
       activemodel (>= 3.0)
     activemodel (3.2.12)
       activesupport (= 3.2.12)
@@ -92,7 +92,7 @@ GEM
       treetop (~> 1.4.8)
     method_source (0.8.1)
     mime-types (1.22)
-    multi_json (1.7.2)
+    multi_json (1.7.4)
     mysql2 (0.3.11)
     polyglot (0.3.3)
     pry (0.9.12)
@@ -190,7 +190,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_model_serializers (~> 0.7.0)
+  active_model_serializers (~> 0.8.0)
   coffee-rails (~> 3.2.1)
   database_cleaner
   debugger

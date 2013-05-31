@@ -282,6 +282,54 @@ Deletes stream
 DELETE /streams/{id}
 < 204
 
+Removes a tag from a stream
+DELETE /streams/{id}/tags
+> Content-Type: application/json
+> Accept: application/json
+{
+    "tag": "grunge"
+}
+< 204
+
+Assigns a tag to a stream
+POST /streams/{id}/tags
+> Content-Type: application/json
+> Accept: application/json
+{
+    "tag": "rock"
+}
+< 201
+< Content-Type: application/json
+{
+    "id": "ef18a7b75fc32246e46bd75ff910a582",
+    "title": "Lollapalooza en Chile",
+    "desc": "Excelent music!",
+    "channel": {
+        "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
+        "name": "LollapaloozaCL"
+    },
+    "thumbs": {
+        "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
+        "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
+        "large": "http://img.youtube.com/vi/fopr63yr3ps/maxresdefault.jpg"
+    },
+    "type": "Feature",
+    "geometry": {
+        "type": "Point",
+        "coordinates":[
+            -70.661713,
+            -33.462666
+        ]
+    },
+    "properties": {
+        "geo_reference": "Parque O'higgins"
+    },
+    "tags": [
+      "concert", "rock", "grunge"
+    ]
+    "started_on": "2012-01-23T12:00:00.000"
+}
+
 --
 Channels Resources
 These are the channel resources.

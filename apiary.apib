@@ -73,6 +73,9 @@ GET /streams
         "properties": {
             "geo_reference": "Parque O'higgins"
         },
+        "tags": [
+          "concert", "rock", "grunge"
+        ]
         "started_on": "2012-01-23T12:00:00.000"
     },
     {
@@ -99,6 +102,9 @@ GET /streams
         "properties": {
             "geo_reference": "Alameda"
         },
+        "tags": [
+          "grunge"
+        ]
         "started_on": "2012-01-23T12:00:00.000"
     },
     {
@@ -473,6 +479,24 @@ Delete the channel
 DELETE /channel/{id}
 < 200
 { "status": "ok" }
+
+Assigns a stream to a channel
+POST /channels/{id}/streams
+> Content-Type: application/json
+> Accept: application/json
+{
+    "stream_id": "b234b234v324b234243"
+}
+< 201
+< Content-Type: application/json
+{
+    "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
+    "name": "LollapaloozaCL",
+    "streams": ["b234b234v324b234243"],
+    "streams_count": 1,
+    "created_at": "2012-01-23T12:00:00.000"
+}
+
 
 Lists the current channel streams
 GET /channels/{id}/streams

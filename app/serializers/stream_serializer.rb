@@ -20,7 +20,7 @@ class StreamSerializer < ActiveModel::Serializer
   end
 
   def geometry
-    {"coordinates" => [object.lat.to_f, object.lng.to_f], "type" => "Point"}
+    {"coordinates" => [object.lng.to_f, object.lat.to_f], "type" => "Point"}
   end
 
   def properties

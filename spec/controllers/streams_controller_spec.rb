@@ -31,7 +31,7 @@ describe StreamsController do
   context "POST #create" do
 
     before do
-      @post_hash = {title: 'stream from POST JSON', desc: "Test POST", lat: -25.2720623016357, lng: -57.585376739502, geo_reference: 'Unkown location'}
+      @post_hash = {title: 'stream from POST JSON', desc: "Test POST", lat: -25.272062301637, lng: -57.585376739502, geo_reference: 'Unkown location'}
 
       post :create, @post_hash
       @json_stream = JSON.parse(response.body)
@@ -55,7 +55,7 @@ describe StreamsController do
     it "has a valid geoJSON format" do
       expect(@json_stream["type"]).to eq("Feature")
       expect(@json_stream["geometry"]["type"]).to eq("Point")
-      expect(@json_stream["geometry"]["coordinates"]).to eq([@post_hash[:lat], @post_hash[:lng]])
+      expect(@json_stream["geometry"]["coordinates"]).to eq([@post_hash[:lng], @post_hash[:lat]])
       expect(@json_stream["properties"]["geo_reference"]).to eq(@post_hash[:geo_reference])
     end
 
@@ -63,7 +63,7 @@ describe StreamsController do
 
   context "GET #show" do
     before do
-      @new_stream = create(:stream, lat: -25.2720623016357, lng: -57.585376739502, id: "123", channels: [create(:channel)])
+      @new_stream = create(:stream, lat: -25.272062301637, lng: -57.585376739502, id: "123", channels: [create(:channel)])
       get :show, id: @new_stream.id
       @json_stream = JSON.parse(response.body)
     end
@@ -87,7 +87,7 @@ describe StreamsController do
     it "has a valid geoJSON format" do
       expect(@json_stream["type"]).to eq("Feature")
       expect(@json_stream["geometry"]["type"]).to eq("Point")
-      expect(@json_stream["geometry"]["coordinates"]).to eq([-25.272062301636, -57.585376739502])
+      expect(@json_stream["geometry"]["coordinates"]).to eq([@new_stream.lng.to_f, @new_stream.lat.to_f])
       expect(@json_stream["properties"]["geo_reference"]).to eq(@new_stream.geo_reference)
     end
 

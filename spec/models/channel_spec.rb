@@ -2,12 +2,16 @@ require 'spec_helper'
 
 describe Channel do
 
+  describe "relations" do
+    it { should have_many(:streams) }
+  end
+
   it "has a valid factory" do
     channel = build(:channel)
     expect(channel).to be_valid
   end
 
-  context "validations" do
+  describe "validations" do
     it "requires a name" do
       channel = build(:channel, name: '')
       expect(channel).to be_invalid

@@ -2,13 +2,13 @@ class Stream < ActiveRecord::Base
   validates :title, :desc, presence: true
 
   before_create :setup_stream
-  has_and_belongs_to_many :channels
+  belongs_to :channel
 
   extend FriendlyId
   friendly_id :hash_token
 
   def self.by_channel(channel_id)
-    Stream.joins(:channels).where("channel_id = ?", channel_id)
+    Stream.where("channel_id = ?", channel_id)
   end
 
   def setup_stream

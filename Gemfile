@@ -19,6 +19,8 @@ group :test do
   gem 'rb-fsevent', :require => false
   gem 'rb-fchange', :require => false
 
+  gem 'shoulda-matchers'
+
   gem "guard"
   gem "spork-rails"
   gem "guard-rspec"
@@ -26,6 +28,10 @@ group :test do
 
   gem "database_cleaner"
   gem 'factory_girl_rails', '~> 3.0'
+end
+
+#rspec-rails needs to be in both groups for shoulda-matchers to work
+group :development, :test do
   gem 'rspec-rails', "~> 2.0"
 end
 

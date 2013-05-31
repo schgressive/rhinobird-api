@@ -53,10 +53,10 @@ GET /streams
         "id": "ef18a7b75fc32246e46bd75ff910a582",
         "title": "Lollapalooza en Chile",
         "desc": "Excelent music!",
-        "channels": [
-            "5c3e0faaf75d891ef3fcc8ba54119e4c",
-            "9e879d7d0dbd3e5df40fd77d0cef7182"
-        ],
+        "channel": {
+            "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
+            "name": "LollapaloozaCL"
+        },
         "thumbs": {
             "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
             "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
@@ -73,16 +73,19 @@ GET /streams
         "properties": {
             "geo_reference": "Parque O'higgins"
         },
+        "tags": [
+          "concert", "rock", "grunge"
+        ]
         "started_on": "2012-01-23T12:00:00.000"
     },
     {
         "id": "51d1bc8ab4c5297843ea3f57b7800b30",
         "title": "No al lucro",
         "desc": "",
-        "channels": [
-            "5c3e0faaf75d891ef3fcc8ba54119e4c",
-            "7652acc25ca9744695de61f3ae0b527b"
-        ],
+        "channel": {
+            "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
+            "name": "TheChannel"
+        },
         "thumbs": {
             "small": "http://img.youtube.com/vi/VgPBse5BkA8/default.jpg",
             "medium": "http://img.youtube.com/vi/VgPBse5BkA8/hqdefault.jpg",
@@ -99,15 +102,19 @@ GET /streams
         "properties": {
             "geo_reference": "Alameda"
         },
+        "tags": [
+          "grunge"
+        ]
         "started_on": "2012-01-23T12:00:00.000"
     },
     {
         "id": "cf58e551d63525613465878c183266f5",
         "title": "El wanaco",
         "desc": "Esta pegando fuerte",
-        "channels": [
-            "9e879d7d0dbd3e5df40fd77d0cef7182"
-        ],
+        "channel": {
+            "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
+            "name": "TheChannel"
+        },
         "thumbs": {
             "small": "http://img.youtube.com/vi/NR7JUM23WN8/default.jpg",
             "medium": "http://img.youtube.com/vi/NR7JUM23WN8/hqdefault.jpg",
@@ -130,10 +137,10 @@ GET /streams
         "id": "ef18a7b75fc32246e46bd75ff910a582",
         "title": "Lollapalooza en Chile",
         "desc": "Excelent music!",
-        "channels": [
-            "5c3e0faaf75d891ef3fcc8ba54119e4c",
-            "9e879d7d0dbd3e5df40fd77d0cef7182"
-        ],
+        "channel": {
+            "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
+            "name": "TheChannel"
+        },
         "thumbs": {
             "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
             "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
@@ -156,10 +163,10 @@ GET /streams
         "id": "51d1bc8ab4c5297843ea3f57b7800b30",
         "title": "No al lucro",
         "desc": "",
-        "channels": [
-            "5c3e0faaf75d891ef3fcc8ba54119e4c",
-            "7652acc25ca9744695de61f3ae0b527b"
-        ],
+        "channel": {
+            "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
+            "name": "TheChannel"
+        },
         "thumbs": {
             "small": "http://img.youtube.com/vi/VgPBse5BkA8/default.jpg",
             "medium": "http://img.youtube.com/vi/VgPBse5BkA8/hqdefault.jpg",
@@ -182,9 +189,10 @@ GET /streams
         "id": "cf58e551d63525613465878c183266f5",
         "title": "El wanaco",
         "desc": "Esta pegando fuerte",
-        "channels": [
-            "9e879d7d0dbd3e5df40fd77d0cef7182"
-        ],
+        "channel": {
+            "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
+            "name": "TheChannel"
+        },
         "thumbs": {
             "small": "http://img.youtube.com/vi/NR7JUM23WN8/default.jpg",
             "medium": "http://img.youtube.com/vi/NR7JUM23WN8/hqdefault.jpg",
@@ -222,7 +230,7 @@ POST /streams
     "id": "812f16429fad2756693047f685b9956a",
     "title": "Lollapalooza en Chile",
     "desc": "Excelent music!",
-    "channels": [],
+    "channel": {},
     "thumbs": {
         "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
         "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
@@ -250,7 +258,7 @@ GET /streams/{id}
     "id": "812f16429fad2756693047f685b9956a",
     "title": "Lollapalooza en Chile",
     "desc": "Excelent music!",
-    "channels": [],
+    "channel": {},
     "thumbs": {
         "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
         "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
@@ -273,6 +281,54 @@ GET /streams/{id}
 Deletes stream
 DELETE /streams/{id}
 < 204
+
+Removes a tag from a stream
+DELETE /streams/{id}/tags
+> Content-Type: application/json
+> Accept: application/json
+{
+    "tag": "grunge"
+}
+< 204
+
+Assigns a tag to a stream
+POST /streams/{id}/tags
+> Content-Type: application/json
+> Accept: application/json
+{
+    "tag": "rock"
+}
+< 201
+< Content-Type: application/json
+{
+    "id": "ef18a7b75fc32246e46bd75ff910a582",
+    "title": "Lollapalooza en Chile",
+    "desc": "Excelent music!",
+    "channel": {
+        "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
+        "name": "LollapaloozaCL"
+    },
+    "thumbs": {
+        "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
+        "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
+        "large": "http://img.youtube.com/vi/fopr63yr3ps/maxresdefault.jpg"
+    },
+    "type": "Feature",
+    "geometry": {
+        "type": "Point",
+        "coordinates":[
+            -70.661713,
+            -33.462666
+        ]
+    },
+    "properties": {
+        "geo_reference": "Parque O'higgins"
+    },
+    "tags": [
+      "concert", "rock", "grunge"
+    ]
+    "started_on": "2012-01-23T12:00:00.000"
+}
 
 --
 Channels Resources
@@ -298,10 +354,10 @@ GET /channels
                 "id": "51d1bc8ab4c5297843ea3f57b7800b30",
                 "title": "Lollapalooza en Chile",
                 "desc": "Excelent music!",
-                "channels": [
-                    "5c3e0faaf75d891ef3fcc8ba54119e4c",
-                    "9e879d7d0dbd3e5df40fd77d0cef7182"
-                ],
+                "channel": {
+                    "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
+                    "name": "LollapaloozaCL"
+                },
                 "thumbs": {
                     "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
                     "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
@@ -324,10 +380,10 @@ GET /channels
                 "id": "cf58e551d63525613465878c183266f5",
                 "title": "Lollapalooza!",
                 "desc": "Chancho en piedra",
-                "channels": [
-                    "5c3e0faaf75d891ef3fcc8ba54119e4c",
-                    "7652acc25ca9744695de61f3ae0b527b"
-                ],
+                "channel": {
+                    "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
+                    "name": "LollapaloozaCL"
+                },
                 "thumbs": {
                     "small": "http://img.youtube.com/vi/NR7JUM23WN8/default.jpg",
                     "medium": "http://img.youtube.com/vi/NR7JUM23WN8/hqdefault.jpg",
@@ -358,10 +414,10 @@ GET /channels
                 "id": "e407e83a8589e03ed88b83b143d76036",
                 "title": "No al lucro",
                 "desc": "",
-                "channels": [
-                    "9e879d7d0dbd3e5df40fd77d0cef7182",
-                    "bb2ee58f56a6b8d9e560f40ae1b0b91f"
-                ],
+                "channel": {
+                    "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
+                    "name": "TheChannel"
+                },
                 "thumbs": {
                     "small": "http://img.youtube.com/vi/VgPBse5BkA8/default.jpg",
                     "medium": "http://img.youtube.com/vi/VgPBse5BkA8/hqdefault.jpg",
@@ -414,10 +470,10 @@ GET /channels/{id}
         {
             "id": "51d1bc8ab4c5297843ea3f57b7800b30",
             "title": "Lollapalooza en Chile",
-            "channels": [
-                "5c3e0faaf75d891ef3fcc8ba54119e4c",
-                "9e879d7d0dbd3e5df40fd77d0cef7182"
-            ],
+            "channel": {
+                "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
+                "name": "LollapaloozaCL"
+            },
             "thumbs": {
                 "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
                 "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
@@ -441,10 +497,10 @@ GET /channels/{id}
             "title": "Lollapalooza!",
             "desc": "Chancho en piedra",
             "type": "Feature",
-            "channels": [
-                "5c3e0faaf75d891ef3fcc8ba54119e4c",
-                "7652acc25ca9744695de61f3ae0b527b"
-            ],
+            "channel": {
+                "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
+                "name": "LollapaloozaCL"
+            },
             "thumbs": {
                 "small": "http://img.youtube.com/vi/NR7JUM23WN8/default.jpg",
                 "medium": "http://img.youtube.com/vi/NR7JUM23WN8/hqdefault.jpg",
@@ -472,6 +528,24 @@ DELETE /channel/{id}
 < 200
 { "status": "ok" }
 
+Assigns a stream to a channel
+POST /channels/{id}/streams
+> Content-Type: application/json
+> Accept: application/json
+{
+    "stream_id": "b234b234v324b234243"
+}
+< 201
+< Content-Type: application/json
+{
+    "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
+    "name": "LollapaloozaCL",
+    "streams": ["b234b234v324b234243"],
+    "streams_count": 1,
+    "created_at": "2012-01-23T12:00:00.000"
+}
+
+
 Lists the current channel streams
 GET /channels/{id}/streams
 < 200
@@ -480,10 +554,10 @@ GET /channels/{id}/streams
         "id": "ef18a7b75fc32246e46bd75ff910a582",
         "title": "Lollapalooza en Chile",
         "desc": "Excelent music!",
-        "channels":  [
-            "5c3e0faaf75d891ef3fcc8ba54119e4c",
-            "9e879d7d0dbd3e5df40fd77d0cef7182"
-        ],
+        "channel": {
+            "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
+            "name": "LollapaloozaCL"
+        },
         "thumbs": {
             "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
             "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
@@ -506,10 +580,10 @@ GET /channels/{id}/streams
         "id": "51d1bc8ab4c5297843ea3f57b7800b30",
         "title": "Lollapalooza!",
         "desc": "Chancho en piedra",
-        "channels": [
-            "5c3e0faaf75d891ef3fcc8ba54119e4c",
-            "7652acc25ca9744695de61f3ae0b527b"
-        ],
+        "channel": {
+            "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
+            "name": "LollapaloozaCL"
+        },
         "thumbs": {
             "small": "http://img.youtube.com/vi/NR7JUM23WN8/default.jpg",
             "medium": "http://img.youtube.com/vi/NR7JUM23WN8/hqdefault.jpg",

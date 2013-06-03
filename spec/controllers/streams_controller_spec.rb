@@ -83,9 +83,9 @@ describe StreamsController do
     end
 
     it "returns a thumb information" do
-      expect(@json_stream["thumbs"]["small"]).to match(/^http:\/\/.*thumb.jpg/)
-      expect(@json_stream["thumbs"]["medium"]).to match(/^http:\/\/.*thumb.jpg/)
-      expect(@json_stream["thumbs"]["large"]).to match(/^http:\/\/.*thumb.jpg/)
+      expect(@json_stream["thumbs"]["small"]).to match(/^http:\/\/.*small.jpg/)
+      expect(@json_stream["thumbs"]["medium"]).to match(/^http:\/\/.*medium.jpg/)
+      expect(@json_stream["thumbs"]["large"]).to match(/^http:\/\/.*large.jpg/)
     end
 
     it "has a valid geoJSON format" do
@@ -122,9 +122,9 @@ describe StreamsController do
       expect(@json_stream["title"]).to eq(@new_stream.title)
       expect(@json_stream["desc"]).to eq(@new_stream.desc)
       expect(@json_stream["started_on"]).to eq(@new_stream.started_on.to_s(:api))
-      expect(@json_stream["thumbs"]["small"]).to match(/^http:\/\/.*thumb.jpg/)
-      expect(@json_stream["thumbs"]["medium"]).to match(/^http:\/\/.*thumb.jpg/)
-      expect(@json_stream["thumbs"]["large"]).to match(/^http:\/\/.*thumb.jpg/)
+      expect(@json_stream["thumbs"]["small"]).to match(/^http:\/\/.*small.jpg/)
+      expect(@json_stream["thumbs"]["medium"]).to match(/^http:\/\/.*medium.jpg/)
+      expect(@json_stream["thumbs"]["large"]).to match(/^http:\/\/.*large.jpg/)
       expect(@json_stream["channel"]["id"]).to eq(@channel.to_param)
       expect(@json_stream["channel"]["name"]).to eq(@channel.name)
     end

@@ -50,7 +50,7 @@ describe ChannelsController do
       stream = @json_channel["streams"].first
       expect(stream["title"]).not_to be_empty
       expect(stream["id"]).not_to be_empty
-      expect(stream["channels"]).not_to be_empty
+      expect(stream["channel"]).not_to be_empty
     end
 
   end
@@ -58,7 +58,7 @@ describe ChannelsController do
   describe "POST #create" do
 
     before do
-      @post_hash = {name: 'Hello from JSON'}
+      @post_hash = {name: 'MyNewChannel123'}
 
       post :create, @post_hash
       @json_channel = JSON.parse(response.body)
@@ -69,7 +69,7 @@ describe ChannelsController do
     end
 
     it "increments the channel count" do
-      expect{post :create, {name: 'Test channel creation'}}.to change(Channel, :count).by(1)
+      expect{post :create, {name: 'Testchannelcreation'}}.to change(Channel, :count).by(1)
     end
 
     it "returns correct content type" do
@@ -101,33 +101,6 @@ describe ChannelsController do
     end
 
   end
-
-  describe "GET #streams" do
-    before do
-      @stream1 = create(:stream)
-      @stream2 = create(:stream)
-      @channel = create(:channel, streams: [@stream1, @stream2])
-      get :streams, id: @channel.id
-      @streams = JSON.parse(response.body)
-    end
-
-    it "returns an array of streams" do
-      expect(@streams).to have(2).items
-      expect(@streams.first["title"]).to eql(@stream1.title)
-      expect(@streams.first["id"]).to eql(@stream1.hash_token)
-    end
-
-    it "returns success code" do
-      expect(response.status).to be(200)
-    end
-
-    it "returns correct content type" do
-      expect(response.header['Content-Type']).to include("application/json")
-    end
-
-
-  end
-
 
 
 end

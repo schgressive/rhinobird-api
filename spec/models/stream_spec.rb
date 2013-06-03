@@ -1,8 +1,7 @@
 require 'spec_helper'
 
 describe Stream do
-
-  it "has a valid factory" do 
+  it "has a valid factory" do
     stream = build(:stream)
     expect(stream).to be_valid
   end
@@ -11,12 +10,12 @@ describe Stream do
     it { should have_attached_file(:thumbnail)}
   end
 
-  context "validations" do
-    it "requires a Description" do
-      stream = build(:stream, desc: '')
-      expect(stream).to be_invalid
-    end
+  describe "relations" do
+    it { should belong_to(:channel) }
+  end
 
+
+  context "validations" do
     it "requires a title" do
       stream = build(:stream, title: '')
       expect(stream).to be_invalid
@@ -24,7 +23,17 @@ describe Stream do
   end
 
   context "creating streams" do
+
     let(:stream) { create(:stream) }
+
+    it "adds a thumbnail from a base64" do
+      File.open(Rails.root + "spec/factories/images/rails_base64.txt") do |file|
+        @image_base64 = "data:image/jpg;base64,#{file.read}"
+      end
+      stream.thumb = @image_base64
+      stream.save!
+      expect(stream.thumbnail.exists?).to be_true
+    end
 
     it "assigns a new MD5 for the ID" do
       expect(stream.hash_token).to match(/^[a-zA-Z0-9]{32}$/)

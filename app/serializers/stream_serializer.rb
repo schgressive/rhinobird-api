@@ -1,11 +1,17 @@
 class StreamSerializer < ActiveModel::Serializer
-  attributes :id, :url, :title, :desc, :started_on, :channels, :type, :properties, :geometry, :thumbs
+  attributes :id, :url, :title, :desc, :started_on, :type, :properties, :geometry, :channel, :token, :thumbs
   self.root = false
 
 
   #to make valid geoJSON
   def type
     "Feature"
+  end
+
+  #can't use has_one :channel, it generates stacklevel too deep
+  def channel
+    return {} if object.channel.nil?
+    {name: object.channel.name, id: object.channel.to_param}
   end
 
   # Use hash_token as ID
@@ -27,11 +33,6 @@ class StreamSerializer < ActiveModel::Serializer
 
   def properties
     {"geo_reference" => object.geo_reference}
-  end
-
-
-  def channels
-    object.channels.map(&:to_param)
   end
 
   #format this date

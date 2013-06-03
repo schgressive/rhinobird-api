@@ -6,35 +6,62 @@ describe StreamsController do
     @stream = create(:stream)
   end
 
-  context "GET #index" do
-    before do
-      get :index
-      @streams = JSON.parse(response.body)
+  describe "GET #index" do
+    context "without a channel" do
+      before do
+        get :index
+        @streams = JSON.parse(response.body)
+      end
+
+      it "returns success code" do
+        expect(response.status).to be(200)
+      end
+
+      it "returns correct content type" do
+        expect(response.header['Content-Type']).to include("application/json")
+      end
+
+      it "returns an array of items" do
+        expect(@streams).to have(1).items
+        expect(@streams[0]["id"]).to eq(@stream.to_param)
+        expect(@streams[0]["title"]).to eq(@stream.title)
+      end
     end
 
-    it "returns success code" do
-      expect(response.status).to be(200)
-    end
+    context "with a channel" do
+      before do
+        create(:stream)
+        @channel = create(:channel, streams: [create(:stream), create(:stream)])
+        get :index, channel_id: @channel.id
+        @streams = JSON.parse(response.body)
+      end
 
-    it "returns correct content type" do
-      expect(response.header['Content-Type']).to include("application/json")
-    end
+      it "returns success code" do
+        expect(response.status).to be(200)
+      end
 
-    it "returns an array of items" do
-      expect(@streams).to have(1).items
-      expect(@streams[0]["id"]).to eq(@stream.to_param)
-      expect(@streams[0]["title"]).to eq(@stream.title)
+      it "returns correct content type" do
+        expect(response.header['Content-Type']).to include("application/json")
+      end
+
+      it "returns the streams related to this channel" do
+        expect(@streams).to have(2).items
+      end
     end
 
   end
 
   context "POST #create" do
 
-    before do
+    before(:each) do
+      File.open(Rails.root + "spec/factories/images/rails_base64.txt") do |file|
+        @image_base64 = "data:image/jpg;base64,#{file.read}"
+      end
+
       @post_hash = {title: 'stream from POST JSON',
                     desc: "Test POST", lat: -25.272062301637, lng: -57.585376739502,
                     geo_reference: 'Unkown location',
-                    thumbnail: Rack::Test::UploadedFile.new(Rails.root + 'spec/factories/images/rails.png', "image/png")}
+                    thumb: @image_base64}
 
       post :create, @post_hash
       @json_stream = JSON.parse(response.body)
@@ -52,10 +79,13 @@ describe StreamsController do
       expect(@json_stream["title"]).to eq(@post_hash[:title])
       expect(@json_stream["desc"]).to eq(@post_hash[:desc])
       expect(@json_stream["id"]).not_to be("")
-      expect(@json_stream["channels"]).to eq([])
-      expect(@json_stream["thumbs"]["small"]).to match(/rails.png/)
-      expect(@json_stream["thumbs"]["medium"]).to match(/rails.png/)
-      expect(@json_stream["thumbs"]["large"]).to match(/rails.png/)
+      expect(@json_stream["channel"]).to be_empty
+    end
+
+    it "returns a thumb information" do
+      expect(@json_stream["thumbs"]["small"]).to match(/image.jpg/)
+      expect(@json_stream["thumbs"]["medium"]).to match(/image.jpg/)
+      expect(@json_stream["thumbs"]["large"]).to match(/image.jpg/)
     end
 
     it "has a valid geoJSON format" do
@@ -69,7 +99,12 @@ describe StreamsController do
 
   context "GET #show" do
     before do
-      @new_stream = create(:stream, lat: -25.272062301637, lng: -57.585376739502, id: "123", channels: [create(:channel)], thumbnail: File.new(Rails.root + 'spec/factories/images/rails.png'))
+      File.open(Rails.root + "spec/factories/images/rails_base64.txt") do |file|
+        @image_base64 = "data:image/jpg;base64,#{file.read}"
+      end
+
+      @channel = create(:channel)
+      @new_stream = create(:stream, lat: -25.272062301637, lng: -57.585376739502, id: "123", channel: @channel, thumb: @image_base64)
       get :show, id: @new_stream.id
       @json_stream = JSON.parse(response.body)
     end
@@ -87,10 +122,11 @@ describe StreamsController do
       expect(@json_stream["title"]).to eq(@new_stream.title)
       expect(@json_stream["desc"]).to eq(@new_stream.desc)
       expect(@json_stream["started_on"]).to eq(@new_stream.started_on.to_s(:api))
-      expect(@json_stream["channels"]).to eq(@new_stream.channels.map(&:to_param))
-      expect(@json_stream["thumbs"]["small"]).to match(/rails.png/)
-      expect(@json_stream["thumbs"]["medium"]).to match(/rails.png/)
-      expect(@json_stream["thumbs"]["large"]).to match(/rails.png/)
+      expect(@json_stream["thumbs"]["small"]).to match(/image.jpg/)
+      expect(@json_stream["thumbs"]["medium"]).to match(/image.jpg/)
+      expect(@json_stream["thumbs"]["large"]).to match(/image.jpg/)
+      expect(@json_stream["channel"]["id"]).to eq(@channel.to_param)
+      expect(@json_stream["channel"]["name"]).to eq(@channel.name)
     end
 
     it "has a valid geoJSON format" do

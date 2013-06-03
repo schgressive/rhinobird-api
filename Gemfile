@@ -7,6 +7,7 @@ gem "active_model_serializers", "~> 0.7.0"
 gem 'strong_parameters'
 gem 'jquery-rails'
 gem 'friendly_id'
+gem 'paperclip', "~> 3.0"
 
 group :development do
   gem 'debugger', :require => 'ruby-debug'

@@ -21,9 +21,9 @@ class StreamSerializer < ActiveModel::Serializer
 
   def thumbs
     {
-      small: object.thumbnail.url(:small),
-      medium: object.thumbnail.url(:medium),
-      large: object.thumbnail.url(:large)
+      small: object.thumbnail_full_url(:small),
+      medium: object.thumbnail_full_url(:medium),
+      large: object.thumbnail_full_url(:large)
     }
   end
 

@@ -32,10 +32,19 @@ class Stream < ActiveRecord::Base
     content = content.split(":").last
 
     PaperclipAttachment.open(Base64.decode64(base64)) do |data|
-      data.original_filename = "image.jpg"
+      data.original_filename = "thumb.jpg"
       data.content_type = content
       self.thumbnail = data
     end
+  end
+
+  #Returns the thumbnail full URL
+  def thumbnail_full_url(size)
+    url = self.thumbnail.url(size)
+    unless url =~ /^http:\/\//
+      url = URI.join(Rails.application.config.host, url).to_s
+    end
+    url
   end
 
   private

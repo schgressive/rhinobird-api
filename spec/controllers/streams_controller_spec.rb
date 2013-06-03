@@ -31,7 +31,10 @@ describe StreamsController do
   context "POST #create" do
 
     before do
-      @post_hash = {title: 'stream from POST JSON', desc: "Test POST", lat: -25.272062301637, lng: -57.585376739502, geo_reference: 'Unkown location'}
+      @post_hash = {title: 'stream from POST JSON',
+                    desc: "Test POST", lat: -25.272062301637, lng: -57.585376739502,
+                    geo_reference: 'Unkown location',
+                    thumbnail: Rack::Test::UploadedFile.new(Rails.root + 'spec/factories/images/rails.png', "image/png")}
 
       post :create, @post_hash
       @json_stream = JSON.parse(response.body)
@@ -50,6 +53,9 @@ describe StreamsController do
       expect(@json_stream["desc"]).to eq(@post_hash[:desc])
       expect(@json_stream["id"]).not_to be("")
       expect(@json_stream["channels"]).to eq([])
+      expect(@json_stream["thumbs"]["small"]).to match(/rails.png/)
+      expect(@json_stream["thumbs"]["medium"]).to match(/rails.png/)
+      expect(@json_stream["thumbs"]["large"]).to match(/rails.png/)
     end
 
     it "has a valid geoJSON format" do
@@ -63,7 +69,7 @@ describe StreamsController do
 
   context "GET #show" do
     before do
-      @new_stream = create(:stream, lat: -25.272062301637, lng: -57.585376739502, id: "123", channels: [create(:channel)])
+      @new_stream = create(:stream, lat: -25.272062301637, lng: -57.585376739502, id: "123", channels: [create(:channel)], thumbnail: File.new(Rails.root + 'spec/factories/images/rails.png'))
       get :show, id: @new_stream.id
       @json_stream = JSON.parse(response.body)
     end
@@ -82,6 +88,9 @@ describe StreamsController do
       expect(@json_stream["desc"]).to eq(@new_stream.desc)
       expect(@json_stream["started_on"]).to eq(@new_stream.started_on.to_s(:api))
       expect(@json_stream["channels"]).to eq(@new_stream.channels.map(&:to_param))
+      expect(@json_stream["thumbs"]["small"]).to match(/rails.png/)
+      expect(@json_stream["thumbs"]["medium"]).to match(/rails.png/)
+      expect(@json_stream["thumbs"]["large"]).to match(/rails.png/)
     end
 
     it "has a valid geoJSON format" do

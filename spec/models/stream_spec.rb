@@ -7,6 +7,10 @@ describe Stream do
     expect(stream).to be_valid
   end
 
+  context "Attachments" do
+    it { should have_attached_file(:thumbnail)}
+  end
+
   context "validations" do
     it "requires a Description" do
       stream = build(:stream, desc: '')

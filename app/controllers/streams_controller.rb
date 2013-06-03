@@ -23,6 +23,6 @@ class StreamsController < ApplicationController
   private
 
   def stream_params
-    params.permit(:title, :desc, :lat, :lng, :geo_reference)
+    params.permit(:title, :desc, :lat, :lng, :geo_reference, :thumbnail)
   end
 end

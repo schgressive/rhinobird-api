@@ -4,6 +4,12 @@ class Stream < ActiveRecord::Base
   before_create :setup_stream
   has_and_belongs_to_many :channels
 
+  has_attached_file :thumbnail, styles: {
+    small: '48x48>',
+    medium: '100x100>',
+    large: '240x240>'
+  }
+
   extend FriendlyId
   friendly_id :hash_token
 

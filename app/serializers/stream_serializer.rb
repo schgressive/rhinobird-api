@@ -1,5 +1,5 @@
 class StreamSerializer < ActiveModel::Serializer
-  attributes :id, :url, :title, :desc, :started_on, :channels, :type, :properties, :geometry
+  attributes :id, :url, :title, :desc, :started_on, :channels, :type, :properties, :geometry, :thumbs
   self.root = false
 
 
@@ -11,6 +11,14 @@ class StreamSerializer < ActiveModel::Serializer
   # Use hash_token as ID
   def id
     object.to_param
+  end
+
+  def thumbs
+    {
+      small: object.thumbnail.url(:small),
+      medium: object.thumbnail.url(:medium),
+      large: object.thumbnail.url(:large)
+    }
   end
 
   def geometry

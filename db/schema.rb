@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130409133352) do
+ActiveRecord::Schema.define(:version => 20130409125048) do
 
   create_table "channels", :force => true do |t|
     t.string   "name"
@@ -22,11 +22,6 @@ ActiveRecord::Schema.define(:version => 20130409133352) do
 
   add_index "channels", ["hash_token"], :name => "index_channels_on_hash_token", :unique => true
 
-  create_table "channels_streams", :id => false, :force => true do |t|
-    t.integer "stream_id"
-    t.integer "channel_id"
-  end
-
   create_table "streams", :force => true do |t|
     t.string   "url"
     t.string   "title"
@@ -35,11 +30,13 @@ ActiveRecord::Schema.define(:version => 20130409133352) do
     t.decimal  "lat",           :precision => 18, :scale => 12
     t.decimal  "lng",           :precision => 18, :scale => 12
     t.string   "geo_reference"
+    t.integer  "channel_id"
     t.datetime "started_on"
     t.datetime "created_at",                                    :null => false
     t.datetime "updated_at",                                    :null => false
   end
 
+  add_index "streams", ["channel_id"], :name => "index_streams_on_channel_id"
   add_index "streams", ["hash_token"], :name => "index_streams_on_hash_token", :unique => true
 
 end

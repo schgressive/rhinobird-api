@@ -11,6 +11,11 @@ describe Stream do
     expect(stream).to be_valid
   end
 
+  describe "relations" do
+    it { should belong_to(:channel) }
+  end
+
+
   context "validations" do
     it "requires a title" do
       stream = build(:stream, title: '')

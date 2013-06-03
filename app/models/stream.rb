@@ -2,13 +2,13 @@ class Stream < ActiveRecord::Base
   validates :title, presence: true
 
   before_create :setup_stream
-  has_and_belongs_to_many :channels
+  belongs_to :channel
 
   extend FriendlyId
   friendly_id :hash_token
 
   #scopes
-  scope :by_channel, -> channel_id { joins(:channels).where("channel_id = ?", channel_id) }
+  scope :by_channel, -> channel_id { where("channel_id = ?", channel_id) }
 
   def setup_stream
     self.hash_token = Digest::MD5.hexdigest(self.inspect + Time.now.to_s)

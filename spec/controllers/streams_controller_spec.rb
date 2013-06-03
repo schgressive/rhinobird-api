@@ -72,7 +72,7 @@ describe StreamsController do
       expect(@json_stream["title"]).to eq(@post_hash[:title])
       expect(@json_stream["desc"]).to eq(@post_hash[:desc])
       expect(@json_stream["id"]).not_to be("")
-      expect(@json_stream["channels"]).to eq([])
+      expect(@json_stream["channel"]).to be_empty
     end
 
     it "has a valid geoJSON format" do
@@ -86,7 +86,8 @@ describe StreamsController do
 
   context "GET #show" do
     before do
-      @new_stream = create(:stream, lat: -25.272062301637, lng: -57.585376739502, id: "123", channels: [create(:channel)])
+      @channel = create(:channel)
+      @new_stream = create(:stream, lat: -25.272062301637, lng: -57.585376739502, id: "123", channel: @channel)
       get :show, id: @new_stream.id
       @json_stream = JSON.parse(response.body)
     end
@@ -104,7 +105,8 @@ describe StreamsController do
       expect(@json_stream["title"]).to eq(@new_stream.title)
       expect(@json_stream["desc"]).to eq(@new_stream.desc)
       expect(@json_stream["started_on"]).to eq(@new_stream.started_on.to_s(:api))
-      expect(@json_stream["channels"]).to eq(@new_stream.channels.map(&:to_param))
+      expect(@json_stream["channel"]["id"]).to eq(@channel.to_param)
+      expect(@json_stream["channel"]["name"]).to eq(@channel.name)
     end
 
     it "has a valid geoJSON format" do

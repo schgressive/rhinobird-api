@@ -31,5 +31,24 @@ describe TagsController do
 
   end
 
+  describe "DELETE #destroy" do
+    before(:each) do
+      @stream = create(:stream, tags: [create(:tag, name: "mytag")])
+    end
+
+    it "returns success code" do
+      delete :destroy, {stream_id: @stream.id, id: "mytag" }
+      expect(response.status).to be(204)
+    end
+
+    it "keeps the removed tag in the database" do
+      expect{delete :destroy, {stream_id: @stream.id, id: "mytag" }}.not_to change{Tag.count}.by(-1)
+    end
+
+    it "removes the tag from the stream" do
+      expect{delete :destroy, {stream_id: @stream.id, id: "mytag" }}.to change{@stream.tags.count}.by(-1)
+    end
+  end
+
 
 end

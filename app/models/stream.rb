@@ -44,7 +44,12 @@ class Stream < ActiveRecord::Base
   #assigns a new tag to a stream
   def add_tag(tag_name)
     tag = Tag.find_or_create_by_name(tag_name)
-    self.tags << Tag.find_or_create_by_name(tag_name) unless self.tags.include?(tag)
+    self.tags << tag unless self.tags.include?(tag)
+  end
+
+  def remove_tag(tag_name)
+    tag = Tag.find(tag_name)
+    self.tags.delete(tag)
   end
 
   private

@@ -23,6 +23,32 @@ describe Stream do
     end
   end
 
+  context "#add_tags" do
+    before(:each) do
+      @stream = create(:stream)
+    end
+
+    it "assigns a new tag" do
+      expect{@stream.add_tag("new_tag")}.to change{@stream.tags.count}.by(1)
+    end
+
+    it "creates the tag if it doesn't exist" do
+      expect{@stream.add_tag("new_tag")}.to change{Tag.count}.by(1)
+    end
+
+    it "adds an existing tag to the stream" do
+      @tag = create(:tag, name: "new_tag")
+      expect{@stream.add_tag("new_tag")}.to change{Tag.count}.by(0)
+    end
+
+    it "skips a tag if its already added" do
+      @tag = create(:tag, name: "new_tag")
+      @stream.add_tag @tag.name
+      expect{@stream.add_tag("new_tag")}.to change{@stream.tags.count}.by(0)
+      expect{@stream.add_tag("new_tag")}.to change{Tag.count}.by(0)
+    end
+  end
+
   context "creating streams" do
 
     let(:stream) { create(:stream) }

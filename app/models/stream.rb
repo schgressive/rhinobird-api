@@ -40,6 +40,13 @@ class Stream < ActiveRecord::Base
     end
   end
 
+
+  #assigns a new tag to a stream
+  def add_tag(tag_name)
+    tag = Tag.find_or_create_by_name(tag_name)
+    self.tags << Tag.find_or_create_by_name(tag_name) unless self.tags.include?(tag)
+  end
+
   private
   class PaperclipAttachment < StringIO
     attr_accessor :original_filename, :content_type

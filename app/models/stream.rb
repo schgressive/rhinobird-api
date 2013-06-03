@@ -2,7 +2,9 @@ class Stream < ActiveRecord::Base
   validates :title, presence: true
 
   before_create :setup_stream
+
   belongs_to :channel
+  has_and_belongs_to_many :tags
 
   has_attached_file :thumbnail, styles: {
     small: '33%',

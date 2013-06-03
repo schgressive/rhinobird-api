@@ -12,6 +12,7 @@ describe Stream do
 
   describe "relations" do
     it { should belong_to(:channel) }
+    it { should have_and_belong_to_many(:tags) }
   end
 
 

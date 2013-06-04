@@ -1,4 +1,6 @@
 class RegistrationsController < Devise::RegistrationsController
+  skip_before_filter :require_no_authentication
+  skip_before_filter :verify_authenticity_token
   def create
     build_resource
     resource.skip_confirmation!

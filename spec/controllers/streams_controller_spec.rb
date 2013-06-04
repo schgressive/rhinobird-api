@@ -51,6 +51,25 @@ describe StreamsController do
 
   end
 
+  context "PUT #update" do
+    before(:each) do
+      @channel = create(:channel)
+      @stream = create(:stream)
+    end
+
+    it "assigns the channel to the stream" do
+      expect{put :update, channel_id: @channel.id, id: @stream.id}.to change{@channel.streams.count}.by(1)
+    end
+
+    it "returns the added stream" do
+      put :update, channel_id: @channel.id, id: @stream.id
+      stream = JSON.parse(response.body)
+      expect(stream["id"]).to eql(@stream.to_param)
+      expect(stream["channel"]["id"]).to eql(@channel.to_param)
+    end
+
+  end
+
   context "POST #create" do
 
     before do

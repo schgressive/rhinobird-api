@@ -10,7 +10,9 @@ class Stream < ActiveRecord::Base
     small: '33%',
     medium: '66%',
     large: '100%'
-  }
+  },
+    url: "/system/:hash-:style.:extension",
+    hash_secret: "hash_secret"
 
   extend FriendlyId
   friendly_id :hash_token
@@ -34,7 +36,7 @@ class Stream < ActiveRecord::Base
     content = content.split(":").last
 
     PaperclipAttachment.open(Base64.decode64(base64)) do |data|
-      data.original_filename = "image.jpg"
+      data.original_filename = "thumb.jpg"
       data.content_type = content
       self.thumbnail = data
     end
@@ -50,6 +52,15 @@ class Stream < ActiveRecord::Base
   def remove_tag(tag_name)
     tag = Tag.find(tag_name)
     self.tags.delete(tag)
+  end
+
+  #Returns the thumbnail full URL
+  def thumbnail_full_url(size)
+    url = self.thumbnail.url(size)
+    unless url =~ /^http:\/\//
+      url = URI.join(Rails.application.config.host, url).to_s
+    end
+    url
   end
 
   private

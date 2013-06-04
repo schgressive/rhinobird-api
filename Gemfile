@@ -9,6 +9,7 @@ gem 'jquery-rails'
 gem 'ruby-hmac'
 gem 'friendly_id'
 gem 'rack-cors', :require => 'rack/cors'
+gem 'devise'
 
 group :development do
   gem 'debugger', :require => 'ruby-debug'

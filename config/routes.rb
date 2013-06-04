@@ -1,10 +1,22 @@
 PeepoltvApi::Application.routes.draw do
+  get "sessions/create"
+
   resources :channels, only: [:create, :show, :index, :destroy] do
     resources :streams, only: [:index]
   end
 
   resources :streams, only: [:create, :show, :index, :destroy]
 
+  scope :api do
+    scope :v1 do
+      devise_for :users
+      devise_scope :user do
+        post 'registration' => 'registrations#create', as: 'register'
+        post 'sessions' => 'sessions#create', :as => 'login'
+        delete 'sessions' => 'sessions#destroy', :as => 'logout'
+      end
+    end
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

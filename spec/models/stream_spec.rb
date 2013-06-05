@@ -1,14 +1,13 @@
 require 'spec_helper'
 
 describe Stream do
-  before(:each) do
-    nuve = stub_const('NUVE', Class.new)
-    nuve.stub(:createRoom).and_return('{"_id": "' + Digest::MD5.hexdigest(Time.now.to_f.to_s)  +  '"}')
-  end
-
-  it "has a valid factory" do 
+  it "has a valid factory" do
     stream = build(:stream)
     expect(stream).to be_valid
+  end
+
+  context "Attachments" do
+    it { should have_attached_file(:thumbnail)}
   end
 
   describe "relations" do
@@ -24,7 +23,17 @@ describe Stream do
   end
 
   context "creating streams" do
+
     let(:stream) { create(:stream) }
+
+    it "adds a thumbnail from a base64" do
+      File.open(Rails.root + "spec/factories/images/rails_base64.txt") do |file|
+        @image_base64 = "data:image/jpg;base64,#{file.read}"
+      end
+      stream.thumb = @image_base64
+      stream.save!
+      expect(stream.thumbnail.exists?).to be_true
+    end
 
     it "assigns a new MD5 for the ID" do
       expect(stream.hash_token).to match(/^[a-zA-Z0-9]{32}$/)

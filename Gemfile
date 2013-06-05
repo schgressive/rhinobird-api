@@ -8,6 +8,7 @@ gem 'strong_parameters'
 gem 'jquery-rails'
 gem 'ruby-hmac'
 gem 'friendly_id'
+gem 'paperclip', "~> 3.0"
 gem 'rack-cors', :require => 'rack/cors'
 
 group :development do

@@ -72,8 +72,15 @@ describe StreamsController do
 
   context "POST #create" do
 
-    before do
-      @post_hash = {title: 'stream from POST JSON', desc: "Test POST", lat: -25.272062301637, lng: -57.585376739502, geo_reference: 'Unkown location'}
+    before(:each) do
+      File.open(Rails.root + "spec/factories/images/rails_base64.txt") do |file|
+        @image_base64 = "data:image/jpg;base64,#{file.read}"
+      end
+
+      @post_hash = {title: 'stream from POST JSON',
+                    desc: "Test POST", lat: -25.272062301637, lng: -57.585376739502,
+                    geo_reference: 'Unkown location',
+                    thumb: @image_base64}
 
       post :create, @post_hash
       @json_stream = JSON.parse(response.body)
@@ -94,6 +101,12 @@ describe StreamsController do
       expect(@json_stream["channel"]).to be_empty
     end
 
+    it "returns a thumb information" do
+      expect(@json_stream["thumbs"]["small"]).to match(/^http:\/\/.*small.jpg/)
+      expect(@json_stream["thumbs"]["medium"]).to match(/^http:\/\/.*medium.jpg/)
+      expect(@json_stream["thumbs"]["large"]).to match(/^http:\/\/.*large.jpg/)
+    end
+
     it "has a valid geoJSON format" do
       expect(@json_stream["type"]).to eq("Feature")
       expect(@json_stream["geometry"]["type"]).to eq("Point")
@@ -105,8 +118,12 @@ describe StreamsController do
 
   context "GET #show" do
     before do
+      File.open(Rails.root + "spec/factories/images/rails_base64.txt") do |file|
+        @image_base64 = "data:image/jpg;base64,#{file.read}"
+      end
+
       @channel = create(:channel)
-      @new_stream = create(:stream, lat: -25.272062301637, lng: -57.585376739502, id: "123", channel: @channel)
+      @new_stream = create(:stream, lat: -25.272062301637, lng: -57.585376739502, id: "123", channel: @channel, thumb: @image_base64)
       get :show, id: @new_stream.id
       @json_stream = JSON.parse(response.body)
     end
@@ -124,6 +141,9 @@ describe StreamsController do
       expect(@json_stream["title"]).to eq(@new_stream.title)
       expect(@json_stream["desc"]).to eq(@new_stream.desc)
       expect(@json_stream["started_on"]).to eq(@new_stream.started_on.to_s(:api))
+      expect(@json_stream["thumbs"]["small"]).to match(/^http:\/\/.*small.jpg/)
+      expect(@json_stream["thumbs"]["medium"]).to match(/^http:\/\/.*medium.jpg/)
+      expect(@json_stream["thumbs"]["large"]).to match(/^http:\/\/.*large.jpg/)
       expect(@json_stream["channel"]["id"]).to eq(@channel.to_param)
       expect(@json_stream["channel"]["name"]).to eq(@channel.name)
     end

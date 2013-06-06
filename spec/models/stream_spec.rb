@@ -12,6 +12,7 @@ describe Stream do
 
   describe "relations" do
     it { should belong_to(:channel) }
+    it { should have_and_belong_to_many(:tags) }
   end
 
 
@@ -19,6 +20,32 @@ describe Stream do
     it "requires a title" do
       stream = build(:stream, title: '')
       expect(stream).to be_invalid
+    end
+  end
+
+  context "#add_tags" do
+    before(:each) do
+      @stream = create(:stream)
+    end
+
+    it "assigns a new tag" do
+      expect{@stream.add_tag("new_tag")}.to change{@stream.tags.count}.by(1)
+    end
+
+    it "creates the tag if it doesn't exist" do
+      expect{@stream.add_tag("new_tag")}.to change{Tag.count}.by(1)
+    end
+
+    it "adds an existing tag to the stream" do
+      @tag = create(:tag, name: "new_tag")
+      expect{@stream.add_tag("new_tag")}.to change{Tag.count}.by(0)
+    end
+
+    it "skips a tag if its already added" do
+      @tag = create(:tag, name: "new_tag")
+      @stream.add_tag @tag.name
+      expect{@stream.add_tag("new_tag")}.to change{@stream.tags.count}.by(0)
+      expect{@stream.add_tag("new_tag")}.to change{Tag.count}.by(0)
     end
   end
 

@@ -1,7 +1,8 @@
 class StreamSerializer < ActiveModel::Serializer
-  attributes :id, :url, :title, :desc, :started_on, :type, :properties, :geometry, :channel, :token
+  attributes :id, :url, :title, :desc, :started_on, :type, :properties, :geometry, :channel, :token, :thumbs
   self.root = false
 
+  has_many :tags, embed: :ids, key: :tags, embed_key: :to_param
 
   #to make valid geoJSON
   def type
@@ -17,6 +18,14 @@ class StreamSerializer < ActiveModel::Serializer
   # Use hash_token as ID
   def id
     object.to_param
+  end
+
+  def thumbs
+    {
+      small: object.thumbnail_full_url(:small),
+      medium: object.thumbnail_full_url(:medium),
+      large: object.thumbnail_full_url(:large)
+    }
   end
 
   def geometry

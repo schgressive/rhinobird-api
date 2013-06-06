@@ -1,11 +1,12 @@
 PeepoltvApi::Application.routes.draw do
-  get "sessions/create"
 
   resources :channels, only: [:create, :show, :index, :destroy] do
     resources :streams, only: [:index]
   end
 
-  resources :streams, only: [:create, :show, :index, :destroy]
+  resources :streams, only: [:create, :show, :index, :destroy] do
+    resources :tags, only: [:create, :destroy]
+  end
 
   scope :api do
     scope :v1 do

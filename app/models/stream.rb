@@ -2,7 +2,9 @@ class Stream < ActiveRecord::Base
   validates :title, presence: true
 
   before_create :setup_stream
+
   belongs_to :channel
+  has_and_belongs_to_many :tags
 
   has_attached_file :thumbnail, styles: {
     small: '33%',
@@ -38,6 +40,18 @@ class Stream < ActiveRecord::Base
       data.content_type = content
       self.thumbnail = data
     end
+  end
+
+
+  #assigns a new tag to a stream
+  def add_tag(tag_name)
+    tag = Tag.find_or_create_by_name(tag_name)
+    self.tags << tag unless self.tags.include?(tag)
+  end
+
+  def remove_tag(tag_name)
+    tag = Tag.find(tag_name)
+    self.tags.delete(tag)
   end
 
   #Returns the thumbnail full URL

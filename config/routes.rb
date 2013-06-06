@@ -1,9 +1,12 @@
 PeepoltvApi::Application.routes.draw do
+
   resources :channels, only: [:create, :show, :index, :destroy] do
     resources :streams, only: [:index]
   end
 
-  resources :streams, only: [:create, :show, :index, :destroy]
+  resources :streams, only: [:create, :show, :index, :destroy] do
+    resources :tags, only: [:create, :destroy]
+  end
 
 
   # The priority is based upon order of creation:

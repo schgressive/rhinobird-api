@@ -22,6 +22,14 @@ class StreamsController < ApplicationController
     head :no_content
   end
 
+  def update
+    @stream = Stream.find(params[:id])
+    @stream.channel = Channel.find(params[:channel_id])
+    @stream.save
+
+    render json: @stream, status: :created
+  end
+
   private
 
   def stream_params

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe ChannelsController do
-  describe "routing" do 
+  describe "routing" do
     it "routes to #index" do
       expect(get: "/channels").to route_to("channels#index")
     end
@@ -12,6 +12,10 @@ describe ChannelsController do
 
     it "routes to #streams" do
       expect(get: "/channels/1/streams").to route_to("streams#index", channel_id: "1")
+    end
+
+    it "routes to #update" do
+      expect(put: "/channels/1/streams/1").to route_to("streams#update", channel_id: "1", id: "1")
     end
 
     it "routes to #show" do

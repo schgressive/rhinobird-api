@@ -1,7 +1,8 @@
 PeepoltvApi::Application.routes.draw do
 
   resources :channels, only: [:create, :show, :index, :destroy] do
-    resources :streams, only: [:index]
+    resources :streams, only: [:index, :update] do
+    end
   end
 
   resources :streams, only: [:create, :show, :index, :destroy] do

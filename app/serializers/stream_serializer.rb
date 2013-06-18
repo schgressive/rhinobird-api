@@ -38,7 +38,7 @@ class StreamSerializer < ActiveModel::Serializer
 
   #format this date
   def started_on
-    object.started_on.to_s(:api)
+    object.started_on.to_s(:api) if object.started_on
   end
 
 end

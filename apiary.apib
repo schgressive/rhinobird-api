@@ -683,3 +683,72 @@ POST /bonds
 Removes a bond between channel and stream
 DELETE /bonds/{id}
 < 204
+
+
+--
+Registration Resource
+This resource adds registration to the system
+
+###Registration Properties
+- id (int): User ID
+- email (string): email to register
+- password (string): account desired password
+- name (string): Name of account
+--
+
+Creates a new user into the system
+POST /registrations
+> Content-Type: application/json
+> Accept: application/json
+{
+    "user": {
+        "email": "sirius@peepol.tv",
+        "password": "12345678,
+        "name": "Sirius Black"
+    }
+}
+< 201
+{
+    "success": "true",
+    "info": "Registered",
+    "data": {
+        "user": {
+            "email": "sirius@peepol.tv",
+            "name": "Sirius Black",
+            "id": 1
+        }
+    }
+}
+
+
+
+--
+Sessions Resource
+This resource adds session management
+
+###Session Properties
+- email (string): email to register
+- password (string): account desired password
+- name (string): Name of account
+--
+
+Logs a user into the system
+POST /sessions
+> Content-Type: application/json
+> Accept: application/json
+{
+    "email": "sirius@peepol.tv",
+    "password": "12345678"
+}
+< 201
+{
+    "auth_token": "XXXXXXXXXXXXXXXXXXX",
+    "email": "sirius@peepol.tv"
+}
+
+
+Logs the user off
+DELETE /session/{email}
+< 204
+
+

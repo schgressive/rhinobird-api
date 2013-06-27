@@ -67,14 +67,32 @@ describe SessionsController do
 
   describe "DELETE #destroy" do
 
-    context "with valid email" do
+    context "not logged in" do
 
       before(:each) do
         @user = create(:user, email: 'sirius@peepol.tv', password: '12345678')
         @user.confirm!
         @request.env["devise.mapping"] = Devise.mappings[:user]
 
-        delete :destroy, email: @user.email
+        delete :destroy
+        @json_response = JSON.parse(response.body)
+      end
+
+      it "returns invalid credentials code" do
+        expect(response.status).to be(401)
+      end
+
+    end
+
+    context "logged in" do
+
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:user]
+        user = FactoryGirl.create(:user, email: "test_user@platan.us", password: '12345678')
+        user.confirmed_at = Time.now
+        user.ensure_authentication_token!
+
+        delete :destroy, auth_token: user.authentication_token
         @json_response = JSON.parse(response.body)
       end
 
@@ -83,26 +101,6 @@ describe SessionsController do
       end
 
     end
-
-    context "with unknown email" do
-
-      before(:each) do
-        @user = create(:user, email: 'sirius@peepol.tv', password: '12345678')
-        @user.confirm!
-        @request.env["devise.mapping"] = Devise.mappings[:user]
-
-        delete :destroy, email: "nobody@peepol.tv"
-        @json_response = JSON.parse(response.body)
-      end
-
-      it "returns a success code" do
-        expect(response.status).to be(401)
-      end
-
-    end
-
-
-
 
   end
 

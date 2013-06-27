@@ -15,6 +15,7 @@ PeepoltvApi::Application.routes.draw do
       devise_scope :user do
         post 'registration' => 'registrations#create', as: 'register'
         post 'sessions' => 'sessions#create', :as => 'login'
+        get 'sessions' => 'sessions#show', :as => 'show'
         delete 'sessions' => 'sessions#destroy', :as => 'logout'
       end
     end

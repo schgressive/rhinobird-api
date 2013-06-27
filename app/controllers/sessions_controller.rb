@@ -16,11 +16,21 @@ class SessionsController < Devise::SessionsController
     invalid_login_attempt
   end
 
+  def show
+    resource = current_user
+    if resource
+      render json: {auth_token: resource.authentication_token, email: resource.email}, status: :created
+    else
+      render json: {}, status: 401
+    end
+  end
+
   def destroy
-    resource = User.find_for_database_authentication(:email => params[:email])
+    resource = current_user
     if resource
       resource.authentication_token = nil
       resource.save
+      sign_out resource
       render :json=> {}, status: :accepted
     else
       render json: {}, status: 401

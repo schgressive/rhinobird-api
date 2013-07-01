@@ -10,6 +10,7 @@ gem 'ruby-hmac'
 gem 'friendly_id'
 gem 'paperclip', "~> 3.0"
 gem 'rack-cors', :require => 'rack/cors'
+gem 'devise'
 
 group :development do
   gem 'debugger', :require => 'ruby-debug'

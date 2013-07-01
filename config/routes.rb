@@ -9,6 +9,17 @@ PeepoltvApi::Application.routes.draw do
     resources :tags, only: [:create, :destroy]
   end
 
+  scope :api do
+    scope :v1 do
+      devise_for :users
+      devise_scope :user do
+        post 'registration' => 'registrations#create', as: 'register'
+        post 'sessions' => 'sessions#create', :as => 'login'
+        get 'sessions' => 'sessions#show', :as => 'show'
+        delete 'sessions' => 'sessions#destroy', :as => 'logout'
+      end
+    end
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

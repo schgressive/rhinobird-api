@@ -6,7 +6,7 @@ describe SessionsController do
 
     before(:each) do
       @user = create(:user, email: 'sirius@peepol.tv', password: '12345678')
-      @user.confirm!
+      #@user.confirm!
       @request.env["devise.mapping"] = Devise.mappings[:user]
     end
 
@@ -71,7 +71,7 @@ describe SessionsController do
 
       before(:each) do
         @user = create(:user, email: 'sirius@peepol.tv', password: '12345678')
-        @user.confirm!
+#        @user.confirm!
         @request.env["devise.mapping"] = Devise.mappings[:user]
 
         delete :destroy

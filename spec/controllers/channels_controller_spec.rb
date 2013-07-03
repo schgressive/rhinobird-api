@@ -40,7 +40,7 @@ describe ChannelsController do
       expect(response.header['Content-Type']).to include("application/json")
     end
 
-    it "returns correct json structure" do 
+    it "returns correct json structure" do
       expect(@json_channel["id"]).to eq(@new_channel.hash_token)
       expect(@json_channel["name"]).to eq(@new_channel.name)
       expect(@json_channel["created_at"]).to eq(@new_channel.created_at.to_s(:api))
@@ -57,47 +57,94 @@ describe ChannelsController do
 
   describe "POST #create" do
 
-    before do
-      @post_hash = {name: 'MyNewChannel123'}
+    context "logged in" do
 
-      post :create, @post_hash
-      @json_channel = JSON.parse(response.body)
+      login_user
+
+      before do
+        @post_hash = {name: 'MyNewChannel123'}
+
+        post :create, @post_hash
+        @json_channel = JSON.parse(response.body)
+      end
+
+      it "returns success code" do
+        expect(response.status).to be(201)
+      end
+
+      it "increments the channel count" do
+        expect{post :create, {name: 'Testchannelcreation'}}.to change(Channel, :count).by(1)
+      end
+
+      it "returns correct content type" do
+        expect(response.header['Content-Type']).to include("application/json")
+      end
+
+      it "returns a new channel object" do
+        expect(@json_channel["id"]).not_to be("")
+        expect(@json_channel["name"]).to eq(@post_hash[:name])
+        expect(@json_channel["streams"]).to eq([])
+        expect(@json_channel["streams_count"]).to eq(0)
+        expect(@json_channel["created_at"]).not_to be_empty
+      end
     end
 
-    it "returns success code" do
-      expect(response.status).to be(201)
-    end
+    context "not logged" do
 
-    it "increments the channel count" do
-      expect{post :create, {name: 'Testchannelcreation'}}.to change(Channel, :count).by(1)
-    end
+      before do
+        post :create, name: "MyNewChannel123", format: 'json'
+        @json_channel = JSON.parse(response.body)
+      end
 
-    it "returns correct content type" do
-      expect(response.header['Content-Type']).to include("application/json")
-    end
+      it "returns access denied code" do
+        expect(response.status).to be(401)
+      end
 
-    it "returns a new channel object" do
-      expect(@json_channel["id"]).not_to be("")
-      expect(@json_channel["name"]).to eq(@post_hash[:name])
-      expect(@json_channel["streams"]).to eq([])
-      expect(@json_channel["streams_count"]).to eq(0)
-      expect(@json_channel["created_at"]).not_to be_empty
+      it "doesn't change the channel count" do
+        expect{post :create, name: 'Testchannelcreation', format: :json}.not_to change(Channel, :count).by(1)
+      end
+
+      it "returns a new channel object" do
+        expect(@json_channel["error"]).to include('need to sign')
+      end
     end
 
   end
 
   describe "DELETE #destroy" do
-    before do
-      @delete_channel = create(:channel)
+
+    context "logged in" do
+
+      login_user
+
+      before do
+        @delete_channel = create(:channel)
+      end
+
+      it "returns no content status" do
+        delete :destroy, id: @delete_channel.id, format: :json
+        expect(response.status).to be(204)
+      end
+
+      it "decreses the channel count" do
+        expect{delete :destroy, id: @delete_channel.id, format: :json}.to change(Channel, :count).by(-1)
+      end
     end
 
-    it "returns no content status" do
-      delete :destroy, id: @delete_channel.id
-      expect(response.status).to be(204)
-    end
 
-    it "decreses the channel count" do
-      expect{delete :destroy, id: @delete_channel.id}.to change(Channel, :count).by(-1)
+    context "not logged" do
+      before do
+        @delete_channel = create(:channel)
+      end
+
+      it "returns no content status" do
+        delete :destroy, id: @delete_channel.id, format: :json
+        expect(response.status).to be(401)
+      end
+
+      it "doesn't change the channel count" do
+        expect{delete :destroy, id: @delete_channel.id, format: :json}.not_to change(Channel, :count)
+      end
     end
 
   end

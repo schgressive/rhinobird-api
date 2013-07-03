@@ -1,4 +1,5 @@
 class StreamsController < ApplicationController
+  before_filter :authenticate_user!, only: [:create, :update]
 
   def index
     @streams = Stream

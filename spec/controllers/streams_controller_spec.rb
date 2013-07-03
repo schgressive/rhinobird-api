@@ -63,11 +63,11 @@ describe StreamsController do
       end
 
       it "assigns the channel to the stream" do
-        expect{put :update, channel_id: @channel.id, id: @stream.id}.to change{@channel.streams.count}.by(1)
+        expect{put :update, channel_id: @channel.id, id: @stream.id, format: :json}.to change{@channel.streams.count}.by(1)
       end
 
       it "returns the added stream" do
-        put :update, channel_id: @channel.id, id: @stream.id
+        put :update, channel_id: @channel.id, id: @stream.id, format: :json
         stream = JSON.parse(response.body)
         expect(stream["id"]).to eql(@stream.to_param)
         expect(stream["channel"]["id"]).to eql(@channel.to_param)
@@ -82,11 +82,11 @@ describe StreamsController do
       end
 
       it "assigns the channel to the stream" do
-        expect{put :update, channel_id: @channel.id, id: @stream.id}.not_to change{@channel.streams.count}.by(1)
+        expect{put :update, channel_id: @channel.id, id: @stream.id, format: :json}.not_to change{@channel.streams.count}.by(1)
       end
 
       it "returns access denied response" do
-        put :update, channel_id: @channel.id, id: @stream.id
+        put :update, channel_id: @channel.id, id: @stream.id, format: :json
         expect(response.status).to be(401)
       end
 
@@ -108,7 +108,8 @@ describe StreamsController do
         @post_hash = {title: 'stream from POST JSON',
                       desc: "Test POST", lat: -25.272062301637, lng: -57.585376739502,
                       geo_reference: 'Unkown location',
-                      thumb: @image_base64}
+                      thumb: @image_base64,
+                      format: :json}
 
         post :create, @post_hash
         @json_stream = JSON.parse(response.body)
@@ -147,9 +148,7 @@ describe StreamsController do
     context "not logged" do
 
       before(:each) do
-        @post_hash = {title: 'stream from POST JSON'}
-
-        post :create, @post_hash
+        post :create, title: "hello", format: :json
       end
 
       it "returns access denied" do
@@ -157,7 +156,8 @@ describe StreamsController do
       end
 
       it "returns an empty response" do
-        expect(response.body).to be_blank
+        json = JSON.parse(response.body)
+        expect(json["error"]).to include('need to sign')
       end
 
 

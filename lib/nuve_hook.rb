@@ -8,6 +8,10 @@ module NuveHook
     def token
       generate_room_token
     end
+
+    def room_name
+      "LicodeRoom#{self.id}"
+    end
   end
 
   #callback for room deletion

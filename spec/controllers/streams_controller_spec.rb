@@ -51,69 +51,117 @@ describe StreamsController do
 
   end
 
-  context "PUT #update" do
-    before(:each) do
-      @channel = create(:channel)
-      @stream = create(:stream)
+  describe "PUT #update" do
+
+    context "logged in" do
+
+      login_user
+
+      before(:each) do
+        @channel = create(:channel)
+        @stream = create(:stream)
+      end
+
+      it "assigns the channel to the stream" do
+        expect{put :update, channel_id: @channel.id, id: @stream.id}.to change{@channel.streams.count}.by(1)
+      end
+
+      it "returns the added stream" do
+        put :update, channel_id: @channel.id, id: @stream.id
+        stream = JSON.parse(response.body)
+        expect(stream["id"]).to eql(@stream.to_param)
+        expect(stream["channel"]["id"]).to eql(@channel.to_param)
+      end
     end
 
-    it "assigns the channel to the stream" do
-      expect{put :update, channel_id: @channel.id, id: @stream.id}.to change{@channel.streams.count}.by(1)
-    end
+    context "not logged in" do
 
-    it "returns the added stream" do
-      put :update, channel_id: @channel.id, id: @stream.id
-      stream = JSON.parse(response.body)
-      expect(stream["id"]).to eql(@stream.to_param)
-      expect(stream["channel"]["id"]).to eql(@channel.to_param)
+      before(:each) do
+        @channel = create(:channel)
+        @stream = create(:stream)
+      end
+
+      it "assigns the channel to the stream" do
+        expect{put :update, channel_id: @channel.id, id: @stream.id}.not_to change{@channel.streams.count}.by(1)
+      end
+
+      it "returns access denied response" do
+        put :update, channel_id: @channel.id, id: @stream.id
+        expect(response.status).to be(401)
+      end
+
     end
 
   end
 
-  context "POST #create" do
+  describe "POST #create" do
 
-    before(:each) do
-      File.open(Rails.root + "spec/factories/images/rails_base64.txt") do |file|
-        @image_base64 = "data:image/jpg;base64,#{file.read}"
+    context "logged in" do
+
+      login_user
+
+      before(:each) do
+        File.open(Rails.root + "spec/factories/images/rails_base64.txt") do |file|
+          @image_base64 = "data:image/jpg;base64,#{file.read}"
+        end
+
+        @post_hash = {title: 'stream from POST JSON',
+                      desc: "Test POST", lat: -25.272062301637, lng: -57.585376739502,
+                      geo_reference: 'Unkown location',
+                      thumb: @image_base64}
+
+        post :create, @post_hash
+        @json_stream = JSON.parse(response.body)
       end
 
-      @post_hash = {title: 'stream from POST JSON',
-                    desc: "Test POST", lat: -25.272062301637, lng: -57.585376739502,
-                    geo_reference: 'Unkown location',
-                    thumb: @image_base64}
+      it "returns success code" do
+        expect(response.status).to be(201)
+      end
 
-      post :create, @post_hash
-      @json_stream = JSON.parse(response.body)
+      it "returns correct content type" do
+        expect(response.header['Content-Type']).to include("application/json")
+      end
+
+      it "returns a new stream object" do
+        expect(@json_stream["title"]).to eq(@post_hash[:title])
+        expect(@json_stream["desc"]).to eq(@post_hash[:desc])
+        expect(@json_stream["id"]).not_to be("")
+        expect(@json_stream["channel"]).to be_empty
+      end
+
+      it "returns a thumb information" do
+        expect(@json_stream["thumbs"]["small"]).to match(/^http:\/\/.*small.jpg/)
+        expect(@json_stream["thumbs"]["medium"]).to match(/^http:\/\/.*medium.jpg/)
+        expect(@json_stream["thumbs"]["large"]).to match(/^http:\/\/.*large.jpg/)
+      end
+
+      it "has a valid geoJSON format" do
+        expect(@json_stream["type"]).to eq("Feature")
+        expect(@json_stream["geometry"]["type"]).to eq("Point")
+        expect(@json_stream["geometry"]["coordinates"]).to eq([@post_hash[:lng], @post_hash[:lat]])
+        expect(@json_stream["properties"]["geo_reference"]).to eq(@post_hash[:geo_reference])
+      end
+
     end
 
-    it "returns success code" do
-      expect(response.status).to be(201)
-    end
+    context "not logged" do
 
-    it "returns correct content type" do
-      expect(response.header['Content-Type']).to include("application/json")
-    end
+      before(:each) do
+        @post_hash = {title: 'stream from POST JSON'}
 
-    it "returns a new stream object" do
-      expect(@json_stream["title"]).to eq(@post_hash[:title])
-      expect(@json_stream["desc"]).to eq(@post_hash[:desc])
-      expect(@json_stream["id"]).not_to be("")
-      expect(@json_stream["channel"]).to be_empty
-    end
+        post :create, @post_hash
+      end
 
-    it "returns a thumb information" do
-      expect(@json_stream["thumbs"]["small"]).to match(/^http:\/\/.*small.jpg/)
-      expect(@json_stream["thumbs"]["medium"]).to match(/^http:\/\/.*medium.jpg/)
-      expect(@json_stream["thumbs"]["large"]).to match(/^http:\/\/.*large.jpg/)
-    end
+      it "returns access denied" do
+        expect(response.status).to be(401)
+      end
 
-    it "has a valid geoJSON format" do
-      expect(@json_stream["type"]).to eq("Feature")
-      expect(@json_stream["geometry"]["type"]).to eq("Point")
-      expect(@json_stream["geometry"]["coordinates"]).to eq([@post_hash[:lng], @post_hash[:lat]])
-      expect(@json_stream["properties"]["geo_reference"]).to eq(@post_hash[:geo_reference])
-    end
+      it "returns an empty response" do
+        expect(response.body).to be_blank
+      end
 
+
+    end
   end
 
   context "GET #show" do

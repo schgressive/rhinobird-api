@@ -47,6 +47,7 @@ Spork.prefork do
     config.include Devise::TestHelpers, :type => :controller
     config.include FactoryGirl::Syntax::Methods
     config.include Paperclip::Shoulda::Matchers
+    config.extend ControllerMacros, :type => :controller
   end
 
 end

@@ -27,9 +27,9 @@ module NuveHook
 
   #assign room ID to stream hash_token
   def change_token
-    Rails.logger.info "creating room(#{self.title}) in Lynckia"
+    Rails.logger.info "creating room(#{self.room_name}) in Lynckia"
     begin
-      response = NUVE.createRoom(self.title)
+      response = NUVE.createRoom(self.room_name)
     rescue Exception => e
       response = '{}'
       Rails.logger.debug "Error on create room: #{e.inspect}"

@@ -23,7 +23,37 @@ describe Stream do
     end
   end
 
-  context "#add_tags" do
+  describe "#add_tags" do
+
+    it "assigns 2 tags" do
+      @stream = create(:stream)
+      @stream.add_tags("grunge,rock , grunge")
+      expect(@stream.tags).to have(2).items
+    end
+
+    it "assigns 2 tags" do
+      @stream = create(:stream)
+      @stream.add_tags("grunge,rock")
+      expect(@stream.tags).to have(2).items
+    end
+
+  end
+
+  describe "#set_channel" do
+
+    before(:each) do
+      @stream = create(:stream)
+      @channel = create(:channel, name: "concerts")
+    end
+
+    it "assigns to the channel by name" do
+      @stream.set_channel("concerts")
+      expect(@stream.channel).to eql(@channel)
+    end
+
+  end
+
+  describe "#add_tag" do
     before(:each) do
       @stream = create(:stream)
     end

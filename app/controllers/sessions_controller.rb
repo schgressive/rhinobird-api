@@ -3,6 +3,7 @@ class SessionsController < Devise::SessionsController
   skip_before_filter :verify_authenticity_token
 
   respond_to :json
+
   def create
     resource = User.find_for_database_authentication(:email => params[:email])
     return invalid_login_attempt unless resource

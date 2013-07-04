@@ -17,9 +17,9 @@ describe Stream do
 
 
   context "validations" do
-    it "requires a title" do
+    it "doesn't require a title" do
       stream = build(:stream, title: '')
-      expect(stream).to be_invalid
+      expect(stream).to be_valid
     end
   end
 

@@ -3,7 +3,7 @@ class RegistrationsController < Devise::RegistrationsController
   skip_before_filter :verify_authenticity_token
   def create
     build_resource
-    resource.skip_confirmation!
+#    resource.skip_confirmation!
     if resource.save
       render :status => 200,
         :json => { :success => true,

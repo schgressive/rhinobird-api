@@ -1,6 +1,4 @@
 class Stream < ActiveRecord::Base
-  validates :title, presence: true
-
   before_create :setup_stream
 
   belongs_to :channel

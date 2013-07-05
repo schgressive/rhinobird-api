@@ -11,7 +11,7 @@ class SessionsController < Devise::SessionsController
     if resource.valid_password?(params[:password])
       resource.ensure_authentication_token!
       sign_in resource
-      render :json=> {:auth_token=>resource.authentication_token, :email=>resource.email}, status: :created
+      render json: {auth_token: resource.authentication_token, email: resource.email, name: resource.name}, status: :created
       return
     end
     invalid_login_attempt
@@ -20,7 +20,7 @@ class SessionsController < Devise::SessionsController
   def show
     resource = current_user
     if resource
-      render json: {auth_token: resource.authentication_token, email: resource.email}, status: :created
+      render json: {auth_token: resource.authentication_token, email: resource.email, name: resource.name}, status: :created
     else
       render json: {}, status: 401
     end

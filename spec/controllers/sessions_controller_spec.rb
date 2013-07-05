@@ -26,6 +26,7 @@ describe SessionsController do
       it "returns valid credentials" do
         expect(@json_response["auth_token"]).not_to be("")
         expect(@json_response["email"]).to eql(@user.email)
+        expect(@json_response["name"]).to eql(@user.name)
       end
     end
 

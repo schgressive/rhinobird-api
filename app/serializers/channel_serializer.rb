@@ -5,7 +5,7 @@ class ChannelSerializer < ActiveModel::Serializer
 
   #format this column
   def created_at
-    object.created_at.to_s(:api)
+    object.created_at.to_s(:api) if object.created_at
   end
 
   def id

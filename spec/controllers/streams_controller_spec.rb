@@ -96,6 +96,52 @@ describe StreamsController do
 
   describe "POST #create" do
 
+    context "with a channel" do
+      login_user
+
+      before(:each) do
+        @channel = create(:channel, name: "concerts")
+        post :create, format: :json, channel: "concerts"
+        @json_stream = JSON.parse(response.body)
+      end
+
+      it "returns success code" do
+        expect(response.status).to be(201)
+      end
+
+      it "returns correct content type" do
+        expect(response.header['Content-Type']).to include("application/json")
+      end
+
+      it "returns the stream with the new channel" do
+        expect(@json_stream["channel"]["id"]).to eql(@channel.to_param)
+        expect(@json_stream["channel"]["name"]).to eql(@channel.name)
+      end
+
+    end
+
+    context "with tags" do
+      login_user
+
+      before(:each) do
+        post :create, format: :json, tags: "rock, grunge"
+        @json_stream = JSON.parse(response.body)
+      end
+
+      it "returns success code" do
+        expect(response.status).to be(201)
+      end
+
+      it "returns correct content type" do
+        expect(response.header['Content-Type']).to include("application/json")
+      end
+
+      it "returns the stream with the tags" do
+        expect(@json_stream["tags"]).to have(2).items
+      end
+
+    end
+
     context "logged in" do
 
       login_user
@@ -105,7 +151,7 @@ describe StreamsController do
           @image_base64 = "data:image/jpg;base64,#{file.read}"
         end
 
-        @post_hash = {title: 'stream from POST JSON',
+        @post_hash = {title: 'live from woodstock',
                       desc: "Test POST", lat: -25.272062301637, lng: -57.585376739502,
                       geo_reference: 'Unkown location',
                       thumb: @image_base64,

@@ -14,6 +14,8 @@ class StreamsController < ApplicationController
 
   def create
     @stream = Stream.create(stream_params)
+    @stream.add_tags(params[:tags]) if params.has_key? :tags
+    @stream.set_channel(params[:channel]) if params.has_key? :channel
     render json: @stream, status: :created
   end
 

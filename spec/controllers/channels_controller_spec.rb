@@ -28,7 +28,7 @@ describe ChannelsController do
   describe "GET #show" do
     before do
       @new_channel = create(:channel, streams: [create(:stream)])
-      get :show, id: @new_channel.id
+      get :show, id: @new_channel.name
       @json_channel = JSON.parse(response.body)
     end
 

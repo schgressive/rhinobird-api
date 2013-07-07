@@ -7,7 +7,7 @@ class ChannelsController < ApplicationController
   end
 
   def show
-    @channel = Channel.find(params[:id])
+    @channel = Channel.find_by_name(params[:id])
     render json: @channel
   end
 

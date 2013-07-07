@@ -99,21 +99,30 @@ describe StreamsController do
     context "with a channel" do
       login_user
 
-      before(:each) do
+      it "returns success code" do
         @channel = create(:channel, name: "concerts")
         post :create, format: :json, channel: "concerts"
-        @json_stream = JSON.parse(response.body)
-      end
-
-      it "returns success code" do
         expect(response.status).to be(201)
       end
 
       it "returns correct content type" do
+        @channel = create(:channel, name: "concerts")
+        post :create, format: :json, channel: "concerts"
         expect(response.header['Content-Type']).to include("application/json")
       end
 
-      it "returns the stream with the new channel" do
+      it "returns the stream with the existing channel" do
+        @channel = create(:channel, name: "concerts")
+        post :create, format: :json, channel: "concerts"
+        @json_stream = JSON.parse(response.body)
+        expect(@json_stream["channel"]["id"]).to eql(@channel.to_param)
+        expect(@json_stream["channel"]["name"]).to eql(@channel.name)
+      end
+
+      it "returns the stream with a new channel" do
+        post :create, format: :json, channel: "politics "
+        @channel = Channel.find_by_name('politics')
+        @json_stream = JSON.parse(response.body)
         expect(@json_stream["channel"]["id"]).to eql(@channel.to_param)
         expect(@json_stream["channel"]["name"]).to eql(@channel.name)
       end

@@ -64,7 +64,7 @@ class Stream < ActiveRecord::Base
 
   #sets a channel by name
   def set_channel(name)
-    self.channel = Channel.find_by_name(name)
+    self.channel = Channel.find_or_create_by_name(name.strip)
     self.save
   end
 

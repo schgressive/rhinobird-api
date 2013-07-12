@@ -18,18 +18,7 @@ group :development do
 end
 
 group :test do
-  #gems for file notifications according to platform(for guard)
-  gem 'rb-inotify', '~> 0.9', :require => false
-  gem 'rb-fsevent', :require => false
-  gem 'rb-fchange', :require => false
-
   gem 'shoulda-matchers'
-
-  gem "guard"
-  gem "spork-rails"
-  gem "guard-rspec"
-  gem "guard-spork"
-
   gem "database_cleaner"
   gem 'factory_girl_rails', '~> 3.0'
 end

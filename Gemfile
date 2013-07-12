@@ -14,7 +14,6 @@ gem 'devise'
 
 group :development do
   gem 'debugger', :require => 'ruby-debug'
-  gem "zeus"
 end
 
 group :test do
@@ -25,7 +24,9 @@ end
 
 #rspec-rails needs to be in both groups for shoulda-matchers to work
 group :development, :test do
+  gem 'guard-rspec'
   gem 'rspec-rails', "~> 2.0"
+  gem "zeus"
 end
 
 group :production do

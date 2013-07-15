@@ -3,6 +3,7 @@ class StreamSerializer < ActiveModel::Serializer
   self.root = false
 
   has_many :tags, embed: :ids, key: :tags, embed_key: :to_param
+  has_one :user
 
   #to make valid geoJSON
   def type

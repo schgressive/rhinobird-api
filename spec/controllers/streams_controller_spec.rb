@@ -258,6 +258,12 @@ describe StreamsController do
       expect(@json_stream["properties"]["geo_reference"]).to eq(@new_stream.geo_reference)
     end
 
+    it "has user information" do
+      user = @new_stream.user
+      expect(@json_stream["user"]["name"]).to eq(user.name)
+      expect(@json_stream["user"]["email"]).to eq(user.email)
+    end
+
   end
 
   context "DELETE #destroy" do

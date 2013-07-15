@@ -1,7 +1,13 @@
 class Stream < ActiveRecord::Base
+  # VALIDATIONS
+  validates :user_id, presence: true
+
+  # CALLBACKS
   before_create :setup_stream
 
+  # RELATIONS
   belongs_to :channel
+  belongs_to :user
   has_and_belongs_to_many :tags
 
   has_attached_file :thumbnail, styles: {
@@ -15,7 +21,7 @@ class Stream < ActiveRecord::Base
   extend FriendlyId
   friendly_id :hash_token
 
-  #scopes
+  # SCOPES
   scope :by_channel, -> channel_id { where("channel_id = ?", channel_id) }
 
   def setup_stream

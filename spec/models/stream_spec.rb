@@ -12,6 +12,7 @@ describe Stream do
 
   describe "relations" do
     it { should belong_to(:channel) }
+    it { should belong_to(:user) }
     it { should have_and_belong_to_many(:tags) }
   end
 
@@ -20,6 +21,11 @@ describe Stream do
     it "doesn't require a title" do
       stream = build(:stream, title: '')
       expect(stream).to be_valid
+    end
+
+    it "requires a user" do
+      stream = build(:stream, user: nil)
+      expect(stream).to be_invalid
     end
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130604152214) do
+ActiveRecord::Schema.define(:version => 20130715152907) do
 
   create_table "channels", :force => true do |t|
     t.string   "name"
@@ -38,10 +38,12 @@ ActiveRecord::Schema.define(:version => 20130604152214) do
     t.string   "thumbnail_content_type"
     t.integer  "thumbnail_file_size"
     t.datetime "thumbnail_updated_at"
+    t.integer  "user_id"
   end
 
   add_index "streams", ["channel_id"], :name => "index_streams_on_channel_id"
   add_index "streams", ["hash_token"], :name => "index_streams_on_hash_token", :unique => true
+  add_index "streams", ["user_id"], :name => "index_streams_on_user_id"
 
   create_table "streams_tags", :id => false, :force => true do |t|
     t.integer "tag_id"

@@ -8,5 +8,6 @@ FactoryGirl.define do
     lat "-33.45654"
     lng "-70.661713"
     geo_reference "Parque O'higgins"
+    association :user
   end
 end

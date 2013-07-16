@@ -16,6 +16,7 @@ PeepoltvApi::Application.routes.draw do
     get 'sessions' => 'sessions#show', :as => 'show'
     delete 'sessions' => 'sessions#destroy', :as => 'logout'
   end
+  resources :users, only: [:show]
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -5,7 +5,7 @@ describe UsersController do
   describe "GET #show" do
     before do
       @user = create(:user)
-      get :show, id: @user.to_param
+      get :show, id: @user.id
       @json_user = JSON.parse(response.body)
     end
 
@@ -18,8 +18,10 @@ describe UsersController do
     end
 
     it "returns correct json structure" do
+      expect(@json_user["id"]).to eq(@user.id)
       expect(@json_user["name"]).to eq(@user.name)
       expect(@json_user["email"]).to eq(@user.email)
+      expect(@json_user).to have(3).items
     end
 
   end

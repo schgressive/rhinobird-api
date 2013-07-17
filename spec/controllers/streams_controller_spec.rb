@@ -164,6 +164,7 @@ describe StreamsController do
                       desc: "Test POST", lat: -25.272062301637, lng: -57.585376739502,
                       geo_reference: 'Unkown location',
                       thumb: @image_base64,
+                      live: true,
                       format: :json}
 
         post :create, @post_hash
@@ -190,6 +191,11 @@ describe StreamsController do
         expect(@json_stream["thumbs"]["medium"]).to match(/^http:\/\/.*medium.jpg/)
         expect(@json_stream["thumbs"]["large"]).to match(/^http:\/\/.*large.jpg/)
       end
+
+      it "returns the live token" do
+        expect(@json_stream["live"]).to be_true
+      end
+
 
       it "has a valid geoJSON format" do
         expect(@json_stream["type"]).to eq("Feature")
@@ -249,6 +255,10 @@ describe StreamsController do
       expect(@json_stream["thumbs"]["large"]).to match(/^http:\/\/.*large.jpg/)
       expect(@json_stream["channel"]["id"]).to eq(@channel.to_param)
       expect(@json_stream["channel"]["name"]).to eq(@channel.name)
+    end
+
+    it "returns the live token" do
+      expect(@json_stream["live"]).to be_false
     end
 
     it "has a valid geoJSON format" do

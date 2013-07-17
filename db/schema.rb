@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130715152907) do
+ActiveRecord::Schema.define(:version => 20130717111044) do
 
   create_table "channels", :force => true do |t|
     t.string   "name"
@@ -26,19 +26,20 @@ ActiveRecord::Schema.define(:version => 20130715152907) do
     t.string   "url"
     t.string   "title"
     t.string   "desc"
-    t.string   "hash_token",                                             :null => false
+    t.string   "hash_token",                                                                :null => false
     t.decimal  "lat",                    :precision => 18, :scale => 12
     t.decimal  "lng",                    :precision => 18, :scale => 12
     t.string   "geo_reference"
     t.integer  "channel_id"
     t.datetime "started_on"
-    t.datetime "created_at",                                             :null => false
-    t.datetime "updated_at",                                             :null => false
+    t.datetime "created_at",                                                                :null => false
+    t.datetime "updated_at",                                                                :null => false
     t.string   "thumbnail_file_name"
     t.string   "thumbnail_content_type"
     t.integer  "thumbnail_file_size"
     t.datetime "thumbnail_updated_at"
     t.integer  "user_id"
+    t.boolean  "live",                                                   :default => false
   end
 
   add_index "streams", ["channel_id"], :name => "index_streams_on_channel_id"

@@ -5,7 +5,7 @@ PeepoltvApi::Application.routes.draw do
     end
   end
 
-  resources :streams, only: [:create, :show, :index, :destroy] do
+  resources :streams, only: [:create, :show, :index, :destroy, :update] do
     resources :tags, only: [:create, :destroy]
   end
 

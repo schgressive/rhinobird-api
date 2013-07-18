@@ -57,21 +57,44 @@ describe StreamsController do
 
       login_user
 
-      before(:each) do
-        @channel = create(:channel)
-        @stream = create(:stream)
+      context "add a stream to a channel" do
+
+        before(:each) do
+          @channel = create(:channel)
+          @stream = create(:stream)
+        end
+
+        it "assigns the channel to the stream" do
+          expect{put :update, channel_id: @channel.id, id: @stream.id, format: :json}.to change{@channel.streams.count}.by(1)
+        end
+
+        it "returns the added stream" do
+          put :update, channel_id: @channel.id, id: @stream.id, format: :json
+          stream = JSON.parse(response.body)
+          expect(stream["id"]).to eql(@stream.to_param)
+          expect(stream["channel"]["id"]).to eql(@channel.to_param)
+        end
       end
 
-      it "assigns the channel to the stream" do
-        expect{put :update, channel_id: @channel.id, id: @stream.id, format: :json}.to change{@channel.streams.count}.by(1)
+      context "update a stream" do
+
+        before(:each) do
+          @stream = create(:stream, live: false)
+          put :update, id: @stream.id, live: true, title: 'rock', format: :json
+        end
+
+        it "returns the success code" do
+          expect(response.status).to eql(200)
+        end
+
+        it "returns the updated stream" do
+          stream = JSON.parse(response.body)
+          expect(stream["id"]).to eql(@stream.to_param)
+          expect(stream["title"]).to eql("rock")
+          expect(stream["live"]).to be_true
+        end
       end
 
-      it "returns the added stream" do
-        put :update, channel_id: @channel.id, id: @stream.id, format: :json
-        stream = JSON.parse(response.body)
-        expect(stream["id"]).to eql(@stream.to_param)
-        expect(stream["channel"]["id"]).to eql(@channel.to_param)
-      end
     end
 
     context "not logged in" do

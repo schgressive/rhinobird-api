@@ -21,6 +21,7 @@ group :test do
   gem "database_cleaner"
   gem "faker"
   gem 'factory_girl_rails', '~> 3.0'
+  gem 'coveralls', require: false
 end
 
 #rspec-rails needs to be in both groups for shoulda-matchers to work

@@ -27,15 +27,16 @@ class StreamsController < ApplicationController
 
   def update
     @stream = Stream.find(params[:id])
-    @stream.channel = Channel.find(params[:channel_id])
+    @stream.channel = Channel.find(params[:channel_id]) if params.has_key? :channel_id
+    @stream.attributes = stream_params
     @stream.save
 
-    render json: @stream, status: :created
+    render json: @stream, status: :ok
   end
 
   private
 
   def stream_params
-    params.permit(:title, :desc, :lat, :lng, :geo_reference, :thumb)
+    params.permit(:title, :desc, :lat, :lng, :geo_reference, :thumb, :live)
   end
 end

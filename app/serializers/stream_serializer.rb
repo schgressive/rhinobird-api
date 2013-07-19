@@ -1,8 +1,9 @@
 class StreamSerializer < ActiveModel::Serializer
-  attributes :id, :url, :title, :desc, :started_on, :type, :properties, :geometry, :channel, :token, :thumbs
+  attributes :id, :url, :title, :desc, :started_on, :type, :properties, :geometry, :channel, :token, :thumbs, :live
   self.root = false
 
   has_many :tags, embed: :ids, key: :tags, embed_key: :to_param
+  has_one :user
 
   #to make valid geoJSON
   def type

@@ -66,6 +66,43 @@ describe SessionsController do
 
   end
 
+  describe "GET #show" do
+
+    context "not logged in" do
+
+      before(:each) do
+        @user = create(:user, email: 'sirius@peepol.tv', password: '12345678')
+        @request.env["devise.mapping"] = Devise.mappings[:user]
+
+        get :show
+      end
+
+      it "returns invalid credentials code" do
+        expect(response.status).to be(401)
+      end
+
+      it "returns invalid credentials code" do
+        expect(response.body).to eql("{}")
+      end
+
+
+    end
+
+    context "logged in" do
+      login_user
+      before(:each) do
+        get :show
+        @json_response = JSON.parse(response.body)
+      end
+
+      it "returns a success code" do
+        expect(response.status).to be(201)
+      end
+
+    end
+
+  end
+
   describe "DELETE #destroy" do
 
     context "not logged in" do

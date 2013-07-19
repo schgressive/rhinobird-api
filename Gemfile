@@ -19,7 +19,6 @@ end
 group :test do
   gem 'shoulda-matchers'
   gem "database_cleaner"
-  gem "faker"
   gem 'coveralls', require: false
 end
 
@@ -29,6 +28,7 @@ group :development, :test do
   gem 'rspec-rails', "~> 2.0"
   gem "zeus"
   gem 'factory_girl_rails', '~> 3.0'
+  gem "faker"
 end
 
 group :production do

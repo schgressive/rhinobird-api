@@ -5,7 +5,7 @@ describe ChannelsController do
   describe "GET #index" do
     before do
       @channel = create(:channel)
-      get :index
+      get :index, format: :json
       @channels = JSON.parse(response.body)
     end
 
@@ -28,7 +28,7 @@ describe ChannelsController do
   describe "GET #show" do
     before do
       @new_channel = create(:channel, streams: [create(:stream)])
-      get :show, id: @new_channel.name
+      get :show, id: @new_channel.name, format: :json
       @json_channel = JSON.parse(response.body)
     end
 
@@ -62,7 +62,7 @@ describe ChannelsController do
       login_user
 
       before do
-        @post_hash = {name: 'MyNewChannel123'}
+        @post_hash = {format: :json, name: 'MyNewChannel123'}
 
         post :create, @post_hash
         @json_channel = JSON.parse(response.body)

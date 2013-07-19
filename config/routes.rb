@@ -1,12 +1,12 @@
 PeepoltvApi::Application.routes.draw do
 
-  resources :channels, only: [:create, :show, :index, :destroy] do
+  resources :channels, only: [:create, :show, :index, :destroy], defaults: { format: :json } do
     resources :streams, only: [:index, :update] do
     end
   end
 
-  resources :streams, only: [:create, :show, :index, :destroy, :update] do
-    resources :tags, only: [:create, :destroy]
+  resources :streams, only: [:create, :show, :index, :destroy, :update], defaults: { format: :json } do
+    resources :tags, only: [:create, :destroy], defaults: { format: :json }
   end
 
   devise_for :users
@@ -16,7 +16,7 @@ PeepoltvApi::Application.routes.draw do
     get 'sessions' => 'sessions#show', :as => 'show'
     delete 'sessions' => 'sessions#destroy', :as => 'logout'
   end
-  resources :users, only: [:show]
+  resources :users, only: [:show], defaults: { format: :json }
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

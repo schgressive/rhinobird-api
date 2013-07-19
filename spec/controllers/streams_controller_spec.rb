@@ -9,7 +9,7 @@ describe StreamsController do
   describe "GET #index" do
     context "without a channel" do
       before do
-        get :index
+        get :index, format: :json
         @streams = JSON.parse(response.body)
       end
 
@@ -32,7 +32,7 @@ describe StreamsController do
       before do
         create(:stream)
         @channel = create(:channel, streams: [create(:stream), create(:stream)])
-        get :index, channel_id: @channel.id
+        get :index, channel_id: @channel.id, format: :json
         @streams = JSON.parse(response.body)
       end
 
@@ -256,7 +256,7 @@ describe StreamsController do
 
       @channel = create(:channel)
       @new_stream = create(:stream, lat: -25.272062301637, lng: -57.585376739502, id: "123", channel: @channel, thumb: @image_base64)
-      get :show, id: @new_stream.id
+      get :show, id: @new_stream.id, format: :json
       @json_stream = JSON.parse(response.body)
     end
 

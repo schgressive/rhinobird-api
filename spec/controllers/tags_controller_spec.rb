@@ -6,7 +6,7 @@ describe TagsController do
 
     before do
       @stream = create(:stream)
-      @post_hash = {name: 'this_tag', stream_id: @stream.id}
+      @post_hash = {name: 'this_tag', stream_id: @stream.id, format: :json}
 
       post :create, @post_hash
       @json_tag = JSON.parse(response.body)

@@ -1,9 +1,11 @@
 class TagsController < ApplicationController
 
+  respond_to :json
+
   def create
     @stream = Stream.find(params[:stream_id])
     @stream.add_tag(tag_params[:name])
-    render json: @stream, status: :created
+    respond_with @stream, status: :created
   end
 
   def destroy

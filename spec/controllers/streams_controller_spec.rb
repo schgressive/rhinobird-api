@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe StreamsController do
+describe Api::StreamsController do
 
   before do
     @stream = create(:stream)

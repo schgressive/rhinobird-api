@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ChannelsController do
+describe Api::ChannelsController do
 
   describe "GET #index" do
     before do

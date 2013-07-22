@@ -12,10 +12,8 @@ describe Channel do
   end
 
   describe "validations" do
-    it "requires a name" do
-      channel = build(:channel, name: '')
-      expect(channel).to be_invalid
-    end
+    it { should validate_presence_of(:name) }
+    it { should validate_uniqueness_of(:name) }
 
     it "accepts alphanumeric characters as channel name(no spaces)" do
       #valid names
@@ -29,11 +27,6 @@ describe Channel do
       expect(build(:channel, name: '_my_channel')).to be_invalid
     end
 
-    it "is invalid if name exists" do
-      create(:channel, name: 'NewConcert')
-      channel = build(:channel, name: 'NewConcert')
-      expect(channel).to be_invalid
-    end
   end
 
   context "creating channels" do

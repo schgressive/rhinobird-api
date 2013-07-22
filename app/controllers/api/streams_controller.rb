@@ -1,24 +1,22 @@
-class StreamsController < ApplicationController
+class Api::StreamsController < Api::BaseController
   before_filter :authenticate_user!, only: [:create, :update]
-
-  respond_to :json
 
   def index
     @streams = Stream
     @streams = @streams.by_channel(params[:channel_id]) if params.has_key? :channel_id
-    respond_with @streams.all
+    respond_with :api, @streams.all
   end
 
   def show
     @stream = Stream.find(params[:id])
-    respond_with @stream
+    respond_with :api, @stream
   end
 
   def create
     @stream = Stream.create(stream_params)
     @stream.add_tags(params[:tags]) if params.has_key? :tags
     @stream.set_channel(params[:channel]) if params.has_key? :channel
-    respond_with @stream
+    respond_with :api, @stream
   end
 
   def destroy
@@ -33,7 +31,7 @@ class StreamsController < ApplicationController
     @stream.attributes = stream_params
     @stream.save
 
-    respond_with @stream, status: :ok
+    respond_with :api, @stream, status: :ok
   end
 
   private

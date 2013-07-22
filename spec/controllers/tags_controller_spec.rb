@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe TagsController do
+describe Api::TagsController do
 
   describe "POST #create" do
 

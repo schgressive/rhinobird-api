@@ -1,21 +1,19 @@
-class ChannelsController < ApplicationController
+class Api::ChannelsController < Api::BaseController
   before_filter :authenticate_user!, only: [:create, :destroy]
-
-  respond_to :json
 
   def index
     @channels = Channel.all
-    respond_with @channels
+    respond_with :api, @channels
   end
 
   def show
     @channel = Channel.find_by_name(params[:id])
-    respond_with @channel
+    respond_with :api, @channel
   end
 
   def create
     @channel = Channel.create(channel_params)
-    respond_with @channel
+    respond_with :api, @channel
   end
 
   def destroy

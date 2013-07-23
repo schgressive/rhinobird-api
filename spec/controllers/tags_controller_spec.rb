@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe Api::TagsController do
 
+  login_user
+
   describe "POST #create" do
 
     before do

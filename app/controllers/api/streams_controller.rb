@@ -1,5 +1,5 @@
 class Api::StreamsController < Api::BaseController
-  before_filter :authenticate_user!, only: [:create, :update]
+  skip_before_filter :authenticate_user!, only: [:show, :index]
 
   def index
     @streams = Stream
@@ -13,7 +13,7 @@ class Api::StreamsController < Api::BaseController
   end
 
   def create
-    @stream = Stream.create(stream_params)
+    @stream = current_user.streams.create(stream_params)
     @stream.add_tags(params[:tags]) if params.has_key? :tags
     @stream.set_channel(params[:channel]) if params.has_key? :channel
     respond_with :api, @stream
@@ -22,7 +22,8 @@ class Api::StreamsController < Api::BaseController
   def destroy
     @stream = Stream.find(params[:id])
     @stream.destroy
-    head :no_content
+
+    respond_with :api, @stream
   end
 
   def update
@@ -31,7 +32,7 @@ class Api::StreamsController < Api::BaseController
     @stream.attributes = stream_params
     @stream.save
 
-    respond_with :api, @stream, status: :ok
+    respond_with :@stream
   end
 
   private

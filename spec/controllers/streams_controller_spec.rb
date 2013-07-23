@@ -62,14 +62,16 @@ describe Api::StreamsController do
         before(:each) do
           @channel = create(:channel)
           @stream = create(:stream)
+          @params = {channel_id: @channel.id, id: @stream.id, format: :json}
         end
 
         it "assigns the channel to the stream" do
-          expect{put :update, channel_id: @channel.id, id: @stream.id, format: :json}.to change{@channel.streams.count}.by(1)
+          expect{put :update, @params}.to change{@channel.streams.count}.by(1)
+          puts response.body
         end
 
         it "returns the added stream" do
-          put :update, channel_id: @channel.id, id: @stream.id, format: :json
+          put :update, @params
           stream = JSON.parse(response.body)
           expect(stream["id"]).to eql(@stream.to_param)
           expect(stream["channel"]["id"]).to eql(@channel.to_param)
@@ -227,6 +229,11 @@ describe Api::StreamsController do
         expect(@json_stream["properties"]["geo_reference"]).to eq(@post_hash[:geo_reference])
       end
 
+      it "has user information" do
+        expect(@json_stream["user"]["name"]).to eq(@user.name)
+        expect(@json_stream["user"]["email"]).to eq(@user.email)
+      end
+
     end
 
     context "not logged" do
@@ -300,17 +307,21 @@ describe Api::StreamsController do
   end
 
   context "DELETE #destroy" do
+
+    login_user
+
     before do
       @delete_stream = create(:stream)
+      @params = {id: @delete_stream.id, format: :json}
     end
 
     it "returns no content status" do
-      delete :destroy, id: @delete_stream.id
+      delete :destroy, @params
       expect(response.status).to be(204)
     end
 
     it "decreses the stream count" do
-      expect{delete :destroy, id: @delete_stream.id}.to change(Stream, :count).by(-1)
+      expect{delete :destroy, @params}.to change(Stream, :count).by(-1)
     end
 
   end

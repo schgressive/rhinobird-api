@@ -1,5 +1,5 @@
 class Api::ChannelsController < Api::BaseController
-  before_filter :authenticate_user!, only: [:create, :destroy]
+  skip_before_filter :authenticate_user!, only: [:show, :index]
 
   def index
     @channels = Channel.all
@@ -19,7 +19,7 @@ class Api::ChannelsController < Api::BaseController
   def destroy
     @channel = Channel.find(params[:id])
     @channel.destroy
-    head :no_content
+    respond_with :api, @channel
   end
 
   private

@@ -1,24 +1,23 @@
 PeepoltvApi::Application.routes.draw do
 
-  namespace :api do
+  namespace :api, defaults: {format: :json} do
 
-    resources :channels, only: [:create, :show, :index, :destroy], defaults: { format: :json } do
-      resources :streams, only: [:index, :update] do
-      end
-    end
-
-    resources :streams, only: [:create, :show, :index, :destroy, :update], defaults: { format: :json } do
-      resources :tags, only: [:create, :destroy], defaults: { format: :json }
-    end
-
-    devise_for :users
+    devise_for :users, singular: :user
     devise_scope :user do
-      post 'registration' => 'registrations#create', as: 'register'
-      post 'sessions' => 'sessions#create', :as => 'login'
-      get 'sessions' => 'sessions#show', :as => 'show'
-      delete 'sessions' => 'sessions#destroy', :as => 'logout'
+      post 'registration' => 'registrations#create', as: 'register', defaults: {format: :json}
+      post 'sessions' => 'sessions#create', :as => 'login', defaults: {format: :json}
+      get 'sessions' => 'sessions#show', :as => 'show', defaults: {format: :json}
+      delete 'sessions' => 'sessions#destroy', :as => 'logout', defaults: {format: :json}
     end
-    resources :users, only: [:show], defaults: { format: :json }
+    resources :users, only: [:show]
+
+    resources :channels, only: [:create, :show, :index, :destroy] do
+      resources :streams, only: [:index, :update]
+    end
+
+    resources :streams, only: [:create, :show, :index, :destroy, :update] do
+      resources :tags, only: [:create, :destroy]
+    end
 
   end
 

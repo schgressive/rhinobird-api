@@ -1,4 +1,4 @@
-class RegistrationsController < Devise::RegistrationsController
+class Api::RegistrationsController < Devise::RegistrationsController
   skip_before_filter :require_no_authentication
   skip_before_filter :verify_authenticity_token
   def create

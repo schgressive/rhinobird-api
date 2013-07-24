@@ -67,7 +67,6 @@ describe Api::StreamsController do
 
         it "assigns the channel to the stream" do
           expect{put :update, @params}.to change{@channel.streams.count}.by(1)
-          puts response.body
         end
 
         it "returns the added stream" do

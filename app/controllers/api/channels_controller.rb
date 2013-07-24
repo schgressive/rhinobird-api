@@ -3,23 +3,23 @@ class Api::ChannelsController < Api::BaseController
 
   def index
     @channels = Channel.all
-    respond_with :api, @channels
+    respond_with @channels
   end
 
   def show
     @channel = Channel.find_by_name(params[:id])
-    respond_with :api, @channel
+    respond_with @channel
   end
 
   def create
     @channel = Channel.create(channel_params)
-    respond_with :api, @channel
+    respond_with @channel
   end
 
   def destroy
     @channel = Channel.find(params[:id])
     @channel.destroy
-    respond_with :api, @channel
+    respond_with @channel
   end
 
   private

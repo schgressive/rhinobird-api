@@ -4,26 +4,26 @@ class Api::StreamsController < Api::BaseController
   def index
     @streams = Stream
     @streams = @streams.by_channel(params[:channel_id]) if params.has_key? :channel_id
-    respond_with :api, @streams.all
+    respond_with @streams.all
   end
 
   def show
     @stream = Stream.find(params[:id])
-    respond_with :api, @stream
+    respond_with @stream
   end
 
   def create
     @stream = current_user.streams.create(stream_params)
     @stream.add_tags(params[:tags]) if params.has_key? :tags
     @stream.set_channel(params[:channel]) if params.has_key? :channel
-    respond_with :api, @stream
+    respond_with @stream
   end
 
   def destroy
     @stream = Stream.find(params[:id])
     @stream.destroy
 
-    respond_with :api, @stream
+    respond_with @stream
   end
 
   def update
@@ -32,7 +32,7 @@ class Api::StreamsController < Api::BaseController
     @stream.attributes = stream_params
     @stream.save
 
-    respond_with :@stream
+    respond_with @stream
   end
 
   private

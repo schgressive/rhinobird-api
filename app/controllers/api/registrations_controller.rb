@@ -4,7 +4,6 @@ class Api::RegistrationsController < Devise::RegistrationsController
   skip_before_filter :verify_authenticity_token
   def create
     resource = User.new(resource_params)
-#    resource.skip_confirmation!
     if resource.save
       resource.ensure_authentication_token!
       sign_in resource

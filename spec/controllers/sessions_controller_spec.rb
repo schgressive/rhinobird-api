@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SessionsController do
+describe Api::SessionsController do
 
   describe "POST #create" do
 

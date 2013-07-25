@@ -1,9 +1,9 @@
-class TagsController < ApplicationController
+class Api::TagsController < Api::BaseController
 
   def create
     @stream = Stream.find(params[:stream_id])
     @stream.add_tag(tag_params[:name])
-    render json: @stream, status: :created
+    respond_with @stream
   end
 
   def destroy

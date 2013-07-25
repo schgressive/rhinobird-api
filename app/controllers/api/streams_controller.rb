@@ -1,28 +1,29 @@
-class StreamsController < ApplicationController
-  before_filter :authenticate_user!, only: [:create, :update]
+class Api::StreamsController < Api::BaseController
+  skip_before_filter :authenticate_user!, only: [:show, :index]
 
   def index
     @streams = Stream
     @streams = @streams.by_channel(params[:channel_id]) if params.has_key? :channel_id
-    render json: @streams.all
+    respond_with @streams.all
   end
 
   def show
     @stream = Stream.find(params[:id])
-    render json: @stream
+    respond_with @stream
   end
 
   def create
-    @stream = Stream.create(stream_params)
+    @stream = current_user.streams.create(stream_params)
     @stream.add_tags(params[:tags]) if params.has_key? :tags
     @stream.set_channel(params[:channel]) if params.has_key? :channel
-    render json: @stream, status: :created
+    respond_with @stream
   end
 
   def destroy
     @stream = Stream.find(params[:id])
     @stream.destroy
-    head :no_content
+
+    respond_with @stream
   end
 
   def update
@@ -31,7 +32,7 @@ class StreamsController < ApplicationController
     @stream.attributes = stream_params
     @stream.save
 
-    render json: @stream, status: :ok
+    respond_with @stream
   end
 
   private

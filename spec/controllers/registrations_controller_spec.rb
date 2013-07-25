@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe RegistrationsController do
+describe Api::RegistrationsController do
 
   describe "POST #create" do
     before(:each) do
@@ -10,7 +10,7 @@ describe RegistrationsController do
     context "with new user information" do
       before(:each) do
         @user_info = {user: {email: "sirius@peepol.tv", password: '12345678', name: "Sirius Black"}}
-        post :create, @user_info
+        post :create, @user_info, format: :json
         @json_response = JSON.parse(response.body)
       end
 

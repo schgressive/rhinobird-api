@@ -1,22 +1,25 @@
 PeepoltvApi::Application.routes.draw do
 
-  resources :channels, only: [:create, :show, :index, :destroy] do
-    resources :streams, only: [:index, :update] do
+  namespace :api, defaults: {format: :json} do
+
+    devise_for :users, singular: :user
+    devise_scope :user do
+      post 'registration' => 'registrations#create', as: 'register', defaults: {format: :json}
+      post 'sessions' => 'sessions#create', :as => 'login', defaults: {format: :json}
+      get 'sessions' => 'sessions#show', :as => 'show', defaults: {format: :json}
+      delete 'sessions' => 'sessions#destroy', :as => 'logout', defaults: {format: :json}
     end
-  end
+    resources :users, only: [:show]
 
-  resources :streams, only: [:create, :show, :index, :destroy, :update] do
-    resources :tags, only: [:create, :destroy]
-  end
+    resources :channels, only: [:create, :show, :index, :destroy] do
+      resources :streams, only: [:index, :update]
+    end
 
-  devise_for :users
-  devise_scope :user do
-    post 'registration' => 'registrations#create', as: 'register'
-    post 'sessions' => 'sessions#create', :as => 'login'
-    get 'sessions' => 'sessions#show', :as => 'show'
-    delete 'sessions' => 'sessions#destroy', :as => 'logout'
+    resources :streams, only: [:create, :show, :index, :destroy, :update] do
+      resources :tags, only: [:create, :destroy]
+    end
+
   end
-  resources :users, only: [:show]
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

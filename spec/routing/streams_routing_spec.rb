@@ -1,33 +1,36 @@
 require 'spec_helper'
 
-describe StreamsController do
+describe Api::StreamsController do
+  route_prefix = "/api"
+  controller_prefix = "api/"
+
   describe "routing" do
     it "routes to #index" do
-      expect(get: "/streams").to route_to("streams#index")
+      expect(get: "#{route_prefix}/streams").to route_to("#{controller_prefix}streams#index", format: :json)
     end
 
     it "doesn't routes to #new" do
-      expect(get: "/streams/new").not_to route_to("streams#new")
+      expect(get: "#{route_prefix}/streams/new").not_to route_to("#{controller_prefix}streams#new", format: :json)
     end
 
     it "routes to #show" do
-      expect(get: "/streams/1").to route_to("streams#show", id: "1")
+      expect(get: "#{route_prefix}/streams/1").to route_to("#{controller_prefix}streams#show", id: "1", format: :json)
     end
 
     it "doesn't routes to #edit" do
-      expect(get: "/streams/1/edit").not_to be_routable
+      expect(get: "#{route_prefix}/streams/1/edit").not_to be_routable
     end
 
     it "routes to #create" do
-      expect(post: "/streams").to route_to("streams#create")
+      expect(post: "#{route_prefix}/streams").to route_to("#{controller_prefix}streams#create", format: :json)
     end
 
     it "routes to #update" do
-      expect(put: "/streams/1").to route_to("streams#update", id: "1")
+      expect(put: "#{route_prefix}/streams/1").to route_to("#{controller_prefix}streams#update", id: "1", format: :json)
     end
 
     it "routes to #destroy" do
-      expect(delete: "/streams/1").to route_to("streams#destroy", :id => "1")
+      expect(delete: "#{route_prefix}/streams/1").to route_to("#{controller_prefix}streams#destroy", :id => "1", format: :json)
     end
 
   end

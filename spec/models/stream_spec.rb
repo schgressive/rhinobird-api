@@ -1,12 +1,13 @@
 require 'spec_helper'
 
 describe Stream do
+
   it "has a valid factory" do
     stream = build(:stream)
     expect(stream).to be_valid
   end
 
-  context "Attachments" do
+  describe "Attachments" do
     it { should have_attached_file(:thumbnail)}
   end
 
@@ -17,16 +18,8 @@ describe Stream do
   end
 
 
-  context "validations" do
-    it "doesn't require a title" do
-      stream = build(:stream, title: '')
-      expect(stream).to be_valid
-    end
-
-    it "requires a user" do
-      stream = build(:stream, user: nil)
-      expect(stream).to be_invalid
-    end
+  describe "validations" do
+    it { should validate_presence_of(:user_id) }
   end
 
   describe "#add_tags" do

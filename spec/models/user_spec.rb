@@ -11,4 +11,8 @@ describe User do
     it { should validate_presence_of(:name) }
   end
 
+  describe "Relations" do
+    it { should have_many(:streams) }
+  end
+
 end

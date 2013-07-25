@@ -7,4 +7,7 @@ class User < ActiveRecord::Base
          :token_authenticatable#, :confirmable
 
   validates :name, presence: true
+
+  # RELATIONS
+  has_many :streams
 end

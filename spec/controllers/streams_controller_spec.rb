@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe StreamsController do
+describe Api::StreamsController do
 
   before do
     @stream = create(:stream)
@@ -9,7 +9,7 @@ describe StreamsController do
   describe "GET #index" do
     context "without a channel" do
       before do
-        get :index
+        get :index, format: :json
         @streams = JSON.parse(response.body)
       end
 
@@ -32,7 +32,7 @@ describe StreamsController do
       before do
         create(:stream)
         @channel = create(:channel, streams: [create(:stream), create(:stream)])
-        get :index, channel_id: @channel.id
+        get :index, channel_id: @channel.id, format: :json
         @streams = JSON.parse(response.body)
       end
 
@@ -62,14 +62,15 @@ describe StreamsController do
         before(:each) do
           @channel = create(:channel)
           @stream = create(:stream)
+          @params = {channel_id: @channel.id, id: @stream.id, format: :json}
         end
 
         it "assigns the channel to the stream" do
-          expect{put :update, channel_id: @channel.id, id: @stream.id, format: :json}.to change{@channel.streams.count}.by(1)
+          expect{put :update, @params}.to change{@channel.streams.count}.by(1)
         end
 
         it "returns the added stream" do
-          put :update, channel_id: @channel.id, id: @stream.id, format: :json
+          put :update, @params
           stream = JSON.parse(response.body)
           expect(stream["id"]).to eql(@stream.to_param)
           expect(stream["channel"]["id"]).to eql(@channel.to_param)
@@ -227,6 +228,11 @@ describe StreamsController do
         expect(@json_stream["properties"]["geo_reference"]).to eq(@post_hash[:geo_reference])
       end
 
+      it "has user information" do
+        expect(@json_stream["user"]["name"]).to eq(@user.name)
+        expect(@json_stream["user"]["email"]).to eq(@user.email)
+      end
+
     end
 
     context "not logged" do
@@ -256,7 +262,7 @@ describe StreamsController do
 
       @channel = create(:channel)
       @new_stream = create(:stream, lat: -25.272062301637, lng: -57.585376739502, id: "123", channel: @channel, thumb: @image_base64)
-      get :show, id: @new_stream.id
+      get :show, id: @new_stream.id, format: :json
       @json_stream = JSON.parse(response.body)
     end
 
@@ -300,17 +306,21 @@ describe StreamsController do
   end
 
   context "DELETE #destroy" do
+
+    login_user
+
     before do
       @delete_stream = create(:stream)
+      @params = {id: @delete_stream.id, format: :json}
     end
 
     it "returns no content status" do
-      delete :destroy, id: @delete_stream.id
+      delete :destroy, @params
       expect(response.status).to be(204)
     end
 
     it "decreses the stream count" do
-      expect{delete :destroy, id: @delete_stream.id}.to change(Stream, :count).by(-1)
+      expect{delete :destroy, @params}.to change(Stream, :count).by(-1)
     end
 
   end

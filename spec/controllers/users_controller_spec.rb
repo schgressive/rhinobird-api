@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe UsersController do
+describe Api::UsersController do
 
   describe "GET #show" do
     before do
       @user = create(:user)
-      get :show, id: @user.id
+      get :show, id: @user.id, format: :json
       @json_user = JSON.parse(response.body)
     end
 

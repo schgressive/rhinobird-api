@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Channel do
 
   describe "relations" do
-    it { should have_many(:streams) }
+    it { should have_and_belong_to_many(:streams) }
   end
 
   it "has a valid factory" do
@@ -36,6 +36,5 @@ describe Channel do
       expect(channel.hash_token).to match(/^[a-zA-Z0-9]{32}$/)
     end
   end
-
 
 end

@@ -6,9 +6,9 @@ class Stream < ActiveRecord::Base
   before_create :setup_stream
 
   # RELATIONS
-  belongs_to :channel
   belongs_to :user
   has_and_belongs_to_many :tags
+  has_and_belongs_to_many :channels
 
   has_attached_file :thumbnail, styles: {
     small: '33%',
@@ -20,9 +20,6 @@ class Stream < ActiveRecord::Base
 
   extend FriendlyId
   friendly_id :hash_token
-
-  # SCOPES
-  scope :by_channel, -> channel_id { where("channel_id = ?", channel_id) }
 
   def setup_stream
     self.hash_token = Digest::MD5.hexdigest(self.inspect + Time.now.to_s)
@@ -66,12 +63,6 @@ class Stream < ActiveRecord::Base
         add_tag(new_tag)
       end
     end
-  end
-
-  #sets a channel by name
-  def set_channel(name)
-    self.channel = Channel.find_or_create_by_name(name.strip)
-    self.save
   end
 
   #Returns the thumbnail full URL

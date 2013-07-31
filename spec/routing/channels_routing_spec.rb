@@ -17,10 +17,6 @@ describe Api::ChannelsController do
       expect(get: "#{route_prefix}/channels/1/streams").to route_to("#{controller_prefix}streams#index", channel_id: "1", format: :json)
     end
 
-    it "routes to #update" do
-      expect(put: "#{route_prefix}/channels/1/streams/1").to route_to("#{controller_prefix}streams#update", channel_id: "1", id: "1", format: :json)
-    end
-
     it "routes to #show" do
       expect(get: "#{route_prefix}/channels/1").to route_to("#{controller_prefix}channels#show", id: "1", format: :json)
     end

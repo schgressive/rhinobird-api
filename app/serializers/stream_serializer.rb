@@ -1,19 +1,14 @@
 class StreamSerializer < ActiveModel::Serializer
-  attributes :id, :url, :title, :desc, :started_on, :type, :properties, :geometry, :channel, :token, :thumbs, :live
+  attributes :id, :caption, :started_on, :type, :properties, :geometry,  :token, :thumbs, :live
   self.root = false
 
   has_many :tags, embed: :ids, key: :tags, embed_key: :to_param
+  has_many :channels, serializer: SimpleChannelSerializer #Using serializer that doesn't include streams to avoid Stack Too Deep exception
   has_one :user
 
   #to make valid geoJSON
   def type
     "Feature"
-  end
-
-  #can't use has_one :channel, it generates stacklevel too deep
-  def channel
-    return {} if object.channel.nil?
-    {name: object.channel.name, id: object.channel.to_param}
   end
 
   # Use hash_token as ID

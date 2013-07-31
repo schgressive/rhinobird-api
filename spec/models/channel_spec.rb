@@ -37,4 +37,22 @@ describe Channel do
     end
   end
 
+  describe "methods" do
+
+    describe "#get_channels" do
+
+      it "returns channel objects" do
+        channel = create(:channel, name: 'rock')
+        channels = Channel.get_channels("Live from #woodstock #ROCK #,nothing")
+
+        expect(channels.size).to eq(2)
+        expect(channels).to include(channel)
+        expect(Channel.count).to eq(2)
+      end
+
+    end
+
+  end
+
+
 end

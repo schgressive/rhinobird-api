@@ -4,6 +4,7 @@ class Stream < ActiveRecord::Base
 
   # CALLBACKS
   before_create :setup_stream
+  after_save :update_channels
 
   # RELATIONS
   belongs_to :user
@@ -20,6 +21,11 @@ class Stream < ActiveRecord::Base
 
   extend FriendlyId
   friendly_id :hash_token
+
+
+  def update_channels
+    self.channels = Channel.get_channels(self.caption)
+  end
 
   def setup_stream
     self.hash_token = Digest::MD5.hexdigest(self.inspect + Time.now.to_s)
@@ -73,6 +79,7 @@ class Stream < ActiveRecord::Base
     end
     url
   end
+
 
   private
   class PaperclipAttachment < StringIO

@@ -22,6 +22,24 @@ describe Stream do
     it { should validate_presence_of(:user_id) }
   end
 
+  describe "callbacks" do
+
+    describe "saving stream" do
+      it "sets the channels on creation" do
+        stream = create(:stream, caption: "Live from #rock in rio")
+        expect(stream.channels.size).to eq(1)
+      end
+
+      it "update the channel list on update" do
+        create(:channel, name: "lonely")
+        stream = create(:stream, caption: "Live from #rock in rio")
+        stream.caption = "Live from #rock in #brasil"
+        expect{stream.save}.to change{Channel.count}.by(1)
+        expect(stream.channels.size).to eq(2)
+      end
+    end
+  end
+
   describe "#add_tags" do
 
     it "assigns 2 tags" do

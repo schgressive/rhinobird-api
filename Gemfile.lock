@@ -183,7 +183,12 @@ GEM
     treetop (1.4.14)
       polyglot
       polyglot (>= 0.3.1)
+    twitter-text (1.6.1)
+      unf (~> 0.0.5)
     tzinfo (0.3.37)
+    unf (0.0.5)
+      unf_ext
+    unf_ext (0.0.6)
     unicorn (4.6.2)
       kgio (~> 2.6)
       rack
@@ -215,5 +220,6 @@ DEPENDENCIES
   ruby-hmac
   shoulda-matchers
   strong_parameters
+  twitter-text
   unicorn
   zeus

@@ -11,8 +11,8 @@ describe Stream do
     it { should have_attached_file(:thumbnail)}
   end
 
-  describe "relations" do
-    it { should belong_to(:channel) }
+  describe "Relations" do
+    it { should have_and_belong_to_many(:channels) }
     it { should belong_to(:user) }
     it { should have_and_belong_to_many(:tags) }
   end
@@ -20,6 +20,24 @@ describe Stream do
 
   describe "validations" do
     it { should validate_presence_of(:user_id) }
+  end
+
+  describe "callbacks" do
+
+    describe "saving stream" do
+      it "sets the channels on creation" do
+        stream = create(:stream, caption: "Live from #rock in rio")
+        expect(stream.channels.size).to eq(1)
+      end
+
+      it "update the channel list on update" do
+        create(:channel, name: "lonely")
+        stream = create(:stream, caption: "Live from #rock in rio")
+        stream.caption = "Live from #rock in #brasil"
+        expect{stream.save}.to change{Channel.count}.by(1)
+        expect(stream.channels.size).to eq(2)
+      end
+    end
   end
 
   describe "#add_tags" do
@@ -34,20 +52,6 @@ describe Stream do
       @stream = create(:stream)
       @stream.add_tags("grunge,rock")
       expect(@stream.tags).to have(2).items
-    end
-
-  end
-
-  describe "#set_channel" do
-
-    before(:each) do
-      @stream = create(:stream)
-      @channel = create(:channel, name: "concerts")
-    end
-
-    it "assigns to the channel by name" do
-      @stream.set_channel("concerts")
-      expect(@stream.channel).to eql(@channel)
     end
 
   end
@@ -99,27 +103,6 @@ describe Stream do
       expect(stream.started_on).not_to be_nil
       difference = Time.now - stream.started_on
       expect(difference).to be < 2 #less than 2 seconds
-    end
-  end
-
-  describe "get streams by channel" do
-
-    before do
-      @lonely_stream = create(:stream)
-      @stream1 = create(:stream)
-      @stream2 = create(:stream)
-      channel = create(:channel, streams: [@stream1, @stream2])
-      @streams = Stream.by_channel(channel)
-    end
-
-    it "returns only streams of the channel" do
-      expect(@streams).to have(2).elements
-      expect(@streams).to include(@stream1)
-      expect(@streams).to include(@stream2)
-    end
-
-    it "filters streams not in this channel" do
-      expect(@streams).not_to include(@lonely_stream)
     end
   end
 

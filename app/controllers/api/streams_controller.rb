@@ -3,7 +3,7 @@ class Api::StreamsController < Api::BaseController
 
   def index
     @streams = Stream
-    @streams = @streams.by_channel(params[:channel_id]) if params.has_key? :channel_id
+    @streams = Channel.find(params[:channel_id]).streams if params.has_key? :channel_id
     respond_with @streams.all
   end
 
@@ -15,7 +15,6 @@ class Api::StreamsController < Api::BaseController
   def create
     @stream = current_user.streams.create(stream_params)
     @stream.add_tags(params[:tags]) if params.has_key? :tags
-    @stream.set_channel(params[:channel]) if params.has_key? :channel
     respond_with @stream
   end
 
@@ -28,8 +27,7 @@ class Api::StreamsController < Api::BaseController
 
   def update
     @stream = Stream.find(params[:id])
-    @stream.channel = Channel.find(params[:channel_id]) if params.has_key? :channel_id
-    @stream.attributes = stream_params
+    @stream.update_attributes stream_params
     @stream.save
 
     respond_with @stream
@@ -38,6 +36,6 @@ class Api::StreamsController < Api::BaseController
   private
 
   def stream_params
-    params.permit(:title, :desc, :lat, :lng, :geo_reference, :thumb, :live)
+    params.permit(:caption, :lat, :lng, :geo_reference, :thumb, :live)
   end
 end

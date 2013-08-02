@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130717111044) do
+ActiveRecord::Schema.define(:version => 20130801120042) do
 
   create_table "channels", :force => true do |t|
     t.string   "name"
@@ -22,15 +22,19 @@ ActiveRecord::Schema.define(:version => 20130717111044) do
 
   add_index "channels", ["hash_token"], :name => "index_channels_on_hash_token", :unique => true
 
+  create_table "channels_streams", :id => false, :force => true do |t|
+    t.integer "channel_id"
+    t.integer "stream_id"
+  end
+
+  add_index "channels_streams", ["channel_id", "stream_id"], :name => "index_channels_streams_on_channel_id_and_stream_id"
+
   create_table "streams", :force => true do |t|
-    t.string   "url"
-    t.string   "title"
-    t.string   "desc"
+    t.string   "caption"
     t.string   "hash_token",                                                                :null => false
     t.decimal  "lat",                    :precision => 18, :scale => 12
     t.decimal  "lng",                    :precision => 18, :scale => 12
     t.string   "geo_reference"
-    t.integer  "channel_id"
     t.datetime "started_on"
     t.datetime "created_at",                                                                :null => false
     t.datetime "updated_at",                                                                :null => false
@@ -42,7 +46,6 @@ ActiveRecord::Schema.define(:version => 20130717111044) do
     t.boolean  "live",                                                   :default => false
   end
 
-  add_index "streams", ["channel_id"], :name => "index_streams_on_channel_id"
   add_index "streams", ["hash_token"], :name => "index_streams_on_hash_token", :unique => true
   add_index "streams", ["user_id"], :name => "index_streams_on_user_id"
 

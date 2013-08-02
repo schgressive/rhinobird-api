@@ -24,7 +24,7 @@ describe Api::StreamsController do
       it "returns an array of items" do
         expect(@streams).to have(1).items
         expect(@streams[0]["id"]).to eq(@stream.to_param)
-        expect(@streams[0]["title"]).to eq(@stream.title)
+        expect(@streams[0]["caption"]).to eq(@stream.caption)
       end
     end
 
@@ -60,9 +60,9 @@ describe Api::StreamsController do
       context "add a stream to a channel" do
 
         before(:each) do
-          @channel = create(:channel)
+          @channel = create(:channel, name: "riot")
           @stream = create(:stream)
-          @params = {channel_id: @channel.id, id: @stream.id, format: :json}
+          @params = {caption: "#riot in egypt", id: @stream.id, format: :json}
         end
 
         it "assigns the channel to the stream" do
@@ -73,7 +73,7 @@ describe Api::StreamsController do
           put :update, @params
           stream = JSON.parse(response.body)
           expect(stream["id"]).to eql(@stream.to_param)
-          expect(stream["channel"]["id"]).to eql(@channel.to_param)
+          expect(stream["channels"].first["id"]).to eql(@channel.to_param)
         end
       end
 
@@ -81,7 +81,7 @@ describe Api::StreamsController do
 
         before(:each) do
           @stream = create(:stream, live: false)
-          put :update, id: @stream.id, live: true, title: 'rock', format: :json
+          put :update, id: @stream.id, live: true, caption: 'rock', format: :json
         end
 
         it "returns the success code" do
@@ -91,7 +91,7 @@ describe Api::StreamsController do
         it "returns the updated stream" do
           stream = JSON.parse(response.body)
           expect(stream["id"]).to eql(@stream.to_param)
-          expect(stream["title"]).to eql("rock")
+          expect(stream["caption"]).to eql("rock")
           expect(stream["live"]).to be_true
         end
       end
@@ -123,32 +123,22 @@ describe Api::StreamsController do
     context "with a channel" do
       login_user
 
-      it "returns success code" do
+      before(:each) do
         @channel = create(:channel, name: "concerts")
-        post :create, format: :json, channel: "concerts"
+        post :create, format: :json, caption: "Best #rock #concerts ever"
+        @json_stream = JSON.parse(response.body)
+      end
+
+      it "returns success code" do
         expect(response.status).to be(201)
       end
 
       it "returns correct content type" do
-        @channel = create(:channel, name: "concerts")
-        post :create, format: :json, channel: "concerts"
         expect(response.header['Content-Type']).to include("application/json")
       end
 
-      it "returns the stream with the existing channel" do
-        @channel = create(:channel, name: "concerts")
-        post :create, format: :json, channel: "concerts"
-        @json_stream = JSON.parse(response.body)
-        expect(@json_stream["channel"]["id"]).to eql(@channel.to_param)
-        expect(@json_stream["channel"]["name"]).to eql(@channel.name)
-      end
-
-      it "returns the stream with a new channel" do
-        post :create, format: :json, channel: "politics "
-        @channel = Channel.find_by_name('politics')
-        @json_stream = JSON.parse(response.body)
-        expect(@json_stream["channel"]["id"]).to eql(@channel.to_param)
-        expect(@json_stream["channel"]["name"]).to eql(@channel.name)
+      it "adds the channels" do
+        expect(@json_stream["channels"].size).to eql(2)
       end
 
     end
@@ -184,8 +174,8 @@ describe Api::StreamsController do
           @image_base64 = "data:image/jpg;base64,#{file.read}"
         end
 
-        @post_hash = {title: 'live from woodstock',
-                      desc: "Test POST", lat: -25.272062301637, lng: -57.585376739502,
+        @post_hash = {caption: 'live from woodstock',
+                      lat: -25.272062301637, lng: -57.585376739502,
                       geo_reference: 'Unkown location',
                       thumb: @image_base64,
                       live: true,
@@ -204,10 +194,9 @@ describe Api::StreamsController do
       end
 
       it "returns a new stream object" do
-        expect(@json_stream["title"]).to eq(@post_hash[:title])
-        expect(@json_stream["desc"]).to eq(@post_hash[:desc])
+        expect(@json_stream["caption"]).to eq(@post_hash[:caption])
         expect(@json_stream["id"]).not_to be("")
-        expect(@json_stream["channel"]).to be_empty
+        expect(@json_stream["channels"]).to be_empty
       end
 
       it "returns a thumb information" do
@@ -238,7 +227,7 @@ describe Api::StreamsController do
     context "not logged" do
 
       before(:each) do
-        post :create, title: "hello", format: :json
+        post :create, caption: "hello", format: :json
       end
 
       it "returns access denied" do
@@ -261,7 +250,7 @@ describe Api::StreamsController do
       end
 
       @channel = create(:channel)
-      @new_stream = create(:stream, lat: -25.272062301637, lng: -57.585376739502, id: "123", channel: @channel, thumb: @image_base64)
+      @new_stream = create(:stream, lat: -25.272062301637, lng: -57.585376739502, caption: "live for #developers", thumb: @image_base64)
       get :show, id: @new_stream.id, format: :json
       @json_stream = JSON.parse(response.body)
     end
@@ -276,14 +265,12 @@ describe Api::StreamsController do
 
     it "returns correct stream format" do
       expect(@json_stream["id"]).to eq(@new_stream.to_param)
-      expect(@json_stream["title"]).to eq(@new_stream.title)
-      expect(@json_stream["desc"]).to eq(@new_stream.desc)
+      expect(@json_stream["caption"]).to eq(@new_stream.caption)
       expect(@json_stream["started_on"]).to eq(@new_stream.started_on.to_s(:api))
       expect(@json_stream["thumbs"]["small"]).to match(/^http:\/\/.*small.jpg/)
       expect(@json_stream["thumbs"]["medium"]).to match(/^http:\/\/.*medium.jpg/)
       expect(@json_stream["thumbs"]["large"]).to match(/^http:\/\/.*large.jpg/)
-      expect(@json_stream["channel"]["id"]).to eq(@channel.to_param)
-      expect(@json_stream["channel"]["name"]).to eq(@channel.name)
+      expect(@json_stream["channels"].size).to eq(1)
     end
 
     it "returns the live token" do

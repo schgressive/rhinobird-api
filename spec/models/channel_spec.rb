@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Channel do
 
   describe "relations" do
-    it { should have_many(:streams) }
+    it { should have_and_belong_to_many(:streams) }
   end
 
   it "has a valid factory" do
@@ -35,6 +35,23 @@ describe Channel do
     it "assigns a new MD5 for the hash token" do
       expect(channel.hash_token).to match(/^[a-zA-Z0-9]{32}$/)
     end
+  end
+
+  describe "methods" do
+
+    describe "#get_channels" do
+
+      it "returns channel objects" do
+        channel = create(:channel, name: 'rock')
+        channels = Channel.get_channels("Live from #woodstock #ROCK #,nothing")
+
+        expect(channels.size).to eq(2)
+        expect(channels).to include(channel)
+        expect(Channel.count).to eq(2)
+      end
+
+    end
+
   end
 
 

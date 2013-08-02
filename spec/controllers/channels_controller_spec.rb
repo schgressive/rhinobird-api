@@ -48,9 +48,9 @@ describe Api::ChannelsController do
       expect(@json_channel["streams"]).to have(1).items
 
       stream = @json_channel["streams"].first
-      expect(stream["title"]).not_to be_empty
+      expect(stream["caption"]).not_to be_empty
       expect(stream["id"]).not_to be_empty
-      expect(stream["channel"]).not_to be_empty
+      expect(stream["channels"]).not_to be_empty
     end
 
   end

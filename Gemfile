@@ -12,6 +12,7 @@ gem 'paperclip', "~> 3.0"
 gem 'rack-cors', :require => 'rack/cors'
 gem 'devise'
 gem 'twitter-text'
+gem 'negroku', "~> 1.1.4"
 
 group :development do
   gem 'debugger', :require => 'ruby-debug'

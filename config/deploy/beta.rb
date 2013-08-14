@@ -4,7 +4,7 @@
 server "church.peepol.tv", :web, :app, :db, primary: true
 
 # Web server configuration
-set :domains, 		"api.peepol.tv"
+set :domains, 		"beta.api.peepol.tv"
 
 # Source
 set :branch,     	"beta"		# Optional, defaults to master

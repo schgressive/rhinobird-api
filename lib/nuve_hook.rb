@@ -9,9 +9,20 @@ module NuveHook
       generate_room_token
     end
 
-    def room_name
-      "LicodeRoom#{self.id}"
+    # Refresh the flag if the room doesn't exist or the user list is empty
+    def refresh_live_status
+      # only check if flag is live
+      if self.live
+        live_status = true
+        users = NUVE.getUsers(self.hash_token)
+
+        live_status = false if users.include?("not exist") || JSON.parse(users).empty?
+
+        self.live = live_status
+        self.save
+      end
     end
+
   end
 
   #callback for room deletion
@@ -27,9 +38,10 @@ module NuveHook
 
   #assign room ID to stream hash_token
   def change_token
-    Rails.logger.info "creating room(#{self.room_name}) in Lynckia"
+    room_name = "LicodeRoom-#{Digest::MD5.hexdigest(self.inspect + Time.now.to_s)}"
+    Rails.logger.info "creating room(#{room_name}) in Lynckia"
     begin
-      response = NUVE.createRoom(self.room_name)
+      response = NUVE.createRoom(room_name)
     rescue Exception => e
       response = '{}'
       Rails.logger.debug "Error on create room: #{e.inspect}"
@@ -47,4 +59,5 @@ module NuveHook
       Rails.logger.debug "Error generating token for room: #{e.message}"
     end
   end
+
 end

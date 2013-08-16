@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.13'
 
+gem 'thin'
 gem 'mysql2'
 gem "active_model_serializers", "~> 0.8.0"
 gem 'strong_parameters'

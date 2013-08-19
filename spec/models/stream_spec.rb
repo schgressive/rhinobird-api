@@ -23,7 +23,7 @@ describe Stream do
   end
 
   describe "defaults" do
-    it "sets live to false" do
+    it "defaults the live flag to true" do
       stream = create(:stream)
       expect(stream.live).to be_true
     end

@@ -36,6 +36,11 @@ class Stream < ActiveRecord::Base
   def token
   end
 
+  #placeholder to refresh live status
+  def refresh_live_status
+    true #assume that status is true
+  end
+
   #decodes 'data:image/jpg;base64,#{base64_image}'
   def thumb=(value)
     content, base64 = value.split(";")

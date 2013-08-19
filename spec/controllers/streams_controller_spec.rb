@@ -9,7 +9,7 @@ describe Api::StreamsController do
   describe "GET #index" do
     context "without a channel" do
       before do
-        get :index, format: :json
+        get :index, format: :json, force_check: true
         @streams = JSON.parse(response.body)
       end
 
@@ -25,6 +25,38 @@ describe Api::StreamsController do
         expect(@streams).to have(1).items
         expect(@streams[0]["id"]).to eq(@stream.to_param)
         expect(@streams[0]["caption"]).to eq(@stream.caption)
+      end
+    end
+
+    context "pagination and filters" do
+
+      before do
+        # @stream = defined on before
+        @stream2 = create(:stream, caption: "stream 2", created_at: (Time.now + 10.seconds), live: false)
+        @stream3 = create(:stream, caption: "stream 3", live: true, created_at: (Time.now + 20.seconds), live: false)
+        @stream4 = create(:stream, caption: "stream 4", created_at: (Time.now + 30.seconds), live: false)
+      end
+
+      it "limits to 1 stream in the last" do
+        get :index, format: :json, limit: 1
+        streams = JSON.parse(response.body)
+        expect(streams.size).to eq(1)
+        expect(streams[0]["caption"]).to eq(@stream4.caption)
+      end
+
+      it "returns live streams" do
+        get :index, format: :json, live: true
+        streams = JSON.parse(response.body)
+        expect(streams.size).to eq(1)
+        expect(streams[0]["caption"]).to eq(@stream.caption)
+      end
+
+      it "returns 2 streams skipping the first 2" do
+        get :index, format: :json, limit: 2, offset: 2
+        streams = JSON.parse(response.body)
+        expect(streams.size).to eq(2)
+        expect(streams[0]["caption"]).to eq(@stream2.caption) # newst stream first
+        expect(streams[1]["caption"]).to eq(@stream.caption)
       end
     end
 
@@ -170,14 +202,9 @@ describe Api::StreamsController do
       login_user
 
       before(:each) do
-        File.open(Rails.root + "spec/factories/images/rails_base64.txt") do |file|
-          @image_base64 = "data:image/jpg;base64,#{file.read}"
-        end
-
         @post_hash = {caption: 'live from woodstock',
                       lat: -25.272062301637, lng: -57.585376739502,
                       geo_reference: 'Unkown location',
-                      thumb: @image_base64,
                       live: true,
                       format: :json}
 
@@ -200,9 +227,22 @@ describe Api::StreamsController do
       end
 
       it "returns a thumb information" do
-        expect(@json_stream["thumbs"]["small"]).to match(/^http:\/\/.*small.jpg/)
-        expect(@json_stream["thumbs"]["medium"]).to match(/^http:\/\/.*medium.jpg/)
-        expect(@json_stream["thumbs"]["large"]).to match(/^http:\/\/.*large.jpg/)
+        File.open(Rails.root + "spec/factories/images/rails_base64.txt") do |file|
+          @image_base64 = "data:image/jpg;base64,#{file.read}"
+        end
+
+        post_hash = {caption: 'live from woodstock',
+                      lat: -25.272062301637, lng: -57.585376739502,
+                      geo_reference: 'Unkown location',
+                      thumb: @image_base64,
+                      live: true,
+                      format: :json}
+
+        post :create, post_hash
+        json = JSON.parse(response.body)
+        expect(json["thumbs"]["small"]).to match(/^http:\/\/.*small.jpg/)
+        expect(json["thumbs"]["medium"]).to match(/^http:\/\/.*medium.jpg/)
+        expect(json["thumbs"]["large"]).to match(/^http:\/\/.*large.jpg/)
       end
 
       it "returns the live token" do
@@ -245,12 +285,8 @@ describe Api::StreamsController do
 
   context "GET #show" do
     before do
-      File.open(Rails.root + "spec/factories/images/rails_base64.txt") do |file|
-        @image_base64 = "data:image/jpg;base64,#{file.read}"
-      end
-
       @channel = create(:channel)
-      @new_stream = create(:stream, lat: -25.272062301637, lng: -57.585376739502, caption: "live for #developers", thumb: @image_base64)
+      @new_stream = create(:stream, lat: -25.272062301637, lng: -57.585376739502, caption: "live for #developers")
       get :show, id: @new_stream.id, format: :json
       @json_stream = JSON.parse(response.body)
     end
@@ -267,14 +303,24 @@ describe Api::StreamsController do
       expect(@json_stream["id"]).to eq(@new_stream.to_param)
       expect(@json_stream["caption"]).to eq(@new_stream.caption)
       expect(@json_stream["started_on"]).to eq(@new_stream.started_on.to_s(:api))
-      expect(@json_stream["thumbs"]["small"]).to match(/^http:\/\/.*small.jpg/)
-      expect(@json_stream["thumbs"]["medium"]).to match(/^http:\/\/.*medium.jpg/)
-      expect(@json_stream["thumbs"]["large"]).to match(/^http:\/\/.*large.jpg/)
       expect(@json_stream["channels"].size).to eq(1)
     end
 
+    it "returns the attachment" do
+      File.open(Rails.root + "spec/factories/images/rails_base64.txt") do |file|
+        @image_base64 = "data:image/jpg;base64,#{file.read}"
+      end
+
+      stream = create(:stream, lat: -25.272062301637, lng: -57.585376739502, caption: "live for #developers", thumb: @image_base64)
+      get :show, id: stream.id, format: :json
+      json= JSON.parse(response.body)
+      expect(json["thumbs"]["small"]).to match(/^http:\/\/.*small.jpg/)
+      expect(json["thumbs"]["medium"]).to match(/^http:\/\/.*medium.jpg/)
+      expect(json["thumbs"]["large"]).to match(/^http:\/\/.*large.jpg/)
+    end
+
     it "returns the live token" do
-      expect(@json_stream["live"]).to be_false
+      expect(@json_stream["live"]).to be_true
     end
 
     it "has a valid geoJSON format" do

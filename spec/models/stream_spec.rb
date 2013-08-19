@@ -22,6 +22,13 @@ describe Stream do
     it { should validate_presence_of(:user_id) }
   end
 
+  describe "defaults" do
+    it "defaults the live flag to true" do
+      stream = create(:stream)
+      expect(stream.live).to be_true
+    end
+  end
+
   describe "callbacks" do
 
     describe "saving stream" do

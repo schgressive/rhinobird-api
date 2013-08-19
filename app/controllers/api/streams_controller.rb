@@ -3,12 +3,24 @@ class Api::StreamsController < Api::BaseController
 
   def index
     @streams = Stream
+
+    # filters
     @streams = Channel.find(params[:channel_id]).streams if params.has_key? :channel_id
-    respond_with @streams.all
+    @streams = @streams.where(live: true) if params.has_key? :live
+
+    @streams = @streams.order("created_at DESC")
+
+    @streams = @streams.offset(params[:offset]) if params.has_key? :offset
+    @streams = @streams.limit(params[:limit]) if params.has_key? :limit
+
+    @streams.reject! { |stream| stream.refresh_live_status == false } if params.has_key? :force_check
+
+    respond_with @streams
   end
 
   def show
     @stream = Stream.find(params[:id])
+    @stream.refresh_live_status
     respond_with @stream
   end
 

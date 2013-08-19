@@ -10,4 +10,5 @@ class User < ActiveRecord::Base
 
   # RELATIONS
   has_many :streams
+  has_many :stream_pools
 end

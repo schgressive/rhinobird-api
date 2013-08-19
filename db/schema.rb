@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130819152632) do
+ActiveRecord::Schema.define(:version => 20130819195444) do
 
   create_table "channels", :force => true do |t|
     t.string   "name"
@@ -28,6 +28,17 @@ ActiveRecord::Schema.define(:version => 20130819152632) do
   end
 
   add_index "channels_streams", ["channel_id", "stream_id"], :name => "index_channels_streams_on_channel_id_and_stream_id"
+
+  create_table "stream_pools", :force => true do |t|
+    t.integer  "stream_id"
+    t.integer  "user_id"
+    t.boolean  "active"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "stream_pools", ["stream_id"], :name => "index_stream_pools_on_stream_id"
+  add_index "stream_pools", ["user_id"], :name => "index_stream_pools_on_user_id"
 
   create_table "streams", :force => true do |t|
     t.string   "caption"

@@ -9,7 +9,7 @@ describe Api::StreamsController do
   describe "GET #index" do
     context "without a channel" do
       before do
-        get :index, format: :json
+        get :index, format: :json, force_check: true
         @streams = JSON.parse(response.body)
       end
 

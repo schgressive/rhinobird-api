@@ -22,6 +22,7 @@ module NuveHook
         self.live = live_status
         self.save
       end
+      self.live
     end
 
   end

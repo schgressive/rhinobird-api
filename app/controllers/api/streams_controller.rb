@@ -13,7 +13,7 @@ class Api::StreamsController < Api::BaseController
     @streams = @streams.offset(params[:offset]) if params.has_key? :offset
     @streams = @streams.limit(params[:limit]) if params.has_key? :limit
 
-    @streams.map { |stream| stream.refresh_live_status } if params.has_key? :force_check
+    @streams.reject! { |stream| stream.refresh_live_status == false } if params.has_key? :force_check
 
     respond_with @streams
   end

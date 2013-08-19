@@ -5,8 +5,9 @@ module NuveHook
     before_destroy :delete_licode_room
     before_create :change_token
 
+    # returns the token if the stream is live
     def token
-      generate_room_token
+      self.live ? generate_room_token : ""
     end
 
     # Refresh the flag if the room doesn't exist or the user list is empty

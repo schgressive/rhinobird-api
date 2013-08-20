@@ -15,7 +15,10 @@ class StreamPool < ActiveRecord::Base
 
   # removes the stream unless is active
   def remove_from_pool
-    self.active ? self : self.destroy
+    return false if self.active && self.user.stream_pools.count > 1
+
+    self.destroy
+    true
   end
 
   private

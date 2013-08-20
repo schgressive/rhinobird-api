@@ -24,4 +24,34 @@ describe StreamPool do
     end
   end
 
+  describe "methods" do
+
+    context "#set_state" do
+
+      before(:each) do
+        @user = create(:user)
+      end
+
+      it "changes the state of the stream pool" do
+        stream = create(:stream_pool, user: @user, active: false)
+        stream.set_active(true)
+        expect(stream.active).to be_true
+
+        stream.set_active(false)
+        expect(stream.active).to be_false
+      end
+
+      it "inactivates other streams" do
+        unrelated_stream = create(:stream_pool, active: true)
+        active_stream = create(:stream_pool, user: @user, active: true)
+        stream = create(:stream_pool, user: @user, active: false)
+        stream.set_active(true)
+
+        expect(active_stream.reload.active).to be_false
+        expect(stream.reload.active).to be_true
+        expect(unrelated_stream.reload.active).to be_true
+      end
+    end
+
+  end
 end

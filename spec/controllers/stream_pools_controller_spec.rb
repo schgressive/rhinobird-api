@@ -33,6 +33,22 @@ describe Api::StreamsPoolController do
 
   end
 
+  describe "PUT #update" do
+    before do
+      @stream_pool = create(:stream_pool, active: false, user: @user)
+      put :update, format: :json, stream_id: @stream_pool.stream_id, active: true
+      @json = JSON.parse(response.body)
+    end
+
+    it "changes the active flag" do
+      expect(@json["active"]).to be_true
+    end
+
+    it "embeds the stream" do
+      expect(@json["stream"]["id"]).to eq(@stream_pool.stream.to_param)
+    end
+  end
+
   describe "POST #create" do
 
     before do

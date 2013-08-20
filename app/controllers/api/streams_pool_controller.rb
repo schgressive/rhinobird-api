@@ -11,6 +11,12 @@ class Api::StreamsPoolController < Api::BaseController
     respond_with @stream_pool
   end
 
+  def update
+    @stream_pool = current_user.stream_pools.find_by_stream_id params[:stream_id]
+    @stream_pool.set_active params[:active]
+    respond_with @stream_pool
+  end
+
   private
 
   def stream_pool_params

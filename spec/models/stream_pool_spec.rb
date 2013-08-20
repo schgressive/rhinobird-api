@@ -51,7 +51,9 @@ describe StreamPool do
         expect(stream.reload.active).to be_true
         expect(unrelated_stream.reload.active).to be_true
       end
+
     end
 
   end
+
 end

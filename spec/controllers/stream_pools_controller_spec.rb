@@ -49,6 +49,22 @@ describe Api::StreamsPoolController do
     end
   end
 
+  describe "DELETE #destroy" do
+    before do
+      @inactive_stream = create(:stream_pool, user: @user, active: false)
+      @active_stream = create(:stream_pool, user: @user, active: true)
+    end
+
+    it "removes the stream from the pool" do
+      expect{delete :destroy, format: :json, stream_id: @inactive_stream.stream_id}.to change(@user.reload.stream_pools, :count).by(-1)
+    end
+
+    it "doesn't remove an active stream" do
+      expect{delete :destroy, format: :json, stream_id: @active_stream.stream_id}.not_to change(@user.reload.stream_pools, :count)
+    end
+
+  end
+
   describe "POST #create" do
 
     before do

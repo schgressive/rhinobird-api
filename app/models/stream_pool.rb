@@ -13,6 +13,11 @@ class StreamPool < ActiveRecord::Base
     self.update_attributes active: active
   end
 
+  # removes the stream unless is active
+  def remove_from_pool
+    self.active ? self : self.destroy
+  end
+
   private
   # inactivates all the other streams
   def inactivate_streams

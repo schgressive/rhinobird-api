@@ -11,4 +11,9 @@ class User < ActiveRecord::Base
   # RELATIONS
   has_many :streams
   has_many :stream_pools
+
+  # returns true if it acts as a VJ
+  def vj?
+    !self.stream_pools.empty?
+  end
 end

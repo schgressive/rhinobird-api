@@ -19,8 +19,7 @@ class Api::StreamsPoolController < Api::BaseController
 
   def destroy
     @stream_pool = current_user.stream_pools.find_by_stream_id params[:stream_id]
-    @stream_pool.remove_from_pool
-    json = @stream_pool.destroyed? ? :nothing : {error: "can't remove active stream"}
+    json = @stream_pool.remove_from_pool ? :nothing : {error: "can't remove active stream"}
     render json: json
   end
 

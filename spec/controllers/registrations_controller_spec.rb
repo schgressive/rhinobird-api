@@ -9,7 +9,7 @@ describe Api::RegistrationsController do
 
     context "with new user information" do
       before(:each) do
-        @user_info = {user: {email: "sirius@peepol.tv", password: '12345678', name: "Sirius Black"}}
+        @user_info = {user: {email: "sirius@peepol.tv", password: '12345678', name: "Sirius Black", username: 'sirius'}}
         post :create, @user_info, format: :json
         @json_response = JSON.parse(response.body)
       end
@@ -23,7 +23,8 @@ describe Api::RegistrationsController do
         expect(@json_response["info"]).to eql("Registered")
         expect(@json_response["data"]["user"]["email"]).to eql(@user_info[:user][:email])
         expect(@json_response["data"]["user"]["name"]).to eql(@user_info[:user][:name])
-        expect(@json_response["data"]["user"]["id"]).not_to be_nil
+        expect(@json_response["data"]["user"]["id"]).to eq(@user_info[:user][:username])
+        expect(@json_response["data"]["user"]["username"]).to eq(@user_info[:user][:username])
       end
     end
 

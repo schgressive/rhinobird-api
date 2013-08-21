@@ -10,7 +10,10 @@ class Api::RegistrationsController < Devise::RegistrationsController
       render :status => 200,
         :json => { :success => true,
                    :info => "Registered",
-                   :data => { :user => resource, auth_token: resource.authentication_token }  }
+                   :data => { :user => { name: resource.name, username: resource.username,
+                                         id: resource.to_param, email: resource.email}, auth_token: resource.authentication_token }  }
+
+
     else
       render :status => :unprocessable_entity,
         :json => { :success => false,
@@ -21,6 +24,6 @@ class Api::RegistrationsController < Devise::RegistrationsController
 
   private
   def resource_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :username)
   end
 end

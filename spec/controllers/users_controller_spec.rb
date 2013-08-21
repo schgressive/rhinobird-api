@@ -20,11 +20,11 @@ describe Api::UsersController do
       end
 
       it "returns correct json structure" do
-        expect(@json_user["id"]).to eq(@user.id)
+        expect(@json_user["id"]).to eq(@user.to_param)
         expect(@json_user["name"]).to eq(@user.name)
         expect(@json_user["email"]).to eq(@user.email)
         expect(@json_user["vj"]).to eq(false)
-        expect(@json_user).to have(4).items
+        expect(@json_user["username"]).to eq(@user.username)
       end
     end
 
@@ -37,8 +37,9 @@ describe Api::UsersController do
       end
 
       it "returns correct json structure" do
-        expect(@json_user["id"]).to eq(@user.id)
+        expect(@json_user["id"]).to eq(@user.to_param)
         expect(@json_user["name"]).to eq(@user.name)
+        expect(@json_user["username"]).to eq(@user.username)
         expect(@json_user["email"]).to eq(@user.email)
         expect(@json_user["vj"]).to eq(true)
       end

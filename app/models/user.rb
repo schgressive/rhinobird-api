@@ -6,7 +6,11 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :token_authenticatable#, :confirmable
 
-  validates :name, presence: true
+  validates :name, :username, presence: true
+  validates :username, uniqueness: true
+
+  extend FriendlyId
+  friendly_id :username
 
   # RELATIONS
   has_many :streams

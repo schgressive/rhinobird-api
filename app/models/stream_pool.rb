@@ -7,10 +7,13 @@ class StreamPool < ActiveRecord::Base
   validates :user_id, :stream_id, presence: true
 
   def set_active(active)
+    return false unless stream.refresh_live_status
+
     # inactivate other streams
     inactivate_streams if active
 
     self.update_attributes active: active
+    true
   end
 
   # removes the stream unless is active

@@ -13,8 +13,11 @@ class Api::StreamsPoolController < Api::BaseController
 
   def update
     @stream_pool = current_user.stream_pools.find_by_stream_id params[:stream_id]
-    @stream_pool.set_active params[:active]
-    respond_with @stream_pool
+    if @stream_pool.set_active(params[:active])
+      respond_with @stream_pool
+    else
+      render json: {error: "Can't activate offline stream" }, status: 409
+    end
   end
 
   def destroy

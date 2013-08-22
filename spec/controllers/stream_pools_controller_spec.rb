@@ -34,18 +34,36 @@ describe Api::StreamsPoolController do
   end
 
   describe "PUT #update" do
-    before do
-      @stream_pool = create(:stream_pool, active: false, user: @user)
-      put :update, format: :json, stream_id: @stream_pool.stream_id, active: true
-      @json = JSON.parse(response.body)
+    context "live stream" do
+      before do
+        @stream_pool = create(:stream_pool, active: false, user: @user)
+        put :update, format: :json, stream_id: @stream_pool.stream_id, active: true
+        @json = JSON.parse(response.body)
+      end
+
+      it "changes the active flag" do
+        expect(@json["active"]).to be_true
+      end
+
+      it "embeds the stream" do
+        expect(@json["stream"]["id"]).to eq(@stream_pool.stream.to_param)
+      end
     end
 
-    it "changes the active flag" do
-      expect(@json["active"]).to be_true
-    end
+    context "offline stream" do
+      before do
+        offline = create(:stream, live: false)
+        @stream_pool = create(:stream_pool, active: false, user: @user, stream: offline)
+        put :update, format: :json, stream_id: @stream_pool.stream_id, active: true
+        @json = JSON.parse(response.body)
+      end
 
-    it "embeds the stream" do
-      expect(@json["stream"]["id"]).to eq(@stream_pool.stream.to_param)
+      it "returns status 409 Conflict" do
+        expect(response.status).to eq(409)
+      end
+      it "returns an error" do
+        expect(@json["error"]).to eq("Can't activate offline stream")
+      end
     end
   end
 

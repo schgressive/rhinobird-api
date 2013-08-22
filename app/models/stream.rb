@@ -38,7 +38,7 @@ class Stream < ActiveRecord::Base
 
   #placeholder to refresh live status
   def refresh_live_status
-    true #assume that status is true
+    self.live
   end
 
   #decodes 'data:image/jpg;base64,#{base64_image}'

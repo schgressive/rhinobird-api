@@ -26,7 +26,7 @@ describe StreamPool do
 
   describe "methods" do
 
-    context "#set_state" do
+    context "#set_active" do
 
       before(:each) do
         @user = create(:user)
@@ -39,6 +39,13 @@ describe StreamPool do
 
         stream.set_active(false)
         expect(stream.active).to be_false
+      end
+
+      it "can't change the state of a non live stream" do
+        offline_stream = create(:stream, live: false)
+        stream = create(:stream_pool, user: @user, active: false, stream: offline_stream)
+
+        expect(stream.set_active(true)).to be_false
       end
 
       it "inactivates other streams" do

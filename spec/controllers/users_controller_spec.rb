@@ -7,7 +7,7 @@ describe Api::UsersController do
     context "not as VJ" do
       before do
         @user = create(:user)
-        get :show, id: @user.id, format: :json
+        get :show, id: @user.to_param, format: :json
         @json_user = JSON.parse(response.body)
       end
 
@@ -25,14 +25,15 @@ describe Api::UsersController do
         expect(@json_user["email"]).to eq(@user.email)
         expect(@json_user["vj"]).to eq(false)
         expect(@json_user["username"]).to eq(@user.username)
+        expect(@json_user["stream_pools"]).to be_empty
       end
     end
 
     context "as a VJ" do
       before do
         @user = create(:user)
-        stream = create(:stream_pool, user: @user)
-        get :show, id: @user.id, format: :json
+        @stream = create(:stream_pool, user: @user)
+        get :show, id: @user.to_param, format: :json
         @json_user = JSON.parse(response.body)
       end
 
@@ -42,6 +43,12 @@ describe Api::UsersController do
         expect(@json_user["username"]).to eq(@user.username)
         expect(@json_user["email"]).to eq(@user.email)
         expect(@json_user["vj"]).to eq(true)
+      end
+
+      it "embeds the stream_pool" do
+        pool = @json_user["stream_pools"]
+        expect(pool[0]["stream"]["id"]).to eq(@stream.stream.to_param)
+        expect(pool[0]["active"]).to be_false
       end
     end
 

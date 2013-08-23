@@ -8,6 +8,14 @@ module NuveHook
         NuveHook::Nuve.create_access_token(self.vj_room) if valid_token?
       end
 
+      def check_vj_status
+        if valid_token? && !NuveHook::Nuve.live_room?(self.username)
+          self.vj_room = nil
+          self.stream_pools.delete_all
+          self.save
+        end
+      end
+
     end
 
     # checks if the user has a valid token

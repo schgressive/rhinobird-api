@@ -14,7 +14,7 @@ class Api::StreamsPoolController < Api::BaseController
   end
 
   def update
-    @stream_pool = StreamPool.get_by_stream_hash(params[:stream_id])
+    @stream_pool = StreamPool.get_by_stream_hash(current_user, params[:stream_id])
     if @stream_pool.set_active(params[:active])
       respond_with @stream_pool
     else
@@ -23,7 +23,7 @@ class Api::StreamsPoolController < Api::BaseController
   end
 
   def destroy
-    @stream_pool = StreamPool.get_by_stream_hash(params[:stream_id])
+    @stream_pool = StreamPool.get_by_stream_hash(current_user, params[:stream_id])
     json = @stream_pool.remove_from_pool ? :nothing : {error: "can't remove active stream"}
     render json: json
   end

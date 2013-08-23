@@ -19,4 +19,12 @@ class UserSerializer < ActiveModel::Serializer
   def vj_token
     object.vj_token
   end
+
+  def include_stream_pools?
+    object.show_pool
+  end
+
+  def include_vj_token?
+    object.show_pool
+  end
 end

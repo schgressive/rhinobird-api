@@ -3,6 +3,7 @@ class Api::UsersController < Api::BaseController
 
   def show
     user = User.find(params[:id])
+    user.show_pool = true
     respond_with user
   end
 end

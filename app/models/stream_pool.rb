@@ -6,6 +6,11 @@ class StreamPool < ActiveRecord::Base
   # Validations
   validates :user_id, :stream_id, presence: true
 
+  def self.get_by_stream_hash(user, stream_hash)
+    stream = Stream.find(stream_hash)
+    user.stream_pools.find_by_stream_id(stream.id)
+  end
+
   def set_active(active)
     return false unless stream.refresh_live_status
 

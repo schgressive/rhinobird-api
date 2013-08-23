@@ -32,9 +32,9 @@ ActiveRecord::Schema.define(:version => 20130822195433) do
   create_table "stream_pools", :force => true do |t|
     t.integer  "stream_id"
     t.integer  "user_id"
-    t.boolean  "active"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.boolean  "active",     :default => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
   end
 
   add_index "stream_pools", ["stream_id"], :name => "index_stream_pools_on_stream_id"

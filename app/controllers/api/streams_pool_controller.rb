@@ -7,9 +7,12 @@ class Api::StreamsPoolController < Api::BaseController
   end
 
   def create
-    stream = Stream.find(params[:stream_id])
-    params[:stream_id] = stream.id
-    @stream_pool = current_user.stream_pools.create(stream_pool_params)
+    @stream_pool = StreamPool.get_by_stream_hash(current_user, params[:stream_id])
+    unless @stream_pool
+      stream = Stream.find(params[:stream_id])
+      params[:stream_id] = stream.id
+      @stream_pool = current_user.stream_pools.create(stream_pool_params)
+    end
     respond_with @stream_pool
   end
 

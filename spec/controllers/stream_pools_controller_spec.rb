@@ -102,8 +102,14 @@ describe Api::StreamsPoolController do
       expect(response.status).to be(201)
     end
 
+    it "ignores the same stream" do
+      post :create, format: :json, stream_id: @stream.id, active: true
+      expect(@user.stream_pools.count).to eq(1)
+    end
+
     it "increments the stream pool count" do
-      expect{post :create, format: :json, stream_id: @stream.id}.to change(StreamPool, :count).by(1)
+      stream = create(:stream)
+      expect{post :create, format: :json, stream_id: stream.id}.to change(StreamPool, :count).by(1)
     end
 
     it "returns correct content type" do

@@ -20,4 +20,8 @@ class User < ActiveRecord::Base
   def vj?
     !self.stream_pools.empty?
   end
+
+  def vj_token
+    nil
+  end
 end

@@ -5,5 +5,7 @@ NUVE = Nuve.new(superserviceID, superserviceKey, ENV['NUVE_SERVICE_HOST'])
 
 ActionDispatch::Callbacks.to_prepare do
   # configure stuff or initialize
-  Stream.send :include, NuveHook unless Rails.env.test?
+  Stream.send :include, NuveHook::Stream unless Rails.env.test?
+  StreamPool.send :include, NuveHook::StreamPool unless Rails.env.test?
+  User.send :include, NuveHook::User unless Rails.env.test?
 end

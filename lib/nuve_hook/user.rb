@@ -9,7 +9,7 @@ module NuveHook
       end
 
       def check_vj_status
-        if valid_token? && NuveHook::Nuve.room_exists?(self.username)
+        if valid_token? && !NuveHook::Nuve.room_exists?(self.username)
           self.vj_room = nil
           self.stream_pools.delete_all
           self.save

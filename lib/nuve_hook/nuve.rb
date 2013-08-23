@@ -10,9 +10,15 @@ module NuveHook
 
     # checks for room existance or empty room
     def self.live_room?(roomId)
-      users = NUVE.getUsers(roomId)
 
-      !(users.include?("not exist") || users.include?("MAuth") || JSON.parse(users).empty?)
+      json_reply = NUVE.getUsers(roomId)
+      return false if (json_reply.include?("not exist") || json_reply.include?("MAuth"))
+
+      users = JSON.parse(json_reply)
+      users.reject! {|u| u.to_s.include?("null") }
+      return false if users.empty?
+
+      true
     end
 
     def self.delete_room(roomId)

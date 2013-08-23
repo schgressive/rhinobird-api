@@ -5,14 +5,14 @@ module NuveHook
     def self.room_exists?(roomId)
       users = NUVE.getUsers(roomId)
 
-      !users.include?("not exist")
+      !(users.include?("not exist") || users.include?("MAuth"))
     end
 
     # checks for room existance or empty room
     def self.live_room?(roomId)
       users = NUVE.getUsers(roomId)
 
-      !(users.include?("not exist") || JSON.parse(users).empty?)
+      !(users.include?("not exist") || users.include?("MAuth") || JSON.parse(users).empty?)
     end
 
     def self.delete_room(roomId)

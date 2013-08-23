@@ -1,6 +1,13 @@
 module NuveHook
   module Nuve
 
+    # checks for room existance
+    def self.room_exists?(roomId)
+      users = NUVE.getUsers(roomId)
+
+      !users.include?("not exist")
+    end
+
     # checks for room existance or empty room
     def self.live_room?(roomId)
       users = NUVE.getUsers(roomId)

@@ -1,9 +1,7 @@
 class Api::StreamsPoolController < Api::BaseController
 
   def index
-    @streams = current_user.stream_pools
-
-    respond_with @streams.all
+    respond_with current_user.stream_pools.where(live: true)
   end
 
   def create

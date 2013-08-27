@@ -21,6 +21,16 @@ class StreamPool < ActiveRecord::Base
     true
   end
 
+  def self.add_to_pool(user, stream_id, params)
+    stream_pool = StreamPool.get_by_stream_hash(user, stream_id)
+    if stream_pool.nil?
+      stream = Stream.find(stream_id)
+      params[:stream_id] = stream.id
+      stream_pool = user.stream_pools.create(params)
+    end
+    stream_pool
+  end
+
   # removes the stream unless is active
   def remove_from_pool
     return false if self.active && self.user.stream_pools.count > 1

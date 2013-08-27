@@ -7,6 +7,8 @@ describe Api::StreamsPoolController do
   describe "GET #index" do
     before do
       @stream = create(:stream)
+      @offline = create(:stream, live: false)
+      @stream_pool_offline = create(:stream_pool, user: @user, stream: @offline)
       @stream_pool = create(:stream_pool, user: @user, stream: @stream)
       get :index, format: :json
       @stream_pools = JSON.parse(response.body)

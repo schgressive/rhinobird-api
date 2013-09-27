@@ -6,7 +6,6 @@ gem 'thin'
 gem 'mysql2'
 gem "active_model_serializers", "~> 0.8.0"
 gem 'strong_parameters'
-gem 'jquery-rails'
 gem 'ruby-hmac'
 gem 'friendly_id'
 gem 'paperclip', "~> 3.0"

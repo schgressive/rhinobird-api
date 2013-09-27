@@ -94,9 +94,6 @@ GEM
     hike (1.2.3)
     i18n (0.6.5)
     journey (1.0.4)
-    jquery-rails (2.2.1)
-      railties (>= 3.0, < 5.0)
-      thor (>= 0.14, < 2.0)
     json (1.8.0)
     kgio (2.8.0)
     libv8 (3.16.14.3)
@@ -259,7 +256,6 @@ DEPENDENCIES
   faker
   friendly_id
   guard-rspec
-  jquery-rails
   mysql2
   negroku (~> 1.1.4)
   ngmin-rails

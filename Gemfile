@@ -15,6 +15,9 @@ gem 'twitter-text'
 gem 'negroku', "~> 1.1.4"
 gem 'ngmin-rails'
 
+gem 'compass_twitter_bootstrap'
+gem 'compass-rails'
+
 group :test do
   gem 'shoulda-matchers'
   gem "database_cleaner"

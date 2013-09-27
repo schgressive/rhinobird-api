@@ -47,6 +47,9 @@ module PeepoltvApi
     # like if you have constraints or database-specific column types
     # config.active_record.schema_format = :sql
 
+    # Bower uses folder components
+    config.assets.paths << Rails.root.join('vendor', 'assets', 'bower_components')
+
     # Enforce whitelist mode for mass assignment.
     # This will create an empty whitelist of attributes available for mass-assignment for all models
     # in your app. As such, your models will need to explicitly whitelist or blacklist accessible

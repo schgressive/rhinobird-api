@@ -26,6 +26,7 @@ end
 
 #rspec-rails needs to be in both groups for shoulda-matchers to work
 group :development, :test do
+  gem 'letter_opener'
   gem 'guard-rspec'
   gem 'rspec-rails', "~> 2.0"
   gem "zeus"

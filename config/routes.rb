@@ -2,7 +2,7 @@ PeepoltvApi::Application.routes.draw do
 
   namespace :api, defaults: {format: :json} do
 
-    devise_for :users, singular: :user
+    devise_for :users, singular: :user, controllers: {confirmations: "devise/confirmations"}
     devise_scope :user do
       post 'registration' => 'registrations#create', as: 'register', defaults: {format: :json}
       post 'sessions' => 'sessions#create', :as => 'login', defaults: {format: :json}

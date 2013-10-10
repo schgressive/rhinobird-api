@@ -12,8 +12,8 @@ Take a look at http://docs.peepoltv.apiary.io/ for reference.
 
 The following variables should be defined for the API to work
 
-* DEV_HOST: For the development host (ex. http://locahost:3000/)
-* PROD_HOST: The host for the production server (ex. http://beta.peepol.tv/)
+* DEFAULT_HOST: The host for the server (ex. http://beta.peepol.tv/)
+* DEFAULT_SENDER: Default email sender for email notifications (ex. notify@peepol.tv)
 * NUVE_SERVICE_ID: The Service ID given by Licode
 * NUVE_SERVICE_KEY: The Service KEY given by Licode
 * NUVE_SERVICE_HOST: The host where Licode is running (ex. http://streaming.peepol.tv/)

@@ -6,7 +6,6 @@ class Api::RegistrationsController < Devise::RegistrationsController
     resource = User.new(resource_params)
     if resource.save
       resource.ensure_authentication_token!
-      sign_in resource
       render :status => 200,
         :json => { :success => true,
                    :info => "Registered",

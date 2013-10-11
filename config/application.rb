@@ -58,6 +58,7 @@ module PeepoltvApi
 
     # Enable the asset pipeline
     config.assets.enabled = true
+    config.host = "http://" + ENV["DEFAULT_HOST"]
 
     config.action_mailer.default_url_options = { host: ENV["DEFAULT_HOST"] }
     # Version of your assets, change this if you want to expire all your assets

@@ -21,6 +21,7 @@ gem 'compass-rails'
 group :test do
   gem 'shoulda-matchers'
   gem "database_cleaner"
+  gem 'email_spec'
   gem 'coveralls', require: false
 end
 

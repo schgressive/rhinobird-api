@@ -26,6 +26,23 @@ describe Api::RegistrationsController do
         expect(@json_response["data"]["user"]["id"]).to eq(@user_info[:user][:username])
         expect(@json_response["data"]["user"]["username"]).to eq(@user_info[:user][:username])
       end
+
+      context "confirmation email" do
+        subject(:mail) { ActionMailer::Base.deliveries.first}
+
+        it "sends to the user email" do
+          expect(mail).to deliver_to("sirius@peepol.tv")
+        end
+        it "has a the correct subject" do
+          expect(mail).to have_subject(/Confirmation/)
+        end
+        it "sends from the default sender" do
+          expect(mail).to deliver_from(ENV["DEFAULT_SENDER"])
+        end
+        it "includes the confirmation link" do
+          expect(mail).to have_body_text(/#{user_confirmation_path}/)
+        end
+      end
     end
 
     context "with duplicated user information" do

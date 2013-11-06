@@ -26,33 +26,51 @@ describe Api::ChannelsController do
   end
 
   describe "GET #show" do
-    before do
-      @new_channel = create(:channel, streams: [create(:stream)])
-      get :show, id: @new_channel.name, format: :json
-      @json_channel = JSON.parse(response.body)
+    context "unexisting channel" do
+
+      before do
+        get :show, id: "unknown_channel", format: :json
+      end
+
+      it "returns not found status code" do
+        expect(response.status).to be(404)
+      end
+
+      it "returns an empty response" do
+        expect(response.body).to be_blank
+      end
+
     end
 
-    it "returns success code" do
-      expect(response.status).to be(200)
+    context "With valid channels" do
+      before do
+        @new_channel = create(:channel, streams: [create(:stream)])
+        get :show, id: @new_channel.name, format: :json
+        @json_channel = JSON.parse(response.body)
+      end
+
+      it "returns success code" do
+        expect(response.status).to be(200)
+      end
+
+      it "returns correct content type" do
+        expect(response.header['Content-Type']).to include("application/json")
+      end
+
+      it "returns correct json structure" do
+        expect(@json_channel["id"]).to eq(@new_channel.hash_token)
+        expect(@json_channel["name"]).to eq(@new_channel.name)
+        expect(@json_channel["created_at"]).to eq(@new_channel.created_at.to_s(:api))
+        expect(@json_channel["streams_count"]).to eq(@new_channel.streams.count)
+        expect(@json_channel["streams"]).to have(1).items
+
+        stream = @json_channel["streams"].first
+        expect(stream["caption"]).not_to be_empty
+        expect(stream["id"]).not_to be_empty
+        expect(stream["channels"]).not_to be_empty
+      end
+
     end
-
-    it "returns correct content type" do
-      expect(response.header['Content-Type']).to include("application/json")
-    end
-
-    it "returns correct json structure" do
-      expect(@json_channel["id"]).to eq(@new_channel.hash_token)
-      expect(@json_channel["name"]).to eq(@new_channel.name)
-      expect(@json_channel["created_at"]).to eq(@new_channel.created_at.to_s(:api))
-      expect(@json_channel["streams_count"]).to eq(@new_channel.streams.count)
-      expect(@json_channel["streams"]).to have(1).items
-
-      stream = @json_channel["streams"].first
-      expect(stream["caption"]).not_to be_empty
-      expect(stream["id"]).not_to be_empty
-      expect(stream["channels"]).not_to be_empty
-    end
-
   end
 
   describe "POST #create" do

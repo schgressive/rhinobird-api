@@ -4,7 +4,7 @@ PeepoltvApi::Application.routes.draw do
 
     devise_for :users, singular: :user, controllers: {confirmations: "api/confirmations"}
     devise_scope :user do
-      post 'registration' => 'registrations#create', as: 'register', defaults: {format: :json}
+      post 'users' => 'users#create', as: 'register', defaults: {format: :json}
       post 'sessions' => 'sessions#create', :as => 'login', defaults: {format: :json}
       get 'sessions' => 'sessions#show', :as => 'show', defaults: {format: :json}
       delete 'sessions' => 'sessions#destroy', :as => 'logout', defaults: {format: :json}

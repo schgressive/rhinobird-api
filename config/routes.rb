@@ -6,8 +6,8 @@ PeepoltvApi::Application.routes.draw do
     devise_scope :user do
       post 'users' => 'users#create', as: 'register', defaults: {format: :json}
       post 'sessions' => 'sessions#create', :as => 'login', defaults: {format: :json}
-      get 'sessions' => 'sessions#show', :as => 'show', defaults: {format: :json}
-      delete 'sessions' => 'sessions#destroy', :as => 'logout', defaults: {format: :json}
+      get 'sessions/current' => 'sessions#show', :as => 'show', defaults: {format: :json}
+      delete 'sessions/current' => 'sessions#destroy', :as => 'logout', defaults: {format: :json}
     end
     resources :users, only: [:show]
 

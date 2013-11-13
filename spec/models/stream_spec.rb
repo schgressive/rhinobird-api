@@ -22,6 +22,23 @@ describe Stream do
     it { should validate_presence_of(:user_id) }
   end
 
+  describe "Methods" do
+    describe "#increment_playcount!" do
+      it "sets the count to 1 when nil" do
+        stream = create(:stream)
+        stream.increment_playcount!
+        expect(stream.playcount).to eq(1)
+      end
+
+      it "increments the count by 1" do
+        stream = create(:stream, playcount: 3)
+        stream.increment_playcount!
+        expect(stream.playcount).to eq(4)
+      end
+    end
+
+  end
+
   describe "defaults" do
     it "defaults the live flag to true" do
       stream = create(:stream)

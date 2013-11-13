@@ -85,6 +85,12 @@ class Stream < ActiveRecord::Base
     url
   end
 
+  def increment_playcount!
+    self.playcount ||= 0
+    self.playcount += 1
+    self.save
+  end
+
 
   private
   class PaperclipAttachment < StringIO

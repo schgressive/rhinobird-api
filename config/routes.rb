@@ -23,6 +23,9 @@ PeepoltvApi::Application.routes.draw do
 
     resources :streams, only: [:create, :show, :index, :destroy, :update] do
       resources :tags, only: [:create, :destroy]
+      member do
+        put :play
+      end
     end
 
   end

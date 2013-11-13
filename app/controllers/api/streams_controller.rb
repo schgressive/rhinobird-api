@@ -1,5 +1,5 @@
 class Api::StreamsController < Api::BaseController
-  skip_before_filter :authenticate_user!, only: [:show, :index, :played]
+  skip_before_filter :authenticate_user!, only: [:show, :index, :play]
 
   def index
     @streams = Stream
@@ -45,7 +45,7 @@ class Api::StreamsController < Api::BaseController
     respond_with @stream
   end
 
-  def played
+  def play
     @stream = Stream.find_by_id(params[:id])
     @stream.increment_playcount! if @stream
 

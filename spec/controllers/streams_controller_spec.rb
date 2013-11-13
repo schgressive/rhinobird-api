@@ -150,12 +150,12 @@ describe Api::StreamsController do
 
   end
 
-  describe "PUT #played" do
+  describe "PUT #play" do
 
     context "existing stream" do
       before(:each) do
         @stream = create(:stream, playcount: 1)
-        put :played, format: :json, id: @stream.id
+        put :play, format: :json, id: @stream.id
       end
 
       it "increments the playcount of the stream" do
@@ -170,7 +170,7 @@ describe Api::StreamsController do
 
     context "non existing stream" do
       it "returns 404 status code" do
-        put :played, id: "1231312n", format: :json
+        put :play, id: "1231312n", format: :json
         expect(response).to be_not_found
       end
     end

@@ -29,6 +29,10 @@ describe Api::StreamsController do
       expect(put: "#{route_prefix}/streams/1").to route_to("#{controller_prefix}streams#update", id: "1", format: :json)
     end
 
+    it "routes to #played" do
+      expect(put: "#{route_prefix}/streams/1/played").to route_to("#{controller_prefix}streams#played", id: "1", format: :json)
+    end
+
     it "routes to #destroy" do
       expect(delete: "#{route_prefix}/streams/1").to route_to("#{controller_prefix}streams#destroy", :id => "1", format: :json)
     end

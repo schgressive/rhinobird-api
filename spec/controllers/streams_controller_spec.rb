@@ -150,6 +150,34 @@ describe Api::StreamsController do
 
   end
 
+  describe "PUT #played" do
+
+    context "existing stream" do
+      before(:each) do
+        @stream = create(:stream, playcount: 1)
+        put :played, format: :json, id: @stream.id
+      end
+
+      it "increments the playcount of the stream" do
+        @stream.reload
+        expect(@stream.playcount).to eq(2)
+      end
+
+      it "returns success status code" do
+        expect(response).to be_success
+      end
+    end
+
+    context "non existing stream" do
+      it "returns 404 status code" do
+        put :played, id: "1231312n", format: :json
+        expect(response).to be_not_found
+      end
+    end
+
+
+  end
+
   describe "POST #create" do
 
     context "with a channel" do

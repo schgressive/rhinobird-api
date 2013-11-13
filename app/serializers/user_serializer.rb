@@ -8,10 +8,6 @@ class UserSerializer < ActiveModel::Serializer
     object.stream_pools.size
   end
 
-  def id
-    object.to_param
-  end
-
   def vj
     object.vj?
   end

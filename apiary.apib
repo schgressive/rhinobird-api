@@ -686,10 +686,10 @@ DELETE /bonds/{id}
 
 
 --
-Registration Resource
-This resource adds registration to the system
+User Resource
+The resource for users
 
-###Registration Properties
+### User Properties
 - id (int): User ID
 - email (string): email to register
 - password (string): account desired password
@@ -697,27 +697,20 @@ This resource adds registration to the system
 --
 
 Creates a new user into the system
-POST /registrations
+POST /users
 > Content-Type: application/json
 > Accept: application/json
 {
-    "user": {
-        "email": "sirius@peepol.tv",
-        "password": "12345678,
-        "name": "Sirius Black"
-    }
+    "email": "sirius@peepol.tv",
+    "password": "12345678",
+    "name": "Sirius Black",
+    "username": "sirius"
 }
 < 201
 {
-    "success": "true",
-    "info": "Registered",
-    "data": {
-        "user": {
-            "email": "sirius@peepol.tv",
-            "name": "Sirius Black",
-            "id": 1
-        }
-    }
+    "email": "sirius@peepol.tv",
+    "name": "Sirius Black",
+    "username": "sirius"
 }
 
 
@@ -727,9 +720,8 @@ Sessions Resource
 This resource adds session management
 
 ###Session Properties
-- email (string): email to register
-- password (string): account desired password
-- name (string): Name of account
+- auth_token (string): Authentication token
+- user: (object): Authenticated user
 --
 
 Logs a user into the system
@@ -743,12 +735,30 @@ POST /sessions
 < 201
 {
     "auth_token": "XXXXXXXXXXXXXXXXXXX",
-    "email": "sirius@peepol.tv"
+    "user": {
+        "email": "sirius@peepol.tv",
+        "name": "Sirius Black",
+        "username": "sirius"
+    }
 }
 
 
+Get the current serssion
+GET /sessions/current
+> Content-Type: application/json
+> Accept: application/json
+< 200
+{
+    "auth_token": "XXXXXXXXXXXXXXXXXXX",
+    "user": {
+        "email": "sirius@peepol.tv",
+        "name": "Sirius Black",
+        "username": "sirius"
+    }
+}
+
 Logs the user off
-DELETE /session/{email}
+DELETE /sessions/current
 < 204
 
 

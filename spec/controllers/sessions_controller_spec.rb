@@ -25,8 +25,9 @@ describe Api::SessionsController do
 
       it "returns valid credentials" do
         expect(@json_response["auth_token"]).not_to be("")
-        expect(@json_response["email"]).to eql(@user.email)
-        expect(@json_response["name"]).to eql(@user.name)
+        expect(@json_response["user"]["id"]).to be_nil
+        expect(@json_response["user"]["email"]).to eql(@user.email)
+        expect(@json_response["user"]["name"]).to eql(@user.name)
       end
     end
 
@@ -96,7 +97,14 @@ describe Api::SessionsController do
       end
 
       it "returns a success code" do
-        expect(response.status).to be(201)
+        expect(response.status).to be(200)
+      end
+
+      it "returns valid credentials" do
+        expect(@json_response["auth_token"]).not_to be("")
+        expect(@json_response["user"]["id"]).to be_nil
+        expect(@json_response["user"]["email"]).to eql(@user.email)
+        expect(@json_response["user"]["name"]).to eql(@user.name)
       end
 
     end
@@ -109,7 +117,6 @@ describe Api::SessionsController do
 
       before(:each) do
         @user = create(:user, email: 'sirius@peepol.tv', password: '12345678')
-#        @user.confirm!
         @request.env["devise.mapping"] = Devise.mappings[:user]
 
         delete :destroy
@@ -135,7 +142,7 @@ describe Api::SessionsController do
       end
 
       it "returns a success code" do
-        expect(response.status).to be(202)
+        expect(response.status).to be(204)
       end
 
     end

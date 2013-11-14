@@ -1,15 +1,11 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :name, :email, :vj, :username, :cantidad, :vj_token
+  attributes  :name, :email, :vj, :username, :cantidad, :vj_token
   self.root = false
 
   has_many :stream_pools
 
   def cantidad
     object.stream_pools.size
-  end
-
-  def id
-    object.to_param
   end
 
   def vj

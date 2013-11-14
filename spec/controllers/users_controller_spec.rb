@@ -20,7 +20,6 @@ describe Api::UsersController do
       end
 
       it "returns correct json structure" do
-        expect(@json_user["id"]).to eq(@user.to_param)
         expect(@json_user["name"]).to eq(@user.name)
         expect(@json_user["email"]).to eq(@user.email)
         expect(@json_user["vj"]).to eq(false)
@@ -38,7 +37,6 @@ describe Api::UsersController do
       end
 
       it "returns correct json structure" do
-        expect(@json_user["id"]).to eq(@user.to_param)
         expect(@json_user["name"]).to eq(@user.name)
         expect(@json_user["username"]).to eq(@user.username)
         expect(@json_user["email"]).to eq(@user.email)
@@ -53,5 +51,69 @@ describe Api::UsersController do
     end
 
   end
+
+  describe "POST #create" do
+    before(:each) do
+      @request.env["devise.mapping"] = Devise.mappings[:user]
+    end
+
+    context "with new user information" do
+      before(:each) do
+        @user_info = {email: "sirius@peepol.tv", password: '12345678', name: "Sirius Black", username: 'sirius'}
+        post :create, @user_info, format: :json
+        @json_response = JSON.parse(response.body)
+      end
+
+      it "returns success code" do
+        expect(response.status).to eq(201)
+      end
+
+      it "returns user info" do
+        expect(@json_response["success"]).to be_nil
+        expect(@json_response["info"]).to be_nil
+        expect(@json_response["id"]).to be_nil
+
+        expect(@json_response["email"]).to eql(@user_info[:email])
+        expect(@json_response["name"]).to eql(@user_info[:name])
+        expect(@json_response["username"]).to eq(@user_info[:username])
+      end
+
+      context "confirmation email" do
+        subject(:mail) { ActionMailer::Base.deliveries.first}
+
+        it "sends to the user email" do
+          expect(mail).to deliver_to("sirius@peepol.tv")
+        end
+        it "has a the correct subject" do
+          expect(mail).to have_subject(/Confirmation/)
+        end
+        it "sends from the default sender" do
+          expect(mail).to deliver_from(ENV["DEFAULT_SENDER"])
+        end
+        it "includes the confirmation link" do
+          expect(mail).to have_body_text(/#{user_confirmation_path}/)
+        end
+      end
+    end
+
+    context "with duplicated user information" do
+      before(:each) do
+        create(:user, email: "sirius@peepol.tv", name: "Sirius Black")
+        @user_info = {email: "sirius@peepol.tv", password: '12345678', name: "Sirius Black"}
+        post :create, @user_info
+        @json_response = JSON.parse(response.body)
+      end
+
+      it "returns success code" do
+        expect(response.status).to be(422)
+      end
+
+      it "returns user info" do
+        expect(@json_response["email"][0]).to include("taken")
+      end
+    end
+
+  end
+
 
 end

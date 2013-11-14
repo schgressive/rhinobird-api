@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(:version => 20131113125357) do
     t.datetime "thumbnail_updated_at"
     t.integer  "user_id"
     t.boolean  "live",                                                   :default => true
-    t.integer  "playcount"
+    t.integer  "playcount",                                              :default => 0
   end
 
   add_index "streams", ["hash_token"], :name => "index_streams_on_hash_token", :unique => true
@@ -96,8 +96,6 @@ ActiveRecord::Schema.define(:version => 20131113125357) do
     t.string   "authentication_token"
     t.string   "username"
     t.string   "vj_room"
-    t.string   "provider"
-    t.string   "uid"
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true

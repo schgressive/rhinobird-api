@@ -1,9 +1,8 @@
+FORMAT: 1A
+
 HOST: http://api.peepol.tv
 
---- Peepol.tv ---
-
----
-#API documentation
+# Peepol.tv API
 
 ## Allowed HTTPs requests:
 
@@ -22,17 +21,19 @@ HOST: http://api.peepol.tv
 - 403 `Forbidden` - access denied.
 - 404 `Not Found` - resource was not found
 - 405 `Method Not Allowed` - requested method is not supported for resource.
----
 
---
-Streams Resources
+
+# Group Streams
 These are the video stream resources.
 
-###Stream Properties
+## Stream [/streams/{id}]
+Properties:
+
 - id (string): Stream id (md5)
 - url (string): Stream data source
 - title (string): Title of the stream
 - desc (string): Description
+- live (boolean): flag for control the live status of the stream. Default: **false**
 - channels (array): Channels list
 - started_on (string): Stream started date
 - thumbs: (hash) hash with thumb urls
@@ -42,398 +43,15 @@ Plus geoJSON properties ([geoJSON Specs](http://www.geojson.org/geojson-spec.htm
 - type (string): "Feature"
 - geometry (obj): Location geometry
 - properties (obj): Extra properties for the location
---
 
-List of streams
-GET /streams
-< 200
-< Content-Type: application/json
-[
-    {
-        "id": "ef18a7b75fc32246e46bd75ff910a582",
-        "title": "Lollapalooza en Chile",
-        "desc": "Excelent music!",
-        "channel": {
-            "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-            "name": "LollapaloozaCL"
-        },
-        "thumbs": {
-            "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
-            "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
-            "large": "http://img.youtube.com/vi/fopr63yr3ps/maxresdefault.jpg"
-        },
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates":[
-                -70.661713,
-                -33.462666
-            ]
-        },
-        "properties": {
-            "geo_reference": "Parque O'higgins"
-        },
-        "tags": [
-          "concert", "rock", "grunge"
-        ],
-        "started_on": "2012-01-23T12:00:00.000"
-    },
-    {
-        "id": "51d1bc8ab4c5297843ea3f57b7800b30",
-        "title": "No al lucro",
-        "desc": "",
-        "channel": {
-            "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-            "name": "TheChannel"
-        },
-        "thumbs": {
-            "small": "http://img.youtube.com/vi/VgPBse5BkA8/default.jpg",
-            "medium": "http://img.youtube.com/vi/VgPBse5BkA8/hqdefault.jpg",
-            "large": "http://img.youtube.com/vi/VgPBse5BkA8/maxresdefault.jpg"
-        },
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates":[
-                -70.652132,
-                -33.44394
-            ]
-        },
-        "properties": {
-            "geo_reference": "Alameda"
-        },
-        "tags": [
-          "grunge"
-        ],
-        "started_on": "2012-01-23T12:00:00.000"
-    },
-    {
-        "id": "cf58e551d63525613465878c183266f5",
-        "title": "El wanaco",
-        "desc": "Esta pegando fuerte",
-        "channel": {
-            "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-            "name": "TheChannel"
-        },
-        "thumbs": {
-            "small": "http://img.youtube.com/vi/NR7JUM23WN8/default.jpg",
-            "medium": "http://img.youtube.com/vi/NR7JUM23WN8/hqdefault.jpg",
-            "large": "http://img.youtube.com/vi/NR7JUM23WN8/maxresdefault.jpg"
-        },
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates":[
-                -70.654106,
-                -33.445301
-            ]
-        },
-        "properties": {
-            "geo_reference": "Nataniel Cox"
-        },
-        "tags": [
-          "grunge"
-        ],
-        "started_on": "2012-01-23T12:00:00.000"
-    },
-    {
-        "id": "ef18a7b75fc32246e46bd75ff910a582",
-        "title": "Lollapalooza en Chile",
-        "desc": "Excelent music!",
-        "channel": {
-            "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-            "name": "TheChannel"
-        },
-        "thumbs": {
-            "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
-            "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
-            "large": "http://img.youtube.com/vi/fopr63yr3ps/maxresdefault.jpg"
-        },
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates":[
-                -70.650531,
-                -33.459518
-            ]
-        },
-        "properties": {
-            "geo_reference": "Parque O'higgins"
-        },
-        "tags": [
-          "grunge"
-        ],
-        "started_on": "2012-01-23T12:00:00.000"
-    },
-    {
-        "id": "51d1bc8ab4c5297843ea3f57b7800b30",
-        "title": "No al lucro",
-        "desc": "",
-        "channel": {
-            "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-            "name": "TheChannel"
-        },
-        "thumbs": {
-            "small": "http://img.youtube.com/vi/VgPBse5BkA8/default.jpg",
-            "medium": "http://img.youtube.com/vi/VgPBse5BkA8/hqdefault.jpg",
-            "large": "http://img.youtube.com/vi/VgPBse5BkA8/maxresdefault.jpg"
-        },
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates":[
-                -70.647055,
-                -33.451534
-            ]
-        },
-        "properties": {
-            "geo_reference": "Alameda"
-        },
-        "tags": [
-          "grunge"
-        ],
-        "started_on": "2012-01-23T12:00:00.000"
-    },
-    {
-        "id": "cf58e551d63525613465878c183266f5",
-        "title": "El wanaco",
-        "desc": "Esta pegando fuerte",
-        "channel": {
-            "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-            "name": "TheChannel"
-        },
-        "thumbs": {
-            "small": "http://img.youtube.com/vi/NR7JUM23WN8/default.jpg",
-            "medium": "http://img.youtube.com/vi/NR7JUM23WN8/hqdefault.jpg",
-            "large": "http://img.youtube.com/vi/NR7JUM23WN8/maxresdefault.jpg"
-        },
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates":[
-                -70.664393,
-                -33.45157
-            ]
-        },
-        "properties": {
-            "geo_reference": "Nataniel Cox"
-        },
-        "tags": [
-          "grunge"
-        ],
-        "started_on": "2012-01-23T12:00:00.000"
-    }
-]
++ Parameters
+  + id (string) ... ID of the stream
 
-Create a new stream
-POST /streams
-> Content-Type: application/json
-> Accept: application/json
-{
-    "title": "Lollapalooza en Chile",
-    "desc": "Excelent music!",
-    "lon": -70.661713,
-    "lat": -33.462666,
-    "geo_reference": "Parque O'higgins"
-    "thumb" : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAAHgCAYAAAA10dzkAAAgAEl+s3wMFO7YfLcoEANpe6n1AiJ0rYHznnXdXW8qEUrT6/wOyX0OswSl+bQAAAABJRU5ErkJggg=="
-}
-< 201
-< Content-Type: application/json
-{
-    "id": "812f16429fad2756693047f685b9956a",
-    "title": "Lollapalooza en Chile",
-    "desc": "Excelent music!",
-    "channel": {},
-    "thumbs": {
-        "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
-        "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
-        "large": "http://img.youtube.com/vi/fopr63yr3ps/maxresdefault.jpg"
-    },
-    "type": "Feature",
-    "geometry": {
-        "type": "Point",
-        "coordinates":[
-            -70.661713,
-            -33.462666
-        ]
-    },
-    "properties": {
-        "geo_reference": "Parque O'higgins"
-    },
-    "started_on": "2012-01-23T12:00:00.000"
-}
++ Model (application/json)
+  + Body
 
-Stream information
-GET /streams/{id}
-< 200
-< Content-Type: application/json
-{
-    "id": "812f16429fad2756693047f685b9956a",
-    "title": "Lollapalooza en Chile",
-    "desc": "Excelent music!",
-    "channel": {},
-    "thumbs": {
-        "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
-        "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
-        "large": "http://img.youtube.com/vi/fopr63yr3ps/maxresdefault.jpg"
-    },
-    "type": "Feature",
-    "geometry": {
-        "type": "Point",
-        "coordinates":[
-            -70.661713,
-            -33.462666
-        ]
-    },
-    "properties": {
-        "geo_reference": "Parque O'higgins"
-    },
-    "tags": [
-      "grunge"
-    ],
-    "started_on": "2012-01-23T12:00:00.000"
-}
-
-Deletes stream
-DELETE /streams/{id}
-< 204
-
-Removes a tag from a stream
-DELETE /streams/{id}/tags
-> Content-Type: application/json
-> Accept: application/json
-{
-    "tag": "grunge"
-}
-< 204
-
-Assigns a tag to a stream
-POST /streams/{id}/tags
-> Content-Type: application/json
-> Accept: application/json
-{
-    "tag": "rock"
-}
-< 201
-< Content-Type: application/json
-{
-    "id": "ef18a7b75fc32246e46bd75ff910a582",
-    "title": "Lollapalooza en Chile",
-    "desc": "Excelent music!",
-    "channel": {
-        "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-        "name": "LollapaloozaCL"
-    },
-    "thumbs": {
-        "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
-        "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
-        "large": "http://img.youtube.com/vi/fopr63yr3ps/maxresdefault.jpg"
-    },
-    "type": "Feature",
-    "geometry": {
-        "type": "Point",
-        "coordinates":[
-            -70.661713,
-            -33.462666
-        ]
-    },
-    "properties": {
-        "geo_reference": "Parque O'higgins"
-    },
-    "tags": [
-      "concert", "rock", "grunge"
-    ],
-    "started_on": "2012-01-23T12:00:00.000"
-}
-
---
-Channels Resources
-These are the channel resources.
-
-###Channel Properties
-- id (string): Channel id (md5)
-- name (string): Unique name for the channel
-- streams (array): List of streams
-- streams_count: Count of streams in the channel
-- created_at (string): Channel created date
---
-
-List all the channels
-GET /channels
-< 200
-[
-    {
-        "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-        "name": "LollapaloozaCL",
-        "streams": [
             {
                 "id": "51d1bc8ab4c5297843ea3f57b7800b30",
-                "title": "Lollapalooza en Chile",
-                "desc": "Excelent music!",
-                "channel": {
-                    "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-                    "name": "LollapaloozaCL"
-                },
-                "thumbs": {
-                    "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
-                    "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
-                    "large": "http://img.youtube.com/vi/fopr63yr3ps/maxresdefault.jpg"
-                },
-                "type": "Feature",
-                "geometry": {
-                    "type": "Point",
-                    "coordinates":[
-                        -70.661713,
-                        -33.462666
-                    ]
-                },
-                "properties": {
-                    "geo_reference": "Parque O'higgins"
-                },
-                "tags": [
-                  "grunge"
-                ],
-                "started_on": "2012-01-23T12:00:00.000"
-            },
-            {
-                "id": "cf58e551d63525613465878c183266f5",
-                "title": "Lollapalooza!",
-                "desc": "Chancho en piedra",
-                "channel": {
-                    "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-                    "name": "LollapaloozaCL"
-                },
-                "thumbs": {
-                    "small": "http://img.youtube.com/vi/NR7JUM23WN8/default.jpg",
-                    "medium": "http://img.youtube.com/vi/NR7JUM23WN8/hqdefault.jpg",
-                    "large": "http://img.youtube.com/vi/NR7JUM23WN8/maxresdefault.jpg"
-                },
-                "type": "Feature",
-                "geometry": {
-                    "type": "Point",
-                    "coordinates":[
-                        -70.661713,
-                        -33.462666
-                    ]
-                },
-                "properties": {
-                    "geo_reference": "Parque O'higgins"
-                },
-                "tags": [
-                  "grunge"
-                ],
-                "started_on": "2012-01-23T12:00:00.000"
-            }
-        ],
-        "streams_count": 2,
-        "created_at": "2012-01-23T12:00:00.000"
-    },
-    {
-        "id": "9e879d7d0dbd3e5df40fd77d0cef7182",
-        "name": "LosPinguinos",
-        "streams": [
-            {
-                "id": "e407e83a8589e03ed88b83b143d76036",
                 "title": "No al lucro",
                 "desc": "",
                 "channel": {
@@ -449,8 +67,8 @@ GET /channels
                 "geometry": {
                     "type": "Point",
                     "coordinates":[
-                        -70.652132,
-                        -33.44394
+                        -70.647055,
+                        -33.451534
                     ]
                 },
                 "properties": {
@@ -461,304 +79,410 @@ GET /channels
                 ],
                 "started_on": "2012-01-23T12:00:00.000"
             }
-        ],
-        "streams_count": 1,
-        "created_at": "2012-01-23T12:00:00.000"
-    }
-]
 
-Create a new empty channel
-POST /channels
-> Content-Type: application/json
-> Accept: application/json
-{
-    "name": "LollapaloozaCL"
-}
-< 201
-< Content-Type: application/json
-{
-    "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-    "name": "LollapaloozaCL",
-    "streams": [],
-    "streams_count": 0,
-    "created_at": "2012-01-23T12:00:00.000"
-}
+### Retrive a single stream [GET]
++ Response 200
 
-Channel information
-GET /channels/{id}
-< 200
-< Content-Type: application/json
-{
-    "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-    "name": "LollapaloozaCL",
-    "streams": [
+    [Stream][]
+
+### Delete a stream [DELETE]
++ Response 204
+
+## Stream Collection [/streams{?q,offset,limit,live,force_check}]
++ Model (application/json)
+
+
+    + Body
+
+            [
+                {
+                    "id": "ef18a7b75fc32246e46bd75ff910a582",
+                    "title": "Lollapalooza en Chile",
+                    "desc": "Excelent music!",
+                    "channel": {
+                        "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
+                        "name": "LollapaloozaCL"
+                    },
+                    "thumbs": {
+                        "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
+                        "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
+                        "large": "http://img.youtube.com/vi/fopr63yr3ps/maxresdefault.jpg"
+                    },
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates":[
+                            -70.661713,
+                            -33.462666
+                        ]
+                    },
+                    "properties": {
+                        "geo_reference": "Parque O'higgins"
+                    },
+                    "tags": [
+                      "concert", "rock", "grunge"
+                    ],
+                    "started_on": "2012-01-23T12:00:00.000"
+                }
+            ]
+
+### Get all streams [GET]
+
++ Parameters
+    + q (optional, string) ... query string to search.
+    + offset (optional, integer) ... number of streams to skip.
+    + limit (optional, integer) ... number of records to get
+    + live (optional) ... flag to get live streams(cached)
+    + force_check (optional) ... flag to force checking current live streams
+
++ Response 200
+
+    [Stream Collection][]
+
+## Stream creation [/streams]
+
++ Model (application/json)
+
+    [Stream][]
+
+### Creates a new stream [POST]
+
++ Request (application/json)
+
         {
-            "id": "51d1bc8ab4c5297843ea3f57b7800b30",
             "title": "Lollapalooza en Chile",
-            "channel": {
-                "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-                "name": "LollapaloozaCL"
-            },
-            "thumbs": {
-                "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
-                "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
-                "large": "http://img.youtube.com/vi/fopr63yr3ps/maxresdefault.jpg"
-            },
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates":[
-                    -70.661713,
-                    -33.462666
-                ]
-            },
-            "properties": {
-                "geo_reference": "Parque O'higgins"
-            },
-            "tags": [
-              "grunge"
-            ],
-            "started_on": "2012-01-23T12:00:00.000"
+            "desc": "Excelent music!",
+            "lon": -70.661713,
+            "lat": -33.462666,
+            "geo_reference": "Parque O'higgins"
+            "thumb" : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAAHgCAYAAAA10dzkAAAgAEl+s3wMFO7YfLcoEANpe6n1AiJ0rYHznnXdXW8qEUrT6/wOyX0OswSl+bQAAAABJRU5ErkJggg=="
+        }
+
++ Response 201
+
+    [Stream][]
+
+## Play [/streams/{id}/play]
+Increments the playcount for a stream
+
+### Set as playing [PUT]
+
++ Response 200
+
+## Tag [/streams/{id}/tag]
+Tag to apply on a stream.
+
+The resource has the following attributes:
+
+- tag: (string) name of the tag
+
+
++ Parameters
+
+    + id (string) ... ID of the stream to tag
+
++ Model (application/json)
+
+### Adds a tag to a stream [POST]
++ Request (application/json)
+
+        {
+            "tag": "rock"
+        }
+
++ Response 201
+
+    [Stream][]
+
+## Remove Tag [/streams/{id}/tag/{tag}]
+
++ Parameters
+
+    + id (string) ... ID of the stream to tag
+    + tag (string) ... name of the tag
+
+### Removes a tag from a stream [DELETE]
+
++ Response 204
+
+# Group Channels
+This section groups channel resources.
+
+## Channel Properties
+- id (string): Channel id (md5)
+- name (string): Unique name for the channel
+- streams (array): List of streams
+- streams_count: Count of streams in the channel
+- created_at (string): Channel created date
+
+
+## Channel [/channels/{id}]
+A Channel can have many streams. Can be added through the API or in comments when creating/editing a stream.
+
+
++ Parameters
+
+    + id (string) ... ID of the stream
+
++ Model (application/json)
+
+    ```js
+      {
+            "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
+            "name": "LollapaloozaCL",
+            "streams": [],
+            "streams_count": 0,
+            "created_at": "2012-01-23T12:00:00.000"
+        }
+    ```
+
+### Retrieve a Channel [GET]
+Returns a specific Channel.
+
++ Response 200
+
+    [Channel][]
+
+### Delete a Channel [DELETE]
+Deletes a channel
+
++ Response 204
+
+## Channels Collection [/channels]
+A collection of channels. `streams` embeds stream objects
+
++ Model (application/json)
+
+    ```js
+    [
+        {
+            "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
+            "name": "LollapaloozaCL",
+            "streams": [],
+            "streams_count": 0,
+            "created_at": "2012-01-23T12:00:00.000"
         },
         {
-            "id": "cf58e551d63525613465878c183266f5",
-            "title": "Lollapalooza!",
-            "desc": "Chancho en piedra",
-            "type": "Feature",
-            "channel": {
-                "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-                "name": "LollapaloozaCL"
-            },
-            "thumbs": {
-                "small": "http://img.youtube.com/vi/NR7JUM23WN8/default.jpg",
-                "medium": "http://img.youtube.com/vi/NR7JUM23WN8/hqdefault.jpg",
-                "large": "http://img.youtube.com/vi/NR7JUM23WN8/maxresdefault.jpg"
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates":[
-                    -70.661713,
-                    -33.462666
-                ]
-            },
-            "properties": {
-                "geo_reference": "Parque O'higgins"
-            },
-            "tags": [
-              "grunge"
-            ],
-            "started_on": "2012-01-23T12:00:00.000"
+            "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
+            "name": "ChannelLive",
+            "streams": [],
+            "streams_count": 0,
+            "created_at": "2012-01-23T12:00:00.000"
         }
-    ],
-    "streams_count": 3,
-    "created_at": "2012-01-23T12:00:00.000"
-}
+    ]
+    ```
 
-Delete the channel
-DELETE /channel/{id}
-< 200
-{ "status": "ok" }
+### Create a Channel [POST]
+Creates a new channel.
 
-Assigns a stream to a channel
-POST /channels/{id}/streams
-> Content-Type: application/json
-> Accept: application/json
-{
-    "stream_id": "b234b234v324b234243"
-}
-< 201
-< Content-Type: application/json
-{
-    "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-    "name": "LollapaloozaCL",
-    "streams": ["b234b234v324b234243"],
-    "streams_count": 1,
-    "created_at": "2012-01-23T12:00:00.000"
-}
++ Request
 
-
-Lists the current channel streams
-GET /channels/{id}/streams
-< 200
-[
-    {
-        "id": "ef18a7b75fc32246e46bd75ff910a582",
-        "title": "Lollapalooza en Chile",
-        "desc": "Excelent music!",
-        "channel": {
-            "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
+  ```js
+        {
             "name": "LollapaloozaCL"
-        },
-        "thumbs": {
-            "small": "http://img.youtube.com/vi/fopr63yr3ps/default.jpg",
-            "medium": "http://img.youtube.com/vi/fopr63yr3ps/hqdefault.jpg",
-            "large": "http://img.youtube.com/vi/fopr63yr3ps/maxresdefault.jpg"
-        },
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates":[
-                -70.661713,
-                -33.462666
-            ]
-        },
-        "properties": {
-            "geo_reference": "Parque O'higgins"
-        },
-        "tags": [
-          "grunge"
-        ],
-        "started_on": "2012-01-23T12:00:00.000"
-    },
-    {
-        "id": "51d1bc8ab4c5297843ea3f57b7800b30",
-        "title": "Lollapalooza!",
-        "desc": "Chancho en piedra",
-        "channel": {
-            "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
-            "name": "LollapaloozaCL"
-        },
-        "thumbs": {
-            "small": "http://img.youtube.com/vi/NR7JUM23WN8/default.jpg",
-            "medium": "http://img.youtube.com/vi/NR7JUM23WN8/hqdefault.jpg",
-            "large": "http://img.youtube.com/vi/NR7JUM23WN8/maxresdefault.jpg"
-        },
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates":[
-                -70.661713,
-                -33.462666
-            ]
-        },
-        "properties": {
-            "geo_reference": "Parque O'higgins"
-        },
-        "tags": [
-          "grunge"
-        ],
-        "started_on": "2012-01-23T12:00:00.000"
-    }
-]
-
---
-Bonds Resource
-This is the bonds resource definition.
-
-###Channel Properties
-- id (string): Bond UUID (md5)
-- stream (string): UUID of the stream
-- channel (string): UUID of the channel
-- created_at (string): Channel created date
---
-
-Lists bonds between streams and channels
-GET /bonds
-> Content-Type: application/json
-> Accept: application/json
-{
-    "stream": "51d1bc8ab4c5297843ea3f57b7800b30"
-}
-< 200
-{
-    #TODO
-}
-
-Create a bond between a stream and a channel
-POST /bonds
-> Content-Type: application/json
-> Accept: application/json
-{
-    "stream": "51d1bc8ab4c5297843ea3f57b7800b30",
-    "channel":"bb2ee58f56a6b8d9e560f40ae1b0b91f"
-}
-< 201
-{
-    "id":"hdh373hjefw23823j823y32749j33hj28",
-    "created_at": "2013-04-05 12:02:45",
-    "stream":"51d1bc8ab4c5297843ea3f57b7800b30",
-    "channel":"bb2ee58f56a6b8d9e560f40ae1b0b91f"
-}
-
-Removes a bond between channel and stream
-DELETE /bonds/{id}
-< 204
+        }
+    ```
 
 
---
-User Resource
-The resource for users
++ Response 201
 
-### User Properties
+    [Channel][]
+
+### Retrieve all Channels [GET]
+Retrieves all channels.
+
++ Response 200
+
+    [Channels Collection][]
+
+
+## Streams of the channel [/channel/{id}/streams]
+
+Returns the streams of the channel. The filter parameters of the `/streams`can also be used here.
+
++ Parameters
+
+    + id (string) ... ID of the channel
+
+### Get streams [GET]
+
++ Response 200
+
+    [Stream Collection][]
+
+
+# Group Users
+This section groups channel resources.
+
+## User Properties
 - id (int): User ID
 - email (string): email to register
 - password (string): account desired password
 - name (string): Name of account
---
-
-Creates a new user into the system
-POST /users
-> Content-Type: application/json
-> Accept: application/json
-{
-    "email": "sirius@peepol.tv",
-    "password": "12345678",
-    "name": "Sirius Black",
-    "username": "sirius"
-}
-< 201
-{
-    "email": "sirius@peepol.tv",
-    "name": "Sirius Black",
-    "username": "sirius"
-}
 
 
 
---
-Sessions Resource
-This resource adds session management
+## User [/users/{username}]
+A single user resource
 
-###Session Properties
++ Parameters
+
+    + username (string) ... Username to query
+
++ Model (application/json)
+
+    ```js
+        {
+            "email": "sirius@peepol.tv",
+            "name": "Sirius Black",
+            "username": "sirius"
+        }
+    ```
+
+### Retrieve a User [GET]
+Returns a specific User.
+
++ Response 200
+
+    [User][]
+
+## Users Collection [/users]
+
+### Create a User [POST]
+Creates a new user.
+
++ Request
+
+  ```js
+        {
+            "email": "sirius@peepol.tv",
+            "password": "12345678",
+            "name": "Sirius Black",
+            "username": "sirius"
+        }
+    ```
+
+
++ Response 201
+
+    [User][]
+
+
+# Group Sessions
+This resource handles authentication for users.
+
+## Session Properties
 - auth_token (string): Authentication token
 - user: (object): Authenticated user
---
-
-Logs a user into the system
-POST /sessions
-> Content-Type: application/json
-> Accept: application/json
-{
-    "email": "sirius@peepol.tv",
-    "password": "12345678"
-}
-< 201
-{
-    "auth_token": "XXXXXXXXXXXXXXXXXXX",
-    "user": {
-        "email": "sirius@peepol.tv",
-        "name": "Sirius Black",
-        "username": "sirius"
-    }
-}
 
 
-Get the current serssion
-GET /sessions/current
-> Content-Type: application/json
-> Accept: application/json
-< 200
-{
-    "auth_token": "XXXXXXXXXXXXXXXXXXX",
-    "user": {
-        "email": "sirius@peepol.tv",
-        "name": "Sirius Black",
-        "username": "sirius"
-    }
-}
+## Session Login [/sessions]
+Session login
 
-Logs the user off
-DELETE /sessions/current
-< 204
++ Model (application/json)
 
+    ```js
+        {
+            "auth_token": "XXXXXXXXXXXXXXXXXXX",
+            "user": {
+                "email": "sirius@peepol.tv",
+                "name": "Sirius Black",
+                "username": "sirius"
+            }
+        }
+    ```
+
+### Login a user [POST]
+Login with the required credentials
++ Request
+
+  ```js
+        {
+            "email": "sirius@peepol.tv",
+            "password": "12345678"
+        }
+    ```
+
++ Response 201
+
+    [Session Login][]
+
+## Session status [/sessions/current]
+
+### Get current session [GET]
+Returns the current session info, or `401` if not logged in
+
++ Response 201
+
+    [Session Login][]
+
+### Destroy session [DELETE]
+Logs out the current user
+
++ Response 204
+
+
+
+# Group Streams Pool
+This section groups streams pool. Only one stream can be active in the pool, the one currently selected on the frontend.
+
+## Stream Pool Properties
+- stream: the stream object that is in the pool
+- token: The token to use for VJ connecting in the front end
+- active: Returns if the stream is the active stream in the pool
+
+## Stream Pool [/streams_pool]
+Manages a VJ's stream pool
+
+
++ Model (application/json)
+
+    ```js
+        [
+            {
+                "active": false,
+                "stream": {},
+                "token": "1231232123"
+            },
+            {
+                "active": true,
+                "stream": {},
+                "token": "1231232322"
+            }
+        ]
+    ```
+
+### Streams in the pool [GET]
+Returns a the streams in the user's pool.
+
++ Response 200
+
+    [Stream Pool][]
+
+### Change active stream [PUT]
+Activates a different stream. If the stream is offline, the API will return status code `409 Conflict`.
+
++ Request
+
+  ```js
+        {
+            "stream_id": "2AFD",
+            "active": true
+        }
+    ```
+
++ Response 200
+
+
+### Remove a stream from the pool [DELETE]
+Remove a stream
++ Request
+
+  ```js
+        {
+            "stream_id": "2AFD"
+        }
+    ```
+
++ Response 204
 

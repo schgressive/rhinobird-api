@@ -3,13 +3,19 @@ class Api::StreamsController < Api::BaseController
 
   def index
     @streams = Stream
+    @streams = @streams.order("created_at DESC")
 
     # filters
     @streams = Channel.find(params[:channel_id]).streams if params.has_key? :channel_id
     @streams = @streams.where(live: true) if params.has_key? :live
+    if params.key? :q
+      q = params[:q].downcase
+      @streams = @streams.joins(:user)
+      @streams = @streams.where("(lower(concat(caption, geo_reference)) like ? OR users.username = ?)", "%#{q}%", q)
+    end
 
-    @streams = @streams.order("created_at DESC")
 
+    # Pagination
     @streams = @streams.offset(params[:offset]) if params.has_key? :offset
     @streams = @streams.limit(params[:limit]) if params.has_key? :limit
 

@@ -60,6 +60,45 @@ describe Api::StreamsController do
       end
     end
 
+    context "search conditions" do
+
+      before(:each) do
+        @user = create(:user, username: "sirius")
+        @stream1 = create(:stream, caption: "live from #rock in rio")
+        @stream2 = create(:stream, caption: "riot on paris", user: @user)
+        @stream3 = create(:stream, caption: "voting for president", geo_reference: 'Santiago')
+      end
+
+      it "returns the stream by keyword" do
+        get :index, format: :json, q: 'LIVE'
+        streams = JSON.parse(response.body)
+        expect(streams.size).to eq(1)
+        expect(streams.first["caption"]).to match(/rock/)
+      end
+
+      it "returns the stream by channel" do
+        get :index, format: :json, q: 'rock'
+        streams = JSON.parse(response.body)
+        expect(streams.size).to eq(1)
+        expect(streams.first["caption"]).to match(/rock/)
+      end
+
+      it "returns the stream by username" do
+        get :index, format: :json, q: 'sirius'
+        streams = JSON.parse(response.body)
+        expect(streams.size).to eq(1)
+        expect(streams.first["caption"]).to match(/paris/)
+      end
+
+      it "returns the stream by geo reference" do
+        get :index, format: :json, q: 'santiago'
+        streams = JSON.parse(response.body)
+        expect(streams.size).to eq(1)
+        expect(streams.first["caption"]).to match(/voting/)
+      end
+
+    end
+
     context "with a channel" do
       before do
         create(:stream)

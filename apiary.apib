@@ -30,9 +30,7 @@ These are the video stream resources.
 Properties:
 
 - id (string): Stream id (md5)
-- url (string): Stream data source
-- title (string): Title of the stream
-- desc (string): Description
+- caption (string): Title of the stream, may have `#channels` inside
 - live (boolean): flag for control the live status of the stream. Default: **false**
 - channels (array): Channels list
 - started_on (string): Stream started date
@@ -52,8 +50,7 @@ Plus geoJSON properties ([geoJSON Specs](http://www.geojson.org/geojson-spec.htm
 
             {
                 "id": "51d1bc8ab4c5297843ea3f57b7800b30",
-                "title": "No al lucro",
-                "desc": "",
+                "caption": "No al lucro",
                 "channel": {
                     "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
                     "name": "TheChannel"
@@ -88,7 +85,7 @@ Plus geoJSON properties ([geoJSON Specs](http://www.geojson.org/geojson-spec.htm
 ### Delete a stream [DELETE]
 + Response 204
 
-## Stream Collection [/streams{?q,offset,limit,live,force_check}]
+## Stream Collection [/streams{?q,offset,limit,live,force_check,lat,lng,range}]
 + Model (application/json)
 
 
@@ -97,8 +94,7 @@ Plus geoJSON properties ([geoJSON Specs](http://www.geojson.org/geojson-spec.htm
             [
                 {
                     "id": "ef18a7b75fc32246e46bd75ff910a582",
-                    "title": "Lollapalooza en Chile",
-                    "desc": "Excelent music!",
+                    "title": "#Lollapalooza en Chile",
                     "channel": {
                         "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
                         "name": "LollapaloozaCL"
@@ -134,6 +130,9 @@ Plus geoJSON properties ([geoJSON Specs](http://www.geojson.org/geojson-spec.htm
     + limit (optional, integer) ... number of records to get
     + live (optional) ... flag to get live streams(cached)
     + force_check (optional) ... flag to force checking current live streams
+    + lat (optional, float) ... latitude to search from
+    + lng (optional, float) ... longitude to search from
+    + range (optional, integer) ... range in KM for nearby streams
 
 + Response 200
 
@@ -150,9 +149,8 @@ Plus geoJSON properties ([geoJSON Specs](http://www.geojson.org/geojson-spec.htm
 + Request (application/json)
 
         {
-            "title": "Lollapalooza en Chile",
-            "desc": "Excelent music!",
-            "lon": -70.661713,
+            "caption": "Lollapalooza en Chile",
+            "lng": -70.661713,
             "lat": -33.462666,
             "geo_reference": "Parque O'higgins"
             "thumb" : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAAHgCAYAAAA10dzkAAAgAEl+s3wMFO7YfLcoEANpe6n1AiJ0rYHznnXdXW8qEUrT6/wOyX0OswSl+bQAAAABJRU5ErkJggg=="

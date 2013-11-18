@@ -14,6 +14,12 @@ class Api::StreamsController < Api::BaseController
       @streams = @streams.where("(lower(concat(caption, geo_reference)) like ? OR users.username = ?)", "%#{q}%", q)
     end
 
+    if params.key?(:lat) && params.key?(:lng)
+      range = params[:range]
+      range = range ? range.to_f : 1
+      @streams = @streams.near([params[:lat], params[:lng]], params[:range].to_f)
+    end
+
 
     # Pagination
     @streams = @streams.offset(params[:offset]) if params.has_key? :offset

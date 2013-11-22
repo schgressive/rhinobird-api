@@ -60,6 +60,56 @@ describe Api::StreamsController do
       end
     end
 
+    context "search conditions" do
+
+      before(:each) do
+        @user = create(:user, username: "sirius")
+        @stream1 = create(:stream, caption: "live from #rock in rio")
+        @stream2 = create(:stream, caption: "riot on paris", user: @user)
+        @stream3 = create(:stream, caption: "voting for president", geo_reference: 'Santiago')
+        @asuncion = create(:stream, caption: "car crash", lat: -25.320530, lng: -57.560549)
+        @another = create(:stream, caption: "bus crash", lat: -25.323168, lng: -57.555227)
+      end
+
+      it "returns the stream by keyword" do
+        get :index, format: :json, q: 'LIVE'
+        streams = JSON.parse(response.body)
+        expect(streams.size).to eq(1)
+        expect(streams.first["caption"]).to match(/rock/)
+      end
+
+      it "returns the stream by channel" do
+        get :index, format: :json, q: 'rock'
+        streams = JSON.parse(response.body)
+        expect(streams.size).to eq(1)
+        expect(streams.first["caption"]).to match(/rock/)
+      end
+
+      it "returns the stream by username" do
+        get :index, format: :json, q: 'sirius'
+        streams = JSON.parse(response.body)
+        expect(streams.size).to eq(1)
+        expect(streams.first["caption"]).to match(/paris/)
+      end
+
+      it "returns the stream by geo reference" do
+        get :index, format: :json, q: 'santiago'
+        streams = JSON.parse(response.body)
+        expect(streams.size).to eq(1)
+        expect(streams.first["caption"]).to match(/voting/)
+      end
+
+      it "returns streams by lat and lng" do
+
+        get :index, format: :json, lat: -25.316846, lng: -57.571632, range: 1 #km
+        streams = JSON.parse(response.body)
+        expect(streams.size).to eq(1)
+        expect(streams.first["caption"]).to match(/crash/)
+
+      end
+
+    end
+
     context "with a channel" do
       before do
         create(:stream)

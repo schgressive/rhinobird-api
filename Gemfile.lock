@@ -95,6 +95,7 @@ GEM
     formatador (0.2.4)
     friendly_id (4.0.9)
     fssm (0.2.10)
+    geocoder (1.1.8)
     guard (1.8.1)
       formatador (>= 0.2.4)
       listen (>= 1.0.0)
@@ -276,6 +277,7 @@ DEPENDENCIES
   factory_girl_rails (~> 3.0)
   faker
   friendly_id
+  geocoder
   guard-rspec
   letter_opener
   mysql2

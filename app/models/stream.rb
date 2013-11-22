@@ -1,4 +1,8 @@
 class Stream < ActiveRecord::Base
+
+  # Geocoding
+  reverse_geocoded_by :lat, :lng, address: :geo_reference
+
   # VALIDATIONS
   validates :user_id, presence: true
 

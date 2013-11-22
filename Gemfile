@@ -14,6 +14,7 @@ gem 'devise'
 gem 'twitter-text'
 gem 'negroku', "~> 1.1.4"
 gem 'ngmin-rails'
+gem 'geocoder'
 
 gem 'compass_twitter_bootstrap'
 gem 'compass-rails'

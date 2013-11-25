@@ -366,6 +366,36 @@ Creates a new user.
     [User][]
 
 
+## User Password  [/users/password]
+Adds password recovery options. The system sends an email to the registered email address 
+with a reset token.
+
+### Ask password reset [POST]
+Asks for a new password reset
++ Request
+    
+  ```js
+        {
+            "email": "sirius@peepol.tv"
+        }
+    ```
+
++ Response 200
+
+### Confirm a new password [PUT]
+Confirms new passwords
++ Request
+    
+  ```js
+        {
+            "token": "XXXXXXXXXXXXX",
+            "password": "12345678",
+            "password_confirmation": "12345678"
+        }
+    ```
++ Response 200
+
+
 # Group Sessions
 This resource handles authentication for users.
 

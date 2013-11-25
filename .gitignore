@@ -4,8 +4,8 @@
 capybara-*.html
 .rspec
 .rbenv-vars
-/bin
 /vendor/bundle
+.bundle
 /log/*
 /tmp/*
 /db/*.sqlite3

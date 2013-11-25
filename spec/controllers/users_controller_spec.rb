@@ -79,7 +79,7 @@ describe Api::UsersController do
       end
 
       context "confirmation email" do
-        subject(:mail) { ActionMailer::Base.deliveries.first}
+        subject(:mail) { ActionMailer::Base.deliveries.last}
 
         it "sends to the user email" do
           expect(mail).to deliver_to("sirius@peepol.tv")

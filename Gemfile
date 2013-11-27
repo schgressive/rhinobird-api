@@ -16,6 +16,8 @@ gem 'negroku', "~> 1.1.4"
 gem 'ngmin-rails'
 gem 'geocoder'
 
+gem "aws-ses", "~> 0.5.0", :require => 'aws/ses'
+
 gem 'compass_twitter_bootstrap'
 gem 'compass-rails'
 

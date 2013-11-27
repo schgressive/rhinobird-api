@@ -18,3 +18,8 @@ The following variables should be defined for the API to work
 * NUVE_SERVICE_ID: The Service ID given by Licode
 * NUVE_SERVICE_KEY: The Service KEY given by Licode
 * NUVE_SERVICE_HOST: The host where Licode is running (ex. http://streaming.peepol.tv/)
+
+## Amazon environment variables
+
+* AWS_KEY_ID: Key ID used for amazon services like S3 and SES
+* AWS_ACCESS_KEY: Access Key used for amazon services

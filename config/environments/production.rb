@@ -11,6 +11,10 @@ PeepoltvApi::Application.configure do
   # Disable Rails's static asset server (Apache or nginx will already do this)
   config.serve_static_assets = false
 
+
+  # Set delivery to Amazon SES
+  config.action_mailer.delivery_method = :ses
+
   # Compress JavaScripts and CSS
   config.assets.compress = true
 

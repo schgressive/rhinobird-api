@@ -18,6 +18,8 @@ gem 'geocoder'
 gem "aws-ses", "~> 0.5.0", :require => 'aws/ses'
 gem 'devise'
 gem 'omniauth-facebook'
+gem 'omniauth-twitter'
+gem 'omniauth-google-oauth2'
 
 gem 'compass_twitter_bootstrap'
 gem 'compass-rails'

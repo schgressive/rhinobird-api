@@ -35,6 +35,16 @@ describe Api::OmniauthCallbacksController do
       expect(user.email).to eq("emilio@platan.us")
       expect(user.photo).to match(/picture/)
     end
+
+    it "uses the existing user" do
+      post :facebook
+
+      # try to create google
+      @request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:google_oauth2]
+      post :google_oauth2
+
+      expect(response).to redirect_to("http://#{ENV['PUBLIC_HOST']}/explore")
+    end
   end
 
   describe "Twitter Auth" do

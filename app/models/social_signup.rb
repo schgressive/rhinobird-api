@@ -18,7 +18,9 @@ class SocialSignup
   private
 
   def find_for_oauth
-    User.where(provider: @auth.provider, uid: @auth.uid).first
+    user = User.where(provider: @auth.provider, uid: @auth.uid).first
+    user = User.where(email: @auth.info.email).first unless user
+    user
   end
 
   def new_from_provider

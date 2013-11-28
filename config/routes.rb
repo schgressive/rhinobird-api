@@ -2,7 +2,12 @@ PeepoltvApi::Application.routes.draw do
 
   namespace :api, defaults: {format: :json} do
 
-    devise_for :users, singular: :user, controllers: {confirmations: "api/confirmations", passwords: "api/passwords", registrations: "api/users"}
+    devise_for :users, singular: :user, controllers: {
+      confirmations: "api/confirmations",
+      passwords: "api/passwords",
+      omniauth_callbacks: "api/omniauth_callbacks",
+      registrations: "api/users"}
+
     devise_scope :user do
       post 'users' => 'users#create', as: 'register', defaults: {format: :json}
       post 'sessions' => 'sessions#create', :as => 'login', defaults: {format: :json}

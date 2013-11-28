@@ -1,5 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes  :name, :email, :vj, :username, :cantidad, :vj_token
+  attributes  :name, :email, :vj, :username, :cantidad, :vj_token, :photo
   self.root = false
 
   has_many :stream_pools

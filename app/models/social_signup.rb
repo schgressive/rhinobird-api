@@ -19,7 +19,7 @@ class SocialSignup
 
   def find_for_oauth
     user = User.where(provider: @auth.provider, uid: @auth.uid).first
-    user = User.where(email: @auth.info.email).first unless user
+    user = User.where("email = ? OR username = ?", @auth.info.email, @auth.info.nickname).first unless user
     user
   end
 

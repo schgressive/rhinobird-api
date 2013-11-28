@@ -26,3 +26,9 @@ Take a look at http://docs.peepoltv.apiary.io/ for reference.
 
 * AWS_KEY_ID: Key ID used for amazon services like S3 and SES
 * AWS_ACCESS_KEY: Access Key used for amazon services
+
+### Social Network variables
+
+* Facebook: FB_APP_ID, FB_APP_SECRET
+* Twitter: TW_CONSUMER_KEY, TW_CONSUMER_SECRET
+* Google: GOOGLE_KEY, GOOGLE_SECRET

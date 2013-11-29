@@ -18,10 +18,8 @@ class  Api::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     if @user.persisted?
       sign_in @user
-      redirect_to "http://#{ENV["PUBLIC_HOST"]}/explore"
-    else
-      redirect_to "http://#{ENV["PUBLIC_HOST"]}"
     end
+    redirect_to "http://#{ENV["PUBLIC_HOST"]}"
   end
 
 end

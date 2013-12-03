@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :token_authenticatable, :confirmable
 
+  devise :omniauthable, omniauth_providers: [:facebook, :twitter, :google_oauth2]
+
   validates :name, :username, presence: true
   validates :username, uniqueness: true
 

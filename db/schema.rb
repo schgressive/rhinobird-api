@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131113125357) do
+ActiveRecord::Schema.define(:version => 20131127181949) do
 
   create_table "channels", :force => true do |t|
     t.string   "name"
@@ -96,6 +96,9 @@ ActiveRecord::Schema.define(:version => 20131113125357) do
     t.string   "authentication_token"
     t.string   "username"
     t.string   "vj_room"
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "photo"
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true

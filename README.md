@@ -10,16 +10,25 @@ Take a look at http://docs.peepoltv.apiary.io/ for reference.
 
 ## Environment variables
 
-The following variables should be defined for the API to work
+### Host variables
 
 * DEFAULT_HOST: The host for the server (ex. http://beta.peepol.tv/ or localhost:3000)
 * PUBLIC_HOST: The host for the frontend (ex. www.peepol.tv or localhost:9000)
 * DEFAULT_SENDER: Default email sender for email notifications (ex. notify@peepol.tv)
+
+### Licode related variables
+
 * NUVE_SERVICE_ID: The Service ID given by Licode
 * NUVE_SERVICE_KEY: The Service KEY given by Licode
 * NUVE_SERVICE_HOST: The host where Licode is running (ex. http://streaming.peepol.tv/)
 
-## Amazon environment variables
+### Amazon environment variables
 
 * AWS_KEY_ID: Key ID used for amazon services like S3 and SES
 * AWS_ACCESS_KEY: Access Key used for amazon services
+
+### Social Network variables
+
+* Facebook: FB_APP_ID, FB_APP_SECRET
+* Twitter: TW_CONSUMER_KEY, TW_CONSUMER_SECRET
+* Google: GOOGLE_KEY, GOOGLE_SECRET

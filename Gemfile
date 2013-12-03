@@ -10,13 +10,16 @@ gem 'ruby-hmac'
 gem 'friendly_id'
 gem 'paperclip', "~> 3.0"
 gem 'rack-cors', :require => 'rack/cors'
-gem 'devise'
 gem 'twitter-text'
 gem 'negroku', "~> 1.1.4"
 gem 'ngmin-rails'
 gem 'geocoder'
 
 gem "aws-ses", "~> 0.5.0", :require => 'aws/ses'
+gem 'devise'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
+gem 'omniauth-google-oauth2'
 
 gem 'compass_twitter_bootstrap'
 gem 'compass-rails'

@@ -24,7 +24,7 @@ describe Api::OmniauthCallbacksController do
 
     it "returns a redirect" do
       post :facebook
-      expect(response).to redirect_to("http://#{ENV['PUBLIC_HOST']}/explore")
+      expect(response).to redirect_to("http://#{ENV['PUBLIC_HOST']}")
     end
 
     it "adds the user" do
@@ -43,7 +43,7 @@ describe Api::OmniauthCallbacksController do
       @request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:google_oauth2]
       post :google_oauth2
 
-      expect(response).to redirect_to("http://#{ENV['PUBLIC_HOST']}/explore")
+      expect(response).to redirect_to("http://#{ENV['PUBLIC_HOST']}")
     end
   end
 
@@ -55,7 +55,7 @@ describe Api::OmniauthCallbacksController do
 
     it "returns a redirect" do
       post :twitter
-      expect(response).to redirect_to("http://#{ENV['PUBLIC_HOST']}/explore")
+      expect(response).to redirect_to("http://#{ENV['PUBLIC_HOST']}")
     end
 
     it "adds the user" do
@@ -76,7 +76,7 @@ describe Api::OmniauthCallbacksController do
 
     it "returns a redirect" do
       post :google_oauth2
-      expect(response).to redirect_to("http://#{ENV['PUBLIC_HOST']}/explore")
+      expect(response).to redirect_to("http://#{ENV['PUBLIC_HOST']}")
     end
 
     it "adds the user" do

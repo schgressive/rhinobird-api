@@ -14,7 +14,7 @@ PeepoltvApi::Application.routes.draw do
       get 'sessions/current' => 'sessions#show', :as => 'show', defaults: {format: :json}
       delete 'sessions/current' => 'sessions#destroy', :as => 'logout', defaults: {format: :json}
     end
-    resources :users, only: [:show] do
+    resources :users, only: [:show, :update, :create] do
       resources :streams, only: [:index]
       resources :streams_pool, only: [:index]
     end

@@ -110,4 +110,32 @@ describe Api::UsersController do
   end
 
 
+  describe "PUT #update" do
+
+    login_user
+
+    before(:each) do
+      @hash = {email: "newemail@peepol.tv", username: "donaldduck"}
+      put :update, @hash
+    end
+
+    it "returns success code" do
+      expect(response.status).to be(200)
+    end
+
+    it "updates the user information" do
+      @user.reload
+      expect(@user.email).to eq(@hash[:email])
+      expect(@user.username).to eq(@hash[:username])
+    end
+
+    it "returns the updated JSON object" do
+      json = JSON.parse(response.body)
+      expect(json["email"]).to eq(@hash[:email])
+      expect(json["username"]).to eq(@hash[:username])
+    end
+
+  end
+
+
 end

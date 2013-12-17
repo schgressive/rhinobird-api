@@ -20,6 +20,12 @@ class Api::UsersController < Api::BaseController
     end
   end
 
+  def update
+    current_user.update_attributes(resource_params)
+    current_user.confirm!
+    render json: current_user, status: 200
+  end
+
   private
   def resource_params
     params.permit(:name, :email, :password, :password_confirmation, :username)

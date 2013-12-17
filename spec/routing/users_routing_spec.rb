@@ -21,5 +21,9 @@ describe Api::UsersController do
       expect(post: "#{route_prefix}/users").to route_to("#{controller_prefix}users#create", format: :json)
     end
 
+    it "routes to #update" do
+      expect(put: "#{route_prefix}/users/profile").to route_to("#{controller_prefix}users#update", id: "profile", format: :json)
+    end
+
   end
 end

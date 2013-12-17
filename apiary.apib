@@ -367,13 +367,13 @@ Creates a new user.
 
 
 ## User Password  [/users/password]
-Adds password recovery options. The system sends an email to the registered email address 
+Adds password recovery options. The system sends an email to the registered email address
 with a reset token.
 
 ### Ask password reset [POST]
 Asks for a new password reset
 + Request
-    
+
   ```js
         {
             "email": "sirius@peepol.tv"
@@ -382,10 +382,28 @@ Asks for a new password reset
 
 + Response 200
 
+## User Profile  [/users/profile]
+Adds profile update to a logged user
+
+### Update User [PUT]
+Asks for a new password reset
++ Request
+
+  ```js
+        {
+            "email": "sirius@peepol.tv",
+            "username": "sirius"
+        }
+    ```
+
++ Response 200
+
+  [User][]
+
 ### Confirm a new password [PUT]
 Confirms new passwords
 + Request
-    
+
   ```js
         {
             "token": "XXXXXXXXXXXXX",

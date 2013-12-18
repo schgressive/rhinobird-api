@@ -48,7 +48,7 @@ module NuveHook
     #override token field on stream
     def self.create_access_token(roomId)
       begin
-        NUVE.createToken(roomId, "user#{Time.now.to_i}", "viewer")
+        NUVE.createToken(roomId, "user#{Time.now.to_i}", "presenter")
       rescue Exception => e
         Rails.logger.debug "Error generating token for room: #{e.message}"
       end

@@ -9,7 +9,13 @@ module NuveHook
 
       # returns the token if the stream is live
       def token
-        self.live ? generate_room_token : nil
+        new_token = nil
+        if self.live
+          new_token = generate_room_token
+          # set live to false if unexisting room
+          self.update_attributes live: false if new_token =~ /not exist/
+        end
+        new_token
       end
 
       # Refresh the flag if the room doesn't exist or the user list is empty

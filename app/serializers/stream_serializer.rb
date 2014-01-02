@@ -37,4 +37,9 @@ class StreamSerializer < ActiveModel::Serializer
     object.started_on.to_s(:api) if object.started_on
   end
 
+  def attributes
+    hash = super
+    hash.delete(:token) if object.ignore_token
+    hash
+  end
 end

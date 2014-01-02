@@ -29,6 +29,7 @@ class Api::StreamsController < Api::BaseController
     @stream = Stream.find(params[:id])
     @stream.update_attributes stream_params
     @stream.save
+    @stream.ignore_token = true
 
     respond_with @stream
   end

@@ -15,6 +15,8 @@ class Stream < ActiveRecord::Base
   has_and_belongs_to_many :tags
   has_and_belongs_to_many :channels
 
+  attr_accessor :ignore_token
+
   has_attached_file :thumbnail, styles: {
     small: '33%',
     medium: '66%',

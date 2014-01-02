@@ -84,7 +84,7 @@ class Stream < ActiveRecord::Base
   def thumbnail_full_url(size)
     url = self.thumbnail.url(size)
     unless url =~ /^http:\/\//
-      url = URI.join(Rails.application.config.host, url).to_s
+      url = URI.join("http://#{ENV["DEFAULT_HOST"]}", url).to_s
     end
     url
   end

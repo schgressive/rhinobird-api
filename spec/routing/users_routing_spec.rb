@@ -5,6 +5,10 @@ describe Api::UsersController do
   controller_prefix = "api/"
 
   describe "routing" do
+    it "routes to streams#index" do
+      expect(get: "#{route_prefix}/users/emilio/streams").to route_to("#{controller_prefix}streams#index", user_id: "emilio", format: :json)
+    end
+
     it "routes to #show" do
       expect(get: "#{route_prefix}/users/emilio").to route_to("#{controller_prefix}users#show", id: "emilio", format: :json)
     end

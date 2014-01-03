@@ -131,6 +131,30 @@ describe Api::StreamsController do
       end
     end
 
+    context "for a user" do
+      before do
+        @user = create(:user)
+        @stream = create(:stream, user: @user)
+        @userb = create(:user, streams: [create(:stream), create(:stream)])
+
+        get :index, user_id: @user.to_param, format: :json
+        @streams = JSON.parse(response.body)
+      end
+
+      it "returns success code" do
+        expect(response.status).to be(200)
+      end
+
+      it "returns correct content type" do
+        expect(response.header['Content-Type']).to include("application/json")
+      end
+
+      it "returns the streams for the user" do
+        expect(@streams).to have(1).items
+        expect(@streams.first["id"]).to eq(@stream.to_param)
+      end
+    end
+
   end
 
   describe "PUT #update" do

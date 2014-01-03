@@ -18,10 +18,9 @@ class StreamSearch
 
   def set_basic_scope
     streams = Stream
-    if @params.has_key? :channel_id
-      streams = Channel.find(@params[:channel_id]).streams
-    end
-    streams = streams.includes(:user, :channels, :tags).order("created_at DESC")
+    streams = Channel.find(@params[:channel_id]).streams if @params.has_key? :channel_id
+    streams = User.find(@params[:user_id]).streams if @params.has_key? :user_id
+    streams = streams.includes(:user, :channels, :tags).order("streams.created_at DESC")
     streams
   end
 

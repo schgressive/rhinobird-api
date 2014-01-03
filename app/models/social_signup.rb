@@ -24,39 +24,37 @@ class SocialSignup
   end
 
   def new_from_provider
+    build_default_hash
     self.send("build_from_#{@auth.provider}")
   end
 
+  def build_default_hash
+    @info = {name:@auth.info.name,
+             provider:@auth.provider,
+             uid:@auth.uid,
+             photo: @auth.info.image,
+             password:Devise.friendly_token[0,20]
+    }
+  end
+
   def build_from_facebook
-    User.new(name:@auth.info.name,
-                    provider:@auth.provider,
-                    uid:@auth.uid,
-                    email:@auth.info.email,
-                    username: @auth.info.nickname,
-                    photo: @auth.info.image,
-                    password:Devise.friendly_token[0,20]
-                   )
+    User.new(@info.merge({
+      email:@auth.info.email,
+      username: @auth.info.nickname
+    }))
   end
 
   def build_from_twitter
-    User.new(name:@auth.info.name,
-                    provider:@auth.provider,
-                    uid:@auth.uid,
-                    email:"#{@auth.info.nickname}@twitter.com",
-                    username: @auth.info.nickname,
-                    photo: @auth.info.image,
-                    password:Devise.friendly_token[0,20]
-                   )
+    User.new(@info.merge({
+      email:"#{@auth.info.nickname}@twitter.com",
+      username: @auth.info.nickname
+    }))
   end
 
   def build_from_google_oauth2
-    User.new(name: @auth.info.name,
-             provider: @auth.provider,
-             uid: @auth.uid,
-             email: @auth.info.email,
-             username: @auth.info.email,
-             photo: @auth.info.image,
-             password:Devise.friendly_token[0,20]
-            )
+    User.new(@info.merge({
+      email: @auth.info.email,
+      username: @auth.info.email
+    }))
   end
 end

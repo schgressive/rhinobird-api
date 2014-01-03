@@ -5,34 +5,69 @@ describe Api::StreamsPoolController do
   login_user
 
   describe "GET #index" do
-    before do
-      @stream = create(:stream)
-      @offline = create(:stream, live: false)
-      @stream_pool_offline = create(:stream_pool, user: @user, stream: @offline)
-      @stream_pool = create(:stream_pool, user: @user, stream: @stream)
-      get :index, format: :json
-      @stream_pools = JSON.parse(response.body)
+    context "current user" do
+      before do
+        @stream = create(:stream)
+        @offline = create(:stream, live: false)
+        @stream_pool_offline = create(:stream_pool, user: @user, stream: @offline)
+        @stream_pool = create(:stream_pool, user: @user, stream: @stream)
+        get :index, format: :json
+        @stream_pools = JSON.parse(response.body)
+      end
+
+      it "returns success code" do
+        expect(response.status).to be(200)
+      end
+
+      it "returns correct content type" do
+        expect(response.header['Content-Type']).to include("application/json")
+      end
+
+      it "returns an array of stream pools" do
+        expect(@stream_pools).to have(1).items
+        expect(@stream_pools[0]["active"]).to eq(@stream_pool.active)
+      end
+
+      it "embeds the streams" do
+        stream = @stream_pools[0]["stream"]
+        expect(stream["id"]).to eq(@stream.to_param)
+        expect(stream["caption"]).to eq(@stream.caption)
+      end
+
     end
 
-    it "returns success code" do
-      expect(response.status).to be(200)
-    end
+    context "for a given user" do
+      before do
+        @given_user = create(:user)
+        @stream = create(:stream, user: @given_user)
+        @offline = create(:stream, live: false, user: @given_user)
+        @stream_pool_offline = create(:stream_pool, user: @given_user, stream: @offline)
+        @stream_pool = create(:stream_pool, user: @given_user, stream: @stream)
 
-    it "returns correct content type" do
-      expect(response.header['Content-Type']).to include("application/json")
-    end
+        get :index, user_id: @given_user.to_param, format: :json
+        @stream_pools = JSON.parse(response.body)
+      end
 
-    it "returns an array of stream pools" do
-      expect(@stream_pools).to have(1).items
-      expect(@stream_pools[0]["active"]).to eq(@stream_pool.active)
-    end
+      it "returns success code" do
+        expect(response.status).to be(200)
+      end
 
-    it "embeds the streams" do
-      stream = @stream_pools[0]["stream"]
-      expect(stream["id"]).to eq(@stream.to_param)
-      expect(stream["caption"]).to eq(@stream.caption)
-    end
+      it "returns correct content type" do
+        expect(response.header['Content-Type']).to include("application/json")
+      end
 
+      it "returns an array of stream pools" do
+        expect(@stream_pools).to have(1).items
+        expect(@stream_pools[0]["active"]).to eq(@stream_pool.active)
+      end
+
+      it "embeds the streams" do
+        stream = @stream_pools[0]["stream"]
+        expect(stream["id"]).to eq(@stream.to_param)
+        expect(stream["caption"]).to eq(@stream.caption)
+      end
+
+    end
   end
 
   describe "PUT #update" do

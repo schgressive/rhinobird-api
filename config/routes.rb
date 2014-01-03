@@ -16,6 +16,7 @@ PeepoltvApi::Application.routes.draw do
     end
     resources :users, only: [:show] do
       resources :streams, only: [:index]
+      resources :streams_pool, only: [:index]
     end
 
     #stream_pool routes

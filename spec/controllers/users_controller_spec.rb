@@ -24,7 +24,6 @@ describe Api::UsersController do
         expect(@json_user["email"]).to eq(@user.email)
         expect(@json_user["vj"]).to eq(false)
         expect(@json_user["username"]).to eq(@user.username)
-        expect(@json_user["stream_pools"]).to be_empty
       end
     end
 
@@ -43,11 +42,6 @@ describe Api::UsersController do
         expect(@json_user["vj"]).to eq(true)
       end
 
-      it "embeds the stream_pool" do
-        pool = @json_user["stream_pools"]
-        expect(pool[0]["stream"]["id"]).to eq(@stream.stream.to_param)
-        expect(pool[0]["active"]).to be_false
-      end
     end
 
   end

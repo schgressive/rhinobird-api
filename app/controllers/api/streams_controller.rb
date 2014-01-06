@@ -27,7 +27,7 @@ class Api::StreamsController < Api::BaseController
 
   def archived
     @stream = Stream.find_by_stream_id(params[:id])
-    @stream.set_status :archived
+    @stream.set_status :archived if @stream
     respond_with @stream
   end
 

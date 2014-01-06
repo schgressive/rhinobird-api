@@ -255,7 +255,7 @@ describe Api::StreamsController do
   describe "POST #archived" do
       before(:each) do
         @stream = create(:stream, stream_id: 123)
-        post :archived, id: 123, format: :json
+        post :archived, id: 123, archived_url: "http://url", format: :json
         @json_stream = JSON.parse(response.body)
       end
 
@@ -269,6 +269,7 @@ describe Api::StreamsController do
 
       it "changes the status to archived" do
         expect(@json_stream["status"]).to eql("archived")
+        expect(@json_stream["archived_url"]).to eql("http://url")
       end
   end
 

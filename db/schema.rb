@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(:version => 20140106144642) do
     t.integer  "playcount",                                              :default => 0
     t.integer  "status"
     t.decimal  "stream_id",              :precision => 22, :scale => 0
+    t.string   "archived_url"
   end
 
   add_index "streams", ["hash_token"], :name => "index_streams_on_hash_token", :unique => true

@@ -99,6 +99,12 @@ class Stream < ActiveRecord::Base
     self.save
   end
 
+  def set_archived_url(url)
+    self.archived_url = url
+    self.status = STATUSES.index(:archived)
+    self.save
+  end
+
   def set_status(new_status)
     self.status = STATUSES.index(new_status)
     self.save

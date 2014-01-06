@@ -252,6 +252,26 @@ describe Api::StreamsController do
 
   end
 
+  describe "POST #archived" do
+      before(:each) do
+        @stream = create(:stream, stream_id: 123)
+        post :archived, id: 123, format: :json
+        @json_stream = JSON.parse(response.body)
+      end
+
+      it "returns success code" do
+        expect(response.status).to be(201)
+      end
+
+      it "returns correct content type" do
+        expect(response.header['Content-Type']).to include("application/json")
+      end
+
+      it "changes the status to archived" do
+        expect(@json_stream["status"]).to eql("archived")
+      end
+  end
+
   describe "POST #create" do
 
     context "with a channel" do

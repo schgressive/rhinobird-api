@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140102111347) do
+ActiveRecord::Schema.define(:version => 20140106143022) do
 
   create_table "channels", :force => true do |t|
     t.string   "name"
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(:version => 20140102111347) do
     t.boolean  "live",                                                   :default => true
     t.integer  "playcount",                                              :default => 0
     t.integer  "stream_id"
+    t.integer  "status"
   end
 
   add_index "streams", ["hash_token"], :name => "index_streams_on_hash_token", :unique => true

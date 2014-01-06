@@ -28,6 +28,8 @@ class Stream < ActiveRecord::Base
   extend FriendlyId
   friendly_id :hash_token
 
+  STATUSES = [:offline, :archived, :live]
+
 
   def update_channels
     self.channels = Channel.get_channels(self.caption)
@@ -95,6 +97,15 @@ class Stream < ActiveRecord::Base
     self.playcount ||= 0
     self.playcount += 1
     self.save
+  end
+
+  def set_status(new_status)
+    self.status = STATUSES.index(new_status)
+    self.save
+  end
+
+  def get_status
+    STATUSES[self.status || 0].to_s
   end
 
 

@@ -1,5 +1,5 @@
 class Api::StreamsController < Api::BaseController
-  skip_before_filter :authenticate_user!, only: [:show, :index, :play]
+  skip_before_filter :authenticate_user!, only: [:show, :index, :play, :archived]
 
   def index
     @streams = StreamSearch.new(params).run
@@ -22,6 +22,12 @@ class Api::StreamsController < Api::BaseController
     @stream = Stream.find(params[:id])
     @stream.destroy
 
+    respond_with @stream
+  end
+
+  def archived
+    @stream = Stream.find_by_stream_id(params[:id])
+    @stream.set_status :archived
     respond_with @stream
   end
 

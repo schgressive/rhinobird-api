@@ -25,10 +25,6 @@ describe Api::StreamsController do
       expect(post: "#{route_prefix}/streams").to route_to("#{controller_prefix}streams#create", format: :json)
     end
 
-    it "routes to #archived" do
-      expect(post: "#{route_prefix}/streams/1/archived").to route_to("#{controller_prefix}streams#archived", id: "1", format: :json)
-    end
-
     it "routes to #update" do
       expect(put: "#{route_prefix}/streams/1").to route_to("#{controller_prefix}streams#update", id: "1", format: :json)
     end

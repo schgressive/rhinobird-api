@@ -25,17 +25,10 @@ class Api::StreamsController < Api::BaseController
     respond_with @stream
   end
 
-  def archived
-    @stream = Stream.find_by_stream_id(params[:id])
-    @stream.set_archived_url params[:archived_url] if @stream
-    respond_with @stream
-  end
-
   def update
     @stream = Stream.find(params[:id])
-    @stream.update_attributes stream_params
-    @stream.save
-    @stream.ignore_token = true
+    stream_update = StreamUpdateService.new(@stream, stream_params)
+    stream_update.save
 
     respond_with @stream
   end
@@ -50,6 +43,6 @@ class Api::StreamsController < Api::BaseController
   private
 
   def stream_params
-    params.permit(:caption, :lat, :lng, :geo_reference, :thumb, :live, :stream_id)
+    params.permit(:caption, :lat, :lng, :geo_reference, :thumb, :live, :stream_id, :archived_url)
   end
 end

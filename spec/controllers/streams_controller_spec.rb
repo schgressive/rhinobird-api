@@ -252,15 +252,17 @@ describe Api::StreamsController do
 
   end
 
-  describe "POST #archived" do
+  describe "PUT #update archived_url" do
       before(:each) do
-        @stream = create(:stream, stream_id: 123)
-        post :archived, id: 123, archived_url: "http://url", format: :json
+        @stream = create(:stream)
+        @api_user = create(:user)
+        @api_user.ensure_authentication_token!
+        put :update, id: @stream.id, archived_url: "http://url", format: :json, auth_token: @api_user.authentication_token
         @json_stream = JSON.parse(response.body)
       end
 
       it "returns success code" do
-        expect(response.status).to be(201)
+        expect(response.status).to be(200)
       end
 
       it "returns correct content type" do

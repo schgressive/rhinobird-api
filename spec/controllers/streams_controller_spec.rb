@@ -66,7 +66,7 @@ describe Api::StreamsController do
         @user = create(:user, username: "sirius")
         @stream1 = create(:stream, caption: "live from #rock in rio")
         @stream2 = create(:stream, caption: "riot on paris", user: @user)
-        @stream3 = create(:stream, caption: "voting for president", geo_reference: 'Santiago')
+        @stream3 = create(:stream, caption: "voting for president", geo_reference: 'Santiago', stream_id: 820533185964450300)
         @asuncion = create(:stream, caption: "car crash", lat: -25.320530, lng: -57.560549)
         @another = create(:stream, caption: "bus crash", lat: -25.323168, lng: -57.555227)
       end
@@ -76,6 +76,13 @@ describe Api::StreamsController do
         streams = JSON.parse(response.body)
         expect(streams.size).to eq(1)
         expect(streams.first["caption"]).to match(/rock/)
+      end
+
+      it "returns a stream by licode stream_id" do
+        get :index, format: :json, stream_id: 820533185964450300
+        streams = JSON.parse(response.body)
+        expect(streams.size).to eq(1)
+        expect(streams.first["caption"]).to match(/president/)
       end
 
       it "returns the stream by channel" do

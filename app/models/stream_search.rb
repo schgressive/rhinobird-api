@@ -11,7 +11,7 @@ class StreamSearch
     set_pagination
 
     @streams.reject! { |stream| stream.refresh_live_status == false } if @params.has_key? :force_check
-    @streams.all
+    @streams
   end
 
   private
@@ -46,8 +46,9 @@ class StreamSearch
   end
 
   def set_pagination
-    @streams = @streams.offset(@params[:offset]) if @params.has_key? :offset
-    @streams = @streams.limit(@params[:limit]) if @params.has_key? :limit
+    current_page = @params[:page] || 1
+    @streams = @streams.page(current_page)
+    @streams = @streams.per(@params[:per_page]) if @params.has_key? :per_page
   end
 
 

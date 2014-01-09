@@ -6,6 +6,9 @@ class Stream < ActiveRecord::Base
   # VALIDATIONS
   validates :user_id, presence: true
 
+  # default number of results per page
+  paginates_per 12
+
   # CALLBACKS
   before_create :setup_stream
   after_save :update_channels

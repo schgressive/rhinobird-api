@@ -1,9 +1,10 @@
 class Api::StreamsController < Api::BaseController
   skip_before_filter :authenticate_user!, only: [:show, :index, :play, :archived]
+  after_filter only: [:index] { set_pagination_headers(:streams) }
 
   def index
     @streams = StreamSearch.new(params).run
-    respond_with @streams
+    respond_with @streams.all
   end
 
   def show

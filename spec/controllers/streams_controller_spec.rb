@@ -32,16 +32,16 @@ describe Api::StreamsController do
 
       before do
         # @stream = defined on before
+        10.times {create(:stream, live: false)}
         @stream2 = create(:stream, caption: "stream 2", created_at: (Time.now + 10.seconds), live: false)
         @stream3 = create(:stream, caption: "stream 3", live: true, created_at: (Time.now + 20.seconds), live: false)
         @stream4 = create(:stream, caption: "stream 4", created_at: (Time.now + 30.seconds), live: false)
       end
 
-      it "limits to 1 stream in the last" do
-        get :index, format: :json, limit: 1
+      it "gets the first page of 12 results" do
+        get :index, format: :json, page: 1
         streams = JSON.parse(response.body)
-        expect(streams.size).to eq(1)
-        expect(streams[0]["caption"]).to eq(@stream4.caption)
+        expect(streams.size).to eq(12)
       end
 
       it "returns live streams" do
@@ -51,12 +51,18 @@ describe Api::StreamsController do
         expect(streams[0]["caption"]).to eq(@stream.caption)
       end
 
-      it "returns 2 streams skipping the first 2" do
-        get :index, format: :json, limit: 2, offset: 2
+      it "defins a custom page size" do
+        get :index, format: :json, per_page: 2
         streams = JSON.parse(response.body)
         expect(streams.size).to eq(2)
-        expect(streams[0]["caption"]).to eq(@stream2.caption) # newst stream first
-        expect(streams[1]["caption"]).to eq(@stream.caption)
+        expect(streams[0]["caption"]).to eq(@stream4.caption) # newst stream first
+        expect(streams[1]["caption"]).to eq(@stream3.caption)
+      end
+
+      it "returns the pagination headers" do
+        get :index, format: :json
+        expect(response.headers["X-Page"]).to eq("1")
+        expect(response.headers["X-Page-Total"]).to eq("2")
       end
     end
 

@@ -14,6 +14,7 @@ gem 'twitter-text'
 gem 'negroku', "~> 1.1.4"
 gem 'ngmin-rails'
 gem 'geocoder'
+gem 'kaminari'
 
 gem "aws-ses", "~> 0.5.0", :require => 'aws/ses'
 gem 'devise'

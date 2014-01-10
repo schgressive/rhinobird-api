@@ -72,6 +72,10 @@ class Stream < ActiveRecord::Base
     self.tags << tag unless self.tags.include?(tag)
   end
 
+  def live?
+    get_status == :live
+  end
+
   def remove_tag(tag_name)
     tag = Tag.find(tag_name.strip)
     self.tags.delete(tag)

@@ -22,18 +22,27 @@ class StreamSearch
     streams = User.find(@params[:user_id]).streams if @params.has_key? :user_id
     streams = Stream.where(stream_id: @params[:stream_id]) if @params.has_key? :stream_id
     streams = streams.includes(:user, :channels, :tags).order("streams.created_at DESC")
+    streams = streams.where("streams.status <> ?", Stream::STATUSES.index(:created)) # ignore created status
     streams
   end
 
   def set_search
 
     search_geo
+    search_status
 
-    @streams = @streams.where(live: true) if @params.has_key? :live
+    @streams = @streams.where(status: Stream::STATUSES.index(:live)) if @params.has_key? :live
     if @params.key? :q
       q = @params[:q].downcase
       @streams = @streams.joins(:user)
       @streams = @streams.where("(lower(concat_ws(',', caption, geo_reference)) like ? OR users.username = ?)", "%#{q}%", q)
+    end
+  end
+
+  def search_status
+    if @params.key?(:status)
+      status = Stream::STATUSES.index(@params[:status].to_sym)
+      @streams = @streams.where(status: status)
     end
   end
 

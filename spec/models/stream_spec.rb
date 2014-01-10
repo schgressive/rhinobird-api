@@ -40,9 +40,9 @@ describe Stream do
   end
 
   describe "defaults" do
-    it "defaults the live flag to true" do
+    it "should have the created status" do
       stream = create(:stream)
-      expect(stream.live).to be_true
+      expect(stream.get_status).to eq("created")
     end
   end
 

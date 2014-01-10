@@ -7,6 +7,7 @@ class StreamUpdateService
   def save
     @stream.attributes = @params
     check_archived_url
+    check_stream_id
 
     @stream.save
     # ignore token for active model serializer
@@ -14,6 +15,12 @@ class StreamUpdateService
   end
 
   private
+
+  def check_stream_id
+    if @params[:stream_id] && !@params[:stream_id].empty?
+      @stream.status = Stream::STATUSES.index(:live)
+    end
+  end
 
   def check_archived_url
     if @params[:archived_url] && !@params[:archived_url].empty?

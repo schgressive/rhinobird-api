@@ -33,7 +33,7 @@ describe StreamPool do
       end
 
       it "changes the state of the stream pool" do
-        stream = create(:stream_pool, user: @user, active: false)
+        stream = create(:stream_pool, user: @user, active: false, stream: create(:live_stream))
         stream.set_active(true)
         expect(stream.active).to be_true
 
@@ -42,16 +42,16 @@ describe StreamPool do
       end
 
       it "can't change the state of a non live stream" do
-        offline_stream = create(:stream, live: false)
+        offline_stream = create(:archived_stream)
         stream = create(:stream_pool, user: @user, active: false, stream: offline_stream)
 
         expect(stream.set_active(true)).to be_false
       end
 
       it "inactivates other streams" do
-        unrelated_stream = create(:stream_pool, active: true)
-        active_stream = create(:stream_pool, user: @user, active: true)
-        stream = create(:stream_pool, user: @user, active: false)
+        unrelated_stream = create(:stream_pool, active: true, stream: create(:live_stream))
+        active_stream = create(:stream_pool, user: @user, active: true, stream: create(:live_stream))
+        stream = create(:stream_pool, user: @user, active: false, stream: create(:live_stream))
         stream.set_active(true)
 
         expect(active_stream.reload.active).to be_false

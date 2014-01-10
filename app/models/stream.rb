@@ -31,7 +31,7 @@ class Stream < ActiveRecord::Base
   extend FriendlyId
   friendly_id :hash_token
 
-  STATUSES = [:offline, :archived, :live]
+  STATUSES = [:created, :live, :archived, :pending]
 
 
   def update_channels
@@ -49,7 +49,7 @@ class Stream < ActiveRecord::Base
 
   #placeholder to refresh live status
   def refresh_live_status
-    self.live
+    self.status == STATUSES.index(:live)
   end
 
   #decodes 'data:image/jpg;base64,#{base64_image}'

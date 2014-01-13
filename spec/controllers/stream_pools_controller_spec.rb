@@ -7,8 +7,8 @@ describe Api::StreamsPoolController do
   describe "GET #index" do
     context "current user" do
       before do
-        @stream = create(:stream)
-        @offline = create(:stream, live: false)
+        @stream = create(:live_stream)
+        @offline = create(:archived_stream)
         @stream_pool_offline = create(:stream_pool, user: @user, stream: @offline)
         @stream_pool = create(:stream_pool, user: @user, stream: @stream)
         get :index, format: :json
@@ -39,8 +39,8 @@ describe Api::StreamsPoolController do
     context "for a given user" do
       before do
         @given_user = create(:user)
-        @stream = create(:stream, user: @given_user)
-        @offline = create(:stream, live: false, user: @given_user)
+        @stream = create(:live_stream, user: @given_user)
+        @offline = create(:archived_stream, user: @given_user)
         @stream_pool_offline = create(:stream_pool, user: @given_user, stream: @offline)
         @stream_pool = create(:stream_pool, user: @given_user, stream: @stream)
 
@@ -73,7 +73,7 @@ describe Api::StreamsPoolController do
   describe "PUT #update" do
     context "live stream" do
       before do
-        @stream_pool = create(:stream_pool, active: false, user: @user)
+        @stream_pool = create(:stream_pool, active: false, user: @user, stream: create(:live_stream))
         put :update, format: :json, stream_id: @stream_pool.stream_id, active: true
         @json = JSON.parse(response.body)
       end
@@ -89,7 +89,7 @@ describe Api::StreamsPoolController do
 
     context "offline stream" do
       before do
-        offline = create(:stream, live: false)
+        offline = create(:archived_stream)
         @stream_pool = create(:stream_pool, active: false, user: @user, stream: offline)
         put :update, format: :json, stream_id: @stream_pool.stream_id, active: true
         @json = JSON.parse(response.body)

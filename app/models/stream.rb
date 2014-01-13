@@ -31,7 +31,7 @@ class Stream < ActiveRecord::Base
   extend FriendlyId
   friendly_id :hash_token
 
-  STATUSES = [:offline, :archived, :live]
+  STATUSES = [:created, :live, :archived, :pending]
 
 
   def update_channels
@@ -49,7 +49,7 @@ class Stream < ActiveRecord::Base
 
   #placeholder to refresh live status
   def refresh_live_status
-    self.live
+    self.status == STATUSES.index(:live)
   end
 
   #decodes 'data:image/jpg;base64,#{base64_image}'
@@ -70,6 +70,10 @@ class Stream < ActiveRecord::Base
   def add_tag(tag_name)
     tag = Tag.find_or_create_by_name(tag_name.strip)
     self.tags << tag unless self.tags.include?(tag)
+  end
+
+  def live?
+    get_status == :live
   end
 
   def remove_tag(tag_name)

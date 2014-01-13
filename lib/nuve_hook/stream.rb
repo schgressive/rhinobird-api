@@ -10,10 +10,10 @@ module NuveHook
       # returns the token if the stream is live
       def token
         new_token = nil
-        if self.live
+        if self.live?
           new_token = generate_room_token
           # set live to false if unexisting room
-          self.update_attributes live: false if new_token =~ /not exist/
+          self.update_attributes status: Stream::STATUSES.index(:pending) if new_token =~ /not exist/
         end
         new_token
       end
@@ -21,12 +21,14 @@ module NuveHook
       # Refresh the flag if the room doesn't exist or the user list is empty
       def refresh_live_status
         # only check if flag is live
-        if self.live
-          self.live = NuveHook::Nuve.live_room?(self.hash_token)
-          self.save
+        if self.live?
+          is_live = NuveHook::Nuve.live_room?(self.hash_token)
+          unless is_live
+            self.update_attributes status: Stream::STATUSES.index(:pending)
+          end
         end
 
-        self.live
+        self.live?
       end
 
     end

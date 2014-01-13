@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Api::StreamsController do
 
   before do
-    @stream = create(:stream)
+    @stream = create(:live_stream)
   end
 
   describe "GET #index" do
@@ -32,16 +32,22 @@ describe Api::StreamsController do
 
       before do
         # @stream = defined on before
-        10.times {create(:stream, live: false)}
-        @stream2 = create(:stream, caption: "stream 2", created_at: (Time.now + 10.seconds), live: false)
-        @stream3 = create(:stream, caption: "stream 3", live: true, created_at: (Time.now + 20.seconds), live: false)
-        @stream4 = create(:stream, caption: "stream 4", created_at: (Time.now + 30.seconds), live: false)
+        10.times {create(:archived_stream)}
+        @stream2 = create(:created_stream, caption: "stream 2", created_at: (Time.now + 10.seconds))
+        @stream3 = create(:archived_stream, caption: "stream 3", created_at: (Time.now + 20.seconds))
+        @stream4 = create(:archived_stream, caption: "stream 4", created_at: (Time.now + 30.seconds))
       end
 
       it "gets the first page of 12 results" do
         get :index, format: :json, page: 1
         streams = JSON.parse(response.body)
         expect(streams.size).to eq(12)
+      end
+
+      it "skips :created status streams" do
+        get :index, format: :json, page: 1, per_page: 100
+        streams = JSON.parse(response.body)
+        expect(streams.size).to eq(13)
       end
 
       it "returns live streams" do
@@ -70,11 +76,35 @@ describe Api::StreamsController do
 
       before(:each) do
         @user = create(:user, username: "sirius")
-        @stream1 = create(:stream, caption: "live from #rock in rio")
-        @stream2 = create(:stream, caption: "riot on paris", user: @user)
-        @stream3 = create(:stream, caption: "voting for president", geo_reference: 'Santiago', stream_id: 820533185964450300)
-        @asuncion = create(:stream, caption: "car crash", lat: -25.320530, lng: -57.560549)
-        @another = create(:stream, caption: "bus crash", lat: -25.323168, lng: -57.555227)
+        #@live_stream0 created before
+        @stream1 = create(:archived_stream, caption: "live from #rock in rio")
+        @stream2 = create(:archived_stream, caption: "riot on paris", user: @user)
+        @stream3 = create(:archived_stream, caption: "voting for president", geo_reference: 'Santiago', stream_id: 820533185964450300)
+        @asuncion = create(:pending_stream, caption: "car crash", lat: -25.320530, lng: -57.560549)
+        @another = create(:archived_stream, caption: "bus crash", lat: -25.323168, lng: -57.555227)
+        @live_stream = create(:live_stream, caption: "real time video")
+      end
+
+      context "filters status" do
+
+        it "searches by live status" do
+          get :index, format: :json, live: true
+          streams = JSON.parse(response.body)
+          expect(streams.size).to eq(2)
+        end
+
+        it "searchs by archived status" do
+          get :index, format: :json, archived: true
+          streams = JSON.parse(response.body)
+          expect(streams.size).to eq(4)
+        end
+
+        it "searchs by live and archived status" do
+          get :index, format: :json, live: true, archived: true
+          streams = JSON.parse(response.body)
+          expect(streams.size).to eq(6)
+        end
+
       end
 
       it "returns the stream by keyword" do
@@ -125,8 +155,8 @@ describe Api::StreamsController do
 
     context "with a channel" do
       before do
-        create(:stream)
-        @channel = create(:channel, streams: [create(:stream), create(:stream)])
+        create(:archived_stream)
+        @channel = create(:channel, streams: [create(:archived_stream), create(:archived_stream)])
         get :index, channel_id: @channel.id, format: :json
         @streams = JSON.parse(response.body)
       end
@@ -147,8 +177,8 @@ describe Api::StreamsController do
     context "for a user" do
       before do
         @user = create(:user)
-        @stream = create(:stream, user: @user)
-        @userb = create(:user, streams: [create(:stream), create(:stream)])
+        @stream = create(:archived_stream, user: @user)
+        @userb = create(:user, streams: [create(:archived_stream), create(:archived_stream)])
 
         get :index, user_id: @user.to_param, format: :json
         @streams = JSON.parse(response.body)
@@ -199,8 +229,8 @@ describe Api::StreamsController do
       context "update a stream" do
 
         before(:each) do
-          @stream = create(:stream, live: false)
-          put :update, id: @stream.id, live: true, caption: 'rock', format: :json
+          @stream = create(:stream, status: 0)
+          put :update, id: @stream.id, stream_id: "123", caption: 'rock', format: :json
         end
 
         it "returns the success code" do
@@ -211,7 +241,7 @@ describe Api::StreamsController do
           stream = JSON.parse(response.body)
           expect(stream["id"]).to eql(@stream.to_param)
           expect(stream["caption"]).to eql("rock")
-          expect(stream["live"]).to be_true
+          expect(stream["status"]).to eql("live")
         end
       end
 
@@ -343,7 +373,6 @@ describe Api::StreamsController do
         @post_hash = {caption: 'live from woodstock',
                       lat: -25.272062301637, lng: -57.585376739502,
                       geo_reference: 'Unkown location',
-                      live: true,
                       format: :json}
 
         post :create, @post_hash
@@ -373,7 +402,6 @@ describe Api::StreamsController do
                       lat: -25.272062301637, lng: -57.585376739502,
                       geo_reference: 'Unkown location',
                       thumb: @image_base64,
-                      live: true,
                       format: :json}
 
         post :create, post_hash
@@ -383,8 +411,9 @@ describe Api::StreamsController do
         expect(json["thumbs"]["large"]).to match(/^http:\/\/.*large.jpg/)
       end
 
-      it "returns the live token" do
-        expect(@json_stream["live"]).to be_true
+      it "returns the status" do
+        expect(@json_stream["status"]).to eql("created")
+        expect(@json_stream["stream_id"]).to be_nil
       end
 
 
@@ -457,8 +486,8 @@ describe Api::StreamsController do
       expect(json["thumbs"]["large"]).to match(/^http:\/\/.*large.jpg/)
     end
 
-    it "returns the live token" do
-      expect(@json_stream["live"]).to be_true
+    it "returns the status" do
+      expect(@json_stream["status"]).to eql("created")
     end
 
     it "has a valid geoJSON format" do

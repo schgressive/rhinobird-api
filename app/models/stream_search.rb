@@ -31,7 +31,6 @@ class StreamSearch
     search_geo
     search_status
 
-    @streams = @streams.where(status: Stream::STATUSES.index(:live)) if @params.has_key? :live
     if @params.key? :q
       q = @params[:q].downcase
       @streams = @streams.joins(:user)
@@ -40,10 +39,13 @@ class StreamSearch
   end
 
   def search_status
-    if @params.key?(:status)
-      status = Stream::STATUSES.index(@params[:status].to_sym)
-      @streams = @streams.where(status: status)
-    end
+    conditions = []
+    conditions << "status = #{Stream::STATUSES.index(:live)}" if @params.has_key? :live
+    conditions << "status = #{Stream::STATUSES.index(:archived)}" if @params.has_key? :archived
+    conditions << "status = #{Stream::STATUSES.index(:pending)}" if @params.has_key? :pending
+
+    @streams = @streams.where("(" + conditions.join(" OR ") + ")") unless conditions.empty?
+    @streams
   end
 
   def search_geo

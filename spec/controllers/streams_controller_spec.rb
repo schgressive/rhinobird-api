@@ -76,11 +76,35 @@ describe Api::StreamsController do
 
       before(:each) do
         @user = create(:user, username: "sirius")
+        #@live_stream0 created before
         @stream1 = create(:archived_stream, caption: "live from #rock in rio")
         @stream2 = create(:archived_stream, caption: "riot on paris", user: @user)
         @stream3 = create(:archived_stream, caption: "voting for president", geo_reference: 'Santiago', stream_id: 820533185964450300)
         @asuncion = create(:pending_stream, caption: "car crash", lat: -25.320530, lng: -57.560549)
         @another = create(:archived_stream, caption: "bus crash", lat: -25.323168, lng: -57.555227)
+        @live_stream = create(:live_stream, caption: "real time video")
+      end
+
+      context "filters status" do
+
+        it "searches by live status" do
+          get :index, format: :json, live: true
+          streams = JSON.parse(response.body)
+          expect(streams.size).to eq(2)
+        end
+
+        it "searchs by archived status" do
+          get :index, format: :json, archived: true
+          streams = JSON.parse(response.body)
+          expect(streams.size).to eq(4)
+        end
+
+        it "searchs by live and archived status" do
+          get :index, format: :json, live: true, archived: true
+          streams = JSON.parse(response.body)
+          expect(streams.size).to eq(6)
+        end
+
       end
 
       it "returns the stream by keyword" do

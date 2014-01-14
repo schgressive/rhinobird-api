@@ -10,7 +10,7 @@ module NuveHook
       # returns the token if the stream is live
       def token
         new_token = nil
-        if self.live?
+        if self.get_status == "created" || self.get_status == "live"
           new_token = generate_room_token
           # set live to false if unexisting room
           self.update_attributes status: Stream::STATUSES.index(:pending) if new_token =~ /not exist/

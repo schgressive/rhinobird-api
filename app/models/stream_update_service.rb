@@ -17,7 +17,7 @@ class StreamUpdateService
   private
 
   def check_stream_id
-    if @params[:stream_id] && !@params[:stream_id].empty?
+    if @params[:stream_id]
       @stream.status = Stream::STATUSES.index(:live)
     end
   end

@@ -13,7 +13,7 @@ module NuveHook
         if self.get_status == "created" || self.get_status == "live"
           new_token = generate_room_token
           # set live to false if unexisting room
-          self.update_attributes status: Stream::STATUSES.index(:pending) if new_token =~ /not exist/
+          self.set_status(:pending) if new_token =~ /not exist/
         end
         new_token
       end
@@ -24,7 +24,7 @@ module NuveHook
         if self.live?
           is_live = NuveHook::Nuve.live_room?(self.hash_token)
           unless is_live
-            self.update_attributes status: Stream::STATUSES.index(:pending)
+            self.set_status(:pending)
           end
         end
 

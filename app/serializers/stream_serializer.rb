@@ -12,7 +12,7 @@ class StreamSerializer < ActiveModel::Serializer
   end
 
   def status
-    object.get_status
+    object.get_status.to_s
   end
 
   # Use hash_token as ID

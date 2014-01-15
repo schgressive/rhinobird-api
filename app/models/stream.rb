@@ -112,7 +112,7 @@ class Stream < ActiveRecord::Base
   end
 
   def get_status
-    STATUSES[self.status || 0].to_s
+    STATUSES[self.status || 0]
   end
 
 

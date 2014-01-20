@@ -1,7 +1,12 @@
 class Api::UsersController < Api::BaseController
-  skip_before_filter :authenticate_user!, only: [:show, :create]
+  skip_before_filter :authenticate_user!, only: [:show, :create, :index]
   skip_before_filter :require_no_authentication
   skip_before_filter :verify_authenticity_token
+
+  def index
+    users = UserSearch.new(params, %w(name username)).run
+    respond_with users
+  end
 
   def show
     user = User.find(params[:id])

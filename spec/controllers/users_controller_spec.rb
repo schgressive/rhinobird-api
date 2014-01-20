@@ -2,6 +2,26 @@ require 'spec_helper'
 
 describe Api::UsersController do
 
+  describe "GET #index" do
+    before do
+      1.times {|i| create(:user) }
+      create(:user, name: "Sherlock Holmes", username: "emilio")
+    end
+
+    it "returns the searched users name" do
+      get :index, format: :json, q: 'sherlock'
+      users = JSON.parse(response.body)
+      expect(users.size).to eq(1)
+    end
+
+    it "returns the searched users username" do
+      get :index, format: :json, q: 'emilio'
+      users = JSON.parse(response.body)
+      expect(users.size).to eq(1)
+    end
+
+  end
+
   describe "GET #show" do
 
     context "not as VJ" do

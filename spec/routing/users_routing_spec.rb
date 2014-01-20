@@ -13,6 +13,10 @@ describe Api::UsersController do
       expect(get: "#{route_prefix}/users/emilio/streams").to route_to("#{controller_prefix}streams#index", user_id: "emilio", format: :json)
     end
 
+    it "routes to #index" do
+      expect(get: "#{route_prefix}/users").to route_to("#{controller_prefix}users#index", format: :json)
+    end
+
     it "routes to #show" do
       expect(get: "#{route_prefix}/users/emilio").to route_to("#{controller_prefix}users#show", id: "emilio", format: :json)
     end

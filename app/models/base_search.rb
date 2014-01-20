@@ -1,6 +1,8 @@
 class BaseSearch
+  def initialize(params, search_fields=%w(name))
+    @searchfields = search_fields
+    @model = self.class.to_s.match(/(.+)Search/)[1].constantize
 
-  def initialize(params)
     @params = params
     # basic scope
     @records = set_basic_scope
@@ -17,7 +19,7 @@ class BaseSearch
 
   def set_basic_scope
     records = @model
-    records = records.order("#{@searchfield} DESC")
+    records = records.order("#{@searchfields.first} DESC")
     records
   end
 
@@ -25,7 +27,7 @@ class BaseSearch
 
     if @params.key? :q
       q = @params[:q].downcase
-      @records = @records.where("#{@searchfield} like ?", "%#{q}%")
+      @records = @records.where("lower(concat_ws(',', #{@searchfields.join(",")})) like ?", "%#{q}%")
     end
   end
 

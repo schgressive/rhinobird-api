@@ -42,7 +42,7 @@ describe Stream do
   describe "defaults" do
     it "should have the created status" do
       stream = create(:stream)
-      expect(stream.get_status).to eq("created")
+      expect(stream.get_status).to eq(:created)
     end
   end
 

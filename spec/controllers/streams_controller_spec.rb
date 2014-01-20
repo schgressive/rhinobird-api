@@ -79,7 +79,7 @@ describe Api::StreamsController do
         #@live_stream0 created before
         @stream1 = create(:archived_stream, caption: "live from #rock in rio")
         @stream2 = create(:archived_stream, caption: "riot on paris", user: @user)
-        @stream3 = create(:archived_stream, caption: "voting for president", geo_reference: 'Santiago', stream_id: 820533185964450300)
+        @stream3 = create(:archived_stream, caption: "voting for president", stream_id: 820533185964450300)
         @asuncion = create(:pending_stream, caption: "car crash", lat: -25.320530, lng: -57.560549)
         @another = create(:archived_stream, caption: "bus crash", lat: -25.323168, lng: -57.555227)
         @live_stream = create(:live_stream, caption: "real time video")
@@ -136,10 +136,9 @@ describe Api::StreamsController do
       end
 
       it "returns the stream by geo reference" do
-        get :index, format: :json, q: 'santiago'
+        get :index, format: :json, q: 'england'
         streams = JSON.parse(response.body)
-        expect(streams.size).to eq(1)
-        expect(streams.first["caption"]).to match(/voting/)
+        expect(streams.size).to eq(7)
       end
 
       it "returns streams by lat and lng" do
@@ -421,7 +420,7 @@ describe Api::StreamsController do
         expect(@json_stream["type"]).to eq("Feature")
         expect(@json_stream["geometry"]["type"]).to eq("Point")
         expect(@json_stream["geometry"]["coordinates"]).to eq([@post_hash[:lng], @post_hash[:lat]])
-        expect(@json_stream["properties"]["geo_reference"]).to eq(@post_hash[:geo_reference])
+        expect(@json_stream["properties"]["geo_reference"]).to eq("45 Main Street, Long Road, Neverland, England")
       end
 
       it "has user information" do

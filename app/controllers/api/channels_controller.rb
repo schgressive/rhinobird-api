@@ -2,7 +2,7 @@ class Api::ChannelsController < Api::BaseController
   skip_before_filter :authenticate_user!, only: [:show, :index]
 
   def index
-    @channels = Channel.all
+    @channels = ChannelSearch.new(params).run
     respond_with @channels
   end
 

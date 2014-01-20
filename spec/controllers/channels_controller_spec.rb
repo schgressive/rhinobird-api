@@ -3,24 +3,46 @@ require 'spec_helper'
 describe Api::ChannelsController do
 
   describe "GET #index" do
-    before do
-      @channel = create(:channel)
-      get :index, format: :json
-      @channels = JSON.parse(response.body)
+    context "basic" do
+      before do
+        @channel = create(:channel)
+        get :index, format: :json
+        @channels = JSON.parse(response.body)
+      end
+
+      it "returns success code" do
+        expect(response.status).to be(200)
+      end
+
+      it "returns correct content type" do
+        expect(response.header['Content-Type']).to include("application/json")
+      end
+
+      it "returns an array of channels" do
+        expect(@channels).to have(1).items
+        expect(@channels[0]["id"]).to eq(@channel.hash_token)
+        expect(@channels[0]["name"]).to eq(@channel.name)
+      end
     end
 
-    it "returns success code" do
-      expect(response.status).to be(200)
-    end
+    context "searching" do
+      before do
+        10.times  {|i| create(:channel, name: "channel#{i}") }
+        @rock = create(:channel, name: "rock")
+        @rock2 = create(:channel, name: "rockandroll")
+      end
 
-    it "returns correct content type" do
-      expect(response.header['Content-Type']).to include("application/json")
-    end
+      it "returns rock channels" do
+        get :index, format: :json, q: 'rock'
+        channels = JSON.parse(response.body)
+        expect(channels.size).to eq(2)
+      end
 
-    it "returns an array of channels" do
-      expect(@channels).to have(1).items
-      expect(@channels[0]["id"]).to eq(@channel.hash_token)
-      expect(@channels[0]["name"]).to eq(@channel.name)
+      it "returns the first page" do
+        get :index, format: :json, page: 1, per_page: 10
+        channels = JSON.parse(response.body)
+        expect(channels.size).to eq(10)
+      end
     end
 
   end

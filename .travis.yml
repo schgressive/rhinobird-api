@@ -11,4 +11,4 @@ script:
   - bundle exec rspec spec
 
 env:
-  - DEV_DB_NAME=peepoltv DEV_DB_USER=root DEFAULT_HOST=http://localhost/ DEFAULT_SENDER=notify@peepol.tv
+  - DEV_DB_NAME=peepoltv DEV_DB_USER=root DEFAULT_HOST=http://localhost/ DEFAULT_SENDER=notify@peepol.tv HOST_PROTOCOL=http

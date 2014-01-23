@@ -14,6 +14,7 @@ Take a look at http://docs.peepoltv.apiary.io/ for reference.
 
 * DEFAULT_HOST: The host for the server (ex. http://beta.peepol.tv/ or localhost:3000)
 * PUBLIC_HOST: The host for the frontend (ex. www.peepol.tv or localhost:9000)
+* HOST_PROTOCOL: The host protocol server and backend (http or https)
 * DEFAULT_SENDER: Default email sender for email notifications (ex. notify@peepol.tv)
 
 ### Licode related variables

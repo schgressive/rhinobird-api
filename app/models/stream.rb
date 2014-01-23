@@ -4,7 +4,7 @@ class Stream < ActiveRecord::Base
   reverse_geocoded_by :lat, :lng do |stream, results|
     if geo = results.first
       stream.city = geo.city
-      stream.address = geo.address
+      stream.address = geo.street_address
       stream.country = geo.country
     end
   end

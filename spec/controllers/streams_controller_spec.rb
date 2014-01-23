@@ -371,7 +371,6 @@ describe Api::StreamsController do
       before(:each) do
         @post_hash = {caption: 'live from woodstock',
                       lat: -25.272062301637, lng: -57.585376739502,
-                      geo_reference: 'Unkown location',
                       format: :json}
 
         post :create, @post_hash
@@ -399,7 +398,6 @@ describe Api::StreamsController do
 
         post_hash = {caption: 'live from woodstock',
                       lat: -25.272062301637, lng: -57.585376739502,
-                      geo_reference: 'Unkown location',
                       thumb: @image_base64,
                       format: :json}
 
@@ -420,7 +418,8 @@ describe Api::StreamsController do
         expect(@json_stream["type"]).to eq("Feature")
         expect(@json_stream["geometry"]["type"]).to eq("Point")
         expect(@json_stream["geometry"]["coordinates"]).to eq([@post_hash[:lng], @post_hash[:lat]])
-        expect(@json_stream["properties"]["geo_reference"]).to eq("45 Main Street, Long Road, Neverland, England")
+        expect(@json_stream["properties"]["country"]).to eq("England")
+        expect(@json_stream["properties"]["address"]).to eq("45 Main Street, Long Road, Neverland, England")
       end
 
       it "has user information" do
@@ -493,7 +492,6 @@ describe Api::StreamsController do
       expect(@json_stream["type"]).to eq("Feature")
       expect(@json_stream["geometry"]["type"]).to eq("Point")
       expect(@json_stream["geometry"]["coordinates"]).to eq([@new_stream.lng.to_f, @new_stream.lat.to_f])
-      expect(@json_stream["properties"]["geo_reference"]).to eq(@new_stream.geo_reference)
     end
 
     it "has user information" do

@@ -1,7 +1,13 @@
 class Stream < ActiveRecord::Base
 
   # Geocoding
-  reverse_geocoded_by :lat, :lng, address: :geo_reference
+  reverse_geocoded_by :lat, :lng do |stream, results|
+    if geo = results.first
+      stream.city = geo.city
+      stream.address = geo.address
+      stream.country = geo.country
+    end
+  end
   after_validation :reverse_geocode  # auto-fetch address
 
   # VALIDATIONS

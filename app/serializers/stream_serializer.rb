@@ -33,7 +33,11 @@ class StreamSerializer < ActiveModel::Serializer
   end
 
   def properties
-    {"geo_reference" => object.geo_reference}
+    {
+      city: object.city,
+      country: object.country,
+      address: object.address
+    }
   end
 
   #format this date

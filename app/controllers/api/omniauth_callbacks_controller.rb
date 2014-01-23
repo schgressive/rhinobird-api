@@ -19,7 +19,7 @@ class  Api::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if @user.persisted?
       sign_in @user
     end
-    redirect_to "#{ENV["HOST_PROTOCOL"]}://#{ENV["PUBLIC_HOST"]}/profile/edit?complete=#{from}"
+    redirect_to "#{ENV["HOST_PROTOCOL"]}://#{ENV["PUBLIC_HOST"]}/profile/edit/?complete=#{from}"
   end
 
 end

@@ -6,7 +6,7 @@ describe Api::OmniauthCallbacksController do
   OmniAuth.config.mock_auth[:default] = OmniAuth::AuthHash.new({
     uid: "100",
     info: {
-      image: "http://graph.facebook.com/100/picture?type=small",
+      image: "#{ENV["HOST_PROTOCOL"]}://graph.facebook.com/100/picture?type=small",
       name: "Emilio Blanco"
     }
   })
@@ -24,7 +24,7 @@ describe Api::OmniauthCallbacksController do
 
     it "returns a redirect" do
       post :facebook
-      expect(response).to redirect_to("http://#{ENV['PUBLIC_HOST']}/profile/edit?complete=facebook")
+      expect(response).to redirect_to("#{ENV["HOST_PROTOCOL"]}://#{ENV['PUBLIC_HOST']}/profile/edit?complete=facebook")
     end
 
     it "adds the user" do
@@ -43,7 +43,7 @@ describe Api::OmniauthCallbacksController do
       @request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:google_oauth2]
       post :google_oauth2
 
-      expect(response).to redirect_to("http://#{ENV['PUBLIC_HOST']}/profile/edit?complete=google")
+      expect(response).to redirect_to("#{ENV["HOST_PROTOCOL"]}://#{ENV['PUBLIC_HOST']}/profile/edit?complete=google")
     end
   end
 
@@ -55,7 +55,7 @@ describe Api::OmniauthCallbacksController do
 
     it "returns a redirect" do
       post :twitter
-      expect(response).to redirect_to("http://#{ENV['PUBLIC_HOST']}/profile/edit?complete=twitter")
+      expect(response).to redirect_to("#{ENV["HOST_PROTOCOL"]}://#{ENV['PUBLIC_HOST']}/profile/edit?complete=twitter")
     end
 
     it "adds the user" do
@@ -76,7 +76,7 @@ describe Api::OmniauthCallbacksController do
 
     it "returns a redirect" do
       post :google_oauth2
-      expect(response).to redirect_to("http://#{ENV['PUBLIC_HOST']}/profile/edit?complete=google")
+      expect(response).to redirect_to("#{ENV["HOST_PROTOCOL"]}://#{ENV['PUBLIC_HOST']}/profile/edit?complete=google")
     end
 
     it "adds the user" do

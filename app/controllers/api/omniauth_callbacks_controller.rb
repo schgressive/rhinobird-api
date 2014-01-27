@@ -14,12 +14,13 @@ class  Api::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   private
 
   def process_omniauth(auth, user, from)
-    @user = SocialSignup.new(auth, user).signup
+    social = SocialSignup.new(auth, user)
+    @user = social.signup
+    sign_in @user
 
-    if @user.persisted?
-      sign_in @user
-    end
-    redirect_to "#{ENV["HOST_PROTOCOL"]}://#{ENV["PUBLIC_HOST"]}/profile/edit/?complete=#{from}"
+    route = "#{ENV["HOST_PROTOCOL"]}://#{ENV["PUBLIC_HOST"]}"
+    route += "/profile/edit/?complete=#{from}" if social.new_user?
+    redirect_to route
   end
 
 end

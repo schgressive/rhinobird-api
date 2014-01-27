@@ -2,17 +2,23 @@ class SocialSignup
   def initialize(auth, current_user)
     @auth = auth
     @current_user = current_user
+    @new_user = false
   end
 
   def signup
     user = find_for_oauth
     unless user
+      @new_user = true
       user = new_from_provider
       user.skip_confirmation!
       user.save!
     end
 
     user
+  end
+
+  def new_user?
+    @new_user
   end
 
   private

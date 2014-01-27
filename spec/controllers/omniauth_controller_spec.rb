@@ -36,6 +36,13 @@ describe Api::OmniauthCallbacksController do
       expect(user.photo).to match(/picture/)
     end
 
+    it "redirects to home screen" do
+      post :facebook # register first time
+      post :facebook
+
+      expect(response).to redirect_to("#{ENV["HOST_PROTOCOL"]}://#{ENV['PUBLIC_HOST']}")
+    end
+
     it "uses the existing user" do
       post :facebook
 
@@ -43,7 +50,7 @@ describe Api::OmniauthCallbacksController do
       @request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:google_oauth2]
       post :google_oauth2
 
-      expect(response).to redirect_to("#{ENV["HOST_PROTOCOL"]}://#{ENV['PUBLIC_HOST']}/profile/edit/?complete=google")
+      expect(response).to redirect_to("#{ENV["HOST_PROTOCOL"]}://#{ENV['PUBLIC_HOST']}")
     end
   end
 

@@ -20,10 +20,7 @@ PeepoltvApi::Application.routes.draw do
     end
 
     #stream_pool routes
-    post 'streams_pool', to: 'streams_pool#create'
-    put 'streams_pool', to: 'streams_pool#update'
-    get 'streams_pool', to: 'streams_pool#index'
-    delete 'streams_pool', to: 'streams_pool#destroy'
+    resources :streams_pool, only: [:create, :index, :destroy, :update]
 
     resources :channels, only: [:create, :show, :index, :destroy] do
       resources :streams, only: [:index]

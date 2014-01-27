@@ -74,7 +74,7 @@ describe Api::StreamsPoolController do
     context "live stream" do
       before do
         @stream_pool = create(:stream_pool, active: false, user: @user, stream: create(:live_stream))
-        put :update, format: :json, stream_id: @stream_pool.stream_id, active: true
+        put :update, format: :json, id: @stream_pool.stream_id, active: true
         @json = JSON.parse(response.body)
       end
 
@@ -91,7 +91,7 @@ describe Api::StreamsPoolController do
       before do
         offline = create(:archived_stream)
         @stream_pool = create(:stream_pool, active: false, user: @user, stream: offline)
-        put :update, format: :json, stream_id: @stream_pool.stream_id, active: true
+        put :update, format: :json, id: @stream_pool.stream_id, active: true
         @json = JSON.parse(response.body)
       end
 
@@ -111,17 +111,17 @@ describe Api::StreamsPoolController do
     end
 
     it "removes the stream from the pool" do
-      expect{delete :destroy, format: :json, stream_id: @inactive_stream.stream_id}.to change(@user.reload.stream_pools, :count).by(-1)
+      expect{delete :destroy, format: :json, id: @inactive_stream.stream_id}.to change(@user.reload.stream_pools, :count).by(-1)
     end
 
     it "doesn't remove an active stream" do
-      expect{delete :destroy, format: :json, stream_id: @active_stream.stream_id}.not_to change(@user.reload.stream_pools, :count)
+      expect{delete :destroy, format: :json, id: @active_stream.stream_id}.not_to change(@user.reload.stream_pools, :count)
     end
 
     it "removes the stream active stream from the pool if it's the only stream" do
       StreamPool.delete_all
       stream = create(:stream_pool, user: @user, active: true)
-      expect{delete :destroy, format: :json, stream_id: stream.stream_id}.to change(StreamPool, :count).by(-1)
+      expect{delete :destroy, format: :json, id: stream.stream_id}.to change(StreamPool, :count).by(-1)
     end
 
 

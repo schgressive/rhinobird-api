@@ -7,12 +7,10 @@ class Api::ChannelsController < Api::BaseController
   end
 
   def show
-    @channel = Channel.find_by_name(params[:id])
-    if @channel
-      respond_with @channel
-    else
-      render nothing: true, status: 404
-    end
+    @channel = Channel.find(params[:id])
+    respond_with @channel
+  rescue
+    render nothing: true, status: 404
   end
 
   def create

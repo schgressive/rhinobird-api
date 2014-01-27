@@ -29,14 +29,6 @@ describe Channel do
 
   end
 
-  context "creating channels" do
-    let(:channel) { create(:channel) }
-
-    it "assigns a new MD5 for the hash token" do
-      expect(channel.hash_token).to match(/^[a-zA-Z0-9]{32}$/)
-    end
-  end
-
   describe "methods" do
 
     describe "#get_channels" do

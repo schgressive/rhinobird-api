@@ -156,7 +156,7 @@ describe Api::StreamsController do
       before do
         create(:archived_stream)
         @channel = create(:channel, streams: [create(:archived_stream), create(:archived_stream)])
-        get :index, channel_id: @channel.id, format: :json
+        get :index, channel_id: @channel.to_param, format: :json
         @streams = JSON.parse(response.body)
       end
 
@@ -419,7 +419,7 @@ describe Api::StreamsController do
         expect(@json_stream["geometry"]["type"]).to eq("Point")
         expect(@json_stream["geometry"]["coordinates"]).to eq([@post_hash[:lng], @post_hash[:lat]])
         expect(@json_stream["properties"]["country"]).to eq("England")
-        expect(@json_stream["properties"]["address"]).to eq("45 Main Street, Long Road, Neverland, England")
+        expect(@json_stream["properties"]["address"]).to eq("45 Main Street, Long Road")
       end
 
       it "has user information" do

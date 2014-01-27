@@ -20,7 +20,6 @@ describe Api::ChannelsController do
 
       it "returns an array of channels" do
         expect(@channels).to have(1).items
-        expect(@channels[0]["id"]).to eq(@channel.hash_token)
         expect(@channels[0]["name"]).to eq(@channel.name)
       end
     end
@@ -80,7 +79,6 @@ describe Api::ChannelsController do
       end
 
       it "returns correct json structure" do
-        expect(@json_channel["id"]).to eq(@new_channel.hash_token)
         expect(@json_channel["name"]).to eq(@new_channel.name)
         expect(@json_channel["created_at"]).to eq(@new_channel.created_at.to_s(:api))
         expect(@json_channel["streams_count"]).to eq(@new_channel.streams.count)
@@ -88,7 +86,6 @@ describe Api::ChannelsController do
 
         stream = @json_channel["streams"].first
         expect(stream["caption"]).not_to be_empty
-        expect(stream["id"]).not_to be_empty
         expect(stream["channels"]).not_to be_empty
       end
 

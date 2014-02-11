@@ -7,7 +7,10 @@ class SocialSignup
 
   def signup
     user = find_for_oauth
-    unless user
+    # update profile pic
+    if user
+      user.update_attributes(photo: @auth.info.image)
+    else
       @new_user = true
       user = new_from_provider
       user.skip_confirmation!

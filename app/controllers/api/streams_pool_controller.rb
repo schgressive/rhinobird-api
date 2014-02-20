@@ -3,7 +3,10 @@ class Api::StreamsPoolController < Api::BaseController
   def index
     user = User.find(params[:user_id]) if params[:user_id]
     user ||= current_user
-    respond_with user.stream_pools.includes(:stream).where(streams: {status: Stream::STATUSES.index(:live)})
+    streams = user.stream_pools.includes(:stream).where(streams: {status: Stream::STATUSES.index(:live)})
+    streams.reject! {|stream_pool| stream_pool.stream.refresh_live_status == false} if params[:force_check]
+
+    respond_with streams
   end
 
   def create

@@ -1,5 +1,5 @@
 class StreamPoolSerializer < ActiveModel::Serializer
-  attributes :active, :token
+  attributes :active, :token, :connected
   self.root = false
 
   has_one :stream

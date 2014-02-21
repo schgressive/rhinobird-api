@@ -16,6 +16,7 @@ class Api::StreamsPoolController < Api::BaseController
 
   def update
     @stream_pool = StreamPool.get_by_stream_hash(current_user, params[:id])
+    @stream_pool.update_attributes(connected: params[:connected]) if params[:connected]
     if @stream_pool.set_active(params[:active])
       respond_with @stream_pool
     else
@@ -32,6 +33,6 @@ class Api::StreamsPoolController < Api::BaseController
   private
 
   def stream_pool_params
-    params.permit(:stream_id, :active, :id)
+    params.permit(:stream_id, :active, :id, :connected)
   end
 end

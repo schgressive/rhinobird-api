@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140127144727) do
+ActiveRecord::Schema.define(:version => 20140221184411) do
 
   create_table "channels", :force => true do |t|
     t.string   "name"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(:version => 20140127144727) do
     t.boolean  "active",     :default => false
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
+    t.boolean  "connected",  :default => false
   end
 
   add_index "stream_pools", ["stream_id"], :name => "index_stream_pools_on_stream_id"

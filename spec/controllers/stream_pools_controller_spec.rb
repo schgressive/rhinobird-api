@@ -73,13 +73,17 @@ describe Api::StreamsPoolController do
   describe "PUT #update" do
     context "live stream" do
       before do
-        @stream_pool = create(:stream_pool, active: false, user: @user, stream: create(:live_stream))
-        put :update, format: :json, id: @stream_pool.stream_id, active: true
+        @stream_pool = create(:stream_pool, active: false, user: @user, stream: create(:live_stream), connected: false)
+        put :update, format: :json, id: @stream_pool.stream_id, active: true, connected: true
         @json = JSON.parse(response.body)
       end
 
       it "changes the active flag" do
         expect(@json["active"]).to be_true
+      end
+
+      it "changes the connected flag" do
+        expect(@json["connected"]).to be_true
       end
 
       it "embeds the stream" do

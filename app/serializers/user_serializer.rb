@@ -1,5 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes  :name, :email, :vj, :username, :cantidad, :vj_token, :photo
+  attributes  :name, :email, :vj, :username, :cantidad, :vj_token, :photo, :vj_channel_name
   self.root = false
 
   def cantidad

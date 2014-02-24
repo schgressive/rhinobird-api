@@ -1,4 +1,5 @@
 class Api::StreamsPoolController < Api::BaseController
+  before_filter :init_vj_service, only: [:create, :update, :destroy]
 
   def index
     user = User.find(params[:user_id]) if params[:user_id]
@@ -10,27 +11,29 @@ class Api::StreamsPoolController < Api::BaseController
   end
 
   def create
-    @stream_pool = StreamPool.add_to_pool(current_user, params[:stream_id], stream_pool_params)
-    respond_with @stream_pool
+    @vj_stream = @vj_service.add(params)
+    respond_with @vj_stream
   end
 
   def update
-    @stream_pool = StreamPool.get_by_stream_hash(current_user, params[:id])
-    @stream_pool.update_attributes(connected: params[:connected]) if params[:connected]
-    if @stream_pool.set_active(params[:active])
-      respond_with @stream_pool
+    @vj_stream = @vj_service.update(params)
+    if @vj_stream
+      respond_with @vj_stream
     else
       render json: {error: "Can't activate offline stream" }, status: 409
     end
   end
 
   def destroy
-    @stream_pool = StreamPool.get_by_stream_hash(current_user, params[:id])
-    json = @stream_pool.remove_from_pool ? :nothing : {error: "can't remove active stream"}
+    json = @vj_service.remove(params[:id]) ? :nothing : {error: "can't remove active stream"}
     render json: json
   end
 
   private
+
+  def init_vj_service
+    @vj_service = VjService.new(current_user)
+  end
 
   def stream_pool_params
     params.permit(:stream_id, :active, :id, :connected)

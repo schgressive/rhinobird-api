@@ -74,7 +74,7 @@ describe Api::StreamsPoolController do
     context "live stream" do
       before do
         @stream_pool = create(:stream_pool, active: false, user: @user, stream: create(:live_stream), connected: false)
-        put :update, format: :json, id: @stream_pool.stream_id, active: true, connected: true
+        put :update, format: :json, id: @stream_pool.stream.to_param, active: true, connected: true
         @json = JSON.parse(response.body)
       end
 
@@ -95,7 +95,7 @@ describe Api::StreamsPoolController do
       before do
         offline = create(:archived_stream)
         @stream_pool = create(:stream_pool, active: false, user: @user, stream: offline)
-        put :update, format: :json, id: @stream_pool.stream_id, active: true
+        put :update, format: :json, id: @stream_pool.stream.to_param, active: true
         @json = JSON.parse(response.body)
       end
 
@@ -115,17 +115,17 @@ describe Api::StreamsPoolController do
     end
 
     it "removes the stream from the pool" do
-      expect{delete :destroy, format: :json, id: @inactive_stream.stream_id}.to change(@user.reload.stream_pools, :count).by(-1)
+      expect{delete :destroy, format: :json, id: @inactive_stream.stream.to_param}.to change(@user.reload.stream_pools, :count).by(-1)
     end
 
     it "doesn't remove an active stream" do
-      expect{delete :destroy, format: :json, id: @active_stream.stream_id}.not_to change(@user.reload.stream_pools, :count)
+      expect{delete :destroy, format: :json, id: @active_stream.stream.to_param}.not_to change(@user.reload.stream_pools, :count)
     end
 
     it "removes the stream active stream from the pool if it's the only stream" do
       StreamPool.delete_all
       stream = create(:stream_pool, user: @user, active: true)
-      expect{delete :destroy, format: :json, id: stream.stream_id}.to change(StreamPool, :count).by(-1)
+      expect{delete :destroy, format: :json, id: stream.stream.to_param}.to change(StreamPool, :count).by(-1)
     end
 
 
@@ -134,13 +134,27 @@ describe Api::StreamsPoolController do
   describe "POST #create" do
 
     before do
-      @stream = create(:stream)
-      post :create, format: :json, stream_id: @stream.id, active: true
+      @stream = create(:stream, caption: "hello #test")
+      @stream1 = create(:stream, caption: "bye #test")
+      @stream2 = create(:stream, caption: "hello #nothing")
+      post :create, format: :json, stream_id: @stream.id, channel_name: "test", active: true
+
       @json= JSON.parse(response.body)
     end
 
     it "returns success code" do
       expect(response.status).to be(201)
+    end
+
+    it "sets the user's VJ channel name" do
+      @user.reload
+      expect(@user.vj_channel_name).to eq("test")
+    end
+
+    it "empties the pool if a different channel is set" do
+      post :create, format: :json, stream_id: @stream1.id, channel_name: "test", active: true
+      post :create, format: :json, stream_id: @stream2.id, channel_name: "nothing", active: true
+      expect(@user.stream_pools.count).to eq(1)
     end
 
     it "ignores the same stream" do

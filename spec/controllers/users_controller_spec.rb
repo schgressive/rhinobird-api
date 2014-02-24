@@ -49,7 +49,7 @@ describe Api::UsersController do
 
     context "as a VJ" do
       before do
-        @user = create(:user)
+        @user = create(:user, vj_channel_name: 'test')
         @stream = create(:stream_pool, user: @user)
         get :show, id: @user.to_param, format: :json
         @json_user = JSON.parse(response.body)
@@ -60,6 +60,7 @@ describe Api::UsersController do
         expect(@json_user["username"]).to eq(@user.username)
         expect(@json_user["email"]).to eq(@user.email)
         expect(@json_user["vj"]).to eq(true)
+        expect(@json_user["vj_channel_name"]).to eq("test")
       end
 
     end

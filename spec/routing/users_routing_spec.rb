@@ -18,7 +18,7 @@ describe Api::UsersController do
     end
 
     it "routes to #show" do
-      expect(get: "#{route_prefix}/users/emilio").to route_to("#{controller_prefix}users#show", id: "emilio", format: :json)
+      expect(get: "#{route_prefix}/users/emilio.black").to route_to("#{controller_prefix}users#show", id: "emilio.black", format: :json)
     end
 
     it "routes to #create" do

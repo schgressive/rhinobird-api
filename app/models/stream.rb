@@ -10,6 +10,9 @@ class Stream < ActiveRecord::Base
   end
   after_validation :reverse_geocode  # auto-fetch address
 
+  # scopes
+  scope :recent, order("created_at DESC")
+
   # VALIDATIONS
   validates :user_id, presence: true
 

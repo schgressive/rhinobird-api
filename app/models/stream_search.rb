@@ -33,7 +33,6 @@ class StreamSearch
 
     if @params.key? :q
       q = @params[:q].downcase
-      @streams = @streams.joins(:user)
       @streams = @streams.where("(lower(concat_ws(',', caption, address, country, city)) like ? OR users.username = ?)", "%#{q}%", q)
     end
   end

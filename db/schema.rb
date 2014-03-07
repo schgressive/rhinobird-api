@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140224140849) do
+ActiveRecord::Schema.define(:version => 20140307132954) do
 
   create_table "channels", :force => true do |t|
     t.string   "name"
@@ -29,10 +29,11 @@ ActiveRecord::Schema.define(:version => 20140224140849) do
   create_table "stream_pools", :force => true do |t|
     t.integer  "stream_id"
     t.integer  "user_id"
-    t.boolean  "active",     :default => false
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
-    t.boolean  "connected",  :default => false
+    t.boolean  "active",       :default => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+    t.boolean  "connected",    :default => false
+    t.boolean  "audio_active"
   end
 
   add_index "stream_pools", ["stream_id"], :name => "index_stream_pools_on_stream_id"
@@ -52,7 +53,7 @@ ActiveRecord::Schema.define(:version => 20140224140849) do
     t.datetime "thumbnail_updated_at"
     t.integer  "user_id"
     t.integer  "playcount",                                              :default => 0
-    t.integer  "status"
+    t.integer  "status",                                                 :default => 0
     t.decimal  "stream_id",              :precision => 22, :scale => 0
     t.string   "archived_url"
     t.string   "city"

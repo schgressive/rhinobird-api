@@ -38,15 +38,24 @@ class VjService < SimpleDelegator
 
   def update_vj_stream(vj_stream, params)
     active = params[:active]
+    audio_active = params[:audio_active]
 
     update_hash = {active: active}
     update_hash[:connected] = params[:connected] if params[:connected]
+    update_hash[:audio_active] = params[:audio_active] if params[:audio_active]
 
     #inactivate other streams
     inactivate_streams if active
 
+    inactivate_audio_streams if audio_active
+
     vj_stream.update_attributes(update_hash)
     vj_stream
+  end
+
+  # inactivates all the other streams
+  def inactivate_audio_streams
+    self.stream_pools.update_all ['audio_active = ?', false]
   end
 
   # inactivates all the other streams

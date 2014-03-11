@@ -97,22 +97,33 @@ describe Api::StreamsPoolController do
         @on_different = create(:stream_pool, audio_active: true)
         @on_stream = create(:stream_pool, audio_active: true, user: @user, stream: create(:live_stream))
         @muted_stream = create(:stream_pool, active: false, user: @user, stream: create(:live_stream))
-        put :update, format: :json, id: @muted_stream.stream.to_param, audio_active: true
-        @json = JSON.parse(response.body)
       end
 
       it "changes the active flag" do
+        put :update, format: :json, id: @muted_stream.stream.to_param, audio_active: true
+        @json = JSON.parse(response.body)
         expect(@json["audio_active"]).to be_true
       end
 
       it "inactivate other audios" do
+        put :update, format: :json, id: @muted_stream.stream.to_param, audio_active: true
+        @json = JSON.parse(response.body)
         @on_stream.reload
         expect(@on_stream.audio_active).to be_false
       end
 
       it "doesn't deactivate other users live audio" do
+        put :update, format: :json, id: @muted_stream.stream.to_param, audio_active: true
+        @json = JSON.parse(response.body)
         @on_different.reload
         expect(@on_different.audio_active).to be_true
+      end
+
+      it "sets audio to false" do
+        put :update, format: :json, id: @on_stream.stream.to_param, audio_active: false
+        @json = JSON.parse(response.body)
+        @on_stream.reload
+        expect(@on_stream.audio_active).to be_false
       end
     end
 

@@ -41,8 +41,8 @@ class VjService < SimpleDelegator
     audio_active = params[:audio_active]
 
     update_hash = {active: active}
-    update_hash[:connected] = params[:connected] if params[:connected]
-    update_hash[:audio_active] = params[:audio_active] if params[:audio_active]
+    update_hash[:connected] = params[:connected] if params.key? :connected
+    update_hash[:audio_active] = params[:audio_active] if params.key? :audio_active
 
     #inactivate other streams
     inactivate_streams if active

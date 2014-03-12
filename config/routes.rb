@@ -30,6 +30,7 @@ PeepoltvApi::Application.routes.draw do
       resources :tags, only: [:create, :destroy]
       member do
         put :play
+        get :related
       end
     end
 

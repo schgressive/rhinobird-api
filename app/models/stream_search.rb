@@ -49,10 +49,12 @@ class StreamSearch
   end
 
   def search_by_channels_in_caption
-    if @params.key?(:by_captions_channels)
-      channels = Channel.get_channels(@params[:by_captions_channels])
-      channels = channels.map {|c| c.name }
-      @streams = @streams.where("match(caption) against(?)", channels.join(","))
+    if @params.key?(:id) && @params["action"] == "related"
+      stream = Stream.find(@params[:id])
+      channels = Channel.get_channels(stream.caption).map {|c| c.name}
+      unless channels.empty?
+        @streams = @streams.where("match(caption) against(?) AND hash_token <> ? ", channels.join(","), @params[:id])
+      end
     end
   end
 

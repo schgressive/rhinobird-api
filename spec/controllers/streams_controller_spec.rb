@@ -80,7 +80,7 @@ describe Api::StreamsController do
         @stream1 = create(:archived_stream, caption: "live from #rock in rio")
         @stream2 = create(:archived_stream, caption: "riot on paris", user: @user)
         @stream3 = create(:archived_stream, caption: "voting for president", stream_id: 820533185964450300)
-        @asuncion = create(:pending_stream, caption: "car crash", lat: -25.320530, lng: -57.560549)
+        @asuncion = create(:pending_stream, caption: "car #crash #live", lat: -25.320530, lng: -57.560549)
         @another = create(:archived_stream, caption: "bus crash", lat: -25.323168, lng: -57.555227)
         @live_stream = create(:live_stream, caption: "real time video")
       end
@@ -109,17 +109,17 @@ describe Api::StreamsController do
 
       context "by channels" do
         it "searches by similiar channel names" do
-          get :index, format: :json, by_captions_channels: "#live #crash in asuncion"
+          get :related, format: :json, id: @asuncion.to_param
           streams = JSON.parse(response.body)
-          expect(streams.size).to eq(3)
+          expect(streams.size).to eq(2)
         end
       end
 
       it "returns the stream by keyword" do
         get :index, format: :json, q: 'LIVE'
         streams = JSON.parse(response.body)
-        expect(streams.size).to eq(1)
-        expect(streams.first["caption"]).to match(/rock/)
+        expect(streams.size).to eq(2)
+        expect(streams.first["caption"]).to match(/car/)
       end
 
       it "returns a stream by licode stream_id" do

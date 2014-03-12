@@ -1,5 +1,5 @@
 class Api::StreamsController < Api::BaseController
-  skip_before_filter :authenticate_user!, only: [:show, :index, :play, :archived]
+  skip_before_filter :authenticate_user!, only: [:show, :index, :play, :archived, :related]
   after_filter only: [:index] { set_pagination_headers(:streams) }
 
   def index
@@ -39,6 +39,11 @@ class Api::StreamsController < Api::BaseController
     @stream.increment_playcount! if @stream
 
     respond_with @stream, status: (@stream ? 200 : 404)
+  end
+
+  def related
+    @streams = StreamSearch.new(params).run
+    respond_with @streams.all
   end
 
   private

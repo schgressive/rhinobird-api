@@ -107,6 +107,14 @@ describe Api::StreamsController do
 
       end
 
+      context "by channels" do
+        it "searches by similiar channel names" do
+          get :index, format: :json, by_captions_channels: "#live #crash in asuncion"
+          streams = JSON.parse(response.body)
+          expect(streams.size).to eq(3)
+        end
+      end
+
       it "returns the stream by keyword" do
         get :index, format: :json, q: 'LIVE'
         streams = JSON.parse(response.body)

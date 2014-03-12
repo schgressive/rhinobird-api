@@ -30,6 +30,7 @@ class StreamSearch
 
     search_geo
     search_status
+    search_by_channels_in_caption
 
     if @params.key? :q
       q = @params[:q].downcase
@@ -45,6 +46,14 @@ class StreamSearch
 
     @streams = @streams.where("(" + conditions.join(" OR ") + ")") unless conditions.empty?
     @streams
+  end
+
+  def search_by_channels_in_caption
+    if @params.key?(:by_captions_channels)
+      channels = Channel.get_channels(@params[:by_captions_channels])
+      channels = channels.map {|c| c.name }
+      @streams = @streams.where("match(caption) against(?)", channels.join(","))
+    end
   end
 
   def search_geo

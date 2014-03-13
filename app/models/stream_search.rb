@@ -60,9 +60,8 @@ class StreamSearch
 
   def search_geo
     if @params.key?(:lat) && @params.key?(:lng)
-      range = @params[:range]
-      range = range ? range.to_f : 1
-      @streams = @streams.near([@params[:lat], @params[:lng]], @params[:range].to_f)
+      range = @params[:range] ? range.to_f : 1
+      @streams = @streams.near([@params[:lat], @params[:lng]], range)
     end
   end
 

@@ -29,10 +29,21 @@ describe Api::ChannelsController do
         10.times  {|i| create(:channel, name: "channel#{i}") }
         @rock = create(:channel, name: "rock")
         @rock2 = create(:channel, name: "rockandroll")
+
+        @asuncion = create(:stream, lat: -25.307737, lng: -57.592392, caption: "#rock from the world")
+        @asuncion2 = create(:stream, lat: -25.3263, lng: -57.6102, caption: '#rock from disney')
+        @asuncion3 = create(:stream, lat: -25.3263, lng: -57.6102, caption: '#live from disney')
+        @chile = create(:stream, lat: -33.3981121, lng: -70.5808448, caption: '#rockandroll party')
       end
 
       it "returns rock channels" do
         get :index, format: :json, q: 'rock'
+        channels = JSON.parse(response.body)
+        expect(channels.size).to eq(2)
+      end
+
+      it "returns channels near a location" do
+        get :index, format: :json, lat: -25.31, lng: -57.60
         channels = JSON.parse(response.body)
         expect(channels.size).to eq(2)
       end

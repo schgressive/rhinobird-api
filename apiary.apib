@@ -469,66 +469,163 @@ Logs out the current user
 
 
 
-# Group Streams Pool
-This section groups streams pool. Only one stream can be active in the pool, the one currently selected on the frontend.
+# Group VJ
+This sections describes VJ session. A user can have many VJ sessions
 
-## Stream Pool Properties
-- stream: the stream object that is in the pool
+## Vj Properties
+- username:  owner of the vj
+- channel: channel being vjed (channel object)
 - token: The token to use for VJ connecting in the front end
-- active: Returns if the stream is the active stream in the pool
+- archived_url: full url of the archived session
+- status: the current vj session status (**created, live, pending, archived**)
+- picks: an array of the **picks** related to the VJ session
 
-## Stream Pool [/streams_pool]
-Manages a VJ's stream pool
-
+## Vj [/vjs/{channel_name}]
+Returns a vj from a logged user
 
 + Model (application/json)
 
-    ```js
+        {
+            "user": "siriusblack",
+            "channel": "rock",
+            "status": "live",
+            "archived_url": null,
+            "picks": [
+                {
+                    stream: {},
+                    type: "cache"
+                }
+            ]
+        }
+
+### Get own VJ session [GET]
+Returns a vj session by channel name for the current logged user
+
++ Response 200
+    [Vj][]
+
+
+### Update a VJ session [PUT]
+Updates data of a VJ session
++ Request
+
+        {
+            "status": "live",
+            "archived_url": ""
+        }
+
++ Response 200
+    [Vj][]
+
+## Vj Another User [/users/{username}/vjs/{channel_name}]
+Handles a vj session from another user
+
+### Get VJ session [GET]
+Returns a Vj session
+
++ Response 200
+    [Vj][]
+
+## Vj Collection [/vjs]
+Handle collections of Vj sessions
+
++ Model (application/json)
+
         [
             {
-                "active": false,
-                "stream": {},
-                "token": "1231232123"
+                "user": "siriusblack",
+                "channel": "rock",
+                "status": "live",
+                "archived_url": null,
+                "picks": [
+                    {
+                        stream: {},
+                        type: "cache"
+                    }
+                ]
             },
-            {
-                "active": true,
-                "stream": {},
-                "token": "1231232322"
+             {
+                "user": "siriusblack",
+                "channel": "rock",
+                "status": "live",
+                "archived_url": null,
+                "picks": [
+                    {
+                        stream: {},
+                        type: "cache"
+                    }
+                ]
             }
         ]
-    ```
 
-### Streams in the pool [GET]
-Returns a the streams in the user's pool.
+### Get all VJ sessions [GET]
+Returns the vj sessions
+
++ Response 200
+    [Vj Collection][]
+
+## Vj Collection of a User [/users/{username}/vjs]
+Filter VJs by user
+
+### Get VJ sessions [GET]
+Return all the users VJ sessions
+
++ Response 200
+    [Vj Collection][]
+
+
+# Group Pick Resource
+This section describes Picks. The Pick represents a stream that is in an active Vj session
+
+## Pick Properties
+- stream: the stream object that is in the VJ session
+- active: Returns if the stream is the active stream in the pool
+
+## Pick [/vjs/{channel_name}/picks]
+Manages a VJ's Pick
+
++ Model (application/json)
+
+        {
+            stream: {},
+            type: "cache"
+        }
+
+### Create Pick [POST]
+Pick another stream as cache *(for the logged user)*
+
++ Request
+
+        {
+            "stream_id": "2AFD",
+            "active": true,
+            "active_audio": false
+        }
 
 + Response 200
 
-    [Stream Pool][]
+    [Pick][]
 
-### Change active stream [PUT]
+## Pick [/picks/{id}]
+
+### Update pick [PUT]
 Activates a different stream. If the stream is offline, the API will return status code `409 Conflict`.
 
 + Request
 
-  ```js
         {
-            "stream_id": "2AFD",
-            "active": true
+            "active": true,
+            "active_audio": false
         }
-    ```
 
 + Response 200
+
+    [Pick][]
 
 
 ### Remove a stream from the pool [DELETE]
 Remove a stream
-+ Request
-
-  ```js
-        {
-            "stream_id": "2AFD"
-        }
-    ```
 
 + Response 204
+
 

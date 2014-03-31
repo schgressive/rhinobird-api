@@ -2,7 +2,7 @@ FORMAT: 1A
 
 HOST: http://api.peepol.tv
 
-# Peepol.tv API
+# Rhinobird.tv API
 
 ## Allowed HTTPs requests:
 
@@ -480,20 +480,22 @@ This sections describes VJ session. A user can have many VJ sessions
 - status: the current vj session status (**created, live, pending, archived**)
 - picks: an array of the **picks** related to the VJ session
 
-## Vj [/vjs/{channel_name}]
-Returns a vj from a logged user
+## Vj [/vjs/{id}]
+Returns a vj records
 
 + Model (application/json)
 
         {
-            "user": "siriusblack",
-            "channel": "rock",
+            "id": "9ee0b6f0e31dddbcd82d97fa19bfd070",
+            "username": "siriusblack",
+            "channel_name": "rock",
             "status": "live",
             "archived_url": null,
             "picks": [
                 {
-                    stream: {},
-                    type: "cache"
+                    "id": "9ee0b6f0e31dddbcd82d97fa19bfd071",
+                    "stream": {},
+                    "type": "cache"
                 }
             ]
         }
@@ -517,42 +519,41 @@ Updates data of a VJ session
 + Response 200
     [Vj][]
 
-## Vj Another User [/users/{username}/vjs/{channel_name}]
-Handles a vj session from another user
-
-### Get VJ session [GET]
-Returns a Vj session
-
-+ Response 200
-    [Vj][]
-
-## Vj Collection [/vjs]
+## Vj Collection [/vjs{?channel_name,status}]
 Handle collections of Vj sessions
+
++ Parameters
+    + channel_name (optional, string) ... channel_name to filter.
+    + status (optional, string) ... status name to search (created, live, pending, archived)
 
 + Model (application/json)
 
         [
             {
-                "user": "siriusblack",
-                "channel": "rock",
+                "id": "e491813b203a5cc841a65804cae88345"
+                "username": "siriusblack",
+                "channel_name": "rock",
                 "status": "live",
                 "archived_url": null,
                 "picks": [
                     {
-                        stream: {},
-                        type: "cache"
+                        "id": "9ee0b6f0e31dddbcd82d97fa19bfd072",
+                        "stream": {},
+                        "type": "cache"
                     }
                 ]
             },
              {
-                "user": "siriusblack",
-                "channel": "rock",
+                "id": "9ee0b6f0e31dddbcd82d97fa19bfd070"
+                "username": "siriusblack",
+                "channel_name": "rock",
                 "status": "live",
                 "archived_url": null,
                 "picks": [
                     {
-                        stream: {},
-                        type: "cache"
+                        "id": "9ee0b6f0e31dddbcd82d97fa19bfd071"
+                        "stream": {},
+                        "type": "cache"
                     }
                 ]
             }
@@ -564,8 +565,8 @@ Returns the vj sessions
 + Response 200
     [Vj Collection][]
 
-## Vj Collection of a User [/users/{username}/vjs]
-Filter VJs by user
+## Vj Collection of a User [/users/{username}/vjs{?channel_name,status}]
+Filter VJs by user. Same filter parameters as */vjs*
 
 ### Get VJ sessions [GET]
 Return all the users VJ sessions
@@ -581,18 +582,19 @@ This section describes Picks. The Pick represents a stream that is in an active 
 - stream: the stream object that is in the VJ session
 - active: Returns if the stream is the active stream in the pool
 
-## Pick [/vjs/{channel_name}/picks]
+## Pick [/vjs/{id}/picks]
 Manages a VJ's Pick
 
 + Model (application/json)
 
         {
+            id: 'adbf5a778175ee757c34d0eba4e932bc',
             stream: {},
             type: "cache"
         }
 
 ### Create Pick [POST]
-Pick another stream as cache *(for the logged user)*
+Pick another stream as cache
 
 + Request
 

@@ -4,11 +4,11 @@ rvm:
   - "2.0.0"
 
 before_script:
-  - mysql -e 'create database peepoltv_test;'
+  - mysql -e 'create database rhinobird_test;'
 
 script:
   - RAILS_ENV=test bundle exec rake db:migrate
   - bundle exec rspec spec
 
 env:
-  - DEV_DB_NAME=peepoltv DEV_DB_USER=root DEFAULT_HOST=http://localhost/ DEFAULT_SENDER=notify@peepol.tv HOST_PROTOCOL=http
+  - DEV_DB_NAME=rhinobird DEV_DB_USER=root DEFAULT_HOST=http://localhost/ DEFAULT_SENDER=notify@rhinobird.tv HOST_PROTOCOL=http

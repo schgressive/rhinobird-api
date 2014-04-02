@@ -1,4 +1,4 @@
-PeepoltvApi::Application.routes.draw do
+RhinobirdApi::Application.routes.draw do
 
   namespace :api, defaults: {format: :json} do
 

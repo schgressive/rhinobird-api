@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-PeepoltvApi::Application.load_tasks
+RhinobirdApi::Application.load_tasks

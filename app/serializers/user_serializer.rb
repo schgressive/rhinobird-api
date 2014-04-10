@@ -1,5 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes  :name, :email, :vj, :username, :cantidad, :vj_token, :photo, :vj_channel_name
+  attributes  :name, :email, :vj, :username, :cantidad, :vj_token, :photo, :vj_channel_name, :share_facebook
   self.root = false
 
   has_many :streams, embed: :ids, embed_key: :to_param

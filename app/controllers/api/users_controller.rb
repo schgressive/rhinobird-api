@@ -33,6 +33,6 @@ class Api::UsersController < Api::BaseController
 
   private
   def resource_params
-    params.permit(:name, :email, :password, :password_confirmation, :username)
+    params.permit(:name, :email, :password, :password_confirmation, :username, :share_facebook)
   end
 end

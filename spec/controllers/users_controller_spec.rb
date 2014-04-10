@@ -136,7 +136,7 @@ describe Api::UsersController do
     login_user
 
     before(:each) do
-      @hash = {email: "newemail@peepol.tv", username: "donaldduck"}
+      @hash = {email: "newemail@peepol.tv", username: "donaldduck", share_facebook: false}
       put :update, @hash
     end
 
@@ -148,12 +148,14 @@ describe Api::UsersController do
       @user.reload
       expect(@user.email).to eq(@hash[:email])
       expect(@user.username).to eq(@hash[:username])
+      expect(@user.share_facebook).to be_false
     end
 
     it "returns the updated JSON object" do
       json = JSON.parse(response.body)
       expect(json["email"]).to eq(@hash[:email])
       expect(json["username"]).to eq(@hash[:username])
+      expect(json["share_facebook"]).to be_false
     end
 
   end

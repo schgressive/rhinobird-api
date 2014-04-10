@@ -16,6 +16,9 @@ gem 'ngmin-rails'
 gem 'geocoder'
 gem 'kaminari'
 
+gem 'fb_graph'
+gem 'fb_graph-mock'
+
 gem "aws-ses", "~> 0.5.0", :require => 'aws/ses'
 gem 'devise'
 gem 'omniauth-facebook'

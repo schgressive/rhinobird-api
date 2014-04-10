@@ -4,7 +4,7 @@ CREATE TABLE `channels` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `channels_streams` (
   `channel_id` int(11) DEFAULT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE `streams` (
   UNIQUE KEY `index_streams_on_hash_token` (`hash_token`),
   KEY `index_streams_on_user_id` (`user_id`),
   FULLTEXT KEY `caption_fulltext` (`caption`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `streams_tags` (
   `tag_id` int(11) DEFAULT NULL,
@@ -99,13 +99,15 @@ CREATE TABLE `users` (
   `uid` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `photo` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `vj_channel_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `fb_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `share_facebook` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_users_on_email` (`email`),
   UNIQUE KEY `index_users_on_reset_password_token` (`reset_password_token`),
   UNIQUE KEY `index_users_on_confirmation_token` (`confirmation_token`),
   UNIQUE KEY `index_users_on_authentication_token` (`authentication_token`),
   UNIQUE KEY `index_users_on_username` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO schema_migrations (version) VALUES ('20130408152535');
 
@@ -160,3 +162,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140224140849');
 INSERT INTO schema_migrations (version) VALUES ('20140307132954');
 
 INSERT INTO schema_migrations (version) VALUES ('20140312143101');
+
+INSERT INTO schema_migrations (version) VALUES ('20140410135849');

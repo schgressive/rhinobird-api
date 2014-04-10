@@ -5,5 +5,6 @@ FactoryGirl.define do
     email { Faker::Internet.email }
     password "12345678"
     confirmed_at Time.now
+    share_facebook true
   end
 end

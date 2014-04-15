@@ -8,6 +8,9 @@ describe Api::OmniauthCallbacksController do
     info: {
       image: "#{ENV["HOST_PROTOCOL"]}://graph.facebook.com/100/picture?type=small",
       name: "Emilio Blanco"
+    },
+    credentials: {
+      token: "ABX"
     }
   })
 

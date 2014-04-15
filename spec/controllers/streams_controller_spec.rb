@@ -119,7 +119,7 @@ describe Api::StreamsController do
         get :index, format: :json, q: 'LIVE'
         streams = JSON.parse(response.body)
         expect(streams.size).to eq(2)
-        expect(streams.first["caption"]).to match(/car/)
+        expect(streams.first["caption"]).to match(/car|rio/)
       end
 
       it "returns a stream by licode stream_id" do

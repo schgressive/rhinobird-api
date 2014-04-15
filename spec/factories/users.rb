@@ -6,5 +6,6 @@ FactoryGirl.define do
     password "12345678"
     confirmed_at Time.now
     share_facebook true
+    fb_token "ABC"
   end
 end

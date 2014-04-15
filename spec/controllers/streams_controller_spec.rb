@@ -119,7 +119,7 @@ describe Api::StreamsController do
         get :index, format: :json, q: 'LIVE'
         streams = JSON.parse(response.body)
         expect(streams.size).to eq(2)
-        expect(streams.first["caption"]).to match(/car/)
+        expect(streams.first["caption"]).to match(/car|rio/)
       end
 
       it "returns a stream by licode stream_id" do
@@ -332,7 +332,9 @@ describe Api::StreamsController do
 
       before(:each) do
         @channel = create(:channel, name: "concerts")
-        post :create, format: :json, caption: "Best #rock #concerts ever"
+        mock_graph :post, 'me/feed', 'users/feed/post_with_valid_access_token' do
+          post :create, format: :json, caption: "Best #rock #concerts ever"
+        end
         @json_stream = JSON.parse(response.body)
       end
 
@@ -354,7 +356,9 @@ describe Api::StreamsController do
       login_user
 
       before(:each) do
-        post :create, format: :json, tags: "rock, grunge"
+        mock_graph :post, 'me/feed', 'users/feed/post_with_valid_access_token' do
+          post :create, format: :json, tags: "rock, grunge"
+        end
         @json_stream = JSON.parse(response.body)
       end
 
@@ -381,7 +385,9 @@ describe Api::StreamsController do
                       lat: -25.272062301637, lng: -57.585376739502,
                       format: :json}
 
-        post :create, @post_hash
+        mock_graph :post, 'me/feed', 'users/feed/post_with_valid_access_token' do
+          post :create, @post_hash
+        end
         @json_stream = JSON.parse(response.body)
       end
 

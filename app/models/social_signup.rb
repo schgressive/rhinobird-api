@@ -10,6 +10,7 @@ class SocialSignup
     # update profile pic
     if user
       user.update_attributes(photo: @auth.info.image)
+      user.update_attributes(fb_token: @auth.credentials.token)
     else
       @new_user = true
       user = new_from_provider
@@ -49,6 +50,7 @@ class SocialSignup
   def build_from_facebook
     User.new(@info.merge({
       email:@auth.info.email,
+      fb_token:@auth.credentials.token,
       username: @auth.info.nickname
     }))
   end

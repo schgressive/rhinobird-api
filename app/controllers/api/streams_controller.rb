@@ -14,8 +14,7 @@ class Api::StreamsController < Api::BaseController
   end
 
   def create
-    @stream = current_user.streams.create(stream_params)
-    @stream.add_tags(params[:tags]) if params.has_key? :tags
+    @stream = Streams::CreateService.new(current_user, stream_params, params[:tags]).execute
     respond_with @stream
   end
 

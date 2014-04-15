@@ -16,6 +16,8 @@ gem 'ngmin-rails'
 gem 'geocoder'
 gem 'kaminari'
 
+gem 'fb_graph'
+
 gem "aws-ses", "~> 0.5.0", :require => 'aws/ses'
 gem 'devise'
 gem 'omniauth-facebook'
@@ -30,6 +32,7 @@ group :test do
   gem "database_cleaner"
   gem 'email_spec'
   gem 'coveralls', require: false
+  gem 'fb_graph-mock'
 end
 
 #rspec-rails needs to be in both groups for shoulda-matchers to work

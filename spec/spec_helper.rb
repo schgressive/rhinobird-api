@@ -8,6 +8,8 @@ require 'rspec/rails'
 require "paperclip/matchers"
 require 'shoulda/matchers/integrations/rspec'
 require 'email_spec'
+require 'fb_graph/mock'
+include FbGraph::Mock
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.

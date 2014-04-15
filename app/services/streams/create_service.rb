@@ -27,13 +27,17 @@ module Streams
     end
 
     def share_on_facebook
-      me = FbGraph::User.me(@user.fb_token)
-      me.feed!(
-        message: "I'm starting a new live stream",
-        picture: @stream.thumbnail.url(:medium),
-        description: @stream.caption,
-        name: "RhinobirdTv"
-      )
+      if (@user.fb_token && !@user.fb_token.empty?)
+        me = FbGraph::User.me(@user.fb_token)
+        me.feed!(
+          message: "I'm starting a new live stream",
+          picture: @stream.thumbnail.url(:medium),
+          description: @stream.caption,
+          name: "RhinobirdTv"
+        )
+      end
+    rescue FbGraph::Exception => e
+      Rails.logger.info "Couldn't post on facebook: #{e.message}"
     end
 
   end

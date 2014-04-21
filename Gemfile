@@ -20,6 +20,7 @@ gem 'fb_graph'
 
 gem "aws-ses", "~> 0.5.0", :require => 'aws/ses'
 gem 'devise'
+gem 'enumerize'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'omniauth-google-oauth2'

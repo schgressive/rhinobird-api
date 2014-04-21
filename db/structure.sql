@@ -17,20 +17,6 @@ CREATE TABLE `schema_migrations` (
   UNIQUE KEY `unique_schema_migrations` (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `stream_pools` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `stream_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `active` tinyint(1) DEFAULT '0',
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `connected` tinyint(1) DEFAULT '0',
-  `audio_active` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `index_stream_pools_on_stream_id` (`stream_id`),
-  KEY `index_stream_pools_on_user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
 CREATE TABLE `streams` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `caption` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -56,7 +42,7 @@ CREATE TABLE `streams` (
   UNIQUE KEY `index_streams_on_hash_token` (`hash_token`),
   KEY `index_streams_on_user_id` (`user_id`),
   FULLTEXT KEY `caption_fulltext` (`caption`)
-) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `streams_tags` (
   `tag_id` int(11) DEFAULT NULL,
@@ -94,20 +80,21 @@ CREATE TABLE `users` (
   `unconfirmed_email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `authentication_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `username` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `vj_room` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `provider` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `uid` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `photo` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `vj_channel_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `fb_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `share_facebook` tinyint(1) DEFAULT NULL,
+  `tw_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `tw_secret` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `share_twitter` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_users_on_email` (`email`),
   UNIQUE KEY `index_users_on_reset_password_token` (`reset_password_token`),
   UNIQUE KEY `index_users_on_confirmation_token` (`confirmation_token`),
   UNIQUE KEY `index_users_on_authentication_token` (`authentication_token`),
   UNIQUE KEY `index_users_on_username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO schema_migrations (version) VALUES ('20130408152535');
 
@@ -164,3 +151,7 @@ INSERT INTO schema_migrations (version) VALUES ('20140307132954');
 INSERT INTO schema_migrations (version) VALUES ('20140312143101');
 
 INSERT INTO schema_migrations (version) VALUES ('20140410135849');
+
+INSERT INTO schema_migrations (version) VALUES ('20140414150701');
+
+INSERT INTO schema_migrations (version) VALUES ('20140421191901');

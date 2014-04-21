@@ -16,11 +16,7 @@ RhinobirdApi::Application.routes.draw do
     end
     resources :users, only: [:show, :update, :create, :index],  constraints: { :id => /[^\/]+(?=\.html\z|\.json\z)|[^\/]+/ } do
       resources :streams, only: [:index]
-      resources :streams_pool, only: [:index]
     end
-
-    #stream_pool routes
-    resources :streams_pool, only: [:create, :index, :destroy, :update]
 
     resources :channels, only: [:create, :show, :index, :destroy] do
       resources :streams, only: [:index]

@@ -15,7 +15,6 @@ describe User do
 
   describe "Relations" do
     it { should have_many(:streams) }
-    it { should have_many(:stream_pools) }
   end
 
 end

@@ -96,6 +96,20 @@ CREATE TABLE `users` (
   UNIQUE KEY `index_users_on_username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE `vjs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `channel_id` int(11) DEFAULT NULL,
+  `archived_url` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `slug` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `index_vjs_on_slug` (`slug`),
+  KEY `index_vjs_on_user_id_and_channel_id` (`user_id`,`channel_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 INSERT INTO schema_migrations (version) VALUES ('20130408152535');
 
 INSERT INTO schema_migrations (version) VALUES ('20130409125048');
@@ -155,3 +169,7 @@ INSERT INTO schema_migrations (version) VALUES ('20140410135849');
 INSERT INTO schema_migrations (version) VALUES ('20140414150701');
 
 INSERT INTO schema_migrations (version) VALUES ('20140421191901');
+
+INSERT INTO schema_migrations (version) VALUES ('20140421194359');
+
+INSERT INTO schema_migrations (version) VALUES ('20140422140406');

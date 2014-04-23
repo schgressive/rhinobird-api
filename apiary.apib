@@ -565,6 +565,18 @@ Returns the vj sessions
 + Response 200
     [Vj Collection][]
 
+### Create VJ session [POST]
+Creates a new vj session for the logged user
+
++ Request
+
+        {
+            "channel_name": "rock",
+        }
+
++ Response 201
+  [Vj][]
+
 ## Vj Collection of a User [/users/{username}/vjs{?channel_name,status}]
 Filter VJs by user. Same filter parameters as */vjs*
 
@@ -572,6 +584,7 @@ Filter VJs by user. Same filter parameters as */vjs*
 Return all the users VJ sessions
 
 + Response 200
+
     [Vj Collection][]
 
 

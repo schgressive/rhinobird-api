@@ -14,6 +14,12 @@ class Api::VjsController < Api::BaseController
     render json: {}, status: 404
   end
 
+  def create
+    channel = Channel.find(params[:channel_name])
+    @vj = current_user.vjs.new(channel: channel)
+    respond_with @vj
+  end
+
   private
   def vj_params
     params.permit(:archived_url, :status)

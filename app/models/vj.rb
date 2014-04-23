@@ -9,7 +9,7 @@ class Vj < ActiveRecord::Base
 
   # Enums
   extend Enumerize
-  enumerize :status, in: {created: 0, live: 1, pending: 2, archived: 3}, scope: true
+  enumerize :status, in: {created: 0, live: 1, pending: 2, archived: 3}, scope: true, default: :created
 
   extend FriendlyId
   friendly_id :slug

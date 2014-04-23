@@ -25,6 +25,27 @@ describe Api::VjsController do
   end #describe GET SHOW
 
 
+  describe "POST #create" do
+    login_user
+
+    before do
+      @channel = create(:channel, name: "rock")
+      post :create, format: :json, channel_name: "rock"
+      @json = JSON.parse(response.body)
+    end
+
+    it "returns a success code" do
+      expect(response.status).to eq 201
+    end
+
+    it "returns the new JSON Vj object" do
+      expect(@json["status"]).to eq("created")
+      expect(@json["channel_name"]).to eq("rock")
+      expect(@json["username"]).to eq(@user.username)
+    end
+
+  end #describe POST create
+
   describe "PUT #update" do
     login_user
 

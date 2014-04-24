@@ -2,6 +2,54 @@ require 'spec_helper'
 
 describe Api::VjsController do
 
+  describe "GET #index" do
+
+    context "filtering" do
+      before do
+        @live_vj = create(:vj, status: :live)
+        @pending_vj = create(:vj, status: :pending, channel: create(:channel, name: "funland"))
+      end
+
+      it "filters by channel_name" do
+        get :index, format: :json, channel_name: 'funland'
+        @json = JSON.parse(response.body)
+
+        expect(@json.length).to eq(1)
+        expect(@json[0]["id"]).to eq(@pending_vj.to_param)
+      end
+
+      it "filters by status" do
+        get :index, format: :json, status: 'live'
+        @json = JSON.parse(response.body)
+
+        expect(@json.length).to eq(1)
+        expect(@json[0]["id"]).to eq(@live_vj.to_param)
+      end
+    end
+
+    context "without params" do
+      before do
+        @vj = create(:vj)
+        get :index, format: :json
+        @json = JSON.parse(response.body).first
+      end
+
+      it "returns a success code" do
+        expect(response).to be_success
+      end
+
+      it "returns correct json structure" do
+        expect(@json["id"]).to eq(@vj.to_param)
+        expect(@json["username"]).to eq(@vj.user.username)
+        expect(@json["channel_name"]).to eq(@vj.channel.name)
+        expect(@json["status"]).to eq("created")
+        expect(@json["archived_url"]).to eq(@vj.archived_url)
+      end
+    end
+
+  end #describe GET SHOW
+
+
   describe "GET #show" do
 
     before do

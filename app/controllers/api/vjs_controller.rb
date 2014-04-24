@@ -1,5 +1,11 @@
 class Api::VjsController < Api::BaseController
-  skip_before_filter :authenticate_user!, only: [:show]
+  skip_before_filter :authenticate_user!, only: [:show, :index]
+
+
+  def index
+    @vjs = VjSearchService.new(params).run
+    respond_with @vjs
+  end
 
   def show
     @vj = Vj.find(params[:id])

@@ -4,8 +4,8 @@ class CreatePicks < ActiveRecord::Migration
       t.references :stream
       t.references :vj
       t.string :slug
-      t.boolean :active
-      t.boolean :active_audio
+      t.boolean :active, default: false
+      t.boolean :active_audio, default: false
 
       t.timestamps
     end

@@ -2,6 +2,6 @@
 
 FactoryGirl.define do
   factory :channel do
-    name "NewChannel"
+    name { Faker::Internet.domain_word }
   end
 end

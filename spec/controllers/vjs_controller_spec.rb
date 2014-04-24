@@ -4,10 +4,29 @@ describe Api::VjsController do
 
   describe "GET #index" do
 
+    context "by user" do
+      before do
+        @user1 = create(:user)
+        @user2 = create(:user)
+        @channel = create(:channel)
+        @vj1 = create(:vj, user: @user1, channel: @channel)
+        @vj2 = create(:vj, user: @user2, channel: @channel)
+      end
+
+      it "filters by user" do
+        get :index, format: :json, user_id: @user1.to_param
+        @json = JSON.parse(response.body)
+
+        expect(@json.length).to eq(1)
+        expect(@json[0]["id"]).to eq(@vj1.to_param)
+      end
+    end
+
     context "filtering" do
       before do
         @live_vj = create(:vj, status: :live)
         @pending_vj = create(:vj, status: :pending, channel: create(:channel, name: "funland"))
+        @archived_vj = create(:vj, status: :archived)
       end
 
       it "filters by channel_name" do
@@ -19,11 +38,18 @@ describe Api::VjsController do
       end
 
       it "filters by status" do
-        get :index, format: :json, status: 'live'
+        get :index, format: :json, live: "true"
         @json = JSON.parse(response.body)
 
         expect(@json.length).to eq(1)
         expect(@json[0]["id"]).to eq(@live_vj.to_param)
+      end
+
+      it "filters by status" do
+        get :index, format: :json, live: "true", pending: "true"
+        @json = JSON.parse(response.body)
+
+        expect(@json.length).to eq(2)
       end
     end
 

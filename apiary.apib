@@ -519,12 +519,17 @@ Updates data of a VJ session
 + Response 200
     [Vj][]
 
-## Vj Collection [/vjs{?channel_name,status}]
+## Vj Collection [/vjs{?channel_name,created,live,pending,archived,page,per_page}]
 Handle collections of Vj sessions
 
 + Parameters
     + channel_name (optional, string) ... channel_name to filter.
-    + status (optional, string) ... status name to search (created, live, pending, archived)
+    + page (optional, integer) ... page number to get
+    + per_page (optional, integer) ... number of results per page
+    + created (optional, string) ... true/false
+    + live (optional, string) ... true/false
+    + pending (optional, string) ... true/false
+    + archived (optional, string) ... true/false
 
 + Model (application/json)
 
@@ -577,7 +582,7 @@ Creates a new vj session for the logged user
 + Response 201
   [Vj][]
 
-## Vj Collection of a User [/users/{username}/vjs{?channel_name,status}]
+## Vj Collection of a User [/users/{username}/vjs{?channel_name,created,live,pending,archived,page,per_page}]
 Filter VJs by user. Same filter parameters as */vjs*
 
 ### Get VJ sessions [GET]

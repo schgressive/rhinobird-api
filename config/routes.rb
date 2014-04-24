@@ -16,6 +16,7 @@ RhinobirdApi::Application.routes.draw do
     end
     resources :users, only: [:show, :update, :create, :index],  constraints: { :id => /[^\/]+(?=\.html\z|\.json\z)|[^\/]+/ } do
       resources :streams, only: [:index]
+      resources :vjs, only: [:index]
     end
 
     resources :channels, only: [:create, :show, :index, :destroy] do

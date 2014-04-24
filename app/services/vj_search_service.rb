@@ -7,6 +7,7 @@ class VjSearchService
 
   def run
     search_by_channel
+    filter_by_username
     search_by_status
     set_pagination
 
@@ -20,10 +21,17 @@ class VjSearchService
     records
   end
 
-  def search_by_status
-    if @params.key? :status
-      @records = @records.with_status(@params[:status])
+
+  def filter_by_username
+    if @params.key? :user_id
+      user_id = User.find(@params[:user_id]).id
+      @records = @records.where(user_id: user_id)
     end
+  end
+
+  def search_by_status
+    statuses = Vj.status.values.select {|v| @params.has_key? v.to_sym }
+    @records = @records.with_status(*statuses) unless statuses.empty?
   end
 
 

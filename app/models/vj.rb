@@ -2,6 +2,7 @@ class Vj < ActiveRecord::Base
   # Relations
   belongs_to :user
   belongs_to :channel
+  has_many :picks
 
   # Validations
   validates :user_id, :channel_id, presence: true

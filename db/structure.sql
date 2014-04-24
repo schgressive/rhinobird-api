@@ -12,6 +12,20 @@ CREATE TABLE `channels_streams` (
   KEY `index_channels_streams_on_channel_id_and_stream_id` (`channel_id`,`stream_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE `picks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `stream_id` int(11) DEFAULT NULL,
+  `vj_id` int(11) DEFAULT NULL,
+  `slug` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `active` tinyint(1) DEFAULT NULL,
+  `active_audio` tinyint(1) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `index_picks_on_slug` (`slug`),
+  KEY `index_picks_on_stream_id_and_vj_id` (`stream_id`,`vj_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE `schema_migrations` (
   `version` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   UNIQUE KEY `unique_schema_migrations` (`version`)
@@ -173,3 +187,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140421191901');
 INSERT INTO schema_migrations (version) VALUES ('20140421194359');
 
 INSERT INTO schema_migrations (version) VALUES ('20140422140406');
+
+INSERT INTO schema_migrations (version) VALUES ('20140424151600');

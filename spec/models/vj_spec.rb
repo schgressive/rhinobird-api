@@ -15,6 +15,7 @@ describe Vj do
   describe "Relations" do
     it { should belong_to(:user) }
     it { should belong_to(:channel) }
+    it { should have_many(:picks) }
   end
 
   describe "FriendlyId" do

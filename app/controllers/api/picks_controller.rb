@@ -1,4 +1,6 @@
 class Api::PicksController < Api::BaseController
+  load_resource :pick, find_by: :slug
+  authorize_resource only: [:destroy, :update]
 
   def create
     @vj = Vj.find(params[:vj_id])
@@ -7,24 +9,22 @@ class Api::PicksController < Api::BaseController
     respond_with @pick
   end
 
-  def update
-    @vj = Pick.find(params[:id])
-    if @vj.vj.user_id != current_user.id
-      respond_with @vj, status: 401
-    else
-      @vj.update_attributes(pick_params)
-      respond_with @vj
+  def index
+    if params.key? :vj_id
+      vj_id = Vj.find(params[:vj_id])
+      @picks = @picks.where(vj_id: vj_id)
     end
+    respond_with @picks
+  end
+
+  def update
+    @pick.update_attributes(pick_params)
+    respond_with @pick
   end
 
   def destroy
-    @vj = Pick.find(params[:id])
-    if @vj.vj.user_id != current_user.id
-      render json: {}, status: 401
-    else
-      @vj.destroy
-      respond_with @vj
-    end
+    @pick.destroy
+    respond_with @pick
   end
 
   private

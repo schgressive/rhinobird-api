@@ -34,7 +34,7 @@ RhinobirdApi::Application.routes.draw do
     # VJ routes
     resources :picks, only: [:update, :destroy]
     resources :vjs, only: [:show, :update, :create, :index] do
-      resources :picks, only: [:create]
+      resources :picks, only: [:create, :index]
     end
 
   end

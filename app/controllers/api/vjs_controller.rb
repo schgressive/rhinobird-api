@@ -1,6 +1,7 @@
 class Api::VjsController < Api::BaseController
   skip_before_filter :authenticate_user!, only: [:show, :index]
-
+  load_resource find_by: :slug, only: [:update, :show]
+  authorize_resource only: [:update]
 
   def index
     @vjs = VjSearchService.new(params).run
@@ -8,16 +9,12 @@ class Api::VjsController < Api::BaseController
   end
 
   def show
-    @vj = Vj.find(params[:id])
     respond_with @vj
   end
 
   def update
-    @vj = current_user.vjs.find(params[:id])
     @vj.update_attributes(vj_params)
     respond_with @vj
-  rescue
-    render json: {}, status: 404
   end
 
   def create

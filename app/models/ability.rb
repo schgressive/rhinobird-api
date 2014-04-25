@@ -7,6 +7,7 @@ class Ability
     else
       can [:read, :create], :all
       can [:destroy, :update], Pick, vj: {user_id: user.id}
+      can [:update], Vj, user_id: user.id
     end
   end
 end

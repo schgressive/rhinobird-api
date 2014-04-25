@@ -15,6 +15,7 @@ gem 'negroku', "~> 1.1.4"
 gem 'ngmin-rails'
 gem 'geocoder'
 gem 'kaminari'
+gem 'cancancan'
 
 gem 'fb_graph'
 

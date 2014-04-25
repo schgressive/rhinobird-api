@@ -10,11 +10,8 @@ class Api::PicksController < Api::BaseController
   end
 
   def index
-    if params.key? :vj_id
-      vj_id = Vj.find(params[:vj_id])
-      @picks = @picks.where(vj_id: vj_id)
-    end
-    respond_with @picks
+    @vj = Vj.find(params[:vj_id])
+    respond_with @vj.picks
   end
 
   def update

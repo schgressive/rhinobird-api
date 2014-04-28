@@ -1,5 +1,5 @@
 module NuveHook
-  module User
+  module Vj
     extend ActiveSupport::Concern
 
     included do
@@ -11,7 +11,7 @@ module NuveHook
       def check_vj_status
         if valid_token? && !NuveHook::Nuve.room_exists?(self.vj_room)
           self.vj_room = nil
-          self.stream_pools.delete_all
+          self.picks.delete_all
           self.save
         end
       end
@@ -25,7 +25,7 @@ module NuveHook
 
     # check for streams to create room
     def check_vj_token
-      self.stream_pools.empty? ? ensure_closed_channel : ensure_active_channel
+      self.picks.empty? ? ensure_closed_channel : ensure_active_channel
     end
 
     # ensures there's a datachannel for the VJ

@@ -5,15 +5,8 @@ module NuveHook
     included do
 
       def vj_token
-        NuveHook::Nuve.create_access_token(self.vj_room) if valid_token?
-      end
-
-      def check_vj_status
-        if valid_token? && !NuveHook::Nuve.room_exists?(self.vj_room)
-          self.vj_room = nil
-          self.picks.delete_all
-          self.save
-        end
+        ensure_active_channel
+        NuveHook::Nuve.create_access_token(self.vj_room)
       end
 
     end
@@ -23,15 +16,10 @@ module NuveHook
       self.vj_room && !self.vj_room.empty?
     end
 
-    # check for streams to create room
-    def check_vj_token
-      self.picks.empty? ? ensure_closed_channel : ensure_active_channel
-    end
-
     # ensures there's a datachannel for the VJ
     def ensure_active_channel
       unless valid_token?
-        room = NuveHook::Nuve.create_room(self.username)
+        room = NuveHook::Nuve.create_room("#{self.user.try(:username)}-#{self.channel.try(:name)}")
         self.vj_room = room["_id"]
         self.save
       end

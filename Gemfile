@@ -33,6 +33,7 @@ group :test do
   gem 'shoulda-matchers'
   gem "database_cleaner"
   gem 'email_spec'
+  gem 'timecop'
   gem 'coveralls', require: false
   gem 'fb_graph-mock'
 end

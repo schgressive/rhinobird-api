@@ -113,6 +113,7 @@ describe Api::VjsController do
     end
 
     it "returns the new JSON Vj object" do
+      expect(@json["id"]).to match(/^[a-zA-Z0-9]{32}$/)
       expect(@json["status"]).to eq("created")
       expect(@json["channel_name"]).to eq("rock")
       expect(@json["username"]).to eq(@user.username)

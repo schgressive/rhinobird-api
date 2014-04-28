@@ -19,7 +19,7 @@ class Api::VjsController < Api::BaseController
 
   def create
     channel = Channel.find(params[:channel_name])
-    @vj = current_user.vjs.new(channel: channel)
+    @vj = current_user.vjs.create(channel: channel)
     respond_with @vj
   end
 

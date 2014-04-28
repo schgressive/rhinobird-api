@@ -3,6 +3,7 @@ class Vj < ActiveRecord::Base
   belongs_to :user
   belongs_to :channel
   has_many :picks
+  has_many :events
 
   # Validations
   validates :user_id, :channel_id, presence: true
@@ -21,4 +22,8 @@ class Vj < ActiveRecord::Base
     self.slug = SecureRandom.hex
   end
 
+
+  # placeholder
+  def vj_token
+  end
 end

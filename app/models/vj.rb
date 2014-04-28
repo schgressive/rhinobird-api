@@ -7,7 +7,7 @@ class Vj < ActiveRecord::Base
 
   # Validations
   validates :user_id, :channel_id, presence: true
-  validates :channel_id, uniqueness: {scope: :user_id}
+  validate :unique_channel
 
   # Enums
   extend Enumerize
@@ -17,6 +17,13 @@ class Vj < ActiveRecord::Base
   friendly_id :slug
 
   before_create :setup_md5
+
+  def unique_channel
+    vjs = Vj.where(user_id: self.user_id, channel_id: self.channel_id).with_status(:created, :live).count
+    if vjs > 0
+      errors.add(:channel_id, "has already been taked in created or live state")
+    end
+  end
 
   def setup_md5
     self.slug = SecureRandom.hex

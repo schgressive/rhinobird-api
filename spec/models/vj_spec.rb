@@ -9,7 +9,6 @@ describe Vj do
   describe "Validations" do
     it { should validate_presence_of(:channel_id) }
     it { should validate_presence_of(:user_id) }
-    it { should validate_uniqueness_of(:channel_id).scoped_to(:user_id) }
   end
 
   describe "Relations" do
@@ -17,6 +16,21 @@ describe Vj do
     it { should belong_to(:channel) }
     it { should have_many(:picks) }
     it { should have_many(:events) }
+
+    it "validates that the user and channel are unique in created or live state" do
+      user = create(:user)
+      channel = create(:channel)
+      vj = create(:vj, user: user, channel: channel, status: :live )
+      vj = build(:vj, user: user, channel: channel)
+      expect(vj).to be_invalid
+      vj = build(:vj, user: user, channel: channel, status: :live)
+      expect(vj).to be_invalid
+
+      channel = create(:channel, name: "anotherchannel")
+      vj = create(:vj, user: user, channel: channel, status: :pending )
+      vj = build(:vj, user: user, channel: channel)
+      expect(vj).to be_valid
+    end
   end
 
   describe "FriendlyId" do
@@ -25,5 +39,6 @@ describe Vj do
       expect(vj.to_param).to match(/^[a-zA-Z0-9]{32}$/)
     end
   end
+
 
 end

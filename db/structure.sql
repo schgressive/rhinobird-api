@@ -12,6 +12,19 @@ CREATE TABLE `channels_streams` (
   KEY `index_channels_streams_on_channel_id_and_stream_id` (`channel_id`,`stream_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE `events` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `vj_id` int(11) DEFAULT NULL,
+  `stream_id` int(11) DEFAULT NULL,
+  `start_time` datetime DEFAULT NULL,
+  `duration` int(11) DEFAULT '0',
+  `track_type` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_events_on_vj_id_and_stream_id` (`vj_id`,`stream_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE `picks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `stream_id` int(11) DEFAULT NULL,
@@ -24,7 +37,7 @@ CREATE TABLE `picks` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_picks_on_slug` (`slug`),
   KEY `index_picks_on_stream_id_and_vj_id` (`stream_id`,`vj_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `schema_migrations` (
   `version` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -120,10 +133,11 @@ CREATE TABLE `vjs` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `vj_room` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_vjs_on_slug` (`slug`),
   KEY `index_vjs_on_user_id_and_channel_id` (`user_id`,`channel_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO schema_migrations (version) VALUES ('20130408152535');
 
@@ -192,3 +206,7 @@ INSERT INTO schema_migrations (version) VALUES ('20140422140406');
 INSERT INTO schema_migrations (version) VALUES ('20140424151600');
 
 INSERT INTO schema_migrations (version) VALUES ('20140425111733');
+
+INSERT INTO schema_migrations (version) VALUES ('20140425152549');
+
+INSERT INTO schema_migrations (version) VALUES ('20140428153400');

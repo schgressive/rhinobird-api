@@ -6,6 +6,7 @@ class Api::PicksController < Api::BaseController
     @vj = Vj.find(params[:vj_id])
     params[:stream_id] = Stream.find(params[:stream_id]).id if params[:stream_id]
     @pick = @vj.picks.create(pick_params)
+    EventTrackerService.new(@pick).execute
     respond_with @pick
   end
 
@@ -16,12 +17,17 @@ class Api::PicksController < Api::BaseController
 
   def update
     @pick.update_attributes(pick_params)
+    EventTrackerService.new(@pick).execute
     respond_with @pick
   end
 
   def destroy
-    @pick.destroy
-    respond_with @pick
+    if @pick.active || @pick.active_audio
+      render json: {error: "can't remove active stream"}
+    else
+      @pick.destroy
+      respond_with @pick
+    end
   end
 
   private

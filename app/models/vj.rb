@@ -7,7 +7,7 @@ class Vj < ActiveRecord::Base
 
   # Validations
   validates :user_id, :channel_id, presence: true
-  validate :unique_channel
+  validate :unique_channel, on: :create
 
   # Enums
   extend Enumerize

@@ -15,7 +15,7 @@ class EventTrackerService
 
   def create_event(track_type)
     set_last_event_duration(track_type)
-    @event = Event.create(vj: @pick.vj, stream: @pick.stream, track_type: track_type)
+    @event = Event.create(vj: @pick.vj, stream: @pick.stream, track_type: track_type, start_time: Time.now)
   end
 
   def set_last_event_duration(track_type)

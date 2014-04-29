@@ -7,10 +7,13 @@ describe EventTrackerService do
 
   it "returns a correct event" do
     @pick = create(:pick, active_audio: true)
-    event = EventTrackerService.new(@pick).execute[:audio]
-    expect(event.vj_id).to eq(@pick.vj_id)
-    expect(event.stream_id).to eq(@pick.stream_id)
-    expect(event.track_type).to eq("audio")
+    Timecop.freeze(Time.now) do
+      event = EventTrackerService.new(@pick).execute[:audio]
+      expect(event.vj_id).to eq(@pick.vj_id)
+      expect(event.stream_id).to eq(@pick.stream_id)
+      expect(event.track_type).to eq("audio")
+      expect(event.start_time).to eq(Time.now)
+    end
   end
 
   it "ignores inactive picks" do

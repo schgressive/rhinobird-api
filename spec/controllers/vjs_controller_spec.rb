@@ -104,7 +104,7 @@ describe Api::VjsController do
 
     before do
       @channel = create(:channel, name: "rock")
-      post :create, format: :json, channel_name: "rock"
+      post :create, format: :json, channel_name: "rock", status: "pending"
       @json = JSON.parse(response.body)
     end
 
@@ -114,15 +114,45 @@ describe Api::VjsController do
 
     it "returns the new JSON Vj object" do
       expect(@json["id"]).to match(/^[a-zA-Z0-9]{32}$/)
-      expect(@json["status"]).to eq("created")
+      expect(@json["status"]).to eq("pending")
       expect(@json["channel_name"]).to eq("rock")
       expect(@json["username"]).to eq(@user.username)
+    end
+
+    it "can create a stream if another is pending" do
+      post :create, format: :json, channel_name: "rock", status: "live"
+      @json = JSON.parse(response.body)
+      expect(response.status).to eq 201
+    end
+
+    it "moves to pending on creating a new VJ with the same channel and user" do
+      @vj = Vj.first
+      @vj.status = :live
+      @vj.save!
+
+      post :create, format: :json, channel_name: "rock"
+      expect(response.status).to eq(201)
+      @vj.reload
+      expect(@vj.status).to eq("pending")
     end
 
   end #describe POST create
 
   describe "PUT #update" do
     login_user
+
+    it "can update a vj" do
+      @channel = create(:channel, name: "rock")
+      post :create, format: :json, channel_name: "rock"
+      @json = JSON.parse(response.body)
+      put :update, id: @json["id"], format: :json, status: "live"
+      @updated_json = JSON.parse(response.body)
+
+      expect(@updated_json["status"]).to eq("live")
+      expect(@updated_json["id"]).to eq(@json["id"])
+
+    end
+
 
     context "Own vj" do
       before do
@@ -140,6 +170,7 @@ describe Api::VjsController do
         expect(@json["status"]).to eq("archived")
         expect(@json["archived_url"]).to eq("s3_path")
       end
+
     end
 
     context "Another user's vj" do

@@ -15,7 +15,7 @@ class EventTrackerService
 
   def create_event(track_type)
     set_last_event_duration(track_type)
-    @event = Event.create(vj: @pick.vj, stream: @pick.stream, track_type: track_type, start_time: Time.now)
+    @event = Event.create!(vj: @pick.vj, stream: @pick.stream, track_type: track_type, start_time: Time.now)
   end
 
   def set_last_event_duration(track_type)
@@ -26,7 +26,7 @@ class EventTrackerService
   end
 
   def fetch_last_event(track_type)
-    Event.where(vj_id: @pick.vj_id).with_track_type(track_type).order(created_at: :desc).first
+    Event.where(vj_id: @pick.vj_id).with_track_type(track_type).order("created_at DESC").first
   end
 
   def set_event_duration(event)

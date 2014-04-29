@@ -29,7 +29,6 @@ class Vj < ActiveRecord::Base
     self.slug = SecureRandom.hex
   end
 
-
   # placeholder
   def vj_token
   end

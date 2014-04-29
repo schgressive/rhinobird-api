@@ -51,4 +51,28 @@ describe EventTrackerService do
     @event.reload
     expect(@event.duration).to eq(60)
   end
+
+  it "sets duration of the same pick" do
+    @pick1 = create(:pick, active: true, vj: @vj)
+    Timecop.freeze(@pick1.stream.created_at + 60.seconds) do
+      @event = EventTrackerService.new(@pick1).execute[:video]
+    end
+    Timecop.freeze(@pick1.stream.created_at + 61.seconds) do
+      @event1 = EventTrackerService.new(@pick1).execute[:video]
+    end
+    Timecop.freeze(@pick1.stream.created_at + 62.seconds) do
+      @event2 = EventTrackerService.new(@pick1).execute[:video]
+    end
+    Timecop.freeze(@pick1.stream.created_at + 63.seconds) do
+      @event3 = EventTrackerService.new(@pick1).execute[:video]
+    end
+    @event.reload
+    @event1.reload
+    @event2.reload
+    @event3.reload
+    expect(@event.duration).to eq(61)
+    expect(@event1.duration).to eq(62)
+    expect(@event2.duration).to eq(63)
+    expect(@event3.duration).to eq(0)
+  end
 end

@@ -9,6 +9,7 @@ describe Event do
   describe "Validations" do
     it { should validate_presence_of(:vj_id) }
     it { should validate_presence_of(:stream_id) }
+    it { should validate_presence_of(:start_time) }
   end
 
   describe "Relations" do

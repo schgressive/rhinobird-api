@@ -92,8 +92,7 @@ describe Api::VjsController do
       end
     end
 
-  end #describe GET SHOW
-
+  end
 
   describe "GET #show" do
 

@@ -25,6 +25,7 @@ RhinobirdApi::Application.routes.draw do
 
     resources :streams, only: [:create, :show, :index, :destroy, :update] do
       resources :tags, only: [:create, :destroy]
+      resources :vjs, only: [:index]
       member do
         put :play
         get :related

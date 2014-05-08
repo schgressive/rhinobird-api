@@ -22,6 +22,25 @@ describe Api::VjsController do
       end
     end
 
+    context "by stream" do
+      before do
+        @stream1 = create(:archived_stream)
+        @stream2 = create(:archived_stream)
+        @live_stream = create(:live_stream)
+
+        @vj_not_ready = create(:vj, events: [create(:event, stream: @stream1), create(:event, stream: @live_stream)])
+        @vj_ready = create(:vj, events: [create(:event, stream: @stream1), create(:event, stream: @stream2)])
+      end
+
+      it "returns vjs" do
+        get :index, format: :json, stream_id: @stream1.to_param
+        @json = JSON.parse(response.body)
+
+        expect(@json.length).to eq(2)
+        expect(@json[0]["id"]).to eq(@vj_not_ready.to_param)
+      end
+    end
+
     context "filtering" do
       before do
         @live_vj = create(:vj, status: :live)

@@ -8,6 +8,7 @@ class VjSearchService
   def run
     search_by_channel
     filter_by_username
+    filter_by_stream
     search_by_status
     set_pagination
 
@@ -21,6 +22,13 @@ class VjSearchService
     records
   end
 
+
+  def filter_by_stream
+    if @params.key? :stream_id
+      stream_id = Stream.find(@params[:stream_id]).id
+      @records = @records.joins(:events).where(events: {stream_id: stream_id})
+    end
+  end
 
   def filter_by_username
     if @params.key? :user_id

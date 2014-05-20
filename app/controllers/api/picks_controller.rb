@@ -10,6 +10,10 @@ class Api::PicksController < Api::BaseController
     respond_with @pick
   end
 
+  def show
+    respond_with @pick
+  end
+
   def index
     @vj = Vj.find(params[:vj_id])
     respond_with @vj.picks

@@ -4,6 +4,7 @@ class Vj < ActiveRecord::Base
   belongs_to :channel
   has_many :picks
   has_many :events
+  has_one :timeline, as: :resource
 
   # Validations
   validates :user_id, :channel_id, presence: true
@@ -17,6 +18,10 @@ class Vj < ActiveRecord::Base
   friendly_id :slug
 
   before_create :setup_md5
+
+  after_create do
+    Timeline.create! resource: self
+  end
 
   def unique_channel
     vjs = Vj.where(user_id: self.user_id, channel_id: self.channel_id).with_status(:created, :live).count

@@ -23,10 +23,15 @@ class Stream < ActiveRecord::Base
   before_create :setup_stream
   after_save :update_channels
 
+  after_create do
+    Timeline.create! resource: self
+  end
+
   # RELATIONS
   belongs_to :user
   has_and_belongs_to_many :tags
   has_and_belongs_to_many :channels
+  has_one :timeline, as: :resource
 
   attr_accessor :ignore_token
 

@@ -2,6 +2,8 @@ class VjSerializer < ActiveModel::Serializer
   self.root = false
   attributes :id, :username, :status, :channel_name, :archived_url, :token
 
+  has_one :user
+
   def id
     object.to_param
   end

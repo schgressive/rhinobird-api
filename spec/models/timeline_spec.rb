@@ -1,5 +1,8 @@
 require 'spec_helper'
 
 describe Timeline do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "has a valid factory" do
+    timeline = build(:timeline)
+    expect(timeline).to be_valid
+  end
 end

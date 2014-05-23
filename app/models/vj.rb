@@ -23,6 +23,18 @@ class Vj < ActiveRecord::Base
     Timeline.create! resource: self
   end
 
+  has_attached_file :thumbnail, styles: {
+    small: '33%',
+    medium: '66%',
+    large: '100%'
+  },
+  s3_headers: {
+    'Content-Disposition' => "attachment;"
+  },
+  url: "/system/:hash-:style.:extension",
+  hash_secret: "hash_secret"
+
+
   def unique_channel
     vjs = Vj.where(user_id: self.user_id, channel_id: self.channel_id).with_status(:created, :live).count
     if vjs > 0
@@ -37,4 +49,14 @@ class Vj < ActiveRecord::Base
   # placeholder
   def vj_token
   end
+
+  #Returns the thumbnail full URL
+  def thumbnail_full_url(size)
+    url = self.thumbnail.url(size)
+    unless url =~ /^#{ENV["HOST_PROTOCOL"]}:\/\//
+      url = URI.join("#{ENV["HOST_PROTOCOL"]}://#{ENV["DEFAULT_HOST"]}", url).to_s
+    end
+    url
+  end
+
 end

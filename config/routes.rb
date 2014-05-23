@@ -40,7 +40,7 @@ RhinobirdApi::Application.routes.draw do
       resources :picks, only: [:create, :index]
     end
 
-    resources :timeline
+    resources :timeline, only: [:index]
 
   end
 

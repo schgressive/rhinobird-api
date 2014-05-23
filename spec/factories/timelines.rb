@@ -2,8 +2,7 @@
 
 FactoryGirl.define do
   factory :timeline do
-    resource_id 1
-    resource_type "MyString"
-    user_id 1
+    association :resource, factory: :stream
+    user
   end
 end

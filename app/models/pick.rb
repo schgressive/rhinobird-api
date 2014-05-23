@@ -15,4 +15,11 @@ class Pick < ActiveRecord::Base
     self.slug = SecureRandom.hex
   end
 
+  after_create :set_vj_thumbnail
+
+  def set_vj_thumbnail
+    if self.active && !self.vj.thumbnail.exists?
+      self.vj.thumbnail = self.stream.thumbnail
+    end
+  end
 end

@@ -382,6 +382,19 @@ Asks for a new password reset
 
 + Response 200
 
+### Confirm a new password [PUT]
+Confirms new passwords
++ Request
+
+  ```js
+        {
+            "token": "XXXXXXXXXXXXX",
+            "password": "12345678",
+            "password_confirmation": "12345678"
+        }
+    ```
++ Response 200
+
 ## User Profile  [/users/profile]
 Adds profile update to a logged user
 
@@ -400,18 +413,6 @@ Asks for a new password reset
 
   [User][]
 
-### Confirm a new password [PUT]
-Confirms new passwords
-+ Request
-
-  ```js
-        {
-            "token": "XXXXXXXXXXXXX",
-            "password": "12345678",
-            "password_confirmation": "12345678"
-        }
-    ```
-+ Response 200
 
 
 # Group Sessions
@@ -520,7 +521,7 @@ Updates data of a VJ session
 + Response 200
     [Vj][]
 
-## Vj Collection [/vjs{?channel_name,created,live,pending,archived,page,per_page}]
+## Vj Collection [/vjs{?channel_name,created,live,pending,archived,page,per_page,stream_id}]
 Handle collections of Vj sessions
 
 + Parameters
@@ -537,7 +538,7 @@ Handle collections of Vj sessions
 
         [
             {
-                "id": "e491813b203a5cc841a65804cae88345"
+                "id": "e491813b203a5cc841a65804cae88345",
                 "username": "siriusblack",
                 "channel_name": "rock",
                 "status": "live",
@@ -552,7 +553,7 @@ Handle collections of Vj sessions
                 ]
             },
              {
-                "id": "9ee0b6f0e31dddbcd82d97fa19bfd070"
+                "id": "9ee0b6f0e31dddbcd82d97fa19bfd070",
                 "username": "siriusblack",
                 "channel_name": "rock",
                 "status": "live",
@@ -658,3 +659,90 @@ Remove a stream
 + Response 204
 
 
+# Group Timeline Resource
+This section describes the Timeline.
+
+## Timeline Properties
+- resource: The object that created the timeline event(VJ or Stream)
+- created_at: The time of creation
+
+## Timeline Collection [/timeline{?page,per_page}]
+Returns a list of events
+
++ Parameters
+    + page (optional, integer) ... page number to get
+    + per_page (optional, integer) ... number of results per page
+
++ Model (application/json)
+
+        [
+            {
+                "resource": {
+                    "id": "51d1bc8ab4c5297843ea3f57b7800b30",
+                    "caption": "No al lucro",
+                    "channel": {
+                        "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
+                        "name": "TheChannel"
+                    },
+                    "thumbs": {
+                        "small": "http://img.youtube.com/vi/VgPBse5BkA8/default.jpg",
+                        "medium": "http://img.youtube.com/vi/VgPBse5BkA8/hqdefault.jpg",
+                        "large": "http://img.youtube.com/vi/VgPBse5BkA8/maxresdefault.jpg"
+                    },
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.647055,
+                            -33.451534
+                        ]
+                    },
+                    "properties": {
+                        "geo_reference": "Alameda"
+                    },
+                    "tags": [
+                        "grunge"
+                    ],
+                    "started_on": "2012-01-23T12:00:00.000"
+                },
+                "resource_type": "Stream",
+                "created_at": "2012-01-23T12:00:00.000"
+            },
+            {
+                "resource": {
+                    "id": "e491813b203a5cc841a65804cae88345",
+                    "username": "siriusblack",
+                    "channel_name": "rock",
+                    "status": "live",
+                    "archived_url": null,
+                    "picks": [
+                        {
+                            "id": "9ee0b6f0e31dddbcd82d97fa19bfd072",
+                            "stream": {},
+                            "active": "true",
+                            "active_audio": "true"
+                        }
+                    ]
+                },
+                "resource_type": "Vj",
+                "created_at": "2012-01-23T12:00:00.000"
+            }
+        ]
+
+### Get timeline [GET]
+Returns the timeline
+
++ Response 200
+
+    [Timeline Collection][]
+
+
+## User's timeline [/users/{user_id}/timeline]
+Manage a user's timeline
+
+### Get timeline [GET]
+Returns the timeline
+
++ Response 200
+
+    [Timeline Collection][]

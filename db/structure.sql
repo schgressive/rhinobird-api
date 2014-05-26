@@ -69,7 +69,7 @@ CREATE TABLE `streams` (
   UNIQUE KEY `index_streams_on_hash_token` (`hash_token`),
   KEY `index_streams_on_user_id` (`user_id`),
   FULLTEXT KEY `caption_fulltext` (`caption`)
-) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `streams_tags` (
   `tag_id` int(11) DEFAULT NULL,
@@ -85,6 +85,16 @@ CREATE TABLE `tags` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `timelines` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `resource_id` int(11) DEFAULT NULL,
+  `resource_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -134,6 +144,10 @@ CREATE TABLE `vjs` (
   `updated_at` datetime NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `vj_room` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `thumbnail_file_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `thumbnail_content_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `thumbnail_file_size` int(11) DEFAULT NULL,
+  `thumbnail_updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_vjs_on_slug` (`slug`),
   KEY `index_vjs_on_user_id_and_channel_id` (`user_id`,`channel_id`)
@@ -210,3 +224,9 @@ INSERT INTO schema_migrations (version) VALUES ('20140425111733');
 INSERT INTO schema_migrations (version) VALUES ('20140425152549');
 
 INSERT INTO schema_migrations (version) VALUES ('20140428153400');
+
+INSERT INTO schema_migrations (version) VALUES ('20140522215219');
+
+INSERT INTO schema_migrations (version) VALUES ('20140522215758');
+
+INSERT INTO schema_migrations (version) VALUES ('20140523131839');

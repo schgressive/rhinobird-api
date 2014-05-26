@@ -3,16 +3,16 @@ class Api::TimelineController < Api::BaseController
   after_filter only: [:index] { set_pagination_headers(:entries) }
 
   def index
-    @entries = if params.has_key? :user_id
+    @entries = if params.key? :user_id
       @user = User.find params[:user_id]
       @user.timelines
     else Timeline end
 
     @entries = @entries.includes(:resource => :user).order('created_at DESC')
     @entries = @entries.page(params[:page] || 1)
-    @entries = @entries.per(params[:per_page]) if params.has_key? :per_page
+    @entries = @entries.per(params[:per_page]) if params.key? :per_page
 
-    respond_with @entries.all
+    respond_with @entries
   end
 
 end

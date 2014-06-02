@@ -30,8 +30,8 @@ describe EventTrackerService do
     @video1 = create(:pick, active: true, vj: @vj)
     @video2 = create(:pick, active: true, vj: @vj)
     @audio1 = create(:pick, active_audio: true, vj: @vj)
-    Timecop.freeze(@video1.stream.created_at + 60.seconds) do
-      @event = EventTrackerService.new(@video1).execute[:video]
+    @event = EventTrackerService.new(@video1).execute[:video]
+    Timecop.freeze(Time.now + 60.seconds) do
       @event2 = EventTrackerService.new(@audio1).execute[:audio]
       @event3 = EventTrackerService.new(@video2).execute[:video]
     end
@@ -42,37 +42,40 @@ describe EventTrackerService do
   end
 
   it "sets the duration of the previous stream" do
-    @pick1 = create(:pick, active: true, vj: @vj)
+    stream = create(:stream, created_at: Time.now - 90.seconds)
+    @pick1 = create(:pick, active: true, vj: @vj, stream: stream)
     @pick2 = create(:pick, active: true, vj: @vj)
-    Timecop.freeze(@pick1.stream.created_at + 60.seconds) do
-      @event = EventTrackerService.new(@pick1).execute[:video]
+    @event = EventTrackerService.new(@pick1).execute[:video]
+    @current_time = Time.now.utc
+    Timecop.freeze(Time.now + 60.seconds) do
       @event2 = EventTrackerService.new(@pick2).execute
     end
     @event.reload
+    expect(@event.start_time.to_s(:api)).to eq(@current_time.to_s(:api))
     expect(@event.duration).to eq(60)
   end
 
   it "sets duration of the same pick" do
     @pick1 = create(:pick, active: true, vj: @vj)
-    Timecop.freeze(@pick1.stream.created_at + 60.seconds) do
+    Timecop.freeze(Time.now + 60.seconds) do
       @event = EventTrackerService.new(@pick1).execute[:video]
     end
-    Timecop.freeze(@pick1.stream.created_at + 61.seconds) do
+    Timecop.freeze(Time.now + 61.seconds) do
       @event1 = EventTrackerService.new(@pick1).execute[:video]
     end
-    Timecop.freeze(@pick1.stream.created_at + 62.seconds) do
+    Timecop.freeze(Time.now + 62.seconds) do
       @event2 = EventTrackerService.new(@pick1).execute[:video]
     end
-    Timecop.freeze(@pick1.stream.created_at + 63.seconds) do
+    Timecop.freeze(Time.now + 63.seconds) do
       @event3 = EventTrackerService.new(@pick1).execute[:video]
     end
     @event.reload
     @event1.reload
     @event2.reload
     @event3.reload
-    expect(@event.duration).to eq(61)
-    expect(@event1.duration).to eq(62)
-    expect(@event2.duration).to eq(63)
+    expect(@event.duration).to eq(1)
+    expect(@event1.duration).to eq(1)
+    expect(@event2.duration).to eq(1)
     expect(@event3.duration).to eq(0)
   end
 end

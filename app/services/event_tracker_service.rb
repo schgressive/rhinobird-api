@@ -30,7 +30,7 @@ class EventTrackerService
   end
 
   def set_event_duration(event)
-    event.duration = (Time.now - event.stream.created_at)
+    event.duration = (Time.now - event.start_time)
     event.save
   end
 end

@@ -19,18 +19,10 @@ class EventTrackerService
   end
 
   def set_last_event_duration(track_type)
-    event = fetch_last_event(track_type)
+    event = @pick.vj.fetch_last_event(track_type)
     if event && event.duration <= 0
-      set_event_duration(event)
+      event.set_duration_now!
     end
   end
 
-  def fetch_last_event(track_type)
-    Event.where(vj_id: @pick.vj_id).with_track_type(track_type).order("created_at DESC").first
-  end
-
-  def set_event_duration(event)
-    event.duration = (Time.now - event.start_time)
-    event.save
-  end
 end

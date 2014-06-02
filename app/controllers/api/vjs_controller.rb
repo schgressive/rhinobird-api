@@ -13,7 +13,7 @@ class Api::VjsController < Api::BaseController
   end
 
   def update
-    @vj.update_attributes(vj_params)
+    @vj = VjUpdateService.new(@vj, vj_params).run
     respond_with @vj
   end
 

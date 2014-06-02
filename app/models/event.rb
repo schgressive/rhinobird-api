@@ -15,4 +15,9 @@ class Event < ActiveRecord::Base
     Time.at(self.duration).gmtime.strftime('%R:%S')
   end
 
+  def set_duration_now!
+    self.duration = (Time.now - self.start_time)
+    self.save
+  end
+
 end

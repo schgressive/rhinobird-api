@@ -4,7 +4,6 @@ class Api::PicksController < Api::BaseController
 
   def create
     @vj = Vj.find(params[:vj_id])
-    params[:stream_id] = Stream.find(params[:stream_id]).id if params[:stream_id]
     @pick = @vj.picks.create(pick_params)
     EventTrackerService.new(@pick).execute
     respond_with @pick
@@ -37,6 +36,7 @@ class Api::PicksController < Api::BaseController
   private
 
   def pick_params
+    params[:stream_id] = Stream.find(params[:stream_id]).id if params[:stream_id]
     params.permit(:active_audio, :active, :stream_id)
   end
 end

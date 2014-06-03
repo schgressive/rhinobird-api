@@ -62,7 +62,7 @@ describe Api::PicksController do
     end
 
     it "update my pick" do
-      put :update, format: :json, id: @my_pick.to_param, active: true
+      put :update, format: :json, id: @my_pick.to_param, active: true, stream_id: @my_pick.stream.to_param
       expect(response.status).to eq 200
       json = JSON.parse(response.body)
       expect(json["active"]).to eq(true)

@@ -6,12 +6,18 @@ class EventTrackerService
 
   def execute
     result = {}
-    result[:video] = create_event(:video) if @pick.active
-    result[:audio] = create_event(:audio) if @pick.active_audio
+    if vj_live?
+      result[:video] = create_event(:video) if @pick.active
+      result[:audio] = create_event(:audio) if @pick.active_audio
+    end
     result
   end
 
   private
+
+  def vj_live?
+    @pick.vj.status.live?
+  end
 
   def create_event(track_type)
     set_last_event_duration(track_type)

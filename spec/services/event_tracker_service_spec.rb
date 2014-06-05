@@ -2,11 +2,11 @@ require 'spec_helper'
 
 describe EventTrackerService do
   before :each do
-    @vj = create(:vj)
+    @vj = create(:vj, status: :live)
   end
 
   it "returns a correct event" do
-    @pick = create(:pick, active_audio: true)
+    @pick = create(:pick, active_audio: true, vj: @vj)
     Timecop.freeze(Time.now) do
       event = EventTrackerService.new(@pick).execute[:audio]
       expect(event.vj_id).to eq(@pick.vj_id)
@@ -24,6 +24,14 @@ describe EventTrackerService do
     expect(@event.size).to eq(0)
     expect(@event2.size).to eq(0)
     expect(Event.count).to eq(0)
+  end
+
+  it "ignores picks if vj is not live" do
+    vj = create(:vj, status: "created")
+    pick1 = create(:pick, vj: vj, active: true)
+    @event = EventTrackerService.new(pick1).execute
+
+    expect(Event.count).to eq 0
   end
 
   it "sets duration to correct track type" do

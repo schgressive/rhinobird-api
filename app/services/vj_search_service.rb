@@ -26,7 +26,7 @@ class VjSearchService
   def filter_by_stream
     if @params.key? :stream_id
       stream_id = Stream.find(@params[:stream_id]).id
-      @records = @records.joins(:events).where(events: {stream_id: stream_id})
+      @records = @records.includes(:events).where(events: {stream_id: stream_id})
     end
   end
 

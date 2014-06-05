@@ -6,11 +6,22 @@ class VjUpdateService
 
   def run
     @vj.update_attributes(@params)
-    finish_events if @vj.status.pending?
+
+    case @vj.status
+    when "pending"
+      finish_events
+    when "live"
+      init_events
+    end
+
     @vj
   end
 
   private
+
+  def init_events
+    @vj.picks.map{|pick| EventTrackerService.new(pick).run if (pick.active || pick.active_audio) }
+  end
 
   # sets the duration of the last events
   def finish_events

@@ -5,7 +5,7 @@ class Api::PicksController < Api::BaseController
   def create
     @vj = Vj.find(params[:vj_id])
     @pick = @vj.picks.create(pick_params)
-    EventTrackerService.new(@pick).execute
+    EventTrackerService.new(@pick).run
     respond_with @pick
   end
 
@@ -20,7 +20,7 @@ class Api::PicksController < Api::BaseController
 
   def update
     @pick.update_attributes(pick_params)
-    EventTrackerService.new(@pick).execute
+    EventTrackerService.new(@pick).run
     respond_with @pick
   end
 

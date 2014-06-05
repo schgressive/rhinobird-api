@@ -4,7 +4,7 @@ class EventTrackerService
     @event = nil
   end
 
-  def execute
+  def run
     result = {}
     if vj_live?
       result[:video] = create_event(:video) if @pick.active

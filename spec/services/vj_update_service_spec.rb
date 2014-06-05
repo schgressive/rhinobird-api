@@ -2,16 +2,33 @@ require 'spec_helper'
 
 describe VjUpdateService do
 
-  it "sets the duration of the last audio and video event" do
-    @vj = create(:vj)
-    @audio_event = create(:event, vj: @vj, duration: nil, track_type: :audio)
-    @video_event = create(:event, vj: @vj, duration: nil, track_type: :video)
-    Timecop.freeze(Time.now + 60.seconds) do
-      VjUpdateService.new(@vj, ActionController::Parameters.new({status: "pending"}).permit(:status)).run
+  context "when setting VJ live" do
+    it "generate starting events" do
+      @vj = create(:vj)
+      pick1 = create(:pick, active: true, active_audio: false, vj: @vj)
+      pick2 = create(:pick, active: false, active_audio: true, vj: @vj)
+
+      @vj = VjUpdateService.new(@vj, ActionController::Parameters.new({status: "live"}).permit(:status)).run
+      audio_event = Event.with_track_type(:audio).first
+      video_event = Event.with_track_type(:video).first
+      expect(Event.count).to eq 2
+      expect(audio_event.stream_id).to eq pick2.stream_id
+      expect(video_event.stream_id).to eq pick1.stream_id
     end
-    @audio_event.reload
-    @video_event.reload
-    expect(@audio_event.duration).to eq(60)
-    expect(@video_event.duration).to eq(60)
+  end
+
+  context "when finishing VJ (pending)" do
+    it "sets the duration of the last audio and video event" do
+      @vj = create(:vj)
+      @audio_event = create(:event, vj: @vj, duration: nil, track_type: :audio)
+      @video_event = create(:event, vj: @vj, duration: nil, track_type: :video)
+      Timecop.freeze(Time.now + 60.seconds) do
+        VjUpdateService.new(@vj, ActionController::Parameters.new({status: "pending"}).permit(:status)).run
+      end
+      @audio_event.reload
+      @video_event.reload
+      expect(@audio_event.duration).to eq(60)
+      expect(@video_event.duration).to eq(60)
+    end
   end
 end

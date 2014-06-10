@@ -23,4 +23,8 @@ class Pick < ActiveRecord::Base
       self.vj.save!
     end
   end
+
+  def is_inactive?
+    self.active == false && self.active_audio == false
+  end
 end

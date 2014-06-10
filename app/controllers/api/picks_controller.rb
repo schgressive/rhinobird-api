@@ -19,8 +19,7 @@ class Api::PicksController < Api::BaseController
   end
 
   def update
-    @pick.update_attributes(pick_params)
-    EventTrackerService.new(@pick).run
+    @pick = PickUpdateService.new(@pick, pick_params).run
     respond_with @pick
   end
 

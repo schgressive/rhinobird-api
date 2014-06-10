@@ -46,7 +46,6 @@ class Vj < ActiveRecord::Base
     Event.where(vj_id: self.id).with_track_type(track_type).order("created_at DESC").first
   end
 
-
   def setup_md5
     self.slug = SecureRandom.hex
   end

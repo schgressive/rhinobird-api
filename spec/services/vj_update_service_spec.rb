@@ -5,8 +5,8 @@ describe VjUpdateService do
   context "when setting VJ live" do
     it "generate starting events" do
       @vj = create(:vj)
-      pick1 = create(:pick, active: true, active_audio: false, vj: @vj)
-      pick2 = create(:pick, active: false, active_audio: true, vj: @vj)
+      pick1 = create(:pick, active: true, fixed_audio: false, vj: @vj)
+      pick2 = create(:pick, active: false, fixed_audio: true, vj: @vj)
 
       @vj = VjUpdateService.new(@vj, ActionController::Parameters.new({status: "live"}).permit(:status)).run
       audio_event = Event.with_track_type(:audio).first

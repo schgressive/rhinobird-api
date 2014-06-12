@@ -20,7 +20,7 @@ describe Api::PicksController do
 
     it "returns the new JSON Vj object" do
       expect(@json["active"]).to eq(true)
-      expect(@json["active_audio"]).to eq(false)
+      expect(@json["fixed_audio"]).to eq(false)
       expect(@json["stream"]["id"]).to eq(@stream.to_param)
     end
 
@@ -67,7 +67,7 @@ describe Api::PicksController do
         expect(response.status).to eq 200
         json = JSON.parse(response.body)
         expect(json["active"]).to eq(true)
-        expect(json["active_audio"]).to eq(false)
+        expect(json["fixed_audio"]).to eq(false)
       end
 
       it "can't update another users pick" do
@@ -81,9 +81,9 @@ describe Api::PicksController do
       let(:vj) { create(:vj, user: @user, status: "live") }
 
       it "creates an active event for the active video pick" do
-        video_pick = create(:pick, vj: vj, active: true, active_audio: false)
-        audio_pick = create(:pick, vj: vj, active: false, active_audio: true)
-        put :update, format: :json, id: audio_pick.to_param, active_audio: false
+        video_pick = create(:pick, vj: vj, active: true, fixed_audio: false)
+        audio_pick = create(:pick, vj: vj, active: false, fixed_audio: true)
+        put :update, format: :json, id: audio_pick.to_param, fixed_audio: false
 
         event = Event.last
 
@@ -94,9 +94,9 @@ describe Api::PicksController do
       end
 
       it "generates audio and video events" do
-        active_pick = create(:pick, vj: vj, active: true, active_audio: true)
-        other_pick = create(:pick, vj: vj, active: false, active_audio: false)
-        put :update, format: :json, id: other_pick.to_param, active_audio: true, active: true
+        active_pick = create(:pick, vj: vj, active: true, fixed_audio: true)
+        other_pick = create(:pick, vj: vj, active: false, fixed_audio: false)
+        put :update, format: :json, id: other_pick.to_param, fixed_audio: true, active: true
 
         expect(Event.count).to eq 2
 
@@ -119,34 +119,34 @@ describe Api::PicksController do
       let(:vj) { create(:vj, user: @user) }
 
       it "actives the audio of the active video pick" do
-        video_pick = create(:pick, vj: vj, active: true, active_audio: false)
-        audio_pick = create(:pick, vj: vj, active: false, active_audio: true)
-        put :update, format: :json, id: audio_pick.to_param, active_audio: false
+        video_pick = create(:pick, vj: vj, active: true, fixed_audio: false)
+        audio_pick = create(:pick, vj: vj, active: false, fixed_audio: true)
+        put :update, format: :json, id: audio_pick.to_param, fixed_audio: false
 
         audio_pick.reload
         video_pick.reload
 
         expect(audio_pick.active).to be_false
-        expect(audio_pick.active_audio).to be_false
+        expect(audio_pick.fixed_audio).to be_false
 
         expect(video_pick.active).to be_true
-        expect(video_pick.active_audio).to be_true
+        expect(video_pick.fixed_audio).to be_true
 
       end
 
       it "inactivates another picks when activating a new one" do
-        video_pick = create(:pick, vj: vj, active: true, active_audio: true)
-        audio_pick = create(:pick, vj: vj, active: false, active_audio: false)
-        put :update, format: :json, id: audio_pick.to_param, active_audio: true
+        video_pick = create(:pick, vj: vj, active: true, fixed_audio: true)
+        audio_pick = create(:pick, vj: vj, active: false, fixed_audio: false)
+        put :update, format: :json, id: audio_pick.to_param, fixed_audio: true
 
         audio_pick.reload
         video_pick.reload
 
         expect(audio_pick.active).to be_false
-        expect(audio_pick.active_audio).to be_true
+        expect(audio_pick.fixed_audio).to be_true
 
         expect(video_pick.active).to be_true
-        expect(video_pick.active_audio).to be_false
+        expect(video_pick.fixed_audio).to be_false
 
       end
 

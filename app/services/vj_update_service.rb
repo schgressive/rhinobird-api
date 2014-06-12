@@ -20,7 +20,7 @@ class VjUpdateService
   private
 
   def init_events
-    @vj.picks.map{|pick| EventTrackerService.new(pick).run if (pick.active || pick.active_audio) }
+    @vj.picks.map{|pick| EventTrackerService.new(pick).run if (pick.active || pick.fixed_audio) }
   end
 
   # sets the duration of the last events

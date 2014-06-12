@@ -5,6 +5,6 @@ FactoryGirl.define do
     stream
     vj
     active false
-    active_audio false
+    fixed_audio false
   end
 end

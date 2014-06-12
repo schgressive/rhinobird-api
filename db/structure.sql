@@ -4,7 +4,7 @@ CREATE TABLE `channels` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `channels_streams` (
   `channel_id` int(11) DEFAULT NULL,
@@ -31,13 +31,13 @@ CREATE TABLE `picks` (
   `vj_id` int(11) DEFAULT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `active` tinyint(1) DEFAULT '0',
-  `active_audio` tinyint(1) DEFAULT '0',
+  `fixed_audio` tinyint(1) DEFAULT '0',
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_picks_on_slug` (`slug`),
   KEY `index_picks_on_stream_id_and_vj_id` (`stream_id`,`vj_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `schema_migrations` (
   `version` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -94,7 +94,7 @@ CREATE TABLE `timelines` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -151,7 +151,7 @@ CREATE TABLE `vjs` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_vjs_on_slug` (`slug`),
   KEY `index_vjs_on_user_id_and_channel_id` (`user_id`,`channel_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO schema_migrations (version) VALUES ('20130408152535');
 
@@ -230,3 +230,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140522215219');
 INSERT INTO schema_migrations (version) VALUES ('20140522215758');
 
 INSERT INTO schema_migrations (version) VALUES ('20140523131839');
+
+INSERT INTO schema_migrations (version) VALUES ('20140612193331');

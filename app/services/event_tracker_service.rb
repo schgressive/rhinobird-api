@@ -15,7 +15,7 @@ class EventTrackerService
     result = {}
     if vj_live?
       result[:video] = create_event(:video, @video_pick) if @video_pick && @video_pick.active
-      result[:audio] = create_event(:audio, @audio_pick) if @audio_pick && @audio_pick.active_audio
+      result[:audio] = create_event(:audio, @audio_pick) if @audio_pick && @audio_pick.fixed_audio
     end
     result
   end

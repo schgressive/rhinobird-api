@@ -24,7 +24,7 @@ class Api::PicksController < Api::BaseController
   end
 
   def destroy
-    if @pick.active || @pick.active_audio
+    if @pick.active || @pick.fixed_audio
       render json: {error: "can't remove active stream"}
     else
       @pick.destroy
@@ -36,6 +36,6 @@ class Api::PicksController < Api::BaseController
 
   def pick_params
     params[:stream_id] = Stream.find(params[:stream_id]).id if params[:stream_id]
-    params.permit(:active_audio, :active, :stream_id)
+    params.permit(:fixed_audio, :active, :stream_id)
   end
 end

@@ -1,6 +1,6 @@
 class PickSerializer < ActiveModel::Serializer
   self.root = false
-  attributes :id, :active, :active_audio
+  attributes :id, :active, :fixed_audio
   has_one :stream
 
   def id

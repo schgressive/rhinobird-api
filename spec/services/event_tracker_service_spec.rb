@@ -6,7 +6,7 @@ describe EventTrackerService do
   end
 
   it "returns a correct event" do
-    @pick = create(:pick, active_audio: true, vj: @vj)
+    @pick = create(:pick, fixed_audio: true, vj: @vj)
     Timecop.freeze(Time.now) do
       event = EventTrackerService.new(@pick).run[:audio]
       expect(event.vj_id).to eq(@pick.vj_id)
@@ -37,7 +37,7 @@ describe EventTrackerService do
   it "sets duration to correct track type" do
     @video1 = create(:pick, active: true, vj: @vj)
     @video2 = create(:pick, active: true, vj: @vj)
-    @audio1 = create(:pick, active_audio: true, vj: @vj)
+    @audio1 = create(:pick, fixed_audio: true, vj: @vj)
     @event = EventTrackerService.new(@video1).run[:video]
     Timecop.freeze(Time.now + 60.seconds) do
       @event2 = EventTrackerService.new(@audio1).run[:audio]

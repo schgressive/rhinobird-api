@@ -27,4 +27,8 @@ class Pick < ActiveRecord::Base
   def is_inactive?
     self.active == false && self.fixed_audio == false
   end
+
+  def lost_audio_fix?
+    self.fixed_audio_changed? && self.fixed_audio_was == true
+  end
 end

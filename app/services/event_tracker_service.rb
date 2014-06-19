@@ -8,19 +8,27 @@ class EventTrackerService
   end
 
   def run
-    if vj_live? && create_pick_event?
-      @video_event = create_event(:video, @pick)
-      @audio_event = create_event(:audio, @pick) unless is_audio_fixed?
+    if vj_live?
+      if create_pick_event?
+        @video_event = create_event(:video, @pick)
+        @audio_event = create_event(:audio, @pick) unless is_audio_fixed?
+      end
+
+      # Generate an event if deactivating fixed audio
+      @audio_event = create_event(:audio, get_active_video_pick) if @pick.lost_audio_fix?
     end
     self
   end
 
   private
 
+  def get_active_video_pick
+    @vj.picks.where(active: true).first
+  end
+
   # returns true if another pick has audio_fixed
   def is_audio_fixed?
-    pick = @vj.picks.where(fixed_audio: true).where("id <> ?", id: @pick.id).first
-    !pick.nil?
+    @vj.picks.where(fixed_audio: true).where("id <> ?", @pick.id).count > 0
   end
 
   def vj_live?

@@ -38,6 +38,25 @@ describe EventTrackerService do
     expect(srv.audio_event).to be_nil
   end
 
+  it "sets the duration of the audio fixed event" do
+    @pick = create(:pick, active: true, fixed_audio: true, vj: @vj)
+    @pick2 = create(:pick, active: true, vj: @vj)
+    srv = EventTrackerService.new(@pick).run
+    expect(Event.count).to eq(2)
+    srv2 = EventTrackerService.new(@pick2).run
+    expect(Event.count).to eq(3)
+
+    # Simulate removing fixed audio PUT fixed_audio: false, active: false
+    @pick.reload
+    Timecop.freeze(Time.now + 60.seconds) do
+      @pick.fixed_audio = false
+      srv3 = EventTrackerService.new(@pick).run
+      srv.audio_event.reload
+      expect(Event.count).to eq(4)
+      expect(srv.audio_event.duration).to eq(60)
+    end
+  end
+
   it "ignores picks if vj is not live" do
     vj = create(:vj, status: "created")
     pick1 = create(:pick, vj: vj, active: true)

@@ -29,6 +29,15 @@ describe EventTrackerService do
     expect(Event.count).to eq(0)
   end
 
+  it "generates only video event if there's a fixed audio pick" do
+    @pick = create(:pick, active: true, fixed_audio: true, vj: @vj)
+    @pick2 = create(:pick, active: true, vj: @vj)
+    srv = EventTrackerService.new(@pick2).run
+
+    expect(Event.count).to eq(1)
+    expect(srv.audio_event).to be_nil
+  end
+
   it "ignores picks if vj is not live" do
     vj = create(:vj, status: "created")
     pick1 = create(:pick, vj: vj, active: true)

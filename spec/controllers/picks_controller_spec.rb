@@ -80,19 +80,6 @@ describe Api::PicksController do
 
       let(:vj) { create(:vj, user: @user, status: "live") }
 
-      it "creates an active event for the active video pick" do
-        video_pick = create(:pick, vj: vj, active: true, fixed_audio: false)
-        audio_pick = create(:pick, vj: vj, active: false, fixed_audio: true)
-        put :update, format: :json, id: audio_pick.to_param, fixed_audio: false
-
-        event = Event.last
-
-        expect(Event.count).to eq 1
-        expect(event.stream_id).to eq video_pick.stream_id
-        expect(event.track_type).to eq "audio"
-
-      end
-
       it "generates audio and video events" do
         active_pick = create(:pick, vj: vj, active: true, fixed_audio: true)
         other_pick = create(:pick, vj: vj, active: false, fixed_audio: false)

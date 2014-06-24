@@ -1,8 +1,8 @@
 class StreamCreateService
-  def initialize(user, params, tags)
+  def initialize(user, params)
     @params = params
     @user = user
-    @tags = tags
+    @tags = params[:tags]
   end
 
   def run
@@ -15,28 +15,27 @@ class StreamCreateService
   private
 
   def create_stream
-    @stream = @user.streams.create(@params)
+    @stream = @user.streams.create(stream_params)
     @stream.add_tags(@tags) if @tags
     @stream
   end
 
   # Shares on selected social networks
   def share
-    share_on_facebook if @user.share_facebook
+    ShareFacebookService.new(@user, @stream).run if @user.valid_fb_token? && share_facebook?
+    ShareTwitterService.new(@user, @stream).run if @user.valid_tw_token? && share_twitter?
   end
 
-  def share_on_facebook
-    if (@user.fb_token && !@user.fb_token.empty?)
-      me = FbGraph::User.me(@user.fb_token)
-      me.feed!(
-        message: "I'm starting a new live stream",
-        picture: @stream.thumbnail.url(:medium),
-        description: @stream.caption,
-        name: "RhinobirdTv"
-      )
-    end
-  rescue FbGraph::Exception => e
-    Rails.logger.info "Couldn't post on facebook: #{e.message}"
+  def share_facebook?
+    (@user.share_facebook && @params[:share_facebook] != false) || @params[:share_facebook]
+  end
+
+  def share_twitter?
+    (@user.share_twitter && @params[:share_twitter] != false) || @params[:share_twitter]
+  end
+
+  def stream_params
+    @params.permit(:caption, :lat, :lng, :geo_reference, :thumb, :live, :stream_id, :archived_url)
   end
 
 end

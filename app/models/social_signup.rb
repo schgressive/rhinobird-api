@@ -58,7 +58,9 @@ class SocialSignup
   def build_from_twitter
     User.new(@info.merge({
       email:"#{@auth.info.nickname}@twitter.com",
-      username: @auth.info.nickname
+      username: @auth.info.nickname,
+      tw_token: @auth.credentials.token,
+      tw_secret: @auth.credentials.secret
     }))
   end
 

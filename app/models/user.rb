@@ -18,4 +18,12 @@ class User < ActiveRecord::Base
   has_many :streams
   has_many :vjs
   has_many :timelines
+
+  def valid_fb_token?
+    self.fb_token.present?
+  end
+
+  def valid_tw_token?
+    self.tw_token.present? && self.tw_secret.present?
+  end
 end

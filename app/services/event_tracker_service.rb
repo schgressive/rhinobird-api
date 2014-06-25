@@ -4,7 +4,6 @@ class EventTrackerService
   def initialize(pick)
     @pick = pick
     @vj = @pick.try(:vj)
-    @event = nil
   end
 
   def run
@@ -15,7 +14,10 @@ class EventTrackerService
       end
 
       # Generate an event if deactivating fixed audio
-      @audio_event = create_event(:audio, get_active_video_pick) if @pick.lost_audio_fix?
+      if @pick.lost_audio_fix?
+        current_video_pick = get_active_video_pick
+        @audio_event = create_event(:audio, current_video_pick)
+      end
     end
     self
   end
@@ -39,14 +41,17 @@ class EventTrackerService
     @pick.active && !pick_is_last_event?(:video)
   end
 
-  def pick_is_last_event?(track_type)
+  def pick_is_last_event?(track_type, _pick = @pick)
     last_event = @vj.fetch_last_event(track_type)
-    @pick.stream_id == last_event.try(:stream_id)
+    _pick.stream_id == last_event.try(:stream_id)
   end
 
   def create_event(track_type, pick)
-    set_last_event_duration(track_type, pick)
-    @event = @vj.events.create!(stream: pick.stream, track_type: track_type, start_time: Time.now)
+    last_event = @vj.fetch_last_event(track_type)
+    if (last_event.try(:stream_id) != pick.stream_id)
+      set_last_event_duration(track_type, pick)
+      @vj.events.create!(stream: pick.stream, track_type: track_type, start_time: Time.now)
+    end
   end
 
   def set_last_event_duration(track_type, pick)

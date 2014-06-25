@@ -12,8 +12,10 @@ describe VjUpdateService do
       end
       @audio_event.reload
       @video_event.reload
-      expect(@audio_event.duration).to eq(60)
-      expect(@video_event.duration).to eq(60)
+      expect(@audio_event.duration).to be >= 60
+      expect(@audio_event.duration).to be <= 62
+      expect(@video_event.duration).to be >= 60
+      expect(@video_event.duration).to be <= 62
     end
   end
 end

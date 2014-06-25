@@ -29,6 +29,17 @@ describe EventTrackerService do
     expect(Event.count).to eq(0)
   end
 
+
+  it "generates only video event if the audio was already fixed" do
+    @pick = create(:pick, active: false, fixed_audio: true, vj: @vj)
+    sim_event = create(:event, vj: @vj, stream: @pick.stream, track_type: "audio" )
+    @pick.active = true; # simulate PUT on ACTIVE = true
+    srv = EventTrackerService.new(@pick).run
+
+    expect(Event.count).to eq(2) # new video event and existing audio
+    expect(srv.audio_event).to be_nil
+  end
+
   it "generates only video event if there's a fixed audio pick" do
     @pick = create(:pick, active: true, fixed_audio: true, vj: @vj)
     @pick2 = create(:pick, active: true, vj: @vj)

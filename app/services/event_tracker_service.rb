@@ -11,7 +11,7 @@ class EventTrackerService
     if vj_live?
       if create_pick_event?
         @video_event = create_event(:video, @pick)
-        @audio_event = create_event(:audio, @pick) unless is_audio_fixed?
+        @audio_event = create_event(:audio, @pick) unless (is_audio_fixed? || pick_is_last_event?(:audio))
       end
 
       # Generate an event if deactivating fixed audio
@@ -36,11 +36,11 @@ class EventTrackerService
   end
 
   def create_pick_event?
-    @pick.active && !pick_is_last_event?
+    @pick.active && !pick_is_last_event?(:video)
   end
 
-  def pick_is_last_event?
-    last_event = @vj.fetch_last_event(:video)
+  def pick_is_last_event?(track_type)
+    last_event = @vj.fetch_last_event(track_type)
     @pick.stream_id == last_event.try(:stream_id)
   end
 

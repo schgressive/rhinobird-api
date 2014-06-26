@@ -3,11 +3,13 @@ class ShareTwitterService
   def initialize(user, stream)
     @stream = stream
     @user = user
-    init_client
   end
 
   def run
+    init_client
     @client.update("I'm starting a new live stream")
+  rescue Exception => e
+    Rails.logger.info "Couldn't update on twitter: #{e.message}"
   end
 
   private

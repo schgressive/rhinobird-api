@@ -14,7 +14,7 @@ class  Api::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   private
 
   def process_omniauth(auth, user, from)
-    social = SocialSignup.new(auth, user)
+    social = SocialSignupService.new(auth, user)
     @user = social.signup
     sign_in @user
 

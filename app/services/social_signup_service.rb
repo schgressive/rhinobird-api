@@ -1,4 +1,4 @@
-class SocialSignup
+class SocialSignupService
   def initialize(auth, current_user)
     @auth = auth
     @current_user = current_user

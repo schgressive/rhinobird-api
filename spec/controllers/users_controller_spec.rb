@@ -42,6 +42,8 @@ describe Api::UsersController do
       expect(@json_user["name"]).to eq(@user.name)
       expect(@json_user["email"]).to eq(@user.email)
       expect(@json_user["username"]).to eq(@user.username)
+      expect(@json_user["facebook_connected"]).to eq(@user.valid_fb_token?)
+      expect(@json_user["twitter_connected"]).to eq(@user.valid_tw_token?)
     end
 
   end

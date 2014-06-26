@@ -6,11 +6,10 @@ class SocialSignupService
   end
 
   def signup
-    user = find_for_oauth
+    user = @current_user || find_for_oauth
     # update profile pic
     if user
-      user.update_attributes(photo: @auth.info.image)
-      user.update_attributes(fb_token: @auth.credentials.token)
+      user.update_attributes(get_update_hash)
     else
       @new_user = true
       user = new_from_provider
@@ -27,6 +26,10 @@ class SocialSignupService
 
   private
 
+  def get_update_hash
+    self.send("build_from_#{@auth.provider}")
+  end
+
   def find_for_oauth
     user = User.where(provider: @auth.provider, uid: @auth.uid).first
     user = User.where("email = ? OR username = ?", @auth.info.email, @auth.info.nickname).first unless user
@@ -34,40 +37,48 @@ class SocialSignupService
   end
 
   def new_from_provider
-    build_default_hash
-    self.send("build_from_#{@auth.provider}")
+    hash = build_default_hash
+    hash.merge!(self.send("build_from_#{@auth.provider}"))
+    User.new(hash)
   end
 
   def build_default_hash
-    @info = {name:@auth.info.name,
-             provider:@auth.provider,
-             uid:@auth.uid,
-             photo: @auth.info.image,
-             password:Devise.friendly_token[0,20]
+    {
+      name: @auth.info.name,
+      photo: @auth.info.image,
+      provider: @auth.provider,
+      email: "#{@auth.info.nickname}@twitter.com",
+      username: @auth.info.email,
+      uid: @auth.uid,
+      password: Devise.friendly_token[0,20]
     }
   end
 
   def build_from_facebook
-    User.new(@info.merge({
+    {
       email:@auth.info.email,
       fb_token:@auth.credentials.token,
+      name: @auth.info.name,
+      photo: @auth.info.image,
       username: @auth.info.nickname
-    }))
+    }
   end
 
   def build_from_twitter
-    User.new(@info.merge({
-      email:"#{@auth.info.nickname}@twitter.com",
+    {
       username: @auth.info.nickname,
+      name: @auth.info.name,
+      photo: @auth.info.image,
       tw_token: @auth.credentials.token,
       tw_secret: @auth.credentials.secret
-    }))
+    }
   end
 
   def build_from_google_oauth2
-    User.new(@info.merge({
-      email: @auth.info.email,
-      username: @auth.info.email
-    }))
+    {
+      name: @auth.info.name,
+      photo: @auth.info.image,
+      email: @auth.info.email
+    }
   end
 end

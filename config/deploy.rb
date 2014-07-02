@@ -1,20 +1,25 @@
-# Set server stages
-set :stages, %w(production beta)
-set :default_stage, "beta"
-require 'capistrano/ext/multistage'
+#########################################
+# Negroky deploy.rb configuration file
+#
+# There are three types of settings here
+#  * Capistrano settings
+#  * Gem specific settings
+#  * Negroku settings
 
-# Server-side information.
-set :application, "rhinobird-api"
-set :user,        "deploy"
-set :deploy_to,   "/home/#{user}/applications/#{application}"
+set :application,   "rhinobird-api-#{fetch(:stage)}"
+set :repo_url,      'https://github.com/rhinobird/rhinobird-api.git'
+set :deploy_to,     "/home/deploy/applications/#{fetch(:application)}"
 
-# Repository (if any) configuration.
-set :deploy_via, :remote_cache
-set :repository, "https://github.com/rhinobird/rhinobird-api.git"
-# set :git_enable_submodules, 1
+linked_files = Set.new(fetch(:linked_files, [])) # https://github.com/capistrano/rails/issues/52
+linked_files.merge(%w{})
+set :linked_files, linked_files.to_a
 
-# Database
-# set :migrate_env,    "migration"
+linked_dirs = Set.new(fetch(:linked_dirs, [])) # https://github.com/capistrano/rails/issues/52
+linked_dirs.merge(%w{log tmp/pids tmp/cache tmp/sockets public/system})
+set :linked_dirs, linked_dirs.to_a
 
-# Unicorn
-set :unicorn_workers, 1
+set :nginx_use_ssl, true
+
+set :nginx_ssl_certificate, 'rhinobird.crt'
+set :nginx_ssl_certificate_key,  'rhinobird.key'
+

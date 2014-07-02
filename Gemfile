@@ -11,7 +11,7 @@ gem 'friendly_id'
 gem 'paperclip', "~> 3.0"
 gem 'rack-cors', :require => 'rack/cors'
 gem 'twitter-text'
-gem 'negroku', "~> 1.1.4"
+gem 'negroku', github: 'platanus/negroku', branch: 'v2'
 gem 'ngmin-rails'
 gem 'geocoder'
 gem 'kaminari'

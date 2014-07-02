@@ -16,6 +16,7 @@ Take a look at http://docs.rhinobird.apiary.io/ for reference.
 * PUBLIC_HOST: The host for the frontend (ex. www.rhinobird.tv or localhost:9000)
 * HOST_PROTOCOL: The host protocol server and backend (http or https)
 * DEFAULT_SENDER: Default email sender for email notifications (ex. notify@rhinobird.tv)
+* API_SCOPE_NAME: The scope for the api route (`v1` for api.rhinobird.tv/v1)
 
 ### Licode related variables
 

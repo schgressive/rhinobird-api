@@ -1,6 +1,6 @@
 RhinobirdApi::Application.routes.draw do
 
-  namespace :api, defaults: {format: :json} do
+  namespace :api, defaults: {format: :json}, path: ENV['API_SCOPE_NAME'] || :api do
 
     devise_for :users, singular: :user, controllers: {
       confirmations: "api/confirmations",

@@ -46,6 +46,7 @@ group :development, :test do
   gem "zeus"
   gem 'factory_girl_rails', '~> 3.0'
   gem "faker"
+  gem "byebug"
 end
 
 # Gems used only for assets and not required

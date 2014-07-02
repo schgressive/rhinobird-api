@@ -20,6 +20,8 @@ class Api::PicksController < Api::BaseController
 
   def update
     @pick = PickUpdateService.new(@pick, pick_params).run
+    EventTrackerService.new(@pick).run # Run before pick is saved to access the original pick state
+    @pick.save
     respond_with @pick
   end
 

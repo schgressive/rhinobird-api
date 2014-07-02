@@ -5,29 +5,18 @@ class PickUpdateService
     @vj = @pick.vj
   end
 
+  # Only prepares the object for update, save has to be called later
   def run
     update_pick
-    generate_events
 
     @pick
   end
 
   private
 
-  def generate_events
-    # if there was another pick affected
-    if @video_pick
-      EventTrackerService.new({audio: @video_pick, video: nil}).run
-    else
-      EventTrackerService.new(@pick).run
-    end
-
-  end
-
   def update_pick
     @pick.assign_attributes(@params)
     change_audio_to_current_video if @pick.fixed_audio == false
-    @pick.save
     inactivate_other_picks
   end
 

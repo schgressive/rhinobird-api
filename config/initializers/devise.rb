@@ -220,7 +220,7 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   config.omniauth :facebook, ENV['FB_APP_ID'], ENV['FB_APP_SECRET'], scope: 'email, user_about_me, publish_actions', image_size: "small"
-  config.omniauth :twitter, ENV['TW_CONSUMER_KEY'], ENV['TW_CONSUMER_SECRET'], image_size: "normal" # 48 px
+  config.omniauth :twitter, ENV['TW_CONSUMER_KEY'], ENV['TW_CONSUMER_SECRET'], image_size: "normal", :secure_image_url => 'true'
   config.omniauth :google_oauth2, ENV['GOOGLE_KEY'], ENV['GOOGLE_SECRET'], image_size: {width: 42, height: 42}
 
   # ==> Warden configuration

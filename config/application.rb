@@ -18,6 +18,7 @@ module RhinobirdApi
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W(#{config.root}/lib #{config.root}/vendor/lib)
 
+    config.i18n.enforce_available_locales = true
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
@@ -81,7 +82,10 @@ module RhinobirdApi
     config.middleware.use Rack::Cors do
       allow do
         origins '*'
-        resource '*', :headers => :any, :methods => [:get, :post, :delete, :put, :options]
+        resource '*',
+          :headers => :any,
+          :expose  => ['X-Page', 'X-PageTotal'],
+          :methods => [:get, :post, :delete, :put, :options]
       end
     end
   end

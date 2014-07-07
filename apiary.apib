@@ -1,8 +1,8 @@
 FORMAT: 1A
 
-HOST: http://api.peepol.tv
+HOST: http://api.rhinobird.tv
 
-# Peepol.tv API
+# Rhinobird.tv API
 
 ## Allowed HTTPs requests:
 
@@ -331,7 +331,7 @@ A single user resource
 
     ```js
         {
-            "email": "sirius@peepol.tv",
+            "email": "sirius@rhinobird.tv",
             "name": "Sirius Black",
             "username": "sirius"
         }
@@ -353,7 +353,7 @@ Creates a new user.
 
   ```js
         {
-            "email": "sirius@peepol.tv",
+            "email": "sirius@rhinobird.tv",
             "password": "12345678",
             "name": "Sirius Black",
             "username": "sirius"
@@ -376,29 +376,11 @@ Asks for a new password reset
 
   ```js
         {
-            "email": "sirius@peepol.tv"
+            "email": "sirius@rhinobird.tv"
         }
     ```
 
 + Response 200
-
-## User Profile  [/users/profile]
-Adds profile update to a logged user
-
-### Update User [PUT]
-Asks for a new password reset
-+ Request
-
-  ```js
-        {
-            "email": "sirius@peepol.tv",
-            "username": "sirius"
-        }
-    ```
-
-+ Response 200
-
-  [User][]
 
 ### Confirm a new password [PUT]
 Confirms new passwords
@@ -412,6 +394,25 @@ Confirms new passwords
         }
     ```
 + Response 200
+
+## User Profile  [/users/profile]
+Adds profile update to a logged user
+
+### Update User [PUT]
+Asks for a new password reset
++ Request
+
+  ```js
+        {
+            "email": "sirius@rhinobird.tv",
+            "username": "sirius"
+        }
+    ```
+
++ Response 200
+
+  [User][]
+
 
 
 # Group Sessions
@@ -431,7 +432,7 @@ Session login
         {
             "auth_token": "XXXXXXXXXXXXXXXXXXX",
             "user": {
-                "email": "sirius@peepol.tv",
+                "email": "sirius@rhinobird.tv",
                 "name": "Sirius Black",
                 "username": "sirius"
             }
@@ -444,7 +445,7 @@ Login with the required credentials
 
   ```js
         {
-            "email": "sirius@peepol.tv",
+            "email": "sirius@rhinobird.tv",
             "password": "12345678"
         }
     ```
@@ -469,66 +470,279 @@ Logs out the current user
 
 
 
-# Group Streams Pool
-This section groups streams pool. Only one stream can be active in the pool, the one currently selected on the frontend.
+# Group VJ
+This sections describes VJ session. A user can have many VJ sessions
 
-## Stream Pool Properties
-- stream: the stream object that is in the pool
+## Vj Properties
+- username:  owner of the vj
+- channel: channel being vjed (channel object)
 - token: The token to use for VJ connecting in the front end
-- active: Returns if the stream is the active stream in the pool
+- archived_url: full url of the archived session
+- status: the current vj session status (**created, live, pending, archived**)
+- picks: an array of the **picks** related to the VJ session
 
-## Stream Pool [/streams_pool]
-Manages a VJ's stream pool
-
+## Vj [/vjs/{id}]
+Returns a vj records
 
 + Model (application/json)
 
-    ```js
+        {
+            "id": "9ee0b6f0e31dddbcd82d97fa19bfd070",
+            "username": "siriusblack",
+            "channel_name": "rock",
+            "status": "live",
+            "archived_url": null,
+            "picks": [
+                {
+                    "id": "9ee0b6f0e31dddbcd82d97fa19bfd071",
+                    "stream": {},
+                    "active": "true",
+                    "active_audio": "true"
+                }
+            ]
+        }
+
+### Get own VJ session [GET]
+Returns a vj session by channel name for the current logged user
+
++ Response 200
+    [Vj][]
+
+
+### Update a VJ session [PUT]
+Updates data of a VJ session
++ Request
+
+        {
+            "status": "live",
+            "archived_url": ""
+        }
+
++ Response 200
+    [Vj][]
+
+## Vj Collection [/vjs{?channel_name,created,live,pending,archived,page,per_page,stream_id}]
+Handle collections of Vj sessions
+
++ Parameters
+    + channel_name (optional, string) ... channel_name to filter.
+    + page (optional, integer) ... page number to get
+    + per_page (optional, integer) ... number of results per page
+    + created (optional, string) ... true/false
+    + live (optional, string) ... true/false
+    + pending (optional, string) ... true/false
+    + archived (optional, string) ... true/false
+    + stream_id (optional, string) ... stream ID inside of a VJ
+
++ Model (application/json)
+
         [
             {
-                "active": false,
-                "stream": {},
-                "token": "1231232123"
+                "id": "e491813b203a5cc841a65804cae88345",
+                "username": "siriusblack",
+                "channel_name": "rock",
+                "status": "live",
+                "archived_url": null,
+                "picks": [
+                    {
+                        "id": "9ee0b6f0e31dddbcd82d97fa19bfd072",
+                        "stream": {},
+                        "active": "true",
+                        "active_audio": "true"
+                    }
+                ]
             },
-            {
-                "active": true,
-                "stream": {},
-                "token": "1231232322"
+             {
+                "id": "9ee0b6f0e31dddbcd82d97fa19bfd070",
+                "username": "siriusblack",
+                "channel_name": "rock",
+                "status": "live",
+                "archived_url": null,
+                "picks": [
+                    {
+                        "id": "9ee0b6f0e31dddbcd82d97fa19bfd071"
+                        "stream": {},
+                        "active": "false",
+                        "active_audio": "false"
+                    }
+                ]
             }
         ]
-    ```
 
-### Streams in the pool [GET]
-Returns a the streams in the user's pool.
+### Get all VJ sessions [GET]
+Returns the vj sessions
+
++ Response 200
+    [Vj Collection][]
+
+### Create VJ session [POST]
+Creates a new vj session for the logged user
+
++ Request
+
+        {
+            "channel_name": "rock",
+        }
+
++ Response 201
+  [Vj][]
+
+## Vj Collection of a User [/users/{username}/vjs{?channel_name,created,live,pending,archived,page,per_page}]
+Filter VJs by user. Same filter parameters as */vjs*
+
+### Get VJ sessions [GET]
+Return all the users VJ sessions
 
 + Response 200
 
-    [Stream Pool][]
+    [Vj Collection][]
 
-### Change active stream [PUT]
+
+# Group Pick Resource
+This section describes Picks. The Pick represents a stream that is in an active Vj session
+
+## Pick Properties
+- stream: the stream object that is in the VJ session
+- active: Returns if the stream is the active stream in the pool
+
+## Pick [/vjs/{id}/picks]
+Manages a VJ's Pick
+
++ Model (application/json)
+
+        {
+            id: 'adbf5a778175ee757c34d0eba4e932bc',
+            stream: {}
+        }
+
+### Create Pick [POST]
+Pick another stream as inactive
+
++ Request
+
+        {
+            "stream_id": "2AFD",
+            "active": true,
+            "active_audio": false
+        }
+
++ Response 200
+
+    [Pick][]
+
+## Pick [/picks/{id}]
+
+### Retrive a single pick [GET]
+
++ Response 200
+    [Pick][]
+
+
+### Update pick [PUT]
 Activates a different stream. If the stream is offline, the API will return status code `409 Conflict`.
 
 + Request
 
-  ```js
         {
-            "stream_id": "2AFD",
-            "active": true
+            "active": true,
+            "active_audio": false
         }
-    ```
 
 + Response 200
+
+    [Pick][]
 
 
 ### Remove a stream from the pool [DELETE]
 Remove a stream
-+ Request
-
-  ```js
-        {
-            "stream_id": "2AFD"
-        }
-    ```
 
 + Response 204
 
+
+# Group Timeline Resource
+This section describes the Timeline.
+
+## Timeline Properties
+- resource: The object that created the timeline event(VJ or Stream)
+- created_at: The time of creation
+
+## Timeline Collection [/timeline{?page,per_page}]
+Returns a list of events
+
++ Parameters
+    + page (optional, integer) ... page number to get
+    + per_page (optional, integer) ... number of results per page
+
++ Model (application/json)
+
+        [
+            {
+                "resource": {
+                    "id": "51d1bc8ab4c5297843ea3f57b7800b30",
+                    "caption": "No al lucro",
+                    "channel": {
+                        "id": "5c3e0faaf75d891ef3fcc8ba54119e4c",
+                        "name": "TheChannel"
+                    },
+                    "thumbs": {
+                        "small": "http://img.youtube.com/vi/VgPBse5BkA8/default.jpg",
+                        "medium": "http://img.youtube.com/vi/VgPBse5BkA8/hqdefault.jpg",
+                        "large": "http://img.youtube.com/vi/VgPBse5BkA8/maxresdefault.jpg"
+                    },
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.647055,
+                            -33.451534
+                        ]
+                    },
+                    "properties": {
+                        "geo_reference": "Alameda"
+                    },
+                    "tags": [
+                        "grunge"
+                    ],
+                    "started_on": "2012-01-23T12:00:00.000"
+                },
+                "resource_type": "Stream",
+                "created_at": "2012-01-23T12:00:00.000"
+            },
+            {
+                "resource": {
+                    "id": "e491813b203a5cc841a65804cae88345",
+                    "username": "siriusblack",
+                    "channel_name": "rock",
+                    "status": "live",
+                    "archived_url": null,
+                    "picks": [
+                        {
+                            "id": "9ee0b6f0e31dddbcd82d97fa19bfd072",
+                            "stream": {},
+                            "active": "true",
+                            "active_audio": "true"
+                        }
+                    ]
+                },
+                "resource_type": "Vj",
+                "created_at": "2012-01-23T12:00:00.000"
+            }
+        ]
+
+### Get timeline [GET]
+Returns the timeline
+
++ Response 200
+
+    [Timeline Collection][]
+
+
+## User's timeline [/users/{user_id}/timeline]
+Manage a user's timeline
+
+### Get timeline [GET]
+Returns the timeline
+
++ Response 200
+
+    [Timeline Collection][]

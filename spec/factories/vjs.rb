@@ -1,9 +1,9 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :stream_pool do
-    stream
+  factory :vj do
     user
-    active false
+    channel
+    status :created
   end
 end

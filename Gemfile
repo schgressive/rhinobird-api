@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.14'
+gem 'rails', '3.2.17'
 
 gem 'thin'
 gem 'mysql2'
@@ -11,15 +11,17 @@ gem 'friendly_id'
 gem 'paperclip', "~> 3.0"
 gem 'rack-cors', :require => 'rack/cors'
 gem 'twitter-text'
-gem 'negroku', "~> 1.1.4"
+gem 'negroku', github: 'platanus/negroku', branch: 'v2'
 gem 'ngmin-rails'
 gem 'geocoder'
 gem 'kaminari'
+gem 'cancancan'
 
 gem 'fb_graph'
 
 gem "aws-ses", "~> 0.5.0", :require => 'aws/ses'
 gem 'devise'
+gem 'enumerize'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'omniauth-google-oauth2'
@@ -31,6 +33,7 @@ group :test do
   gem 'shoulda-matchers'
   gem "database_cleaner"
   gem 'email_spec'
+  gem 'timecop'
   gem 'coveralls', require: false
   gem 'fb_graph-mock'
 end
@@ -43,6 +46,7 @@ group :development, :test do
   gem "zeus"
   gem 'factory_girl_rails', '~> 3.0'
   gem "faker"
+  gem "byebug"
 end
 
 # Gems used only for assets and not required

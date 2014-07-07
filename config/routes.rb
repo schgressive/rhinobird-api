@@ -1,6 +1,6 @@
 RhinobirdApi::Application.routes.draw do
 
-  namespace :api, defaults: {format: :json} do
+  namespace :api, defaults: {format: :json}, path: ENV['API_SCOPE_NAME'] || :api do
 
     devise_for :users, singular: :user, controllers: {
       confirmations: "api/confirmations",
@@ -16,11 +16,9 @@ RhinobirdApi::Application.routes.draw do
     end
     resources :users, only: [:show, :update, :create, :index],  constraints: { :id => /[^\/]+(?=\.html\z|\.json\z)|[^\/]+/ } do
       resources :streams, only: [:index]
-      resources :streams_pool, only: [:index]
+      resources :vjs, only: [:index]
+      resources :timeline, only: [:index]
     end
-
-    #stream_pool routes
-    resources :streams_pool, only: [:create, :index, :destroy, :update]
 
     resources :channels, only: [:create, :show, :index, :destroy] do
       resources :streams, only: [:index]
@@ -28,11 +26,21 @@ RhinobirdApi::Application.routes.draw do
 
     resources :streams, only: [:create, :show, :index, :destroy, :update] do
       resources :tags, only: [:create, :destroy]
+      resources :vjs, only: [:index]
       member do
         put :play
         get :related
       end
     end
+
+    # VJ routes
+    resources :picks, only: [:show, :update, :destroy]
+    resources :vjs, only: [:show, :update, :create, :index] do
+      resources :events, only: [:index]
+      resources :picks, only: [:create, :index]
+    end
+
+    resources :timeline, only: [:index]
 
   end
 

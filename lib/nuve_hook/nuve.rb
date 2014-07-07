@@ -19,6 +19,9 @@ module NuveHook
       return false if users.empty?
 
       true
+    rescue Exception => e
+      Rails.logger.info "Error getting live_room? #{e.message}"
+      false
     end
 
     def self.delete_room(roomId)

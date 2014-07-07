@@ -24,45 +24,24 @@ describe Api::UsersController do
 
   describe "GET #show" do
 
-    context "not as VJ" do
-      before do
-        @user = create(:user)
-        get :show, id: @user.to_param, format: :json
-        @json_user = JSON.parse(response.body)
-      end
-
-      it "returns success code" do
-        expect(response.status).to be(200)
-      end
-
-      it "returns correct content type" do
-        expect(response.header['Content-Type']).to include("application/json")
-      end
-
-      it "returns correct json structure" do
-        expect(@json_user["name"]).to eq(@user.name)
-        expect(@json_user["email"]).to eq(@user.email)
-        expect(@json_user["vj"]).to eq(false)
-        expect(@json_user["username"]).to eq(@user.username)
-      end
+    before do
+      @user = create(:user)
+      get :show, id: @user.to_param, format: :json
+      @json_user = JSON.parse(response.body)
     end
 
-    context "as a VJ" do
-      before do
-        @user = create(:user, vj_channel_name: 'test')
-        @stream = create(:stream_pool, user: @user)
-        get :show, id: @user.to_param, format: :json
-        @json_user = JSON.parse(response.body)
-      end
+    it "returns success code" do
+      expect(response.status).to be(200)
+    end
 
-      it "returns correct json structure" do
-        expect(@json_user["name"]).to eq(@user.name)
-        expect(@json_user["username"]).to eq(@user.username)
-        expect(@json_user["email"]).to eq(@user.email)
-        expect(@json_user["vj"]).to eq(true)
-        expect(@json_user["vj_channel_name"]).to eq("test")
-      end
+    it "returns correct content type" do
+      expect(response.header['Content-Type']).to include("application/json")
+    end
 
+    it "returns correct json structure" do
+      expect(@json_user["name"]).to eq(@user.name)
+      expect(@json_user["email"]).to eq(@user.email)
+      expect(@json_user["username"]).to eq(@user.username)
     end
 
   end

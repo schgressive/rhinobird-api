@@ -16,19 +16,6 @@ class User < ActiveRecord::Base
 
   # RELATIONS
   has_many :streams
-  has_many :stream_pools
-
-  attr_accessor :show_pool
-
-  # returns true if it acts as a VJ
-  def vj?
-    !self.stream_pools.empty?
-  end
-
-  def check_vj_status
-  end
-
-  def vj_token
-    nil
-  end
+  has_many :vjs
+  has_many :timelines
 end

@@ -13,6 +13,7 @@ RhinobirdApi::Application.routes.draw do
       post 'sessions' => 'sessions#create', :as => 'login', defaults: {format: :json}
       get 'sessions/current' => 'sessions#show', :as => 'show', defaults: {format: :json}
       delete 'sessions/current' => 'sessions#destroy', :as => 'logout', defaults: {format: :json}
+      put 'users/password/current' => 'passwords#update', as: 'update_password', defaults: {format: :json}
     end
     resources :users, only: [:show, :update, :create, :index],  constraints: { :id => /[^\/]+(?=\.html\z|\.json\z)|[^\/]+/ } do
       resources :streams, only: [:index]

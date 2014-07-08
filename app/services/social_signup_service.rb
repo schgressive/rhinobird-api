@@ -9,7 +9,7 @@ class SocialSignupService
     user = @current_user || find_for_oauth
     # update profile pic
     if user
-      user.update_attributes(get_update_hash)
+      user.update_attributes!(get_update_hash)
     else
       @new_user = true
       user = new_from_provider
@@ -27,7 +27,7 @@ class SocialSignupService
   private
 
   def get_update_hash
-    self.send("build_from_#{@auth.provider}")
+    self.send("build_from_#{@auth.provider}").reject {|k,v| k == :email || k == :username }
   end
 
   def find_for_oauth

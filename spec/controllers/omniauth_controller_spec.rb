@@ -86,9 +86,7 @@ describe Api::OmniauthCallbacksController do
         post :twitter
         user = User.last
         expect(user.name).to eq("Emilio Blanco")
-        expect(user.username).to eq("emilioeduardob")
         expect(user.photo).to match(/picture/)
-        expect(user.email).to eq(@user.email)
         expect(user.id).to eq(@user.id)
       end
     end

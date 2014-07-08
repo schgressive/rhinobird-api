@@ -20,7 +20,7 @@ class  Api::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     oauth_params = request.env["omniauth.params"]
     # if we're using a popup close the window
-    if oauth_params["popup"]
+    if oauth_params && oauth_params["popup"]
       render content_type: 'text/html', inline: "<script>window.close();</script>"
     else
       route = "#{ENV["HOST_PROTOCOL"]}://#{ENV["PUBLIC_HOST"]}"

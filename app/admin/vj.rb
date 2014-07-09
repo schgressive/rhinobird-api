@@ -1,17 +1,36 @@
 ActiveAdmin.register Vj do
 
-  
-  # See permitted parameters documentation:
-  # https://github.com/gregbell/active_admin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # permit_params :list, :of, :attributes, :on, :model
-  #
-  # or
-  #
-  # permit_params do
-  #  permitted = [:permitted, :attributes]
-  #  permitted << :other if resource.something?
-  #  permitted
-  # end
+  filter :id
+  filter :user
+  filter :channel
+
+  permit_params :user, :archived_url, :channel
+
+  # list configuration
+  index do
+    column :id
+    column :user
+    column :channel
+
+    actions
+  end
+
+  # edit and create configuration
+  form do |f|
+    f.inputs do
+      f.input :user
+      f.input :channel
+      f.input :archived_url
+    end
+  end
+
+  show do
+    attributes_table do
+      row :user
+      row :channel
+      row :archived_url
+    end
+  end
+
   
 end

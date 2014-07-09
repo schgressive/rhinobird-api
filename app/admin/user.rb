@@ -4,6 +4,8 @@ ActiveAdmin.register User do
   filter :username
   filter :email
 
+  permit_params :name, :email, :username
+
   # list configuration
   index do
     column :id

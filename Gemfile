@@ -16,6 +16,7 @@ gem 'ngmin-rails'
 gem 'geocoder'
 gem 'kaminari'
 gem 'cancancan'
+gem 'activeadmin', github: 'gregbell/active_admin'
 
 gem 'fb_graph'
 gem 'twitter'

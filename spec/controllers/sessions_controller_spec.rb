@@ -130,12 +130,12 @@ describe Api::SessionsController do
     end
 
     context "logged in" do
+      login_user
 
       before(:each) do
         @request.env["devise.mapping"] = Devise.mappings[:user]
         user = FactoryGirl.create(:user, email: "test_user@platan.us", password: '12345678')
         user.confirmed_at = Time.now
-        user.ensure_authentication_token!
 
         delete :destroy, auth_token: user.authentication_token
         @json_response = JSON.parse(response.body)

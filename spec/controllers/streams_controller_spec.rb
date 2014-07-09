@@ -303,10 +303,11 @@ describe Api::StreamsController do
   end
 
   describe "PUT #update archived_url" do
+    login_user
+
       before(:each) do
         @stream = create(:stream)
-        @api_user = create(:user)
-        @api_user.ensure_authentication_token!
+        @api_user = @user
         put :update, id: @stream.id, archived_url: "http://url", format: :json, auth_token: @api_user.authentication_token
         @json_stream = JSON.parse(response.body)
       end

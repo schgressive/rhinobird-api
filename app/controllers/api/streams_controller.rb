@@ -14,7 +14,7 @@ class Api::StreamsController < Api::BaseController
   end
 
   def create
-    @stream = Streams::CreateService.new(current_user, stream_params, params[:tags]).execute
+    @stream = StreamCreateService.new(current_user, params).run
     respond_with @stream
   end
 

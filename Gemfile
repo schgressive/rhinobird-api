@@ -18,6 +18,7 @@ gem 'kaminari'
 gem 'cancancan'
 
 gem 'fb_graph'
+gem 'twitter'
 
 gem "aws-ses", "~> 0.5.0", :require => 'aws/ses'
 gem 'devise'

@@ -58,6 +58,7 @@ describe Api::OmniauthCallbacksController do
   end
 
   describe "Twitter Auth" do
+
     before(:each) do
       @request.env["devise.mapping"] = Devise.mappings[:user]
       @request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
@@ -75,6 +76,19 @@ describe Api::OmniauthCallbacksController do
       expect(user.username).to eq("emilioeduardob")
       expect(user.photo).to match(/picture/)
       expect(user.email).to match(/emilioeduardob@twitter.com/)
+    end
+
+    context "logged" do
+      login_user
+
+      it "update the current user" do
+
+        post :twitter
+        user = User.last
+        expect(user.name).to eq("Emilio Blanco")
+        expect(user.photo).to match(/picture/)
+        expect(user.id).to eq(@user.id)
+      end
     end
   end
 

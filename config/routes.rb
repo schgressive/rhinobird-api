@@ -1,5 +1,8 @@
 RhinobirdApi::Application.routes.draw do
 
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
+
   namespace :api, defaults: {format: :json}, path: ENV['API_SCOPE_NAME'] || :api do
 
     devise_for :users, singular: :user, controllers: {

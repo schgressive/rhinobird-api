@@ -34,3 +34,6 @@ Take a look at http://docs.rhinobird.apiary.io/ for reference.
 * Facebook: FB_APP_ID, FB_APP_SECRET
 * Twitter: TW_CONSUMER_KEY, TW_CONSUMER_SECRET
 * Google: GOOGLE_KEY, GOOGLE_SECRET
+
+### Other variables
+* DEVISE_SECRET_KEY: The key generated with rake secret to use in production

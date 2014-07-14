@@ -26,10 +26,10 @@ describe Api::PasswordsController do
     before(:each) do
       @request.env["devise.mapping"] = Devise.mappings[:user]
       @user = create(:user)
-      @user.send_reset_password_instructions
+      token = @user.send_reset_password_instructions
       @user.reload
 
-      put :update, token: @user.reset_password_token, password: "adminadmin", password_confirmation: "adminadmin", format: :json
+      put :update, token: token, password: "adminadmin", password_confirmation: "adminadmin", format: :json
     end
 
     it "returns success code" do

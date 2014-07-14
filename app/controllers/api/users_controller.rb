@@ -16,7 +16,6 @@ class Api::UsersController < Api::BaseController
   def create
     @user = User.new(resource_params)
     if @user.save
-      @user.ensure_authentication_token!
       render json: @user, status: :created
     else
       render json: @user.errors, status: 422

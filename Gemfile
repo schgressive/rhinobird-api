@@ -16,6 +16,7 @@ gem 'ngmin-rails'
 gem 'geocoder'
 gem 'kaminari'
 gem 'cancancan'
+gem 'activeadmin', github: 'gregbell/active_admin'
 
 gem 'fb_graph'
 gem 'twitter'
@@ -28,6 +29,7 @@ gem 'omniauth-twitter'
 gem 'omniauth-google-oauth2'
 
 gem 'compass_twitter_bootstrap'
+gem 'jquery-ui-rails', '~> 4.2.1'
 gem 'compass-rails'
 
 group :test do

@@ -12,7 +12,6 @@ ActiveAdmin.register Stream do
   index do
     column :id
     column :user
-    column :channels
     column :caption
     column :started_on
 
@@ -32,7 +31,6 @@ ActiveAdmin.register Stream do
     attributes_table do
       row :user
       row :caption
-      row :channels
       row :started_on
     end
   end

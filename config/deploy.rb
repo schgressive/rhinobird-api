@@ -23,4 +23,3 @@ set :nginx_use_ssl, true
 set :nginx_ssl_certificate, 'rhinobird.crt'
 set :nginx_ssl_certificate_key,  'rhinobird.key'
 
-set :nginx_template, "#{stage_config_path}/#{fetch :stage}/nginx.conf.erb"

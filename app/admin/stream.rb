@@ -6,7 +6,7 @@ ActiveAdmin.register Stream do
   filter :caption
   filter :started_on
 
-  permit_params :user, :channel, :caption, :started_on
+  permit_params :user_id, :caption, :started_on
 
   # list configuration
   index do
@@ -24,8 +24,8 @@ ActiveAdmin.register Stream do
     f.inputs do
       f.input :user
       f.input :caption
-      f.input :started_on
     end
+    f.actions
   end
 
   show do
@@ -37,6 +37,4 @@ ActiveAdmin.register Stream do
     end
   end
 
-  
-  
 end

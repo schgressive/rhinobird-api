@@ -24,6 +24,7 @@ ActiveAdmin.register User do
       f.input :username
       f.input :email
     end
+    f.actions
   end
 
   show do

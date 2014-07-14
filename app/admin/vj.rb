@@ -4,7 +4,7 @@ ActiveAdmin.register Vj do
   filter :user
   filter :channel
 
-  permit_params :user, :archived_url, :channel
+  permit_params :user_id, :archived_url, :channel_id
 
   # list configuration
   index do
@@ -22,6 +22,7 @@ ActiveAdmin.register Vj do
       f.input :channel
       f.input :archived_url
     end
+    f.actions
   end
 
   show do

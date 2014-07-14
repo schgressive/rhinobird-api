@@ -12,7 +12,6 @@ gem 'paperclip', "~> 3.0"
 gem 'rack-cors', :require => 'rack/cors'
 gem 'twitter-text'
 gem 'negroku', github: 'platanus/negroku', branch: 'v2'
-gem 'ngmin-rails'
 gem 'geocoder'
 gem 'kaminari'
 gem 'cancancan'

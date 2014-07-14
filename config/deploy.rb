@@ -18,7 +18,7 @@ linked_dirs = Set.new(fetch(:linked_dirs, [])) # https://github.com/capistrano/r
 linked_dirs.merge(%w{log tmp/pids tmp/cache tmp/sockets public/system})
 set :linked_dirs, linked_dirs.to_a
 
-set :nginx_use_ssl, true
+set :nginx_use_ssl, false
 
 set :nginx_ssl_certificate, 'rhinobird.crt'
 set :nginx_ssl_certificate_key,  'rhinobird.key'

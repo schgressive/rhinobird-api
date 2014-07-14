@@ -31,7 +31,7 @@ CREATE TABLE `admin_users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_admin_users_on_email` (`email`),
   UNIQUE KEY `index_admin_users_on_reset_password_token` (`reset_password_token`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `channels` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -39,7 +39,7 @@ CREATE TABLE `channels` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `channels_streams` (
   `channel_id` int(11) DEFAULT NULL,
@@ -104,7 +104,7 @@ CREATE TABLE `streams` (
   UNIQUE KEY `index_streams_on_hash_token` (`hash_token`),
   KEY `index_streams_on_user_id` (`user_id`),
   FULLTEXT KEY `caption_fulltext` (`caption`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `streams_tags` (
   `tag_id` int(11) DEFAULT NULL,
@@ -129,7 +129,7 @@ CREATE TABLE `timelines` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -161,12 +161,14 @@ CREATE TABLE `users` (
   `tw_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `tw_secret` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `share_twitter` tinyint(1) DEFAULT NULL,
+  `slug` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_users_on_email` (`email`),
   UNIQUE KEY `index_users_on_reset_password_token` (`reset_password_token`),
   UNIQUE KEY `index_users_on_confirmation_token` (`confirmation_token`),
   UNIQUE KEY `index_users_on_authentication_token` (`authentication_token`),
-  UNIQUE KEY `index_users_on_username` (`username`)
+  UNIQUE KEY `index_users_on_username` (`username`),
+  KEY `index_users_on_slug` (`slug`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `vjs` (
@@ -186,7 +188,7 @@ CREATE TABLE `vjs` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_vjs_on_slug` (`slug`),
   KEY `index_vjs_on_user_id_and_channel_id` (`user_id`,`channel_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO schema_migrations (version) VALUES ('20130408152535');
 
@@ -271,3 +273,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140624185826');
 INSERT INTO schema_migrations (version) VALUES ('20140709211255');
 
 INSERT INTO schema_migrations (version) VALUES ('20140709211302');
+
+INSERT INTO schema_migrations (version) VALUES ('20140714175945');

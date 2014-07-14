@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
   validates :username, uniqueness: true
 
   extend FriendlyId
-  friendly_id :username
+  friendly_id :username, use: :slugged
 
   # RELATIONS
   has_many :streams

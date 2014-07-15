@@ -117,7 +117,7 @@ describe Api::UsersController do
     login_user
 
     before(:each) do
-      @hash = {email: "newemail@rhinobird.tv", username: "donaldduck", share_facebook: false, custom_tweet: "Tweet this!"}
+      @hash = {email: "newemail@rhinobird.tv", username: "donaldduck", share_facebook: false, custom_tweet: "Tweet this!", enable_custom_tweet: true}
       put :update, @hash
     end
 
@@ -139,6 +139,7 @@ describe Api::UsersController do
       expect(json["username"]).to eq(@hash[:username])
       expect(json["custom_tweet"]).to eq(@hash[:custom_tweet])
       expect(json["share_facebook"]).to be_false
+      expect(json["enable_custom_tweet"]).to be_true
     end
 
   end

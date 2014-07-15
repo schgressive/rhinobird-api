@@ -14,6 +14,7 @@ describe ShareTwitterService do
   it "creates a tweet with a custom text" do
 
     user.custom_tweet = "Custom tweet"
+    user.enable_custom_tweet = true
     user.save!
 
     stub_request(:post, "https://api.twitter.com/1.1/statuses/update.json").

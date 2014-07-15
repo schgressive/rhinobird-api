@@ -163,6 +163,7 @@ CREATE TABLE `users` (
   `tw_secret` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `share_twitter` tinyint(1) DEFAULT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `custom_tweet` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_users_on_email` (`email`),
   UNIQUE KEY `index_users_on_reset_password_token` (`reset_password_token`),
@@ -278,3 +279,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140709211302');
 INSERT INTO schema_migrations (version) VALUES ('20140714175945');
 
 INSERT INTO schema_migrations (version) VALUES ('20140715124155');
+
+INSERT INTO schema_migrations (version) VALUES ('20140715143112');

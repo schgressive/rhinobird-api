@@ -55,7 +55,7 @@ describe Api::UsersController do
 
     context "with new user information" do
       before(:each) do
-        @user_info = {email: "sirius@peepol.tv", password: '12345678', name: "Sirius Black", username: 'sirius'}
+        @user_info = {email: "sirius@rhinobird.tv", password: '12345678', name: "Sirius Black", username: 'sirius'}
         post :create, @user_info, format: :json
         @json_response = JSON.parse(response.body)
       end
@@ -78,7 +78,7 @@ describe Api::UsersController do
         subject(:mail) { ActionMailer::Base.deliveries.last}
 
         it "sends to the user email" do
-          expect(mail).to deliver_to("sirius@peepol.tv")
+          expect(mail).to deliver_to("sirius@rhinobird.tv")
         end
         it "has a the correct subject" do
           expect(mail).to have_subject(/Confirmation/)
@@ -94,8 +94,8 @@ describe Api::UsersController do
 
     context "with duplicated user information" do
       before(:each) do
-        create(:user, email: "sirius@peepol.tv", name: "Sirius Black")
-        @user_info = {email: "sirius@peepol.tv", password: '12345678', name: "Sirius Black"}
+        create(:user, email: "sirius@rhinobird.tv", name: "Sirius Black")
+        @user_info = {email: "sirius@rhinobird.tv", password: '12345678', name: "Sirius Black"}
         post :create, @user_info
         @json_response = JSON.parse(response.body)
       end
@@ -117,7 +117,7 @@ describe Api::UsersController do
     login_user
 
     before(:each) do
-      @hash = {email: "newemail@peepol.tv", username: "donaldduck", share_facebook: false}
+      @hash = {email: "newemail@rhinobird.tv", username: "donaldduck", share_facebook: false, custom_tweet: "Tweet this!"}
       put :update, @hash
     end
 
@@ -129,6 +129,7 @@ describe Api::UsersController do
       @user.reload
       expect(@user.email).to eq(@hash[:email])
       expect(@user.username).to eq(@hash[:username])
+      expect(@user.custom_tweet).to eq(@hash[:custom_tweet])
       expect(@user.share_facebook).to be_false
     end
 
@@ -136,6 +137,7 @@ describe Api::UsersController do
       json = JSON.parse(response.body)
       expect(json["email"]).to eq(@hash[:email])
       expect(json["username"]).to eq(@hash[:username])
+      expect(json["custom_tweet"]).to eq(@hash[:custom_tweet])
       expect(json["share_facebook"]).to be_false
     end
 

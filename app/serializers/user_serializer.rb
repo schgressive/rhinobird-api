@@ -1,5 +1,6 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes  :name, :email, :username, :photo, :share_facebook, :share_twitter, :facebook_connected, :twitter_connected
+  attributes  :name, :email, :username, :photo, :share_facebook, :share_twitter, :facebook_connected, :twitter_connected,
+    :custom_tweet
   self.root = false
 
   has_many :streams, embed: :ids, embed_key: :to_param

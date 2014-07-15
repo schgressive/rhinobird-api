@@ -1,4 +1,4 @@
-class StreamSearch
+class StreamSearchService
 
   def initialize(params)
     @params = params
@@ -21,7 +21,7 @@ class StreamSearch
     streams = Channel.find(@params[:channel_id]).streams if @params.has_key? :channel_id
     streams = User.find(@params[:user_id]).streams if @params.has_key? :user_id
     streams = Stream.where(stream_id: @params[:stream_id]) if @params.has_key? :stream_id
-    streams = streams.includes(:user, :channels, :tags).order("streams.created_at DESC")
+    streams = streams.includes(:user, :channels, :tags).order("streams.promoted DESC, streams.created_at DESC")
     streams = streams.where("streams.status <> ?", Stream::STATUSES.index(:created)) # ignore created status
     streams
   end

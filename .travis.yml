@@ -11,4 +11,4 @@ script:
   - bundle exec rspec spec
 
 env:
-  - DEV_DB_NAME=rhinobird DEV_DB_USER=root DEFAULT_HOST=http://localhost/ DEFAULT_SENDER=notify@rhinobird.tv HOST_PROTOCOL=http DEVISE_SECRET_KEY=3d4fa40d54d5bd254cde184e6b2e147d86ea750eae9ba474334f0a31f7dcd3616b50eadf485b38a669b2fed9769ca1f0da6cca00d5c32f7ccb4354e4f8349ff0
+  - DEV_DB_NAME=rhinobird DEV_DB_USER=root DEFAULT_HOST=http://localhost/ DEFAULT_SENDER=notify@rhinobird.tv HOST_PROTOCOL=http DEVISE_SECRET_KEY=3d4fa40d54d5bd254cde184e6b2e147d86ea750eae9ba474334f0a31f7dcd3616b50eadf485b38a669b2fed9769ca1f0da6cca00d5c32f7ccb4354e4f8349ff0 PUBLIC_HOST=localhost:9000

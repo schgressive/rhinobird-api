@@ -51,6 +51,9 @@ class Stream < ActiveRecord::Base
 
   STATUSES = [:created, :live, :archived, :pending]
 
+  def full_stream_url
+    "#{ENV["HOST_PROTOCOL"]}://#{ENV["PUBLIC_HOST"]}/streams/#{self.to_param}"
+  end
 
   def update_channels
     self.channels = Channel.get_channels(self.caption)

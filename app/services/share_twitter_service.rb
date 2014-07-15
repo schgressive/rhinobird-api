@@ -7,12 +7,19 @@ class ShareTwitterService
 
   def run
     init_client
-    @client.update("I'm starting a new live stream")
-  rescue Exception => e
+    message = @client.update get_tweet_message
+  rescue Twitter::Error => e
     Rails.logger.info "Couldn't update on twitter: #{e.message}"
   end
 
   private
+
+  def get_tweet_message
+    msg = "I'm starting a new live stream"
+    msg = @user.custom_tweet if @user.enable_custom_tweet && @user.custom_tweet.present?
+    msg = "#{msg} #{@stream.full_stream_url}"
+    msg
+  end
 
   def init_client
     @client = Twitter::REST::Client.new do |config|

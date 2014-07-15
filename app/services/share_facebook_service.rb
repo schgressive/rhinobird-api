@@ -11,6 +11,7 @@ class ShareFacebookService
       message: "I'm starting a new live stream",
       picture: @stream.thumbnail.url(:medium),
       description: @stream.caption,
+      link: @stream.full_stream_url,
       name: "RhinobirdTv"
     )
   rescue FbGraph::Exception => e

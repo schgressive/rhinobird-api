@@ -129,6 +129,7 @@ CREATE TABLE `timelines` (
   `user_id` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
+  `promoted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -284,3 +285,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140715124155');
 INSERT INTO schema_migrations (version) VALUES ('20140715143112');
 
 INSERT INTO schema_migrations (version) VALUES ('20140715171948');
+
+INSERT INTO schema_migrations (version) VALUES ('20140716145434');

@@ -5,10 +5,16 @@ describe Api::TimelineController do
 
     before do
 
+      Timecop.freeze(Time.now-20.seconds) do
+        @promoted_event = create(:stream, promoted:true)
+      end
+
       @vj_event = create(:vj)
+
       Timecop.freeze(Time.now+10.seconds) do
         @stream_event = create(:stream)
       end
+
       get :index, format: :json
       @timelines = JSON.parse(response.body)
     end
@@ -21,10 +27,11 @@ describe Api::TimelineController do
       expect(response.header['Content-Type']).to include("application/json")
     end
 
-    it "returns an array of timelines" do
-      expect(@timelines).to have(2).items
+    it "returns an array of timelines with the promoted first" do
+      expect(@timelines).to have(3).items
       expect(@timelines[0]["resource_type"]).to eq("Stream")
-      expect(@timelines[0]["resource"]["id"]).to eq(@stream_event.to_param)
+      expect(@timelines[0]["resource"]["id"]).to eq(@promoted_event.to_param)
+      expect(@timelines[1]["resource"]["id"]).to eq(@stream_event.to_param)
     end
 
   end

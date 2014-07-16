@@ -22,6 +22,7 @@ class Stream < ActiveRecord::Base
   # CALLBACKS
   before_create :setup_stream
   after_save :update_channels
+  after_save :update_timeline
 
   after_create do
     Timeline.create! resource: self
@@ -50,6 +51,14 @@ class Stream < ActiveRecord::Base
   friendly_id :hash_token
 
   STATUSES = [:created, :live, :archived, :pending]
+
+  def update_timeline
+    tl = Timeline.where(resource_type: "Stream", resource_id: self.id).first
+    if tl
+      tl.promoted = self.promoted
+      tl.save
+    end
+  end
 
   def full_stream_url
     "#{ENV["HOST_PROTOCOL"]}://#{ENV["PUBLIC_HOST"]}/streams/#{self.to_param}"

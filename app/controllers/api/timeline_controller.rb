@@ -8,7 +8,7 @@ class Api::TimelineController < Api::BaseController
       @user.timelines
     else Timeline end
 
-    @entries = @entries.includes(:resource => :user).order('created_at DESC')
+    @entries = @entries.includes(:resource => :user).order('promoted DESC, created_at DESC')
     @entries = @entries.page(params[:page] || 1)
     @entries = @entries.per(params[:per_page]) if params.key? :per_page
 

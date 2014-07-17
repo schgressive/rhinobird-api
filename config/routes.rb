@@ -3,7 +3,7 @@ RhinobirdApi::Application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
-  namespace :api, defaults: {format: :json} do
+  namespace :api, defaults: {format: :json}, path: :v1 do
 
     devise_for :users, singular: :user, controllers: {
       confirmations: "api/confirmations",

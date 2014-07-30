@@ -89,6 +89,28 @@ describe Api::SessionsController do
 
     end
 
+    context "using a header auth_token" do
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:user]
+        @user = create(:user)
+        @request.env["auth_token"] = @user.authentication_token
+        get :show
+        @json_response = JSON.parse(response.body)
+      end
+
+      it "returns a success code" do
+        expect(response.status).to be(200)
+      end
+
+      it "returns valid credentials" do
+        expect(@json_response["auth_token"]).not_to be("")
+        expect(@json_response["user"]["id"]).to be_nil
+        expect(@json_response["user"]["email"]).to eql(@user.email)
+        expect(@json_response["user"]["name"]).to eql(@user.name)
+      end
+
+    end
+
     context "logged in" do
       login_user
       before(:each) do

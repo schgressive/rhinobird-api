@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Api::StreamsController do
-  route_prefix = "/api"
+  route_prefix = "/v1"
   controller_prefix = "api/"
 
   describe "routing" do

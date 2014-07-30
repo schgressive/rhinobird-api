@@ -61,7 +61,6 @@ module RhinobirdApi
     # Enable the asset pipeline
     config.assets.enabled = true
     config.host_protocol = ENV["HOST_PROTOCOL"]
-    config.host = ENV["HOST_PROTOCOL"] + "://" + ENV["DEFAULT_HOST"]
     # host that is visible as a proxy
     config.public_host = ENV["PUBLIC_HOST"]
 

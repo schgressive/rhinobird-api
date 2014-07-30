@@ -9,6 +9,7 @@ gem 'strong_parameters'
 gem 'ruby-hmac'
 gem 'friendly_id'
 gem 'paperclip', "~> 3.0"
+gem 'aws-sdk'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'twitter-text'
 gem 'negroku', github: 'platanus/negroku', branch: 'v2'

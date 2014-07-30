@@ -12,7 +12,6 @@ Take a look at http://docs.rhinobird.apiary.io/ for reference.
 
 ### Host variables
 
-* DEFAULT_HOST: The host for the server (ex. http://beta.rhinobird.tv/ or localhost:3000)
 * PUBLIC_HOST: The host for the frontend (ex. www.rhinobird.tv or localhost:9000)
 * HOST_PROTOCOL: The host protocol server and backend (http or https)
 * DEFAULT_SENDER: Default email sender for email notifications (ex. notify@rhinobird.tv)
@@ -25,6 +24,7 @@ Take a look at http://docs.rhinobird.apiary.io/ for reference.
 
 ### Amazon environment variables
 
+* AWS_BUCKET: bucket name to upload images
 * AWS_KEY_ID: Key ID used for amazon services like S3 and SES
 * AWS_ACCESS_KEY: Access Key used for amazon services
 

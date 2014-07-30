@@ -27,8 +27,7 @@ class Api::StreamsController < Api::BaseController
 
   def update
     @stream = Stream.find(params[:id])
-    stream_update = StreamUpdateService.new(@stream, stream_params)
-    stream_update.save
+    @stream = StreamUpdateService.new(current_user, @stream, stream_params).run
 
     respond_with @stream
   end

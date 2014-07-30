@@ -1,5 +1,10 @@
 class Api::BaseController < ApplicationController
   respond_to :json
+
+  # Token Authentication
+  include TokenAuthentication
+  before_filter :authenticate_user_from_token!
+
   before_filter :authenticate_user!
 
   rescue_from 'ActiveRecord::RecordNotFound' do |exc|

@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,
+         :recoverable, :rememberable, :validatable,
          :confirmable
 
   devise :omniauthable, omniauth_providers: [:facebook, :twitter, :google_oauth2]
@@ -26,4 +26,12 @@ class User < ActiveRecord::Base
   def valid_tw_token?
     self.tw_token.present? && self.tw_secret.present?
   end
+
+  def self.generate_token
+    loop do
+      token = Devise.friendly_token
+      break token unless User.where(authentication_token: token).first
+    end
+  end
+
 end

@@ -14,8 +14,11 @@ class SocialSignupService
       @new_user = true
       user = new_from_provider
       user.skip_confirmation!
-      user.save!
     end
+
+    # Set auth token
+    user.authentication_token = User.generate_token
+    user.save!
 
     user
   end

@@ -4,6 +4,7 @@ FactoryGirl.define do
     name "Sirius Black"
     email { Faker::Internet.email }
     password "12345678"
+    authentication_token { Devise.friendly_token }
     confirmed_at Time.now
     share_facebook true
     fb_token "ABC"

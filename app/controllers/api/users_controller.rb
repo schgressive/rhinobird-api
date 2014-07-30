@@ -15,6 +15,7 @@ class Api::UsersController < Api::BaseController
 
   def create
     @user = User.new(resource_params)
+    @user.authentication_token = User.generate_token
     if @user.save
       render json: @user, status: :created
     else
@@ -33,4 +34,5 @@ class Api::UsersController < Api::BaseController
     params.permit(:name, :email, :password, :password_confirmation, :username, :share_facebook, :share_twitter, :tw_token,
                   :fb_token, :custom_tweet, :enable_custom_tweet)
   end
+
 end

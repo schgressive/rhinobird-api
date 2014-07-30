@@ -121,15 +121,6 @@ class Stream < ActiveRecord::Base
     end
   end
 
-  #Returns the thumbnail full URL
-  def thumbnail_full_url(size)
-    url = self.thumbnail.url(size)
-    unless url =~ /^#{ENV["HOST_PROTOCOL"]}:\/\//
-      url = URI.join("#{ENV["HOST_PROTOCOL"]}://#{ENV["DEFAULT_HOST"]}", url).to_s
-    end
-    url
-  end
-
   def increment_playcount!
     self.playcount ||= 0
     self.playcount += 1

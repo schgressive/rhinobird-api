@@ -54,13 +54,4 @@ class Vj < ActiveRecord::Base
   def vj_token
   end
 
-  #Returns the thumbnail full URL
-  def thumbnail_full_url(size)
-    url = self.thumbnail.url(size)
-    unless url =~ /^#{ENV["HOST_PROTOCOL"]}:\/\//
-      url = URI.join("#{ENV["HOST_PROTOCOL"]}://#{ENV["DEFAULT_HOST"]}", url).to_s
-    end
-    url
-  end
-
 end

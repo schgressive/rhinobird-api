@@ -78,12 +78,12 @@ module RhinobirdApi
       g.javascripts = false
       g.helper = false
     end
-    
+
     # paperclip configuration
     config.paperclip_defaults = {
       :storage => :s3,
+      :bucket => ENV['AWS_BUCKET'],
       :s3_credentials => {
-        :bucket => ENV['AWS_BUCKET'],
         :access_key_id => ENV['AWS_KEY_ID'],
         :secret_access_key => ENV['AWS_ACCESS_KEY']
       }

@@ -13,6 +13,14 @@ class UserSerializer < ActiveModel::Serializer
     object.valid_tw_token?
   end
 
+  def share_facebook
+    object.valid_fb_token? && object.share_facebook
+  end
+
+  def share_twitter
+    object.valid_tw_token? && object.share_twitter
+  end
+
   def facebook_connected
     object.valid_fb_token?
   end

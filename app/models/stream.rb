@@ -61,7 +61,7 @@ class Stream < ActiveRecord::Base
   end
 
   def full_stream_url
-    "#{ENV["HOST_PROTOCOL"]}://#{ENV["PUBLIC_HOST"]}/streams/#{self.to_param}"
+    "#{ENV["HOST_PROTOCOL"]}://#{ENV["PUBLIC_HOST"]}/stream/#{self.to_param}"
   end
 
   def update_channels

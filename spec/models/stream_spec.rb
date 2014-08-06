@@ -27,7 +27,7 @@ describe Stream do
     describe "#full_stream_url" do
       it "returns the correct url" do
         stream = create(:stream)
-        expect(stream.full_stream_url).to eq("http://localhost:9000/streams/#{stream.to_param}")
+        expect(stream.full_stream_url).to eq("http://localhost:9000/stream/#{stream.to_param}")
       end
     end
     describe "#increment_playcount!" do

@@ -6,7 +6,8 @@ FactoryGirl.define do
     password "12345678"
     authentication_token { Devise.friendly_token }
     confirmed_at Time.now
-    share_facebook true
+    share_facebook false
+    share_twitter false
     fb_token "ABC"
   end
 end

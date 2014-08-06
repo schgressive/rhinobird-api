@@ -225,7 +225,7 @@ describe Api::StreamsController do
         before(:each) do
           @channel = create(:channel, name: "riot")
           @stream = create(:stream)
-          @params = {caption: "#riot in egypt", id: @stream.id, format: :json}
+          @params = {caption: "#riot in egypt", id: @stream.id, format: :json, stream_id: 123}
         end
 
         it "assigns the channel to the stream" do
@@ -233,7 +233,9 @@ describe Api::StreamsController do
         end
 
         it "returns the added stream" do
-          put :update, @params
+          mock_graph :post, 'me/feed', 'users/feed/post_with_valid_access_token' do
+            put :update, @params.merge(share_facebook: true)
+          end
           stream = JSON.parse(response.body)
           expect(stream["id"]).to eql(@stream.to_param)
           expect(stream["channels"].first["id"]).to eql(@channel.to_param)
@@ -340,9 +342,7 @@ describe Api::StreamsController do
 
       before(:each) do
         @channel = create(:channel, name: "concerts")
-        mock_graph :post, 'me/feed', 'users/feed/post_with_valid_access_token' do
-          post :create, format: :json, caption: "Best #rock #concerts ever"
-        end
+        post :create, format: :json, caption: "Best #rock #concerts ever"
         @json_stream = JSON.parse(response.body)
       end
 
@@ -364,9 +364,7 @@ describe Api::StreamsController do
       login_user
 
       before(:each) do
-        mock_graph :post, 'me/feed', 'users/feed/post_with_valid_access_token' do
-          post :create, format: :json, tags: "rock, grunge"
-        end
+        post :create, format: :json, tags: "rock, grunge"
         @json_stream = JSON.parse(response.body)
       end
 
@@ -393,9 +391,7 @@ describe Api::StreamsController do
                       lat: -25.272062301637, lng: -57.585376739502,
                       format: :json}
 
-        mock_graph :post, 'me/feed', 'users/feed/post_with_valid_access_token' do
-          post :create, @post_hash
-        end
+        post :create, @post_hash
         @json_stream = JSON.parse(response.body)
       end
 
@@ -425,9 +421,9 @@ describe Api::StreamsController do
 
         post :create, post_hash
         json = JSON.parse(response.body)
-        expect(json["thumbs"]["small"]).to match(/^http:\/\/.*small.jpg/)
-        expect(json["thumbs"]["medium"]).to match(/^http:\/\/.*medium.jpg/)
-        expect(json["thumbs"]["large"]).to match(/^http:\/\/.*large.jpg/)
+        expect(json["thumbs"]["small"]).to match(/.*small.jpg/)
+        expect(json["thumbs"]["medium"]).to match(/.*medium.jpg/)
+        expect(json["thumbs"]["large"]).to match(/.*large.jpg/)
       end
 
       it "returns the status" do
@@ -501,9 +497,9 @@ describe Api::StreamsController do
       stream = create(:stream, lat: -25.272062301637, lng: -57.585376739502, caption: "live for #developers", thumb: @image_base64)
       get :show, id: stream.id, format: :json
       json= JSON.parse(response.body)
-      expect(json["thumbs"]["small"]).to match(/^http:\/\/.*small.jpg/)
-      expect(json["thumbs"]["medium"]).to match(/^http:\/\/.*medium.jpg/)
-      expect(json["thumbs"]["large"]).to match(/^http:\/\/.*large.jpg/)
+      expect(json["thumbs"]["small"]).to match(/.*small.jpg/)
+      expect(json["thumbs"]["medium"]).to match(/.*medium.jpg/)
+      expect(json["thumbs"]["large"]).to match(/.*large.jpg/)
     end
 
     it "returns the status" do

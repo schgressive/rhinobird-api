@@ -1,4 +1,5 @@
 class Stream < ActiveRecord::Base
+  attr_accessor :share_facebook, :share_twitter
 
   # Geocoding
   reverse_geocoded_by :lat, :lng do |stream, results|
@@ -84,14 +85,16 @@ class Stream < ActiveRecord::Base
 
   #decodes 'data:image/jpg;base64,#{base64_image}'
   def thumb=(value)
-    content, base64 = value.split(";")
-    base64 = base64.split(",").last
-    content = content.split(":").last
+    unless value.empty?
+      content, base64 = value.split(";")
+      base64 = base64.split(",").last
+      content = content.split(":").last
 
-    PaperclipAttachment.open(Base64.decode64(base64)) do |data|
-      data.original_filename = "thumb.jpg"
-      data.content_type = content
-      self.thumbnail = data
+      PaperclipAttachment.open(Base64.decode64(base64)) do |data|
+        data.original_filename = "thumb.jpg"
+        data.content_type = content
+        self.thumbnail = data
+      end
     end
   end
 

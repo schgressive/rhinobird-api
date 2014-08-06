@@ -41,5 +41,12 @@ describe Vj do
     end
   end
 
+  context "Deleting vjs" do
+    it "destroys the associated timeline" do
+      vj = create(:vj)
+      expect{vj.destroy}.to change{Timeline.count}.from(1).to(0)
+    end
+  end
+
 
 end

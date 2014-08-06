@@ -33,7 +33,7 @@ class Stream < ActiveRecord::Base
   belongs_to :user
   has_and_belongs_to_many :tags
   has_and_belongs_to_many :channels
-  has_one :timeline, as: :resource
+  has_one :timeline, as: :resource, dependent: :destroy
 
   attr_accessor :ignore_token
 

@@ -4,7 +4,7 @@ class Vj < ActiveRecord::Base
   belongs_to :channel
   has_many :picks
   has_many :events
-  has_one :timeline, as: :resource
+  has_one :timeline, as: :resource, dependent: :destroy
 
   # Validations
   validates :user_id, :channel_id, presence: true

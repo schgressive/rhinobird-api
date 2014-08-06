@@ -137,4 +137,11 @@ describe Stream do
     end
   end
 
+  context "Deleting streams" do
+    it "destroys the associated timeline" do
+      stream = create(:stream)
+      expect{stream.destroy}.to change{Timeline.count}.from(1).to(0)
+    end
+  end
+
 end

@@ -18,9 +18,18 @@ class Vj < ActiveRecord::Base
   friendly_id :slug
 
   before_create :setup_md5
+  after_save :update_timeline
 
   after_create do
-    Timeline.create! resource: self
+    Timeline.create! resource: self, status: self.status
+  end
+
+  def update_timeline
+    tl = Timeline.where(resource_type: "Vj", resource_id: self.id).first
+    if tl
+      tl.status = self.status
+      tl.save
+    end
   end
 
   has_attached_file :thumbnail, styles: {

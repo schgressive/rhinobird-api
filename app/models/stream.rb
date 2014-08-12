@@ -26,7 +26,7 @@ class Stream < ActiveRecord::Base
   after_save :update_timeline
 
   after_create do
-    Timeline.create! resource: self
+    Timeline.create! resource: self, status: self.status
   end
 
   # RELATIONS
@@ -59,6 +59,7 @@ class Stream < ActiveRecord::Base
     tl = Timeline.where(resource_type: "Stream", resource_id: self.id).first
     if tl
       tl.promoted = self.promoted
+      tl.status = self.status
       tl.save
     end
   end

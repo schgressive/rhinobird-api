@@ -36,14 +36,14 @@ class StreamUpdateService
 
   def check_stream_id
     if @params[:stream_id]
-      @stream.status = Stream::STATUSES.index(:live)
+      @stream.status = :live
       share unless @params[:archived_url]
     end
   end
 
   def check_archived_url
     if @params[:archived_url] && !@params[:archived_url].empty?
-      @stream.status = Stream::STATUSES.index(:archived)
+      @stream.status = :archived
     end
   end
 end

@@ -11,10 +11,6 @@ class StreamSerializer < ActiveModel::Serializer
     "Feature"
   end
 
-  def status
-    object.get_status.to_s
-  end
-
   # Use hash_token as ID
   def id
     object.to_param

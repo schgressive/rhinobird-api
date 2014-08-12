@@ -51,7 +51,9 @@ class Stream < ActiveRecord::Base
   extend FriendlyId
   friendly_id :hash_token
 
-  STATUSES = [:created, :live, :archived, :pending]
+  # Enums
+  extend Enumerize
+  enumerize :status, in: {created: 0, live: 1, pending: 3, archived: 2}, scope: true, default: :created # pending is first for backguard compatibility
 
   def update_timeline
     tl = Timeline.where(resource_type: "Stream", resource_id: self.id).first
@@ -80,7 +82,7 @@ class Stream < ActiveRecord::Base
 
   #placeholder to refresh live status
   def refresh_live_status
-    self.status == STATUSES.index(:live)
+    self.status.live?
   end
 
   #decodes 'data:image/jpg;base64,#{base64_image}'
@@ -105,10 +107,6 @@ class Stream < ActiveRecord::Base
     self.tags << tag unless self.tags.include?(tag)
   end
 
-  def live?
-    get_status == :live
-  end
-
   def remove_tag(tag_name)
     tag = Tag.find(tag_name.strip)
     self.tags.delete(tag)
@@ -128,15 +126,6 @@ class Stream < ActiveRecord::Base
     self.playcount ||= 0
     self.playcount += 1
     self.save
-  end
-
-  def set_status(new_status)
-    self.status = STATUSES.index(new_status)
-    self.save
-  end
-
-  def get_status
-    STATUSES[self.status || 0]
   end
 
 

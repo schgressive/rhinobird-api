@@ -5,22 +5,22 @@ FactoryGirl.define do
     caption "Lollapalooza en Chile"
     lat "-33.45654"
     lng "-70.661713"
-    association :user
+    user
 
     factory :pending_stream do
-      status Stream::STATUSES.index(:pending)
+      status :pending
     end
 
     factory :created_stream do
-      status Stream::STATUSES.index(:created)
+      status :created
     end
 
     factory :live_stream do
-      status Stream::STATUSES.index(:live)
+      status :live
     end
 
     factory :archived_stream do
-      status Stream::STATUSES.index(:archived)
+      status :archived
     end
   end
 end

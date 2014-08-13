@@ -10,6 +10,7 @@ describe Api::TimelineController do
       end
 
       @vj_event = create(:vj)
+      @stream_event = create(:pending_stream)
 
       Timecop.freeze(Time.now+10.seconds) do
         @stream_event = create(:stream)

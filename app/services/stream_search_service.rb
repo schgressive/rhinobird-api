@@ -22,7 +22,7 @@ class StreamSearchService
     streams = User.find(@params[:user_id]).streams if @params.has_key? :user_id
     streams = Stream.where(stream_id: @params[:stream_id]) if @params.has_key? :stream_id
     streams = streams.includes(:user, :channels, :tags).order("streams.promoted DESC, streams.created_at DESC")
-    streams = streams.where("streams.status <> ?", Stream::STATUSES.index(:created)) # ignore created status
+    streams = streams.without_status(:created)
     streams
   end
 
@@ -40,11 +40,11 @@ class StreamSearchService
 
   def search_status
     conditions = []
-    conditions << "status = #{Stream::STATUSES.index(:live)}" if @params.has_key? :live
-    conditions << "status = #{Stream::STATUSES.index(:archived)}" if @params.has_key? :archived
-    conditions << "status = #{Stream::STATUSES.index(:pending)}" if @params.has_key? :pending
+    conditions << :live if @params.has_key? :live
+    conditions << :archived if @params.has_key? :archived
+    conditions << :pending if @params.has_key? :pending
 
-    @streams = @streams.where("(" + conditions.join(" OR ") + ")") unless conditions.empty?
+    @streams = @streams.with_status(*conditions) unless conditions.empty?
     @streams
   end
 

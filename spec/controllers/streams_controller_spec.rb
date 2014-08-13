@@ -253,7 +253,7 @@ describe Api::StreamsController do
 
         before(:each) do
           @stream = create(:stream, status: 0)
-          put :update, id: @stream.id, stream_id: "123", recording_id: "123456789", caption: 'rock', format: :json
+          put :update, id: @stream.id, stream_id: "123", recording_id: "30672700610011816", caption: 'rock', format: :json
         end
 
         it "returns the success code" do
@@ -266,7 +266,7 @@ describe Api::StreamsController do
           expect(stream["caption"]).to eql("rock")
           expect(stream["status"]).to eql("live")
           expect(stream["stream_id"]).to eql(123)
-          expect(stream["recording_id"]).to eql(123456789)
+          expect(stream["recording_id"]).to eql(30672700610011816)
         end
       end
 

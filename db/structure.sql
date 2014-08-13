@@ -101,7 +101,7 @@ CREATE TABLE `streams` (
   `address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `country` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `promoted` tinyint(1) DEFAULT '0',
-  `recording_id` int(11) DEFAULT NULL,
+  `recording_id` decimal(22,0) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_streams_on_hash_token` (`hash_token`),
   KEY `index_streams_on_user_id` (`user_id`),
@@ -293,3 +293,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140716145434');
 INSERT INTO schema_migrations (version) VALUES ('20140812185140');
 
 INSERT INTO schema_migrations (version) VALUES ('20140813141006');
+
+INSERT INTO schema_migrations (version) VALUES ('20140813151021');

@@ -78,7 +78,7 @@ describe Api::StreamsController do
         @user = create(:user, username: "sirius")
         #@live_stream0 created before
         @stream1 = create(:archived_stream, caption: "live from #rock in rio")
-        @stream2 = create(:archived_stream, caption: "riot on paris", user: @user, promoted: true)
+        @stream2 = create(:archived_stream, caption: "riot on paris", user: @user, promoted: true, recording_id: 123456789)
         @stream3 = create(:archived_stream, caption: "voting for president", stream_id: 820533185964450300)
         @asuncion = create(:pending_stream, caption: "car #crash #live", lat: -25.320530, lng: -57.560549)
         @another = create(:archived_stream, caption: "bus crash", lat: -25.323168, lng: -57.555227)
@@ -127,6 +127,13 @@ describe Api::StreamsController do
         streams = JSON.parse(response.body)
         expect(streams.size).to eq(1)
         expect(streams.first["caption"]).to match(/president/)
+      end
+
+      it "returns a stream by licode recording_id" do
+        get :index, format: :json, recording_id: 123456789
+        streams = JSON.parse(response.body)
+        expect(streams.size).to eq(1)
+        expect(streams.first["caption"]).to match(/riot/)
       end
 
       it "returns the stream by channel" do
@@ -246,7 +253,7 @@ describe Api::StreamsController do
 
         before(:each) do
           @stream = create(:stream, status: 0)
-          put :update, id: @stream.id, stream_id: "123", caption: 'rock', format: :json
+          put :update, id: @stream.id, stream_id: "123", recording_id: "123456789", caption: 'rock', format: :json
         end
 
         it "returns the success code" do
@@ -258,6 +265,8 @@ describe Api::StreamsController do
           expect(stream["id"]).to eql(@stream.to_param)
           expect(stream["caption"]).to eql("rock")
           expect(stream["status"]).to eql("live")
+          expect(stream["stream_id"]).to eql(123)
+          expect(stream["recording_id"]).to eql(123456789)
         end
       end
 

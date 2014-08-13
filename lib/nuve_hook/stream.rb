@@ -21,14 +21,14 @@ module NuveHook
       # Refresh the flag if the room doesn't exist or the user list is empty
       def refresh_live_status
         # only check if flag is live
-        if self.live?
+        if self.status.live?
           is_live = NuveHook::Nuve.live_room?(self.hash_token)
           unless is_live
             self.update_attributes(status: :pending)
           end
         end
 
-        self.live?
+        self.status.live?
       end
 
     end

@@ -24,6 +24,6 @@ class Api::VjsController < Api::BaseController
 
   private
   def vj_params
-    params.permit(:archived_url, :status)
+    params.permit(:archived_url, :status, :lat, :lng)
   end
 end

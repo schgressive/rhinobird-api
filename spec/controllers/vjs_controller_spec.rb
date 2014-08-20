@@ -122,7 +122,10 @@ describe Api::VjsController do
 
     before do
       @channel = create(:channel, name: "rock")
-      post :create, format: :json, channel_name: "rock", status: "pending"
+      @lat = -25.272062301637
+      @lng = -57.585376739502
+
+      post :create, format: :json, channel_name: "rock", status: "pending", lat: @lat, lng: @lng
       @json = JSON.parse(response.body)
     end
 
@@ -135,6 +138,14 @@ describe Api::VjsController do
       expect(@json["status"]).to eq("pending")
       expect(@json["channel_name"]).to eq("rock")
       expect(@json["username"]).to eq(@user.username)
+    end
+
+    it "has a valid geoJSON format" do
+      expect(@json["type"]).to eq("Feature")
+      expect(@json["geometry"]["type"]).to eq("Point")
+      expect(@json["geometry"]["coordinates"]).to eq([@lng, @lat])
+      expect(@json["properties"]["country"]).to eq("England")
+      expect(@json["properties"]["address"]).to eq("45 Main Street, Long Road")
     end
 
     it "can create a stream if another is pending" do

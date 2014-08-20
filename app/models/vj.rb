@@ -10,6 +10,16 @@ class Vj < ActiveRecord::Base
   validates :user_id, :channel_id, presence: true
   validate :unique_channel, on: :create
 
+  # Geocoding
+  reverse_geocoded_by :lat, :lng do |vj, results|
+    if geo = results.first
+      vj.city = geo.city
+      vj.address = geo.street_address
+      vj.country = geo.country
+    end
+  end
+  after_validation :reverse_geocode  # auto-fetch address
+
   # Enums
   extend Enumerize
   enumerize :status, in: {created: 0, live: 1, pending: 2, archived: 3}, scope: true, default: :created

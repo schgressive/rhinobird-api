@@ -191,6 +191,11 @@ CREATE TABLE `vjs` (
   `thumbnail_content_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `thumbnail_file_size` int(11) DEFAULT NULL,
   `thumbnail_updated_at` datetime DEFAULT NULL,
+  `lat` decimal(18,12) DEFAULT NULL,
+  `lng` decimal(18,12) DEFAULT NULL,
+  `city` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `country` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_vjs_on_slug` (`slug`),
   KEY `index_vjs_on_user_id_and_channel_id` (`user_id`,`channel_id`)
@@ -295,3 +300,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140812185140');
 INSERT INTO schema_migrations (version) VALUES ('20140813141006');
 
 INSERT INTO schema_migrations (version) VALUES ('20140813151021');
+
+INSERT INTO schema_migrations (version) VALUES ('20140820141105');

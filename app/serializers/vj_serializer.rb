@@ -1,6 +1,6 @@
 class VjSerializer < ActiveModel::Serializer
   self.root = false
-  attributes :id, :username, :status, :channel_name, :archived_url, :token, :thumbs
+  attributes :id, :username, :status, :channel_name, :archived_url, :token, :thumbs, :type, :geometry, :properties
 
   has_one :user
 
@@ -29,6 +29,24 @@ class VjSerializer < ActiveModel::Serializer
       small: object.thumbnail.url(:small),
       medium: object.thumbnail.url(:medium),
       large: object.thumbnail.url(:large)
+    }
+  end
+
+  # GeoJSON
+  def geometry
+    {"coordinates" => [object.lng.to_f, object.lat.to_f], "type" => "Point"}
+  end
+
+  #to make valid geoJSON
+  def type
+    "Feature"
+  end
+
+  def properties
+    {
+      city: object.city,
+      country: object.country,
+      address: object.address
     }
   end
 

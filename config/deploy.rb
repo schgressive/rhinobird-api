@@ -6,7 +6,7 @@
 #  * Gem specific settings
 #  * Negroku settings
 
-set :application,   "rhinobird-api-#{fetch(:stage)}"
+set :application,   "rhinobird-api"
 set :repo_url,      'https://github.com/rhinobird/rhinobird-api.git'
 set :deploy_to,     "/home/deploy/applications/#{fetch(:application)}"
 

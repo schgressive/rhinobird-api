@@ -34,4 +34,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  # @return [Boolean] user should be remembered when he logs in (with cookie)
+  #   so he won't be asked to login again
+  def remember_me
+    true
+  end
+
 end

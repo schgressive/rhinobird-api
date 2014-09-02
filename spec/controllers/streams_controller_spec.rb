@@ -444,7 +444,7 @@ describe Api::StreamsController do
       it "has a valid geoJSON format" do
         expect(@json_stream["type"]).to eq("Feature")
         expect(@json_stream["geometry"]["type"]).to eq("Point")
-        expect(@json_stream["geometry"]["coordinates"]).to eq([@post_hash[:lng], @post_hash[:lat]])
+        expect(@json_stream["geometry"]["coordinates"]).to eq([@post_hash[:lng].to_s, @post_hash[:lat].to_s])
         expect(@json_stream["properties"]["country"]).to eq("England")
         expect(@json_stream["properties"]["address"]).to eq("45 Main Street, Long Road")
       end
@@ -518,7 +518,7 @@ describe Api::StreamsController do
     it "has a valid geoJSON format" do
       expect(@json_stream["type"]).to eq("Feature")
       expect(@json_stream["geometry"]["type"]).to eq("Point")
-      expect(@json_stream["geometry"]["coordinates"]).to eq([@new_stream.lng.to_f, @new_stream.lat.to_f])
+      expect(@json_stream["geometry"]["coordinates"]).to eq([@new_stream.lng.to_s, @new_stream.lat.to_s])
     end
 
     it "has user information" do

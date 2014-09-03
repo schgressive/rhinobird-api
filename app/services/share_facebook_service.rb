@@ -8,7 +8,7 @@ class ShareFacebookService
   def run
     me = FbGraph::User.me(@user.fb_token)
     me.feed!(
-      message: "I'm starting a new live stream",
+      message: @stream.caption,
       picture: @stream.thumbnail.url(:medium),
       description: @stream.caption,
       link: @stream.full_stream_url,

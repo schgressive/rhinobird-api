@@ -14,7 +14,9 @@ class VjCreateService
   private
 
   def set_pending_other_vjs
-    @user.vjs.where(channel_id: channel.id).update_all(status: Vj.status.find_value(:pending).value)
+    @user.vjs.where(channel_id: channel.id).without_status(:pending).each do |vj|
+      vj.update_attributes(status: :pending)
+    end
   end
 
   def create_vj

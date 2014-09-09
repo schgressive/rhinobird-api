@@ -5,8 +5,13 @@ module NuveHook
     included do
 
       def vj_token
-        ensure_active_channel
-        NuveHook::Nuve.create_access_token(self.vj_room)
+        new_token = nil
+        if self.status.created? || self.status.live?
+          ensure_active_channel
+          new_token = NuveHook::Nuve.create_access_token(self.vj_room)
+          self.update_attributes(status: :pending) if new_token =~ /not exist/
+        end
+        new_token
       end
 
     end

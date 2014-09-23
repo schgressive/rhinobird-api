@@ -5,9 +5,10 @@ ActiveAdmin.register Stream do
   filter :promoted
   filter :channels
   filter :caption
+  filter :status, as: :select, collection: Stream.status.values.map {|v| [v.text, v.value]}
   filter :started_on
 
-  permit_params :user_id, :caption, :started_on, :promoted
+  permit_params :user_id, :caption, :started_on, :promoted, :status
 
   # list configuration
   index do
@@ -15,6 +16,7 @@ ActiveAdmin.register Stream do
     column :user
     column :caption
     column :promoted
+    column :status
     column :started_on
 
     actions
@@ -26,6 +28,7 @@ ActiveAdmin.register Stream do
       f.input :user
       f.input :caption
       f.input :promoted
+      f.input :status, as: :select
     end
     f.actions
   end
@@ -35,6 +38,7 @@ ActiveAdmin.register Stream do
       row :user
       row :caption
       row :promoted
+      row :status
       row :started_on
     end
   end

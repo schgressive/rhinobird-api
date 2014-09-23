@@ -32,7 +32,13 @@ describe Api::ChannelsController do
 
         @asuncion = create(:stream, lat: -25.307737, lng: -57.592392, caption: "#rock from the world")
         @asuncion2 = create(:stream, lat: -25.3263, lng: -57.6102, caption: '#rock from disney')
-        @asuncion3 = create(:stream, lat: -25.3263, lng: -57.6102, caption: '#live from disney')
+        @asuncion3 = create(:stream, lat: -25.3263, lng: -57.6102, caption: '#live from #marvel')
+        @asuncion4 = create(:stream, lat: -25.3263, lng: -57.6102, caption: '#marvel from disney')
+        @asuncion5 = create(:stream, lat: -25.3263, lng: -57.6102, caption: '#donald from disney')
+        @asuncion6 = create(:stream, lat: -25.3263, lng: -57.6102, caption: '#marvel from disney')
+        Timecop.freeze(Time.now + 5.seconds) do
+          @asuncion7 = create(:stream, lat: -25.3263, lng: -57.6102, caption: '#roller from disney')
+        end
         @chile = create(:stream, lat: -33.3981121, lng: -70.5808448, caption: '#rockandroll party')
       end
 
@@ -45,7 +51,13 @@ describe Api::ChannelsController do
       it "returns channels near a location" do
         get :index, format: :json, lat: -25.31, lng: -57.60
         channels = JSON.parse(response.body)
-        expect(channels.size).to eq(2)
+        expect(channels.size).to eq(5)
+        # Most popular
+        expect(channels[0]["name"]).to match(/marvel/)
+        # Newest
+        expect(channels[1]["name"]).to match(/roller/)
+        # Second Most popular
+        expect(channels[2]["name"]).to match(/rock/)
       end
 
       it "returns the first page" do

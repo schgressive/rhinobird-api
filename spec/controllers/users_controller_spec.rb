@@ -94,8 +94,8 @@ describe Api::UsersController do
 
     context "with duplicated user information" do
       before(:each) do
-        create(:user, email: "sirius@rhinobird.tv", name: "Sirius Black")
-        @user_info = {email: "sirius@rhinobird.tv", password: '12345678', name: "Sirius Black"}
+        create(:user, email: "sirius@rhinobird.tv", name: "Sirius Black", username: "sirius")
+        @user_info = {email: "sirius@rhinobird.tv", password: '12345678', name: "Sirius Black", username: "sirius"}
         post :create, @user_info
         @json_response = JSON.parse(response.body)
       end
@@ -106,6 +106,7 @@ describe Api::UsersController do
 
       it "returns user info" do
         expect(@json_response["email"][0]).to include("taken")
+        expect(@json_response["username"][0]).to include("taken")
       end
     end
 

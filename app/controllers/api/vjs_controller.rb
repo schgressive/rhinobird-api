@@ -9,6 +9,7 @@ class Api::VjsController < Api::BaseController
   end
 
   def show
+    @vj.refresh_live_status
     respond_with @vj
   end
 

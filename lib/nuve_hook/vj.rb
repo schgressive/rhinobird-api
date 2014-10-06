@@ -14,6 +14,20 @@ module NuveHook
         new_token
       end
 
+      # Refresh the flag if the room doesn't exist or the user list is empty
+      def refresh_live_status
+        # only check if flag is live
+        if self.status.live?
+          is_live = NuveHook::Nuve.live_room?(self.vj_room)
+          unless is_live
+            self.update_attributes(status: :pending)
+          end
+        end
+
+        self.status.live?
+      end
+
+
     end
 
     # checks if the user has a valid token

@@ -73,4 +73,8 @@ class Vj < ActiveRecord::Base
   def vj_token
   end
 
+  # Placeholder
+  def refresh_live_status
+  end
+
 end

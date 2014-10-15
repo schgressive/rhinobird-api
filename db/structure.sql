@@ -1,37 +1,37 @@
 CREATE TABLE `active_admin_comments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `namespace` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `body` text COLLATE utf8_unicode_ci,
-  `resource_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `resource_type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `namespace` varchar(255) DEFAULT NULL,
+  `body` text,
+  `resource_id` varchar(255) NOT NULL,
+  `resource_type` varchar(255) NOT NULL,
   `author_id` int(11) DEFAULT NULL,
-  `author_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `author_type` varchar(255) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_active_admin_comments_on_namespace` (`namespace`),
   KEY `index_active_admin_comments_on_author_type_and_author_id` (`author_type`,`author_id`),
   KEY `index_active_admin_comments_on_resource_type_and_resource_id` (`resource_type`,`resource_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `admin_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `encrypted_password` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `reset_password_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `email` varchar(255) NOT NULL DEFAULT '',
+  `encrypted_password` varchar(255) NOT NULL DEFAULT '',
+  `reset_password_token` varchar(255) DEFAULT NULL,
   `reset_password_sent_at` datetime DEFAULT NULL,
   `remember_created_at` datetime DEFAULT NULL,
   `sign_in_count` int(11) NOT NULL DEFAULT '0',
   `current_sign_in_at` datetime DEFAULT NULL,
   `last_sign_in_at` datetime DEFAULT NULL,
-  `current_sign_in_ip` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `last_sign_in_ip` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `current_sign_in_ip` varchar(255) DEFAULT NULL,
+  `last_sign_in_ip` varchar(255) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_admin_users_on_email` (`email`),
   UNIQUE KEY `index_admin_users_on_reset_password_token` (`reset_password_token`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `channels` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -39,7 +39,7 @@ CREATE TABLE `channels` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `channels_streams` (
   `channel_id` int(11) DEFAULT NULL,
@@ -58,13 +58,13 @@ CREATE TABLE `events` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_events_on_vj_id_and_stream_id` (`vj_id`,`stream_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=987 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `picks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `stream_id` int(11) DEFAULT NULL,
   `vj_id` int(11) DEFAULT NULL,
-  `slug` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `slug` varchar(255) DEFAULT NULL,
   `active` tinyint(1) DEFAULT '0',
   `fixed_audio` tinyint(1) DEFAULT '0',
   `created_at` datetime NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE `picks` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_picks_on_slug` (`slug`),
   KEY `index_picks_on_stream_id_and_vj_id` (`stream_id`,`vj_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=230 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `schema_migrations` (
   `version` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -102,17 +102,18 @@ CREATE TABLE `streams` (
   `country` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `promoted` tinyint(1) DEFAULT '0',
   `recording_id` decimal(22,0) DEFAULT NULL,
+  `fb_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_streams_on_hash_token` (`hash_token`),
   KEY `index_streams_on_user_id` (`user_id`),
   FULLTEXT KEY `caption_fulltext` (`caption`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=1157 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `streams_tags` (
   `tag_id` int(11) DEFAULT NULL,
   `stream_id` int(11) DEFAULT NULL,
-  KEY `index_streams_tags_on_tag_id` (`tag_id`),
-  KEY `index_streams_tags_on_stream_id` (`stream_id`)
+  KEY `index_streams_tags_on_stream_id` (`stream_id`),
+  KEY `index_streams_tags_on_tag_id` (`tag_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `tags` (
@@ -121,19 +122,19 @@ CREATE TABLE `tags` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `timelines` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `resource_id` int(11) DEFAULT NULL,
-  `resource_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `resource_type` varchar(255) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `promoted` tinyint(1) DEFAULT '0',
   `status` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1022 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -164,42 +165,42 @@ CREATE TABLE `users` (
   `api` tinyint(1) DEFAULT '0',
   `tw_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `tw_secret` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `share_twitter` tinyint(1) DEFAULT NULL,
+  `share_twitter` tinyint(1) DEFAULT '0',
   `slug` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `custom_tweet` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `enable_custom_tweet` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_users_on_email` (`email`),
-  UNIQUE KEY `index_users_on_reset_password_token` (`reset_password_token`),
-  UNIQUE KEY `index_users_on_confirmation_token` (`confirmation_token`),
   UNIQUE KEY `index_users_on_authentication_token` (`authentication_token`),
+  UNIQUE KEY `index_users_on_confirmation_token` (`confirmation_token`),
+  UNIQUE KEY `index_users_on_reset_password_token` (`reset_password_token`),
   UNIQUE KEY `index_users_on_username` (`username`),
   KEY `index_users_on_slug` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=213 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `vjs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `channel_id` int(11) DEFAULT NULL,
-  `archived_url` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `archived_url` varchar(255) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
-  `slug` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `vj_room` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `thumbnail_file_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `thumbnail_content_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `slug` varchar(255) DEFAULT NULL,
+  `vj_room` varchar(255) DEFAULT NULL,
+  `thumbnail_file_name` varchar(255) DEFAULT NULL,
+  `thumbnail_content_type` varchar(255) DEFAULT NULL,
   `thumbnail_file_size` int(11) DEFAULT NULL,
   `thumbnail_updated_at` datetime DEFAULT NULL,
   `lat` decimal(18,12) DEFAULT NULL,
   `lng` decimal(18,12) DEFAULT NULL,
-  `city` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `country` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `city` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `country` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_vjs_on_slug` (`slug`),
   KEY `index_vjs_on_user_id_and_channel_id` (`user_id`,`channel_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=latin1;
 
 INSERT INTO schema_migrations (version) VALUES ('20130408152535');
 
@@ -302,3 +303,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140813141006');
 INSERT INTO schema_migrations (version) VALUES ('20140813151021');
 
 INSERT INTO schema_migrations (version) VALUES ('20140820141105');
+
+INSERT INTO schema_migrations (version) VALUES ('20141015154750');

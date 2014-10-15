@@ -18,7 +18,7 @@ gem 'kaminari'
 gem 'cancancan'
 gem 'activeadmin', github: 'gregbell/active_admin'
 
-gem 'fb_graph'
+gem 'koala'
 gem 'twitter'
 
 gem "aws-ses", "~> 0.5.0", :require => 'aws/ses'

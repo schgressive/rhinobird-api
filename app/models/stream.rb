@@ -45,8 +45,7 @@ class Stream < ActiveRecord::Base
   s3_headers: {
     'Content-Disposition' => "attachment;"
   },
-  url: "/system/:hash-:style.:extension",
-  hash_secret: "hash_secret"
+  url: "/system/:slug-:style.:extension"
 
   extend FriendlyId
   friendly_id :hash_token

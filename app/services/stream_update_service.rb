@@ -14,6 +14,8 @@ class StreamUpdateService
     # ignore token for active model serializer
     @stream.ignore_token = true
 
+    share
+
     @stream
   end
 
@@ -37,7 +39,6 @@ class StreamUpdateService
   def check_stream_id
     if @params[:stream_id]
       @stream.status = :live
-      share unless @params[:archived_url]
     end
   end
 

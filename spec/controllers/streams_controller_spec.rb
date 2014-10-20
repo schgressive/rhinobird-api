@@ -1,5 +1,17 @@
 require 'spec_helper'
 
+Rspec.shared_examples "success api response" do
+
+  it "returns success code" do
+    expect(response.status).to be(200)
+  end
+
+  it "returns correct content type" do
+    expect(response.header['Content-Type']).to include("application/json")
+  end
+
+end
+
 describe Api::StreamsController do
 
   before do
@@ -13,13 +25,7 @@ describe Api::StreamsController do
         @streams = JSON.parse(response.body)
       end
 
-      it "returns success code" do
-        expect(response.status).to be(200)
-      end
-
-      it "returns correct content type" do
-        expect(response.header['Content-Type']).to include("application/json")
-      end
+      it_behaves_like "success api response"
 
       it "returns an array of items" do
         expect(@streams).to have(1).items
@@ -182,13 +188,7 @@ describe Api::StreamsController do
         @streams = JSON.parse(response.body)
       end
 
-      it "returns success code" do
-        expect(response.status).to be(200)
-      end
-
-      it "returns correct content type" do
-        expect(response.header['Content-Type']).to include("application/json")
-      end
+      it_behaves_like "success api response"
 
       it "returns the streams related to this channel" do
         expect(@streams).to have(2).items
@@ -205,13 +205,7 @@ describe Api::StreamsController do
         @streams = JSON.parse(response.body)
       end
 
-      it "returns success code" do
-        expect(response.status).to be(200)
-      end
-
-      it "returns correct content type" do
-        expect(response.header['Content-Type']).to include("application/json")
-      end
+      it_behaves_like "success api response"
 
       it "returns the streams for the user" do
         expect(@streams).to have(1).items
@@ -227,11 +221,15 @@ describe Api::StreamsController do
 
       login_user
 
-      context "add a stream to a channel" do
+      context "adding a stream to a channel" do
 
         before(:each) do
+          File.open(Rails.root + "spec/factories/images/rails_base64.txt") do |file|
+            @image_base64 = "data:image/jpg;base64,#{file.read}"
+          end
+
           @channel = create(:channel, name: "riot")
-          @stream = create(:stream)
+          @stream = create(:stream, thumb: @image_base64)
           @params = {caption: "#riot in egypt", id: @stream.id, format: :json, stream_id: 123}
         end
 
@@ -256,9 +254,7 @@ describe Api::StreamsController do
           put :update, id: @stream.id, stream_id: "123", recording_id: "30672700610011816", caption: 'rock', format: :json
         end
 
-        it "returns the success code" do
-          expect(response.status).to eql(200)
-        end
+      it_behaves_like "success api response"
 
         it "returns the updated stream" do
           stream = JSON.parse(response.body)
@@ -317,7 +313,6 @@ describe Api::StreamsController do
       end
     end
 
-
   end
 
   describe "PUT #update archived_url" do
@@ -330,13 +325,7 @@ describe Api::StreamsController do
         @json_stream = JSON.parse(response.body)
       end
 
-      it "returns success code" do
-        expect(response.status).to be(200)
-      end
-
-      it "returns correct content type" do
-        expect(response.header['Content-Type']).to include("application/json")
-      end
+      it_behaves_like "success api response"
 
       it "changes the status to archived" do
         expect(@json_stream["status"]).to eql("archived")
@@ -398,7 +387,7 @@ describe Api::StreamsController do
       before(:each) do
         @post_hash = {caption: 'live from woodstock',
                       lat: -25.272062301637, lng: -57.585376739502,
-                      format: :json}
+                      archive: false, format: :json}
 
         post :create, @post_hash
         @json_stream = JSON.parse(response.body)
@@ -416,6 +405,7 @@ describe Api::StreamsController do
         expect(@json_stream["caption"]).to eq(@post_hash[:caption])
         expect(@json_stream["id"]).not_to be("")
         expect(@json_stream["channels"]).to be_empty
+        expect(@json_stream["archive"]).to eq(false)
       end
 
       it "returns a thumb information" do
@@ -483,13 +473,7 @@ describe Api::StreamsController do
       @json_stream = JSON.parse(response.body)
     end
 
-    it "returns success code" do
-      expect(response.status).to be(200)
-    end
-
-    it "returns correct content type" do
-      expect(response.header['Content-Type']).to include("application/json")
-    end
+    it_behaves_like "success api response"
 
     it "returns correct stream format" do
       expect(@json_stream["id"]).to eq(@new_stream.to_param)

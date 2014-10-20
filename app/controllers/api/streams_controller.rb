@@ -47,6 +47,8 @@ class Api::StreamsController < Api::BaseController
   private
 
   def stream_params
-    params.permit(:caption, :lat, :lng, :geo_reference, :thumb, :live, :stream_id, :archived_url, :share_facebook, :share_twitter, :recording_id)
+    params.permit(:caption, :lat, :lng, :geo_reference, :thumb, :live,
+                  :stream_id, :archived_url, :share_facebook, :share_twitter,
+                  :recording_id, :archive)
   end
 end

@@ -103,11 +103,12 @@ CREATE TABLE `streams` (
   `promoted` tinyint(1) DEFAULT '0',
   `recording_id` decimal(22,0) DEFAULT NULL,
   `fb_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `archive` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_streams_on_hash_token` (`hash_token`),
   KEY `index_streams_on_user_id` (`user_id`),
   FULLTEXT KEY `caption_fulltext` (`caption`)
-) ENGINE=MyISAM AUTO_INCREMENT=1157 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=1165 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `streams_tags` (
   `tag_id` int(11) DEFAULT NULL,
@@ -134,7 +135,7 @@ CREATE TABLE `timelines` (
   `promoted` tinyint(1) DEFAULT '0',
   `status` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1022 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1030 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -305,3 +306,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140813151021');
 INSERT INTO schema_migrations (version) VALUES ('20140820141105');
 
 INSERT INTO schema_migrations (version) VALUES ('20141015154750');
+
+INSERT INTO schema_migrations (version) VALUES ('20141020172445');

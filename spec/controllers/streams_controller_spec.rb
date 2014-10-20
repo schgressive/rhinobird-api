@@ -313,7 +313,6 @@ describe Api::StreamsController do
       end
     end
 
-
   end
 
   describe "PUT #update archived_url" do
@@ -388,7 +387,7 @@ describe Api::StreamsController do
       before(:each) do
         @post_hash = {caption: 'live from woodstock',
                       lat: -25.272062301637, lng: -57.585376739502,
-                      format: :json}
+                      archive: false, format: :json}
 
         post :create, @post_hash
         @json_stream = JSON.parse(response.body)
@@ -406,6 +405,7 @@ describe Api::StreamsController do
         expect(@json_stream["caption"]).to eq(@post_hash[:caption])
         expect(@json_stream["id"]).not_to be("")
         expect(@json_stream["channels"]).to be_empty
+        expect(@json_stream["archive"]).to eq(false)
       end
 
       it "returns a thumb information" do

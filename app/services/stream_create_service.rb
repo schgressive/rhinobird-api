@@ -20,7 +20,7 @@ class StreamCreateService
   end
 
   def stream_params
-    @params.permit(:caption, :lat, :lng, :geo_reference, :thumb, :live, :stream_id, :archived_url)
+    @params.permit(:caption, :lat, :lng, :geo_reference, :thumb, :live, :stream_id, :archived_url, :archive)
   end
 
 end

@@ -18,6 +18,7 @@ class SocialSignupService
 
     # Set auth token
     user.authentication_token = User.generate_token
+    user.email = "#{user.username}@invalid.email" if user.email.nil?
     user.save!
 
     user
@@ -35,7 +36,7 @@ class SocialSignupService
 
   def find_for_oauth
     user = User.where(provider: @auth.provider, uid: @auth.uid).first
-    user = User.where("email = ? OR username = ?", @auth.info.email, @auth.info.nickname).first unless user
+    user = User.where("email = ? OR username = ? OR username = ?", @auth.info.email, @auth.info.nickname, @auth.info.email).first unless user
     user
   end
 

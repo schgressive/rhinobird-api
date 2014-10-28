@@ -88,7 +88,7 @@ describe Api::StreamsController do
         @stream3 = create(:archived_stream, caption: "voting for president", stream_id: 820533185964450300)
         @asuncion = create(:pending_stream, caption: "car #crash #live", lat: -25.320530, lng: -57.560549)
         @another = create(:archived_stream, caption: "bus crash", lat: -25.323168, lng: -57.555227)
-        @live_stream = create(:live_stream, caption: "real time video")
+        @live_stream = create(:live_stream, caption: "real time video", archive: false)
       end
 
       context "filters status" do
@@ -98,6 +98,13 @@ describe Api::StreamsController do
           streams = JSON.parse(response.body)
           expect(streams.size).to eq(2)
         end
+
+        it "searches by live status but only with archive flag on" do
+          get :index, format: :json, live: true, archive: true
+          streams = JSON.parse(response.body)
+          expect(streams.size).to eq(1)
+        end
+
 
         it "searchs by archived status" do
           get :index, format: :json, archived: true

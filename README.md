@@ -25,8 +25,8 @@ Take a look at http://docs.rhinobird.apiary.io/ for reference.
 ### Amazon environment variables
 
 * AWS_BUCKET: bucket name to upload images
-* AWS_KEY_ID: Key ID used for amazon services like S3 and SES
-* AWS_ACCESS_KEY: Access Key used for amazon services
+* AWS_ACCESS_KEY_ID: Key ID used for amazon services like S3 and SES
+* AWS_SECRET_ACCESS_KEY: Access Key used for amazon services
 
 ### Social Network variables
 

@@ -19,10 +19,12 @@ class Api::StreamsController < Api::BaseController
   end
 
   def destroy
-    @stream = Stream.find(params[:id])
+    @stream = current_user.streams.find(params[:id])
     @stream.destroy
 
     respond_with @stream
+  rescue ActiveRecord::RecordNotFound => e
+    render nothing: true, status: 401
   end
 
   def update

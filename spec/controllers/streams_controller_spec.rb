@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-Rspec.shared_examples "success api response" do
+RSpec.shared_examples "success api response" do
 
   it "returns success code" do
     expect(response.status).to be(200)
@@ -525,13 +525,19 @@ describe Api::StreamsController do
     login_user
 
     before do
-      @delete_stream = create(:stream)
-      @params = {id: @delete_stream.id, format: :json}
+      @delete_stream = create(:stream, user: @user)
+      @params = {id: @delete_stream.to_param, format: :json}
     end
 
     it "returns no content status" do
       delete :destroy, @params
       expect(response.status).to be(204)
+    end
+
+    it "returns access denied for a stream not own" do
+      not_mine = create(:stream)
+      delete :destroy, id: not_mine.to_param, format: :json
+      expect(response.status).to be(401)
     end
 
     it "decreses the stream count" do

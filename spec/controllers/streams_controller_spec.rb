@@ -83,11 +83,11 @@ describe Api::StreamsController do
       before(:each) do
         @user = create(:user, username: "sirius")
         #@live_stream0 created before
-        @stream1 = create(:archived_stream, caption: "live from #rock in rio")
+        @stream1 = create(:archived_stream, caption: "live from #rock in rio", archive: true)
         @stream2 = create(:archived_stream, caption: "riot on paris", user: @user, promoted: true, recording_id: 123456789)
         @stream3 = create(:archived_stream, caption: "voting for president", stream_id: 820533185964450300)
         @asuncion = create(:pending_stream, caption: "car #crash #live", lat: -25.320530, lng: -57.560549)
-        @another = create(:archived_stream, caption: "bus crash", lat: -25.323168, lng: -57.555227)
+        @another = create(:archived_stream, caption: "bus crash", lat: -25.323168, lng: -57.555227, archive: true)
         @live_stream = create(:live_stream, caption: "real time video", archive: false)
       end
 
@@ -151,6 +151,13 @@ describe Api::StreamsController do
 
       it "returns the stream by channel" do
         get :index, format: :json, q: 'rock'
+        streams = JSON.parse(response.body)
+        expect(streams.size).to eq(1)
+        expect(streams.first["caption"]).to match(/rock/)
+      end
+
+      it "returns the stream by channel that can be archived" do
+        get :index, format: :json, channel_id: 'rock', archive: true
         streams = JSON.parse(response.body)
         expect(streams.size).to eq(1)
         expect(streams.first["caption"]).to match(/rock/)

@@ -13,7 +13,7 @@ module NuveHook
         if self.status.created? || self.status.live?
           access_token = NuveHook::Nuve.create_access_token(self.to_param)
           # set live to false if unexisting room
-          if access_token =~ /not exists/
+          if access_token =~ /not exist/
             self.update_attributes(status: :pending)
             return nil
           end
@@ -28,6 +28,11 @@ module NuveHook
           is_live = NuveHook::Nuve.live_room?(self.hash_token)
           unless is_live
             self.update_attributes(status: :pending)
+            begin
+              NuveHook::Nuve.delete_room(self.hash_token)
+            rescue
+              Rails.logger.info "Couldn't delete licode room"
+            end
           end
         end
 

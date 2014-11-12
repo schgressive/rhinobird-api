@@ -7,10 +7,24 @@ module NuveHook
       before_destroy :delete_licode_room
       before_create :setup_licode_room
 
+      # returns the owner token
+      def owner_token
+        access_token = nil
+        if self.status.created? || self.status.live?
+          access_token = NuveHook::Nuve.create_owner_token(self.to_param)
+          # set live to false if unexisting room
+          if access_token =~ /not exist/
+            self.update_attributes(status: :pending)
+            return nil
+          end
+        end
+        access_token
+      end
+
       # returns an access token if the room is live
       def token
         access_token = nil
-        if self.status.created? || self.status.live?
+        if self.status.live?
           access_token = NuveHook::Nuve.create_access_token(self.to_param)
           # set live to false if unexisting room
           if access_token =~ /not exist/

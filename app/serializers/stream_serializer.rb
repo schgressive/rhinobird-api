@@ -1,5 +1,5 @@
 class StreamSerializer < ActiveModel::Serializer
-  attributes :id, :caption, :started_on, :type, :properties, :geometry,  :token, :thumbs, :status, :status,
+  attributes :id, :caption, :started_on, :type, :properties, :geometry, :owner_token, :token, :thumbs, :status, :status,
     :archived_url, :stream_id, :promoted, :recording_id, :archive
 
   self.root = false

@@ -78,7 +78,10 @@ class Stream < ActiveRecord::Base
     self.started_on = Time.now
   end
 
-  #placeholder for lynckia token
+  #placeholder for licode owner token
+  def owner_token
+  end
+  #placeholder for licode token
   def token
   end
 

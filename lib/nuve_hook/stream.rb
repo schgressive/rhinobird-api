@@ -11,27 +11,24 @@ module NuveHook
       def owner_token
         access_token = nil
         if self.status.created? || self.status.live?
-          access_token = NuveHook::Nuve.create_owner_token(self.to_param)
-          # set live to false if unexisting room
-          if access_token =~ /not exist/
-            self.update_attributes(status: :pending)
-            return nil
-          end
+          access_token = check_token(NuveHook::Nuve.create_owner_token(self.to_param))
         end
         access_token
+      end
+
+      def check_token(token)
+        # set live to false if unexisting room
+        if token =~ /not exist/
+          self.update_attributes(status: :pending)
+          return nil
+        end
+        token
       end
 
       # returns an access token if the room is live
       def token
         access_token = nil
-        if self.status.live?
-          access_token = NuveHook::Nuve.create_access_token(self.to_param)
-          # set live to false if unexisting room
-          if access_token =~ /not exist/
-            self.update_attributes(status: :pending)
-            return nil
-          end
-        end
+        access_token = check_token(NuveHook::Nuve.create_access_token(self.to_param)) if self.status.live?
         access_token
       end
 

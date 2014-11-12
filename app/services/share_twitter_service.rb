@@ -7,9 +7,15 @@ class ShareTwitterService
 
   def run
     init_client
-    message = @client.update get_tweet_message
+    if @stream.thumbnail.present?
+      temp = Tempfile.new(@stream.thumbnail.original_filename)
+      @stream.thumbnail.copy_to_local_file(:large, temp.path)
+      message = @client.update_with_media get_tweet_message, temp
+    else
+      message = @client.update get_tweet_message
+    end
   rescue Twitter::Error => e
-    Rails.logger.info "Couldn't update on twitter: #{e.message}"
+    puts "Couldn't update on twitter: #{e.message}"
   end
 
   private

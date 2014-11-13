@@ -3,22 +3,23 @@ class SocialSignupService
     @auth = auth
     @current_user = current_user
     @new_user = false
+    @invalid_fields = []
   end
 
   def signup
     user = @current_user || find_for_oauth
-    # update profile pic
+
     if user
-      user.update_attributes!(get_update_hash)
+      user.update_attributes!(data_for_update)
     else
       @new_user = true
-      user = new_from_provider
+      user = User.new(data_for_create)
+      user.incomplete_fields = @invalid_fields.join(",")
       user.skip_confirmation!
     end
 
     # Set auth token
     user.authentication_token = User.generate_token
-    user.email = "#{user.username}@invalid.email" if user.email.nil?
     user.save!
 
     user
@@ -30,59 +31,62 @@ class SocialSignupService
 
   private
 
-  def get_update_hash
-    self.send("build_from_#{@auth.provider}").reject {|k,v| k == :email || k == :username }
-  end
-
   def find_for_oauth
     user = User.where(provider: @auth.provider, uid: @auth.uid).first
-    user = User.where("email = ? OR username = ? OR username = ?", @auth.info.email, @auth.info.nickname, @auth.info.email).first unless user
+    user = User.where("email = ? OR username = ?", @auth.info.email, @auth.info.nickname).first unless user
     user
   end
 
-  def new_from_provider
-    hash = build_default_hash
-    hash.merge!(self.send("build_from_#{@auth.provider}"))
-    User.new(hash)
-  end
-
-  def build_default_hash
-    {
-      name: @auth.info.name,
+  def data_for_create
+    hash = {
+      email: email,
+      username: username,
       photo: @auth.info.image,
+      name: @auth.info.name,
       provider: @auth.provider,
-      email: "#{@auth.info.nickname}@twitter.com",
-      username: @auth.info.email,
       uid: @auth.uid,
       password: Devise.friendly_token[0,20]
-    }
+    }.merge!(auth_info)
+
+    hash
   end
 
-  def build_from_facebook
-    {
-      email:@auth.info.email,
-      fb_token:@auth.credentials.token,
-      name: @auth.info.name,
-      photo: @auth.info.image,
-      username: @auth.info.nickname
-    }
+  def data_for_update
+    data_for_create.reject {|k,v| k == :email || k == :username }
   end
 
-  def build_from_twitter
-    {
-      username: @auth.info.nickname,
-      name: @auth.info.name,
-      photo: @auth.info.image,
-      tw_token: @auth.credentials.token,
-      tw_secret: @auth.credentials.secret
-    }
+  def email
+    email = @auth.info.email
+    if email.nil?
+      @invalid_fields << :email
+      email = "#{username}@invalid.address"
+    end
+    email
   end
 
-  def build_from_google_oauth2
-    {
-      name: @auth.info.name,
-      photo: @auth.info.image,
-      email: @auth.info.email
-    }
+  def username
+    username = @auth.info.nickname
+    if username.nil?
+      @invalid_fields << :username
+      username = generate_rhinobird_username
+    end
+    username
   end
+
+  # Generates a RhinobirdUser23 free username
+  def generate_rhinobird_username
+    loop do
+      username = "RhinobirdUser#{rand(9999999)}"
+      break username unless User.find_by_username(username)
+    end
+  end
+
+  # Returns the auth tokens for the social network
+  def auth_info
+    info = {}
+    info.merge!(tw_token: @auth.credentials.token, tw_secret: @auth.credentials.secret) if @auth.provider == "twitter"
+    info.merge!(fb_token: @auth.credentials.token) if @auth.provider == "facebook"
+    info
+  end
+
 end

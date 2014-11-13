@@ -75,7 +75,8 @@ describe Api::OmniauthCallbacksController do
       expect(user.name).to eq("Emilio Blanco")
       expect(user.username).to eq("emilioeduardob")
       expect(user.photo).to match(/picture/)
-      expect(user.email).to match(/emilioeduardob@twitter.com/)
+      expect(user.email).to match(/emilioeduardob@invalid.address/)
+      expect(user.incomplete_fields).to match(/email/)
     end
 
     context "logged" do
@@ -107,9 +108,10 @@ describe Api::OmniauthCallbacksController do
       post :google_oauth2
       user = User.last
       expect(user.name).to eq("Emilio Blanco")
-      expect(user.username).to eq("emilio@platan.us")
+      expect(user.username).to match(/RhinobirdUser/)
       expect(user.photo).to match(/picture/)
       expect(user.email).to match(/emilio@platan.us/)
+      expect(user.incomplete_fields).to match(/username/)
     end
   end
 end

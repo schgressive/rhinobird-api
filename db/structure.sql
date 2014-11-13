@@ -108,7 +108,7 @@ CREATE TABLE `streams` (
   UNIQUE KEY `index_streams_on_hash_token` (`hash_token`),
   KEY `index_streams_on_user_id` (`user_id`),
   FULLTEXT KEY `caption_fulltext` (`caption`)
-) ENGINE=MyISAM AUTO_INCREMENT=1165 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=1190 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `streams_tags` (
   `tag_id` int(11) DEFAULT NULL,
@@ -135,7 +135,7 @@ CREATE TABLE `timelines` (
   `promoted` tinyint(1) DEFAULT '0',
   `status` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1030 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1055 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -170,6 +170,7 @@ CREATE TABLE `users` (
   `slug` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `custom_tweet` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `enable_custom_tweet` tinyint(1) DEFAULT '0',
+  `incomplete_fields` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_users_on_email` (`email`),
   UNIQUE KEY `index_users_on_authentication_token` (`authentication_token`),
@@ -177,7 +178,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `index_users_on_reset_password_token` (`reset_password_token`),
   UNIQUE KEY `index_users_on_username` (`username`),
   KEY `index_users_on_slug` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=213 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=214 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `vjs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -308,3 +309,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140820141105');
 INSERT INTO schema_migrations (version) VALUES ('20141015154750');
 
 INSERT INTO schema_migrations (version) VALUES ('20141020172445');
+
+INSERT INTO schema_migrations (version) VALUES ('20141113121043');

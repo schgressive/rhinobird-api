@@ -24,3 +24,8 @@ set :nginx_ssl_certificate, 'rhinobird.crt'
 set :nginx_ssl_certificate_key,  'rhinobird.key'
 
 set :nginx_template, "#{stage_config_path}/#{fetch :stage}/nginx.conf.erb"
+
+# Sidekiq
+set :pty, false
+set :sidekiq_queue, ['default', 'mailer']
+set :sidekiq_log, File.join(shared_path, 'log', 'sidekiq.log')

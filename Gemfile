@@ -32,6 +32,9 @@ gem 'compass_twitter_bootstrap'
 gem 'jquery-ui-rails', '~> 4.2.1'
 gem 'compass-rails'
 
+gem 'sidekiq'
+gem 'devise-async'
+
 group :test do
   gem 'shoulda-matchers'
   gem "database_cleaner"
@@ -51,6 +54,7 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 3.0'
   gem "faker"
   gem "byebug"
+  gem 'capistrano-sidekiq'
 end
 
 # Gems used only for assets and not required

@@ -12,7 +12,6 @@ gem 'paperclip', "~> 3.0"
 gem 'aws-sdk'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'twitter-text'
-gem 'negroku', github: 'platanus/negroku', branch: 'v2'
 gem 'geocoder'
 gem 'kaminari'
 gem 'cancancan'
@@ -32,8 +31,8 @@ gem 'compass_twitter_bootstrap'
 gem 'jquery-ui-rails', '~> 4.2.1'
 gem 'compass-rails'
 
-gem 'sidekiq'
 gem 'devise-async'
+gem 'sidekiq'
 
 group :test do
   gem 'shoulda-matchers'
@@ -54,7 +53,15 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 3.0'
   gem "faker"
   gem "byebug"
-  gem 'capistrano-sidekiq'
+  # Deploy
+  gem 'capistrano', '~> 3.3'
+  gem 'capistrano-rbenv', '~> 2.0'
+  gem 'capistrano3-nginx', '~> 2.0'
+  gem 'capistrano3-unicorn', '0.2.1'
+  gem 'capistrano-bundler', '~> 1.1.2'
+  gem 'capistrano-rails', '~> 1.1'
+  gem 'capistrano-nc', '~> 0.1'
+  gem 'negroku', github: 'zevarito/negroku', ref: 'e7f4087ce19a2450716919dc5882ae8e21829067'
 end
 
 # Gems used only for assets and not required

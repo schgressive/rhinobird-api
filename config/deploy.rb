@@ -11,7 +11,7 @@ set :repo_url,      'https://github.com/rhinobird/rhinobird-api.git'
 set :deploy_to,     "/home/deploy/applications/#{fetch(:application)}"
 
 linked_files = Set.new(fetch(:linked_files, [])) # https://github.com/capistrano/rails/issues/52
-linked_files.merge(%w{})
+linked_files.merge(%w{.rbenv-vars})
 set :linked_files, linked_files.to_a
 
 linked_dirs = Set.new(fetch(:linked_dirs, [])) # https://github.com/capistrano/rails/issues/52
@@ -29,3 +29,31 @@ set :nginx_template, "#{stage_config_path}/#{fetch :stage}/nginx.conf.erb"
 set :pty, false
 set :sidekiq_queue, ['default', 'mailer']
 set :sidekiq_log, File.join(shared_path, 'log', 'sidekiq.log')
+
+namespace :sidekiq do
+  desc 'Start the sidekiq workers via Upstart'
+  task :start do
+    on roles(:app) do
+      sudo 'start sidekiq index=0'
+    end
+  end
+
+  desc 'Stop the sidekiq workers via Upstart'
+  task :stop do
+    on roles(:app) do
+      sudo 'stop sidekiq index=0 || true'
+    end
+  end
+
+  desc 'Restart the sidekiq workers via Upstart'
+  task :restart do
+    on roles(:app) do
+      invoke :stop
+      invoke :tart
+    end
+  end
+end
+
+before 'deploy:starting',    'sidekiq:stop'
+after  'deploy:published',   'sidekiq:start'
+

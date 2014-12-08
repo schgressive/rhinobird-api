@@ -34,6 +34,8 @@ gem 'compass-rails'
 gem 'devise-async'
 gem 'sidekiq'
 
+gem 'newrelic_rpm'
+
 group :test do
   gem 'shoulda-matchers'
   gem "database_cleaner"

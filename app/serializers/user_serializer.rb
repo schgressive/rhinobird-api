@@ -3,12 +3,6 @@ class UserSerializer < ActiveModel::Serializer
     :custom_tweet, :enable_custom_tweet, :incomplete_fields
   self.root = false
 
-  has_many :streams, embed: :ids, embed_key: :to_param
-
-  def streams
-    object.streams.recent.page(1)
-  end
-
   def twitter_connected
     object.valid_tw_token?
   end

@@ -257,7 +257,6 @@ describe Api::StreamsController do
           end
           stream = JSON.parse(response.body)
           expect(stream["id"]).to eql(@stream.to_param)
-          expect(stream["channels"].first["id"]).to eql(@channel.to_param)
         end
       end
 
@@ -367,7 +366,8 @@ describe Api::StreamsController do
       end
 
       it "adds the channels" do
-        expect(@json_stream["channels"].size).to eql(2)
+        channels = Stream.last.channels
+        expect(channels.size).to eql(2)
       end
 
     end
@@ -386,10 +386,6 @@ describe Api::StreamsController do
 
       it "returns correct content type" do
         expect(response.header['Content-Type']).to include("application/json")
-      end
-
-      it "returns the stream with the tags" do
-        expect(@json_stream["tags"]).to have(2).items
       end
 
     end
@@ -418,7 +414,6 @@ describe Api::StreamsController do
       it "returns a new stream object" do
         expect(@json_stream["caption"]).to eq(@post_hash[:caption])
         expect(@json_stream["id"]).not_to be("")
-        expect(@json_stream["channels"]).to be_empty
         expect(@json_stream["archive"]).to eq(false)
       end
 
@@ -493,7 +488,6 @@ describe Api::StreamsController do
       expect(@json_stream["id"]).to eq(@new_stream.to_param)
       expect(@json_stream["caption"]).to eq(@new_stream.caption)
       expect(@json_stream["started_on"]).to eq(@new_stream.started_on.to_s(:api))
-      expect(@json_stream["channels"].size).to eq(1)
     end
 
     it "returns the attachment" do

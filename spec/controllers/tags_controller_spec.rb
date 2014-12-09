@@ -28,7 +28,6 @@ describe Api::TagsController do
 
     it "returns the updated stream object" do
       expect(@json_tag["id"]).to eq(@stream.to_param)
-      expect(@json_tag["tags"]).to include("this_tag")
     end
 
   end

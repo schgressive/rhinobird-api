@@ -4,8 +4,6 @@ class StreamSerializer < ActiveModel::Serializer
 
   self.root = false
 
-  has_many :tags, embed: :ids, key: :tags, embed_key: :to_param
-  has_many :channels, serializer: SimpleChannelSerializer #Using serializer that doesn't include streams to avoid Stack Too Deep exception
   has_one :user
 
   #to make valid geoJSON

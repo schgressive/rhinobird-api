@@ -8,6 +8,12 @@ Take a look at http://docs.rhinobird.apiary.io/ for reference.
 
 # Setup
 
+## Requirements
+
+### Redis
+
+[Redis](http://redis.io/) is being used with [Sidekiq](sidekiq.org) for async tasks, you should install Redis database in order to run the application.
+
 ## Environment variables
 
 ### Host variables
@@ -36,3 +42,11 @@ Take a look at http://docs.rhinobird.apiary.io/ for reference.
 
 ### Other variables
 * DEVISE_SECRET_KEY: The key generated with rake secret to use in production
+
+# Run
+
+You need to be sure that ENV variables are loaded before execute the following commands.
+
+`bundle exec rails server`
+
+`bundle exec sidekiq -q mailer -q default`

@@ -64,7 +64,7 @@ module RhinobirdApi
     # host that is visible as a proxy
     config.public_host = ENV["PUBLIC_HOST"]
 
-    config.action_mailer.default_url_options = { host: ENV["DEFAULT_HOST"] }
+    config.action_mailer.default_url_options = { host: ENV["PUBLIC_HOST"] }
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
     config.generators do |g|

@@ -23,6 +23,15 @@ class Api::VjsController < Api::BaseController
     respond_with @vj
   end
 
+  def destroy
+    @vj = current_user.vjs.find(params[:id])
+    @vj.destroy
+
+    respond_with @vj
+  rescue ActiveRecord::RecordNotFound => e
+    render nothing: true, status: 401
+  end
+
   private
   def vj_params
     params.permit(:archived_url, :status, :lat, :lng)

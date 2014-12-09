@@ -215,4 +215,32 @@ describe Api::VjsController do
     end
 
   end #describe PUT update
+
+  context "DELETE #destroy" do
+
+    login_user
+
+    before do
+      @delete_vj = create(:vj, user: @user)
+      @params = {id: @delete_vj.to_param, format: :json}
+    end
+
+    it "returns no content status" do
+      delete :destroy, @params
+      expect(response.status).to be(204)
+    end
+
+    it "returns access denied for a vj not own" do
+      not_mine = create(:vj)
+      delete :destroy, id: not_mine.to_param, format: :json
+      expect(response.status).to be(401)
+    end
+
+    it "decreses the vj count" do
+      expect{delete :destroy, @params}.to change(Vj, :count).by(-1)
+    end
+
+  end
+
+
 end

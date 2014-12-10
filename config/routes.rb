@@ -32,7 +32,6 @@ RhinobirdApi::Application.routes.draw do
       resources :tags, only: [:create, :destroy]
       resources :vjs, only: [:index]
       member do
-        put :play
         get :related
       end
     end

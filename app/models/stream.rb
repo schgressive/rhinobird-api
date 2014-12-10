@@ -127,10 +127,16 @@ class Stream < ActiveRecord::Base
     end
   end
 
-  def increment_playcount!
-    self.playcount ||= 0
-    self.playcount += 1
-    self.save
+  def live_viewers
+    viewers = 0
+    if self.status.live?
+      users = NUVE.getUsers(self.to_param)
+      users = JSON.parse(users)
+      viewers = users.count {|v| v["role"] == "viewer"}
+    end
+    viewers
+  rescue
+    0
   end
 
 

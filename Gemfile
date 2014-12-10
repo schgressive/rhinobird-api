@@ -49,9 +49,8 @@ end
 group :development, :test do
   gem 'letter_opener'
   gem 'guard-rspec'
-  gem 'rspec-rails', "~> 2.0"
+  gem 'rspec-rails', "~> 2.14"
   gem 'terminal-notifier-guard'
-  gem "zeus"
   gem 'factory_girl_rails', '~> 3.0'
   gem "faker"
   gem "byebug"

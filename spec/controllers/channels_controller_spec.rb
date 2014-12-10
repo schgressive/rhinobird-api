@@ -105,10 +105,6 @@ describe Api::ChannelsController do
         expect(@json_channel["name"]).to eq(@new_channel.name)
         expect(@json_channel["created_at"]).to eq(@new_channel.created_at.to_s(:api))
         expect(@json_channel["streams_count"]).to eq(@new_channel.streams.count)
-        expect(@json_channel["streams"]).to have(1).items
-
-        stream = @json_channel["streams"].first
-        expect(stream["caption"]).not_to be_empty
       end
 
     end
@@ -142,7 +138,6 @@ describe Api::ChannelsController do
       it "returns a new channel object" do
         expect(@json_channel["id"]).not_to be("")
         expect(@json_channel["name"]).to eq(@post_hash[:name])
-        expect(@json_channel["streams"]).to eq([])
         expect(@json_channel["streams_count"]).to eq(0)
         expect(@json_channel["created_at"]).not_to be_empty
       end

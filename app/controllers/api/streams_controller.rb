@@ -10,7 +10,7 @@ class Api::StreamsController < Api::BaseController
   def show
     @stream = Stream.find(params[:id])
     @stream.refresh_live_status
-    respond_with @stream
+    respond_with @stream, live: true
   end
 
   def create

@@ -53,7 +53,7 @@ group :development, :test do
   gem 'terminal-notifier-guard'
   gem 'factory_girl_rails', '~> 3.0'
   gem "faker"
-  gem "byebug"
+  gem "pry-byebug"
   # Deploy
   gem 'capistrano', '~> 3.3'
   gem 'capistrano-rbenv', '~> 2.0'

@@ -31,7 +31,6 @@ class Stream < ActiveRecord::Base
 
   # RELATIONS
   belongs_to :user
-  has_and_belongs_to_many :tags
   has_and_belongs_to_many :channels
   has_one :timeline, as: :resource, dependent: :destroy
 
@@ -105,27 +104,6 @@ class Stream < ActiveRecord::Base
     end
   end
 
-
-  #assigns a new tag to a stream
-  def add_tag(tag_name)
-    tag = Tag.find_or_create_by_name(tag_name.strip)
-    self.tags << tag unless self.tags.include?(tag)
-  end
-
-  def remove_tag(tag_name)
-    tag = Tag.find(tag_name.strip)
-    self.tags.delete(tag)
-  end
-
-  #adds tags specified in a string separated by commas
-  #rock, grunge
-  def add_tags(tags_string)
-    unless tags_string.empty?
-      tags_string.split(",").each do |new_tag|
-        add_tag(new_tag)
-      end
-    end
-  end
 
   def live_viewers
     viewers = 0

@@ -72,9 +72,6 @@ Plus geoJSON properties ([geoJSON Specs](http://www.geojson.org/geojson-spec.htm
                 "properties": {
                     "geo_reference": "Alameda"
                 },
-                "tags": [
-                  "grunge"
-                ],
                 "started_on": "2012-01-23T12:00:00.000"
             }
 
@@ -116,9 +113,6 @@ Plus geoJSON properties ([geoJSON Specs](http://www.geojson.org/geojson-spec.htm
                     "properties": {
                         "geo_reference": "Parque O'higgins"
                     },
-                    "tags": [
-                      "concert", "rock", "grunge"
-                    ],
                     "started_on": "2012-01-23T12:00:00.000"
                 }
             ]
@@ -167,42 +161,6 @@ Increments the playcount for a stream
 ### Set as playing [PUT]
 
 + Response 200
-
-## Tag [/streams/{id}/tag]
-Tag to apply on a stream.
-
-The resource has the following attributes:
-
-- tag: (string) name of the tag
-
-
-+ Parameters
-
-    + id (string) ... ID of the stream to tag
-
-+ Model (application/json)
-
-### Adds a tag to a stream [POST]
-+ Request (application/json)
-
-        {
-            "tag": "rock"
-        }
-
-+ Response 201
-
-    [Stream][]
-
-## Remove Tag [/streams/{id}/tag/{tag}]
-
-+ Parameters
-
-    + id (string) ... ID of the stream to tag
-    + tag (string) ... name of the tag
-
-### Removes a tag from a stream [DELETE]
-
-+ Response 204
 
 # Group Channels
 This section groups channel resources.
@@ -701,9 +659,6 @@ Returns a list of events
                     "properties": {
                         "geo_reference": "Alameda"
                     },
-                    "tags": [
-                        "grunge"
-                    ],
                     "started_on": "2012-01-23T12:00:00.000"
                 },
                 "resource_type": "Stream",

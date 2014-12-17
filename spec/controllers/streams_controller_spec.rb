@@ -345,24 +345,6 @@ describe Api::StreamsController do
 
     end
 
-    context "with tags" do
-      login_user
-
-      before(:each) do
-        post :create, format: :json, tags: "rock, grunge"
-        @json_stream = JSON.parse(response.body)
-      end
-
-      it "returns success code" do
-        expect(response.status).to be(201)
-      end
-
-      it "returns correct content type" do
-        expect(response.header['Content-Type']).to include("application/json")
-      end
-
-    end
-
     context "logged in" do
 
       login_user

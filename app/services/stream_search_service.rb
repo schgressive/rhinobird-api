@@ -23,7 +23,7 @@ class StreamSearchService
     streams = streams.where(stream_id: @params[:stream_id]) if @params.has_key? :stream_id
     streams = streams.where(archive: true) if @params.has_key? :archive
     streams = streams.where(recording_id: @params[:recording_id]) if @params.has_key? :recording_id
-    streams = streams.includes(:user, :channels, :tags).order("streams.promoted DESC, streams.created_at DESC")
+    streams = streams.includes(:user, :channels).order("streams.promoted DESC, streams.created_at DESC")
     streams = streams.without_status(:created)
     streams
   end

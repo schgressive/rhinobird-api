@@ -2,7 +2,6 @@ class StreamCreateService
   def initialize(user, params)
     @params = params
     @user = user
-    @tags = params[:tags]
   end
 
   def run
@@ -15,7 +14,6 @@ class StreamCreateService
 
   def create_stream
     @stream = @user.streams.create(stream_params)
-    @stream.add_tags(@tags) if @tags
     @stream
   end
 

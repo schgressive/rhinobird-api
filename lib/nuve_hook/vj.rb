@@ -18,7 +18,7 @@ module NuveHook
       def refresh_live_status
         # only check if flag is live
         if self.status.live?
-          is_live = NuveHook::Nuve.live_room?(self.vj_room)
+          is_live = NuveHook::Nuve.live_room?(self.vj_room, vj: true)
           unless is_live
             self.update_attributes(status: :pending)
           end

@@ -14,7 +14,6 @@ describe Stream, type: :model do
   describe "Relations" do
     it { should have_and_belong_to_many(:channels) }
     it { should belong_to(:user) }
-    it { should have_and_belong_to_many(:tags) }
   end
 
 
@@ -73,48 +72,6 @@ describe Stream, type: :model do
         expect{stream.save}.to change{Channel.count}.by(1)
         expect(stream.channels.size).to eq(2)
       end
-    end
-  end
-
-  describe "#add_tags" do
-
-    it "assigns 2 tags" do
-      @stream = create(:stream)
-      @stream.add_tags("grunge,rock , grunge")
-      expect(@stream.tags).to have(2).items
-    end
-
-    it "assigns 2 tags" do
-      @stream = create(:stream)
-      @stream.add_tags("grunge,rock")
-      expect(@stream.tags).to have(2).items
-    end
-
-  end
-
-  describe "#add_tag" do
-    before(:each) do
-      @stream = create(:stream)
-    end
-
-    it "assigns a new tag" do
-      expect{@stream.add_tag("new_tag")}.to change{@stream.tags.count}.by(1)
-    end
-
-    it "creates the tag if it doesn't exist" do
-      expect{@stream.add_tag("new_tag")}.to change{Tag.count}.by(1)
-    end
-
-    it "adds an existing tag to the stream" do
-      @tag = create(:tag, name: "new_tag")
-      expect{@stream.add_tag("new_tag")}.to change{Tag.count}.by(0)
-    end
-
-    it "skips a tag if its already added" do
-      @tag = create(:tag, name: "new_tag")
-      @stream.add_tag @tag.name
-      expect{@stream.add_tag("new_tag")}.to change{@stream.tags.count}.by(0)
-      expect{@stream.add_tag("new_tag")}.to change{Tag.count}.by(0)
     end
   end
 

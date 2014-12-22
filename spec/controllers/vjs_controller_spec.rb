@@ -98,12 +98,17 @@ describe Api::VjsController do
 
     before do
       @vj = create(:vj)
+      create(:like, likeable: @vj)
       get :show, id: @vj.to_param, format: :json
       @json = JSON.parse(response.body)
     end
 
     it "returns a success code" do
       expect(response).to be_success
+    end
+
+    it "returns the like count" do
+      expect(@json["likes"]).to eq 1
     end
 
     it "returns correct json structure" do

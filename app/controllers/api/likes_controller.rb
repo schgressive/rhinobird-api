@@ -1,14 +1,23 @@
 class Api::LikesController < Api::BaseController
   def create
-    resource = Stream.find(params[:stream_id]) if params.key? :stream_id
     Like.track(current_user, resource) if resource
     head 204
   end
 
   def destroy
-    resource = Stream.find(params[:stream_id]) if params.key? :stream_id
     Like.untrack(current_user, resource) if resource
     head 204
+  end
+
+  private
+
+  def resource
+    @resource = nil
+    unless @resource
+      @resource = Stream.find(params[:stream_id]) if params[:stream_id]
+      @resource = Vj.find(params[:vj_id]) if params[:vj_id]
+    end
+    @resource
   end
 
 end

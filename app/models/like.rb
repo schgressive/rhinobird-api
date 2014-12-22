@@ -9,4 +9,9 @@ class Like < ActiveRecord::Base
     like_scope = Like.by_user(user).by_likeable(likeable)
     like_scope.first || like_scope.create
   end
+
+  def self.untrack(user, likeable)
+    like = Like.by_user(user).by_likeable(likeable).first
+    like.destroy if like
+  end
 end

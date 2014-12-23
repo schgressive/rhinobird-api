@@ -1,6 +1,6 @@
 class StreamSerializer < ActiveModel::Serializer
   attributes :id, :caption, :started_on, :type, :properties, :geometry, :owner_token, :token, :thumbs, :status, :status,
-    :archived_url, :stream_id, :promoted, :recording_id, :archive, :live_viewers, :likes
+    :archived_url, :stream_id, :promoted, :recording_id, :archive, :live_viewers, :likes, :liked
 
   self.root = false
 
@@ -13,6 +13,10 @@ class StreamSerializer < ActiveModel::Serializer
 
   def likes
     Like.by_likeable(object).count
+  end
+
+  def liked
+    Like.by_likeable(object).by_user(current_user).exists?
   end
 
   #to make valid geoJSON

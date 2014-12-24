@@ -20,12 +20,17 @@ class UserDeletionService
     user.status = :for_deletion
     user.save
 
-    mark_objects(user.streams)
-    mark_objects(user.vjs)
+    mark_resources(user.streams)
+    mark_resources(user.vjs)
   end
 
-  def mark_objects(objects)
-    objects.each {|obj| obj.update_attribute :status, :for_deletion }
+  def mark_resources(resources)
+    resources.each {|resource| mark_resource resource }
+  end
+
+  def mark_resource(resource)
+    resource.update_attribute :status, :for_deletion
+    resource.timeline.destroy if resource.timeline
   end
 
 end

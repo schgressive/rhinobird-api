@@ -28,7 +28,7 @@ RSpec.describe UserDeletionService, type: :Service do
 
     it "marks vjs for_deletion" do
       vj = create(:vj, user: user)
-      UserDeletionService.new(user).run
+      expect{UserDeletionService.new(user).run}.to change{Timeline.count}.by(-1)
       vj.reload
       expect(vj.status).to eq "for_deletion"
     end

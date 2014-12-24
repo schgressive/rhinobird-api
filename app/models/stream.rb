@@ -53,7 +53,7 @@ class Stream < ActiveRecord::Base
 
   # Enums
   extend Enumerize
-  enumerize :status, in: {created: 0, live: 1, pending: 3, archived: 2}, scope: true, default: :created # pending is first for backguard compatibility
+  enumerize :status, in: {created: 0, live: 1, pending: 3, archived: 2, for_deletion: 4}, scope: true, default: :created # pending is first for backguard compatibility
 
   def update_timeline
     tl = Timeline.where(resource_type: "Stream", resource_id: self.id).first

@@ -14,6 +14,10 @@ class User < ActiveRecord::Base
   extend FriendlyId
   friendly_id :username, use: :slugged
 
+  # Enums
+  extend Enumerize
+  enumerize :status, in: {active: 0, for_deletion: 1}, scope: true, default: :active # pending is first for backguard compatibility
+
   # RELATIONS
   has_many :streams
   has_many :vjs

@@ -58,7 +58,18 @@ CREATE TABLE `events` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_events_on_vj_id_and_stream_id` (`vj_id`,`stream_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=989 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=987 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `likes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `likeable_id` int(11) DEFAULT NULL,
+  `likeable_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_likes_on_user_id_and_likeable_type_and_likeable_id` (`user_id`,`likeable_type`,`likeable_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `picks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -72,7 +83,7 @@ CREATE TABLE `picks` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_picks_on_slug` (`slug`),
   KEY `index_picks_on_stream_id_and_vj_id` (`stream_id`,`vj_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=236 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=230 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `schema_migrations` (
   `version` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -108,7 +119,7 @@ CREATE TABLE `streams` (
   UNIQUE KEY `index_streams_on_hash_token` (`hash_token`),
   KEY `index_streams_on_user_id` (`user_id`),
   FULLTEXT KEY `caption_fulltext` (`caption`)
-) ENGINE=MyISAM AUTO_INCREMENT=1244 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=1147 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `timelines` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -120,7 +131,7 @@ CREATE TABLE `timelines` (
   `promoted` tinyint(1) DEFAULT '0',
   `status` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1115 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1012 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -156,6 +167,17 @@ CREATE TABLE `users` (
   `custom_tweet` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `enable_custom_tweet` tinyint(1) DEFAULT '0',
   `incomplete_fields` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bio` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `avatar_file_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `avatar_content_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `avatar_file_size` int(11) DEFAULT NULL,
+  `avatar_updated_at` datetime DEFAULT NULL,
+  `background_image_file_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `background_image_content_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `background_image_file_size` int(11) DEFAULT NULL,
+  `background_image_updated_at` datetime DEFAULT NULL,
+  `destruction_time` datetime DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_users_on_email` (`email`),
   UNIQUE KEY `index_users_on_authentication_token` (`authentication_token`),
@@ -187,7 +209,7 @@ CREATE TABLE `vjs` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_vjs_on_slug` (`slug`),
   KEY `index_vjs_on_user_id_and_channel_id` (`user_id`,`channel_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=latin1;
 
 INSERT INTO schema_migrations (version) VALUES ('20130408152535');
 
@@ -298,3 +320,7 @@ INSERT INTO schema_migrations (version) VALUES ('20141020172445');
 INSERT INTO schema_migrations (version) VALUES ('20141113121043');
 
 INSERT INTO schema_migrations (version) VALUES ('20141217113404');
+
+INSERT INTO schema_migrations (version) VALUES ('20141224013258');
+
+INSERT INTO schema_migrations (version) VALUES ('20141224113527');

@@ -16,7 +16,7 @@ class StreamSerializer < ActiveModel::Serializer
   end
 
   def liked
-    Like.by_likeable(object).by_user(current_user).exists?
+    current_user ? Like.by_likeable(object).by_user(current_user).exists? : false
   end
 
   #to make valid geoJSON

@@ -69,7 +69,7 @@ CREATE TABLE `likes` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_likes_on_user_id_and_likeable_type_and_likeable_id` (`user_id`,`likeable_type`,`likeable_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `picks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -320,6 +320,8 @@ INSERT INTO schema_migrations (version) VALUES ('20141020172445');
 INSERT INTO schema_migrations (version) VALUES ('20141113121043');
 
 INSERT INTO schema_migrations (version) VALUES ('20141217113404');
+
+INSERT INTO schema_migrations (version) VALUES ('20141218141619');
 
 INSERT INTO schema_migrations (version) VALUES ('20141224013258');
 

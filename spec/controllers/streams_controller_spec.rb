@@ -433,6 +433,7 @@ describe Api::StreamsController do
     before do
       @channel = create(:channel)
       @new_stream = create(:stream, lat: -25.272062301637, lng: -57.585376739502, caption: "live for #developers")
+      create(:like, likeable: @new_stream)
       get :show, id: @new_stream.id, format: :json
       @json_stream = JSON.parse(response.body)
     end
@@ -443,6 +444,10 @@ describe Api::StreamsController do
       expect(@json_stream["id"]).to eq(@new_stream.to_param)
       expect(@json_stream["caption"]).to eq(@new_stream.caption)
       expect(@json_stream["started_on"]).to eq(@new_stream.started_on.to_s(:api))
+    end
+
+    it "returns the number of likes" do
+      expect(@json_stream["likes"]).to eq 1
     end
 
     it "returns the attachment" do

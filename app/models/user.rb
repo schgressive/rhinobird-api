@@ -17,6 +17,10 @@ class User < ActiveRecord::Base
   # Enums
   extend Enumerize
   enumerize :status, in: {active: 0, for_deletion: 1}, scope: true, default: :active # pending is first for backguard compatibility
+  #
+  # IMAGES
+  has_attached_file :avatar, styles: {medium: '60x60'}
+  has_attached_file :background_image, styles: {medium: '160x160'}
 
   # RELATIONS
   has_many :streams

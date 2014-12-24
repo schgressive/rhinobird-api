@@ -69,7 +69,7 @@ CREATE TABLE `likes` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_likes_on_user_id_and_likeable_type_and_likeable_id` (`user_id`,`likeable_type`,`likeable_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `picks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -176,6 +176,8 @@ CREATE TABLE `users` (
   `background_image_content_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `background_image_file_size` int(11) DEFAULT NULL,
   `background_image_updated_at` datetime DEFAULT NULL,
+  `destruction_time` datetime DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_users_on_email` (`email`),
   UNIQUE KEY `index_users_on_authentication_token` (`authentication_token`),
@@ -319,4 +321,8 @@ INSERT INTO schema_migrations (version) VALUES ('20141113121043');
 
 INSERT INTO schema_migrations (version) VALUES ('20141217113404');
 
+INSERT INTO schema_migrations (version) VALUES ('20141218141619');
+
 INSERT INTO schema_migrations (version) VALUES ('20141224013258');
+
+INSERT INTO schema_migrations (version) VALUES ('20141224113527');

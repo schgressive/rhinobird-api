@@ -14,6 +14,10 @@ class User < ActiveRecord::Base
   extend FriendlyId
   friendly_id :username, use: :slugged
 
+  # IMAGES
+  has_attached_file :avatar, styles: {medium: '60x60'}
+  has_attached_file :background_image, styles: {medium: '160x160'}
+
   # RELATIONS
   has_many :streams
   has_many :vjs

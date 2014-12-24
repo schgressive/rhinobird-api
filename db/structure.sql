@@ -167,6 +167,17 @@ CREATE TABLE `users` (
   `custom_tweet` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `enable_custom_tweet` tinyint(1) DEFAULT '0',
   `incomplete_fields` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bio` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `avatar_file_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `avatar_content_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `avatar_file_size` int(11) DEFAULT NULL,
+  `avatar_updated_at` datetime DEFAULT NULL,
+  `background_image_file_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `background_image_content_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `background_image_file_size` int(11) DEFAULT NULL,
+  `background_image_updated_at` datetime DEFAULT NULL,
+  `destruction_time` datetime DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_users_on_email` (`email`),
   UNIQUE KEY `index_users_on_authentication_token` (`authentication_token`),
@@ -309,3 +320,9 @@ INSERT INTO schema_migrations (version) VALUES ('20141020172445');
 INSERT INTO schema_migrations (version) VALUES ('20141113121043');
 
 INSERT INTO schema_migrations (version) VALUES ('20141217113404');
+
+INSERT INTO schema_migrations (version) VALUES ('20141218141619');
+
+INSERT INTO schema_migrations (version) VALUES ('20141224013258');
+
+INSERT INTO schema_migrations (version) VALUES ('20141224113527');

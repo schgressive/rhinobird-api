@@ -24,15 +24,18 @@ class Api::UsersController < Api::BaseController
   end
 
   def update
-    current_user.update_attributes(resource_params)
-    current_user.confirm!
-    render json: current_user, status: 200
+    if current_user.update_attributes(resource_params)
+      current_user.confirm!
+      render json: current_user, status: 200
+    else
+      render json: current_user.errors, status: 422
+    end
   end
 
   private
   def resource_params
     params.permit(:name, :email, :password, :password_confirmation, :username, :share_facebook, :share_twitter, :tw_token,
-                  :fb_token, :custom_tweet, :enable_custom_tweet)
+                  :fb_token, :custom_tweet, :enable_custom_tweet, :background_image, :avatar, :bio)
   end
 
 end

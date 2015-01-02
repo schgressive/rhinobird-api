@@ -1,5 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes  :name, :email, :username, :photo, :share_facebook, :share_twitter, :facebook_connected, :twitter_connected,
+  attributes  :id, :name, :email, :username, :photo, :share_facebook, :share_twitter, :facebook_connected, :twitter_connected,
     :custom_tweet, :enable_custom_tweet, :incomplete_fields, :bio, :background_image, :avatar
   self.root = false
 

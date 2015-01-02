@@ -17,7 +17,7 @@ class Api::UsersController < Api::BaseController
     @user = User.new(resource_params)
     @user.authentication_token = User.generate_token
     if @user.save
-      render json: @user, status: :created
+      render json: UserSessionSerializer.new(@user), status: :created
     else
       render json: @user.errors, status: 422
     end

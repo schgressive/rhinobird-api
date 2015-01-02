@@ -16,7 +16,7 @@ class Api::SessionsController < Devise::SessionsController
     if resource.valid_password?(params[:password])
       resource.authentication_token = User.generate_token
       sign_in resource
-      render json: {auth_token: resource.authentication_token, user: resource}, status: :created
+      render json: {user: UserSessionSerializer.new(resource)}, status: :created
       return
     end
     invalid_login_attempt
@@ -25,7 +25,7 @@ class Api::SessionsController < Devise::SessionsController
   def show
     resource = current_user
     if resource
-      render json: {auth_token: resource.authentication_token, user: resource}, status: :ok
+      render json: {user: UserSessionSerializer.new(resource)}, status: :ok
     else
       render json: {}, status: 401
     end

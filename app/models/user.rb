@@ -15,13 +15,25 @@ class User < ActiveRecord::Base
   friendly_id :username, use: :slugged
 
   # IMAGES
-  has_attached_file :avatar, styles: {medium: '60x60'}
-  has_attached_file :background_image, styles: {medium: '160x160'}
+  has_attached_file :avatar_image, styles: {medium: '60x60'}
+  has_attached_file :background_image, styles: {cropped: '200x100#'}
 
   # RELATIONS
   has_many :streams
   has_many :vjs
   has_many :timelines
+
+  def avatar=(value)
+    PaperclipHelper.process(value, 'name') do |img|
+      self.avatar_image = img
+    end
+  end
+
+  def backdrop=(value)
+    PaperclipHelper.process(value, 'backdrop') do |img|
+      self.background_image = img
+    end
+  end
 
   def valid_fb_token?
     self.fb_token.present?

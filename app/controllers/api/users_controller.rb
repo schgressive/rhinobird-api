@@ -35,7 +35,7 @@ class Api::UsersController < Api::BaseController
   private
   def resource_params
     params.permit(:name, :email, :password, :password_confirmation, :username, :share_facebook, :share_twitter, :tw_token,
-                  :fb_token, :custom_tweet, :enable_custom_tweet, :background_image, :avatar, :bio)
+                  :fb_token, :custom_tweet, :enable_custom_tweet, :backdrop, :avatar, :bio)
   end
 
 end

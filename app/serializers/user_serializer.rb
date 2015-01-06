@@ -1,10 +1,18 @@
 class UserSerializer < ActiveModel::Serializer
   attributes  :id, :name, :email, :username, :photo, :share_facebook, :share_twitter, :facebook_connected, :twitter_connected,
-    :custom_tweet, :enable_custom_tweet, :incomplete_fields, :bio, :background_image, :avatar
+    :custom_tweet, :enable_custom_tweet, :incomplete_fields, :bio, :backdrop, :avatar
   self.root = false
 
   def twitter_connected
     object.valid_tw_token?
+  end
+
+  def avatar
+    object.avatar_image.present? ? object.avatar_image : nil
+  end
+
+  def backdrop
+    object.background_image.present? ? object.background_image.url(:cropped) : nil
   end
 
   def share_facebook

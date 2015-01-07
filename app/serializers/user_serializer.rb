@@ -15,6 +15,10 @@ class UserSerializer < ActiveModel::Serializer
     object.background_image.present? ? object.background_image.url(:cropped) : nil
   end
 
+  def backdrop_thumb
+    object.background_image.present? ? object.background_image.url(:thumb) : nil
+  end
+
   def share_facebook
     object.valid_fb_token? && object.share_facebook
   end

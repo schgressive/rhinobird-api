@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
 
   # IMAGES
   has_attached_file :avatar_image, styles: {medium: '60x60'}
-  has_attached_file :background_image, styles: {cropped: '1550<'}
+  has_attached_file :background_image, styles: {cropped: '1550<', thumb: '200>'}
 
   # RELATIONS
   has_many :streams

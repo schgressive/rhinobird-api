@@ -112,6 +112,23 @@ describe Api::UsersController do
 
   end
 
+  describe "DELETE #destroy" do
+    login_user
+
+    before(:each) do
+      delete :destroy, user_id: @user.to_param, format: :json
+    end
+
+    it "returns success code" do
+      expect(response.status).to be(204)
+    end
+
+    it "marks the user for deletion" do
+      @user.reload
+      expect(@user.status).to eq "for_deletion"
+    end
+
+  end
 
   describe "PUT #update" do
 
@@ -131,7 +148,7 @@ describe Api::UsersController do
       expect(@user.email).to eq(@hash[:email])
       expect(@user.username).to eq(@hash[:username])
       expect(@user.custom_tweet).to eq(@hash[:custom_tweet])
-      expect(@user.share_facebook).to be_false
+      expect(@user.share_facebook).to eq(false)
     end
 
     it "returns the updated JSON object" do
@@ -139,8 +156,8 @@ describe Api::UsersController do
       expect(json["email"]).to eq(@hash[:email])
       expect(json["username"]).to eq(@hash[:username])
       expect(json["custom_tweet"]).to eq(@hash[:custom_tweet])
-      expect(json["share_facebook"]).to be_false
-      expect(json["enable_custom_tweet"]).to be_true
+      expect(json["share_facebook"]).to eq(false)
+      expect(json["enable_custom_tweet"]).to eq(true)
     end
 
   end

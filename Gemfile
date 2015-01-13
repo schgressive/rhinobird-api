@@ -33,6 +33,7 @@ gem 'compass-rails'
 
 gem 'devise-async'
 gem 'sidekiq'
+gem 'whenever', require: false
 
 gem 'newrelic_rpm'
 

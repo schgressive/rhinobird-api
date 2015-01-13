@@ -36,6 +36,7 @@ require 'capistrano3/unicorn'
 require 'capistrano/nginx'
 # require 'capistrano/puma'
 # require 'capistrano/eye'
+require "whenever/capistrano"
 
 require 'negroku/deploy'
 # require 'negroku/logs'

@@ -17,7 +17,7 @@ class Api::UsersController < Api::BaseController
     @user = User.new(resource_params)
     @user.authentication_token = User.generate_token
     if @user.save
-      render json: @user, status: :created
+      render json: UserSessionSerializer.new(@user), status: :created
     else
       render json: @user.errors, status: 422
     end
@@ -35,7 +35,7 @@ class Api::UsersController < Api::BaseController
   private
   def resource_params
     params.permit(:name, :email, :password, :password_confirmation, :username, :share_facebook, :share_twitter, :tw_token,
-                  :fb_token, :custom_tweet, :enable_custom_tweet, :background_image, :avatar, :bio)
+                  :fb_token, :custom_tweet, :enable_custom_tweet, :backdrop, :avatar, :bio)
   end
 
 end

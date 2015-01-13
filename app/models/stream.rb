@@ -91,19 +91,10 @@ class Stream < ActiveRecord::Base
 
   #decodes 'data:image/jpg;base64,#{base64_image}'
   def thumb=(value)
-    unless value.empty?
-      content, base64 = value.split(";")
-      base64 = base64.split(",").last
-      content = content.split(":").last
-
-      PaperclipAttachment.open(Base64.decode64(base64)) do |data|
-        data.original_filename = "thumb.jpg"
-        data.content_type = content
-        self.thumbnail = data
-      end
+    PaperclipHelper.process(value, 'thumb') do |img|
+      self.thumbnail = img
     end
   end
-
 
   def live_viewers
     viewers = 0
@@ -117,9 +108,4 @@ class Stream < ActiveRecord::Base
     0
   end
 
-
-  private
-  class PaperclipAttachment < StringIO
-    attr_accessor :original_filename, :content_type
-  end
 end

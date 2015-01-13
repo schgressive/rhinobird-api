@@ -9,10 +9,22 @@ class UserDeletionService
 
   def run
     if purge
-      #delete_data
+      delete_data
     else
       mark_for_deletion
     end
+  end
+
+  def delete_data
+    ActiveRecord::Base.transaction do
+      delete_resources user.vjs
+      delete_resources user.streams
+      user.destroy
+    end
+  end
+
+  def delete_resources(resources)
+    resources.each {|resource| resource.destroy }
   end
 
   def mark_for_deletion

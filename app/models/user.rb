@@ -60,4 +60,8 @@ class User < ActiveRecord::Base
     true
   end
 
+  def should_delete?
+    self.status.for_deletion? && self.destruction_time.present? && self.destruction_time < 12.days.from_now
+  end
+
 end

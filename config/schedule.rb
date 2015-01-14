@@ -16,5 +16,8 @@
 # every 4.days do
 #   runner "AnotherModel.prune_old_records"
 # end
+every 1.days do
+  rake "rb:purge_users"
+end
 
 # Learn more: http://github.com/javan/whenever

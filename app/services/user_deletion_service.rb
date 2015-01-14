@@ -3,7 +3,7 @@ class UserDeletionService
 
   attr_reader :user
 
-  def perform(user_id, purge: false)
+  def perform(user_id, purge)
     @user = User.find(user_id)
     if purge
       delete_data
@@ -13,11 +13,9 @@ class UserDeletionService
   end
 
   def delete_data
-    ActiveRecord::Base.transaction do
-      delete_resources user.vjs
-      delete_resources user.streams
-      user.destroy
-    end
+    delete_resources user.vjs
+    delete_resources user.streams
+    user.destroy
   end
 
   def delete_resources(resources)

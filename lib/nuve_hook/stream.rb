@@ -54,7 +54,7 @@ module NuveHook
 
     #callback for room deletion
     def delete_licode_room
-      NuveHook::Nuve.delete_room(self.to_param)
+      #NuveHook::Nuve.delete_room(self.to_param)
     end
 
     # assign room ID to stream hash_token

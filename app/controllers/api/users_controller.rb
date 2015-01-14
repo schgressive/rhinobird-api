@@ -33,7 +33,7 @@ class Api::UsersController < Api::BaseController
   end
 
   def destroy
-    UserDeletionService.new(current_user).run
+    UserDeletionService.perform_async(current_user.id)
     respond_with current_user
   end
 

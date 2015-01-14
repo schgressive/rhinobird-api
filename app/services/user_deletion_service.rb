@@ -1,13 +1,10 @@
 class UserDeletionService
+  include Sidekiq::Worker
 
-  attr_reader :purge, :user
+  attr_reader :user
 
-  def initialize(user, purge: false)
-    @purge = purge
-    @user = user
-  end
-
-  def run
+  def perform(user_id, purge: false)
+    @user = User.find(user_id)
     if purge
       delete_data
     else

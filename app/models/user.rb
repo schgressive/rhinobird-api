@@ -64,4 +64,10 @@ class User < ActiveRecord::Base
     self.status.for_deletion? && self.destruction_time.present? && self.destruction_time < 12.days.from_now
   end
 
+  def cancel_delete
+    self.status = :active
+    self.destruction_time = nil
+    self.save!
+  end
+
 end

@@ -13,7 +13,7 @@ class Api::SessionsController < Devise::SessionsController
     resource = User.find_for_database_authentication(:email => params[:email])
     return invalid_login_attempt unless resource
 
-    if resource.valid_password?(params[:password])
+    if resource.valid_password?(params[:password]) && resource.status.active?
       resource.authentication_token = User.generate_token
       sign_in resource
       render json: {auth_token: resource.authentication_token, user: UserSessionSerializer.new(resource)}, status: :created

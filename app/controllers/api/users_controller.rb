@@ -32,6 +32,11 @@ class Api::UsersController < Api::BaseController
     end
   end
 
+  def destroy
+    UserDeletionService.perform_async(current_user.id, false)
+    respond_with current_user
+  end
+
   private
   def resource_params
     params.permit(:name, :email, :password, :password_confirmation, :username, :share_facebook, :share_twitter, :tw_token,

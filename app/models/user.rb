@@ -14,6 +14,10 @@ class User < ActiveRecord::Base
   extend FriendlyId
   friendly_id :username, use: :slugged
 
+  # Enums
+  extend Enumerize
+  enumerize :status, in: {active: 0, for_deletion: 1}, scope: true, default: :active # pending is first for backguard compatibility
+  #
   # IMAGES
   has_attached_file :avatar_image, styles: {medium: '60x60'}
   has_attached_file :background_image, styles: {cropped: '1550<', thumb: '200>'}
@@ -54,6 +58,16 @@ class User < ActiveRecord::Base
   #   so he won't be asked to login again
   def remember_me
     true
+  end
+
+  def should_delete?
+    self.status.for_deletion? && self.destruction_time.present? && self.destruction_time < 12.days.from_now
+  end
+
+  def cancel_delete
+    self.status = :active
+    self.destruction_time = nil
+    self.save!
   end
 
 end

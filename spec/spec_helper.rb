@@ -9,6 +9,7 @@ require "paperclip/matchers"
 require 'shoulda/matchers/integrations/rspec'
 require 'email_spec'
 require 'fb_graph/mock'
+require 'sidekiq/testing'
 include FbGraph::Mock
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -50,6 +51,18 @@ RSpec.configure do |config|
 
   config.before(:each) do
     DatabaseCleaner.start
+    # Clears out the jobs for tests using the fake testing
+    Sidekiq::Worker.clear_all
+
+    if RSpec.current_example.metadata[:sidekiq] == :fake
+      Sidekiq::Testing.fake!
+    elsif RSpec.current_example.metadata[:sidekiq] == :inline
+      Sidekiq::Testing.inline!
+    elsif RSpec.current_example.metadata[:type] == :feature
+      Sidekiq::Testing.inline!
+    else
+      Sidekiq::Testing.fake!
+    end
   end
 
   config.after(:each) do

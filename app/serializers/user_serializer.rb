@@ -1,6 +1,10 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes  :id, :name, :email, :username, :photo, :share_facebook, :share_twitter, :facebook_connected, :twitter_connected,
-    :custom_tweet, :enable_custom_tweet, :incomplete_fields, :bio, :backdrop, :avatar
+  attributes  :id, :name, :email, :username, :photo, :share_facebook,
+    :share_twitter, :facebook_connected, :twitter_connected,
+    :custom_tweet, :enable_custom_tweet, :incomplete_fields,
+    :bio, :backdrop, :avatar,
+    :video_count, :applause #stats
+
   self.root = false
 
   def twitter_connected
@@ -29,6 +33,15 @@ class UserSerializer < ActiveModel::Serializer
 
   def facebook_connected
     object.valid_fb_token?
+  end
+
+  # optionals
+  def include_applause?
+    @options.include? :stats
+  end
+
+  def include_video_count?
+    @options.include? :stats
   end
 
 end

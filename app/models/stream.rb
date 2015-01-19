@@ -89,6 +89,10 @@ class Stream < ActiveRecord::Base
     self.status.live?
   end
 
+  def increment_playcount!
+    self.update_column :playcount, self.playcount + 1
+  end
+
   #decodes 'data:image/jpg;base64,#{base64_image}'
   def thumb=(value)
     PaperclipHelper.process(value, 'thumb') do |img|

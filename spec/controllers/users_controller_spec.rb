@@ -26,6 +26,8 @@ describe Api::UsersController do
 
     before do
       @user = create(:user)
+      stream = create(:stream, user: @user)
+      create(:like, likeable: stream, user: @user)
       get :show, id: @user.to_param, format: :json
       @json_user = JSON.parse(response.body)
     end
@@ -44,6 +46,11 @@ describe Api::UsersController do
       expect(@json_user["username"]).to eq(@user.username)
       expect(@json_user["facebook_connected"]).to eq(@user.valid_fb_token?)
       expect(@json_user["twitter_connected"]).to eq(@user.valid_tw_token?)
+    end
+
+    it "returns stats info" do
+      expect(@json_user["video_count"]).to eq(1)
+      expect(@json_user["applause"]).to eq(1)
     end
 
   end
@@ -67,7 +74,6 @@ describe Api::UsersController do
       it "returns user info" do
         expect(@json_response["success"]).to be_nil
         expect(@json_response["info"]).to be_nil
-        expect(@json_response["id"]).to be_nil
 
         expect(@json_response["email"]).to eql(@user_info[:email])
         expect(@json_response["name"]).to eql(@user_info[:name])

@@ -28,7 +28,7 @@ describe Api::StreamsController do
       it_behaves_like "success api response"
 
       it "returns an array of items" do
-        expect(@streams).to have(1).items
+        expect(@streams.size).to eq(1)
         expect(@streams[0]["id"]).to eq(@stream.to_param)
         expect(@streams[0]["caption"]).to eq(@stream.caption)
       end
@@ -205,7 +205,7 @@ describe Api::StreamsController do
       it_behaves_like "success api response"
 
       it "returns the streams related to this channel" do
-        expect(@streams).to have(2).items
+        expect(@streams.size).to eq(2)
       end
     end
 
@@ -222,7 +222,7 @@ describe Api::StreamsController do
       it_behaves_like "success api response"
 
       it "returns the streams for the user" do
-        expect(@streams).to have(1).items
+        expect(@streams.size).to eq(1)
         expect(@streams.first["id"]).to eq(@stream.to_param)
       end
     end
@@ -384,9 +384,9 @@ describe Api::StreamsController do
 
         post :create, post_hash
         json = JSON.parse(response.body)
-        expect(json["thumbs"]["small"]).to match(/.*small.jpg/)
-        expect(json["thumbs"]["medium"]).to match(/.*medium.jpg/)
-        expect(json["thumbs"]["large"]).to match(/.*large.jpg/)
+        expect(json["thumbs"]["small"]).to match(/.*small.png.*/)
+        expect(json["thumbs"]["medium"]).to match(/.*medium.png.*/)
+        expect(json["thumbs"]["large"]).to match(/.*large.png.*/)
       end
 
       it "returns the status" do
@@ -450,6 +450,13 @@ describe Api::StreamsController do
       expect(@json_stream["likes"]).to eq 1
     end
 
+    it "increments the view count" do
+      expect(@json_stream["playcount"]).to eq 1
+      get :show, id: @new_stream.id, format: :json
+      @json_stream = JSON.parse(response.body)
+      expect(@json_stream["playcount"]).to eq 2
+    end
+
     it "returns the attachment" do
       File.open(Rails.root + "spec/factories/images/rails_base64.txt") do |file|
         @image_base64 = "data:image/jpg;base64,#{file.read}"
@@ -458,9 +465,9 @@ describe Api::StreamsController do
       stream = create(:stream, lat: -25.272062301637, lng: -57.585376739502, caption: "live for #developers", thumb: @image_base64)
       get :show, id: stream.id, format: :json
       json= JSON.parse(response.body)
-      expect(json["thumbs"]["small"]).to match(/.*small.jpg/)
-      expect(json["thumbs"]["medium"]).to match(/.*medium.jpg/)
-      expect(json["thumbs"]["large"]).to match(/.*large.jpg/)
+      expect(json["thumbs"]["small"]).to match(/.*small.png/)
+      expect(json["thumbs"]["medium"]).to match(/.*medium.png/)
+      expect(json["thumbs"]["large"]).to match(/.*large.png/)
     end
 
     it "returns the status" do

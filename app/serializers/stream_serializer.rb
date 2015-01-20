@@ -11,10 +11,6 @@ class StreamSerializer < ActiveModel::Serializer
     object.live_viewers
   end
 
-  def likes
-    Like.by_likeable(object).count
-  end
-
   def liked
     current_user ? Like.by_likeable(object).by_user(current_user).exists? : false
   end

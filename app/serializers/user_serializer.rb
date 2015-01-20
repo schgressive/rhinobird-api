@@ -3,7 +3,7 @@ class UserSerializer < ActiveModel::Serializer
     :share_twitter, :facebook_connected, :twitter_connected,
     :custom_tweet, :enable_custom_tweet, :incomplete_fields,
     :bio, :backdrop, :avatar,
-    :video_count, :applause #stats
+    :video_count, :applause, :playcount #stats
 
   self.root = false
 
@@ -41,6 +41,10 @@ class UserSerializer < ActiveModel::Serializer
   end
 
   def include_video_count?
+    @options.include? :stats
+  end
+
+  def include_playcount?
     @options.include? :stats
   end
 

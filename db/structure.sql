@@ -69,7 +69,7 @@ CREATE TABLE `likes` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_likes_on_user_id_and_likeable_type_and_likeable_id` (`user_id`,`likeable_type`,`likeable_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `picks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -115,6 +115,7 @@ CREATE TABLE `streams` (
   `recording_id` decimal(22,0) DEFAULT NULL,
   `fb_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `archive` tinyint(1) DEFAULT '1',
+  `likes` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_streams_on_hash_token` (`hash_token`),
   KEY `index_streams_on_user_id` (`user_id`),
@@ -185,7 +186,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `index_users_on_reset_password_token` (`reset_password_token`),
   UNIQUE KEY `index_users_on_username` (`username`),
   KEY `index_users_on_slug` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=213 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=214 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `vjs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -206,6 +207,7 @@ CREATE TABLE `vjs` (
   `city` varchar(255) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
   `country` varchar(255) DEFAULT NULL,
+  `likes` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_vjs_on_slug` (`slug`),
   KEY `index_vjs_on_user_id_and_channel_id` (`user_id`,`channel_id`)
@@ -328,3 +330,5 @@ INSERT INTO schema_migrations (version) VALUES ('20141224013258');
 INSERT INTO schema_migrations (version) VALUES ('20141224113527');
 
 INSERT INTO schema_migrations (version) VALUES ('20150106164925');
+
+INSERT INTO schema_migrations (version) VALUES ('20150120140528');

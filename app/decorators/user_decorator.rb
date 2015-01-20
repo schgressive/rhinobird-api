@@ -2,7 +2,11 @@ class UserDecorator < Draper::Decorator
   delegate_all
 
   def applause
-    Like.by_user(object).count
+    object.streams.sum(:likes) + object.vjs.sum(:likes)
+  end
+
+  def playcount
+    object.streams.sum(:playcount)
   end
 
   def video_count

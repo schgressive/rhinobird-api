@@ -5,10 +5,6 @@ class VjSerializer < ActiveModel::Serializer
 
   has_one :user
 
-  def likes
-    Like.by_likeable(object).count
-  end
-
   def liked
     current_user ? Like.by_likeable(object).by_user(current_user).exists? : false
   end

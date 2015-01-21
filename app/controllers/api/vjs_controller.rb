@@ -10,6 +10,7 @@ class Api::VjsController < Api::BaseController
 
   def show
     @vj.refresh_live_status
+    @vj.increment_playcount!
     respond_with @vj
   end
 

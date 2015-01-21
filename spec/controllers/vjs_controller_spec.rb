@@ -97,8 +97,7 @@ describe Api::VjsController do
   describe "GET #show" do
 
     before do
-      @vj = create(:vj)
-      create(:like, likeable: @vj)
+      @vj = create(:vj, likes: 1)
       get :show, id: @vj.to_param, format: :json
       @json = JSON.parse(response.body)
     end
@@ -110,6 +109,14 @@ describe Api::VjsController do
     it "returns the like count" do
       expect(@json["likes"]).to eq 1
     end
+
+    it "increments the view count" do
+      expect(@json["playcount"]).to eq 1
+      get :show, id: @vj.to_param, format: :json
+      @json= JSON.parse(response.body)
+      expect(@json["playcount"]).to eq 2
+    end
+
 
     it "returns correct json structure" do
       expect(@json["id"]).to eq(@vj.to_param)

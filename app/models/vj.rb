@@ -77,4 +77,8 @@ class Vj < ActiveRecord::Base
   def refresh_live_status
   end
 
+  def increment_playcount!
+    self.update_column :playcount, self.playcount + 1
+  end
+
 end

@@ -3,7 +3,7 @@ class VjSerializer < ActiveModel::Serializer
   attributes :id, :username, :status, :channel_name, :archived_url, :token, :thumbs, :type, :geometry, :properties,
     :likes, :liked, :playcount
 
-  has_one :user
+  has_one :user, serializer: PublicUserSerializer
 
   def liked
     current_user ? Like.by_likeable(object).by_user(current_user).exists? : false

@@ -4,7 +4,7 @@ class StreamSerializer < ActiveModel::Serializer
 
   self.root = false
 
-  has_one :user
+  has_one :user, serializer: PublicUserSerializer
 
   def live_viewers
     return 0 unless @options[:live]

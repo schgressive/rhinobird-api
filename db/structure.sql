@@ -60,6 +60,16 @@ CREATE TABLE `events` (
   KEY `index_events_on_vj_id_and_stream_id` (`vj_id`,`stream_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=987 DEFAULT CHARSET=latin1;
 
+CREATE TABLE `follows` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `followed_user_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_follows_on_user_id_and_followed_user_id` (`user_id`,`followed_user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE `likes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
@@ -335,3 +345,5 @@ INSERT INTO schema_migrations (version) VALUES ('20150106164925');
 INSERT INTO schema_migrations (version) VALUES ('20150120140528');
 
 INSERT INTO schema_migrations (version) VALUES ('20150121130233');
+
+INSERT INTO schema_migrations (version) VALUES ('20150126163643');

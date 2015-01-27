@@ -27,6 +27,19 @@ class User < ActiveRecord::Base
   has_many :vjs
   has_many :timelines
 
+  #v1
+  # has_many :follows, class_name: "Follow"
+  # has_many :followed_users, :through => :folllows
+  # has_many :followings, :class_name => "Follow", :foreign_key => :followed_user_id
+  # has_many :followers, :through => :followings, :source => :user
+
+  #v2
+  has_many :follows, dependent: :destroy
+  has_many :followed_users, through: :follows, source: :followed_user
+  has_many :reverse_follows, foreign_key: 'followed_user_id', class_name: 'Follow', dependent: :destroy
+  has_many :followers, through: :reverse_follows, source: :user
+
+
   def avatar=(value)
     PaperclipHelper.process(value, 'name') do |img|
       self.avatar_image = img

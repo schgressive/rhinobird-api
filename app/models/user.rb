@@ -78,4 +78,8 @@ class User < ActiveRecord::Base
     self.save!
   end
 
+  def followed_by?(user)
+    self.followers.include? user
+  end
+
 end

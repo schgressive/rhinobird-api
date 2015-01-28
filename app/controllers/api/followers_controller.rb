@@ -5,4 +5,16 @@ class Api::FollowersController < Api::BaseController
     @followers = @user.followers
     respond_with @followers, each_serializer: PublicUserSerializer
   end
+
+  def create
+    user = User.find(params[:user_id])
+    user.followers << current_user
+    respond_with current_user
+  end
+
+  def destroy
+    user = User.find(params[:user_id])
+    user.followers.destroy(current_user)
+    render json: {}, status: 200
+  end
 end

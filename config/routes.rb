@@ -22,8 +22,8 @@ RhinobirdApi::Application.routes.draw do
       resources :streams, only: [:index]
       resources :vjs, only: [:index]
       resources :timeline, only: [:index]
-      resources :followers, only: [:index]
-      resources :following, only: [:index, :create, :destroy]
+      resources :followers, only: [:index, :create, :destroy]
+      resources :following, only: [:index]
     end
 
     resources :channels, only: [:create, :show, :index, :destroy] do

@@ -6,7 +6,9 @@ class Api::TimelineController < Api::BaseController
     @entries = if params.key? :user_id
       @user = User.find params[:user_id]
       @user.timelines
-    else Timeline end
+    else
+      Timeline.where("resource_type <> ?", 'Repost')
+    end
 
     @entries = @entries.includes(:resource => :user).order('promoted DESC, created_at DESC')
     @entries = @entries.page(params[:page] || 1)

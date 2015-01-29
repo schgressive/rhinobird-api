@@ -25,6 +25,7 @@ class User < ActiveRecord::Base
   # RELATIONS
   has_many :streams
   has_many :vjs
+  has_many :reposts
   has_many :timelines
 
   has_one :stream, order: "created_at DESC"

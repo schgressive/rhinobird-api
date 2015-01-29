@@ -1,10 +1,14 @@
 class StreamSerializer < ActiveModel::Serializer
   attributes :id, :caption, :started_on, :type, :properties, :geometry, :owner_token, :token, :thumbs, :status, :status,
-    :archived_url, :stream_id, :promoted, :recording_id, :archive, :live_viewers, :likes, :liked, :playcount
+    :archived_url, :stream_id, :promoted, :recording_id, :archive, :live_viewers, :likes, :liked, :playcount, :timeline_id
 
   self.root = false
 
   has_one :user, serializer: PublicUserSerializer
+
+  def timeline_id
+    object.timeline.id
+  end
 
   def live_viewers
     return 0 unless @options[:live]

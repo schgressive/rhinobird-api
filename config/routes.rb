@@ -46,7 +46,9 @@ RhinobirdApi::Application.routes.draw do
       resources :picks, only: [:create, :index]
     end
 
-    resources :timeline, only: [:index]
+    resources :timeline, only: [:index] do
+      resources :reposts, only: [:create]
+    end
 
   end
 

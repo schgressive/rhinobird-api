@@ -11,7 +11,7 @@ class Api::StreamsController < Api::BaseController
     @stream = Stream.find(params[:id])
     @stream.refresh_live_status
     @stream.increment_playcount!
-    respond_with @stream, live: true
+    respond_with @stream, live: true, serializer: FullStreamSerializer
   end
 
   def create

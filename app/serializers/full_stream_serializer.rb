@@ -1,6 +1,6 @@
-class StreamSerializer < ActiveModel::Serializer
-  attributes :id, :caption, :started_on, :type, :properties, :geometry, :thumbs, :status, :status,
-    :archived_url, :promoted, :live_viewers, :likes, :playcount, :timeline_id
+class FullStreamSerializer < ActiveModel::Serializer
+  attributes :id, :caption, :started_on, :type, :properties, :geometry, :owner_token, :token, :thumbs, :status, :status,
+    :archived_url, :stream_id, :promoted, :recording_id, :archive, :live_viewers, :likes, :liked, :playcount, :timeline_id
 
   self.root = false
 
@@ -8,6 +8,15 @@ class StreamSerializer < ActiveModel::Serializer
 
   def timeline_id
     object.timeline.id
+  end
+
+  def live_viewers
+    return 0 unless @options[:live]
+    object.live_viewers
+  end
+
+  def liked
+    current_user ? Like.by_likeable(object).by_user(current_user).exists? : false
   end
 
   #to make valid geoJSON
@@ -45,4 +54,9 @@ class StreamSerializer < ActiveModel::Serializer
     object.started_on.to_s(:api) if object.started_on
   end
 
+  def attributes
+    hash = super
+    hash.delete(:token) if object.ignore_token
+    hash
+  end
 end

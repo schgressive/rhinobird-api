@@ -1,7 +1,7 @@
 class EventSerializer < ActiveModel::Serializer
   self.root = false
   attributes :id, :track_type, :duration, :start_time
-  has_one :stream
+  has_one :stream, serializer: FullStreamSerializer
 
   def duration
     object.to_hms

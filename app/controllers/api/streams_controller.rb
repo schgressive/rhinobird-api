@@ -16,7 +16,7 @@ class Api::StreamsController < Api::BaseController
 
   def create
     @stream = StreamCreateService.new(current_user, params).run
-    respond_with @stream
+    respond_with @stream, serializer: FullStreamSerializer
   end
 
   def destroy
@@ -32,7 +32,7 @@ class Api::StreamsController < Api::BaseController
     @stream = Stream.find(params[:id])
     @stream = StreamUpdateService.new(current_user, @stream, stream_params).run
 
-    respond_with @stream
+    respond_with @stream, serializer: FullStreamSerializer
   end
 
   def related

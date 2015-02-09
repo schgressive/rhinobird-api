@@ -1,8 +1,12 @@
 class PublicUserSerializer < ActiveModel::Serializer
-  attributes  :id, :name, :username, :photo, :bio, :backdrop, :avatar
+  attributes  :id, :name, :username, :photo, :bio, :backdrop, :avatar, :followed
   self.root = false
 
   has_one :stream, key: :last_stream, serializer: SimpleStreamSerializer
+
+  def followed
+    object.followed_by? current_user
+  end
 
   def avatar
     object.avatar_image.present? ? object.avatar_image : nil

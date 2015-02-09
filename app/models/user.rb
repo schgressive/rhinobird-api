@@ -80,7 +80,7 @@ class User < ActiveRecord::Base
   end
 
   def followed_by?(user)
-    self.followers.include? user
+    user.id == self.id || self.followers.include?(user)
   end
 
 end

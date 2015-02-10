@@ -3,6 +3,7 @@ class Timeline < ActiveRecord::Base
   # Relations
   belongs_to :resource, polymorphic: true
   belongs_to :user
+  has_many :reposts, dependent: :destroy
 
   # Enums
   extend Enumerize

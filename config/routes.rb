@@ -32,6 +32,7 @@ RhinobirdApi::Application.routes.draw do
 
     resources :streams, only: [:create, :show, :index, :destroy, :update] do
       resources :vjs, only: [:index]
+      resources :reposts, only: [:create]
       resource :like, only: [:create, :destroy]
       member do
         get :related
@@ -41,14 +42,13 @@ RhinobirdApi::Application.routes.draw do
     # VJ routes
     resources :picks, only: [:show, :update, :destroy]
     resources :vjs, only: [:show, :update, :create, :index, :destroy] do
+      resources :reposts, only: [:create]
       resource :like, only: [:create, :destroy]
       resources :events, only: [:index]
       resources :picks, only: [:create, :index]
     end
 
-    resources :timeline, only: [:index] do
-      resources :reposts, only: [:create]
-    end
+    resources :timeline, only: [:index]
 
   end
 

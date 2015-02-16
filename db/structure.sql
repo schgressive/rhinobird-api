@@ -68,7 +68,7 @@ CREATE TABLE `follows` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_follows_on_user_id_and_followed_user_id` (`user_id`,`followed_user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `likes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -79,7 +79,7 @@ CREATE TABLE `likes` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_likes_on_user_id_and_likeable_type_and_likeable_id` (`user_id`,`likeable_type`,`likeable_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `picks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -94,17 +94,6 @@ CREATE TABLE `picks` (
   UNIQUE KEY `index_picks_on_slug` (`slug`),
   KEY `index_picks_on_stream_id_and_vj_id` (`stream_id`,`vj_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=230 DEFAULT CHARSET=latin1;
-
-CREATE TABLE `reposts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `timeline_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `index_reposts_on_timeline_id` (`timeline_id`),
-  KEY `index_reposts_on_user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `schema_migrations` (
   `version` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -137,11 +126,12 @@ CREATE TABLE `streams` (
   `fb_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `archive` tinyint(1) DEFAULT '1',
   `likes` int(11) DEFAULT '0',
+  `source_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_streams_on_hash_token` (`hash_token`),
   KEY `index_streams_on_user_id` (`user_id`),
   FULLTEXT KEY `caption_fulltext` (`caption`)
-) ENGINE=MyISAM AUTO_INCREMENT=1148 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=1149 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `timelines` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -153,7 +143,7 @@ CREATE TABLE `timelines` (
   `promoted` tinyint(1) DEFAULT '0',
   `status` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1013 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1021 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -230,6 +220,7 @@ CREATE TABLE `vjs` (
   `country` varchar(255) DEFAULT NULL,
   `likes` int(11) DEFAULT '0',
   `playcount` int(11) DEFAULT '0',
+  `source_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_vjs_on_slug` (`slug`),
   KEY `index_vjs_on_user_id_and_channel_id` (`user_id`,`channel_id`)
@@ -360,3 +351,5 @@ INSERT INTO schema_migrations (version) VALUES ('20150121130233');
 INSERT INTO schema_migrations (version) VALUES ('20150126163643');
 
 INSERT INTO schema_migrations (version) VALUES ('20150129124313');
+
+INSERT INTO schema_migrations (version) VALUES ('20150216173456');

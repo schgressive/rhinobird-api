@@ -2,6 +2,7 @@ class Vj < ActiveRecord::Base
   # Relations
   belongs_to :user
   belongs_to :channel
+  belongs_to :source, class_name: "Vj"
   has_many :picks
   has_many :events
   has_one :timeline, as: :resource, dependent: :destroy

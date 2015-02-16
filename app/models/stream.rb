@@ -31,6 +31,7 @@ class Stream < ActiveRecord::Base
 
   # RELATIONS
   belongs_to :user
+  belongs_to :source, class_name: "Stream"
   has_and_belongs_to_many :channels
   has_one :timeline, as: :resource, dependent: :destroy
 

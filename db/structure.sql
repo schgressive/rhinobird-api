@@ -131,7 +131,7 @@ CREATE TABLE `streams` (
   UNIQUE KEY `index_streams_on_hash_token` (`hash_token`),
   KEY `index_streams_on_user_id` (`user_id`),
   FULLTEXT KEY `caption_fulltext` (`caption`)
-) ENGINE=MyISAM AUTO_INCREMENT=1149 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=1150 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `timelines` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -142,8 +142,9 @@ CREATE TABLE `timelines` (
   `updated_at` datetime NOT NULL,
   `promoted` tinyint(1) DEFAULT '0',
   `status` int(11) DEFAULT NULL,
+  `reposted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1021 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1022 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -353,3 +354,5 @@ INSERT INTO schema_migrations (version) VALUES ('20150126163643');
 INSERT INTO schema_migrations (version) VALUES ('20150129124313');
 
 INSERT INTO schema_migrations (version) VALUES ('20150216173456');
+
+INSERT INTO schema_migrations (version) VALUES ('20150216193814');

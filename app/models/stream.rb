@@ -31,6 +31,7 @@ class Stream < ActiveRecord::Base
 
   # RELATIONS
   belongs_to :user
+  belongs_to :source, class_name: "Stream"
   has_and_belongs_to_many :channels
   has_one :timeline, as: :resource, dependent: :destroy
 
@@ -98,6 +99,15 @@ class Stream < ActiveRecord::Base
     PaperclipHelper.process(value, 'thumb') do |img|
       self.thumbnail = img
     end
+  end
+
+  def reposted?(user)
+    return false if user.nil?
+    Stream.where(user_id: user.id, source_id: self.id).exists?
+  end
+
+  def reposts
+    Stream.where(source_id: self.id).count
   end
 
   def live_viewers

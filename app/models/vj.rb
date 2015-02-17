@@ -2,6 +2,7 @@ class Vj < ActiveRecord::Base
   # Relations
   belongs_to :user
   belongs_to :channel
+  belongs_to :source, class_name: "Vj"
   has_many :picks
   has_many :events
   has_one :timeline, as: :resource, dependent: :destroy
@@ -80,5 +81,15 @@ class Vj < ActiveRecord::Base
   def increment_playcount!
     self.update_column :playcount, self.playcount + 1
   end
+
+  def reposted?(user)
+    return false if user.nil?
+    Vj.where(user_id: user.id, source_id: self.id).exists?
+  end
+
+  def reposts
+    Vj.where(source_id: self.id).count
+  end
+
 
 end

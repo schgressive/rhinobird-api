@@ -5,6 +5,7 @@ class StreamSerializer < ActiveModel::Serializer
   self.root = false
 
   has_one :user, serializer: PublicUserSerializer
+  has_one :source
 
   def timeline_id
     object.timeline.id

@@ -4,15 +4,28 @@ describe Api::RepostsController do
   login_user
 
   describe "POST #create" do
-    it "reposts a stream" do
-      stream = create(:stream)
-      timeline = Timeline.last
-      post :create, format: :json, timeline_id: timeline.id
-      repost = assigns(:repost)
-      expect(Timeline.count).to eq 2
-      expect(Timeline.last.resource_id).to eq repost.id
-      expect(Timeline.last.resource_type).to eq "Repost"
-      expect(timeline.id).to eq repost.timeline_id
+
+    it "reposts a vj" do
+      vj = create(:vj)
+      post :create, format: :json, vj_id: vj.to_param
+
+      new_vj = Vj.last
+      expect(Vj.count).to eq 2
+      expect(new_vj.source_id).to eq vj.id
+      expect(new_vj.user_id).to eq @user.id
+      expect(new_vj.channel_id).to eq vj.channel_id
     end
+
+    it "reposts a stream" do
+      stream = create(:stream, caption: "Original stream")
+      post :create, format: :json, stream_id: stream.to_param
+
+      new_stream = Stream.last
+      expect(Stream.count).to eq 2
+      expect(new_stream.source_id).to eq stream.id
+      expect(new_stream.user_id).to eq @user.id
+      expect(new_stream.caption).to eq stream.caption
+    end
+
   end
 end

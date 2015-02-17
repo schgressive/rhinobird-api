@@ -3,7 +3,6 @@ class Timeline < ActiveRecord::Base
   # Relations
   belongs_to :resource, polymorphic: true
   belongs_to :user
-  has_many :reposts, dependent: :destroy
 
   # Enums
   extend Enumerize
@@ -13,5 +12,6 @@ class Timeline < ActiveRecord::Base
 
   before_create do
     self.user_id = resource.user_id if resource.respond_to? :user_id
+    self.repost = true if resource.source
   end
 end

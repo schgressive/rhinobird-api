@@ -1,15 +1,11 @@
 class StreamSerializer < ActiveModel::Serializer
   attributes :id, :caption, :started_on, :type, :properties, :geometry, :thumbs, :status, :status,
-    :archived_url, :promoted, :live_viewers, :likes, :playcount, :timeline_id
+    :archived_url, :promoted, :live_viewers, :likes, :playcount
 
   self.root = false
 
   has_one :user, serializer: PublicUserSerializer
   has_one :source
-
-  def timeline_id
-    object.timeline.id
-  end
 
   #to make valid geoJSON
   def type

@@ -1,5 +1,5 @@
 class AddRepostedToTimeline < ActiveRecord::Migration
   def change
-    add_column :timelines, :reposted, :boolean, default: false
+    add_column :timelines, :repost, :boolean, default: false
   end
 end

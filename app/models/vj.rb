@@ -82,4 +82,14 @@ class Vj < ActiveRecord::Base
     self.update_column :playcount, self.playcount + 1
   end
 
+  def reposted?(user)
+    return false if user.nil?
+    Vj.where(user_id: user.id, source_id: self.id).exists?
+  end
+
+  def reposts
+    Vj.where(source_id: self.id).count
+  end
+
+
 end

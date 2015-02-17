@@ -1,12 +1,17 @@
 class VjSerializer < ActiveModel::Serializer
   self.root = false
   attributes :id, :username, :status, :channel_name, :archived_url, :token, :thumbs, :type, :geometry, :properties,
-    :likes, :liked, :playcount
+    :likes, :liked, :playcount, :reposted, :reposts
 
   has_one :user, serializer: PublicUserSerializer
+  has_one :source
 
   def liked
     current_user ? Like.by_likeable(object).by_user(current_user).exists? : false
+  end
+
+  def reposted
+    object.reposted? current_user
   end
 
   def id

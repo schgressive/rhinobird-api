@@ -101,6 +101,15 @@ class Stream < ActiveRecord::Base
     end
   end
 
+  def reposted?(user)
+    return false if user.nil?
+    Stream.where(user_id: user.id, source_id: self.id).exists?
+  end
+
+  def reposts
+    Stream.where(source_id: self.id).count
+  end
+
   def live_viewers
     viewers = 0
     if self.status.live?

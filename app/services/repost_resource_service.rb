@@ -6,7 +6,7 @@ class RepostResourceService < Struct.new(:resource, :user)
   end
 
   def build_new_resource
-    new_resource = object_class.new(resource.attributes)
+    new_resource = object_class.new(resource.attributes.except([:created_at, :updated_at]))
     new_resource.user = user
     new_resource.source = resource
     new_resource.save!

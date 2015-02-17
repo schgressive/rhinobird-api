@@ -7,7 +7,7 @@ class Api::TimelineController < Api::BaseController
       @user = User.find params[:user_id]
       @user.timelines
     else
-      Timeline.where(reposted: false)
+      Timeline.where(repost: false)
     end
 
     @entries = @entries.includes(:resource => :user).order('promoted DESC, created_at DESC')

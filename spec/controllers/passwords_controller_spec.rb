@@ -38,7 +38,7 @@ describe Api::PasswordsController do
 
     it "changes the password" do
       @user.reload
-      expect(@user.valid_password?("adminadmin")).to be_true
+      expect(@user.valid_password?("adminadmin")).to be_truthy
     end
 
   end

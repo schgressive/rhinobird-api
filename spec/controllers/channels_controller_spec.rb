@@ -19,7 +19,7 @@ describe Api::ChannelsController do
       end
 
       it "returns an array of channels" do
-        expect(@channels).to have(1).items
+        expect(@channels.items.size).to eq(1)
         expect(@channels[0]["name"]).to eq(@channel.name)
       end
     end
@@ -155,7 +155,7 @@ describe Api::ChannelsController do
       end
 
       it "doesn't change the channel count" do
-        expect{post :create, name: 'Testchannelcreation', format: :json}.not_to change(Channel, :count).by(1)
+        expect{post :create, name: 'Testchannelcreation', format: :json}.not_to change(Channel, :count)
       end
 
       it "returns a new channel object" do

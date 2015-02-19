@@ -289,7 +289,7 @@ describe Api::StreamsController do
       end
 
       it "assigns the channel to the stream" do
-        expect{put :update, channel_id: @channel.id, id: @stream.id, format: :json}.not_to change{@channel.streams.count}.by(1)
+        expect{put :update, channel_id: @channel.id, id: @stream.id, format: :json}.not_to change{@channel.streams.count}
       end
 
       it "returns access denied response" do

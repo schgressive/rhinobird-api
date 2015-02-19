@@ -113,11 +113,11 @@ describe Api::PicksController do
         audio_pick.reload
         video_pick.reload
 
-        expect(audio_pick.active).to be_false
-        expect(audio_pick.fixed_audio).to be_false
+        expect(audio_pick.active).to be_falsey
+        expect(audio_pick.fixed_audio).to be_falsey
 
-        expect(video_pick.active).to be_true
-        expect(video_pick.fixed_audio).to be_true
+        expect(video_pick.active).to be_truthy
+        expect(video_pick.fixed_audio).to be_truthy
 
       end
 
@@ -129,11 +129,11 @@ describe Api::PicksController do
         audio_pick.reload
         video_pick.reload
 
-        expect(audio_pick.active).to be_false
-        expect(audio_pick.fixed_audio).to be_true
+        expect(audio_pick.active).to be_falsey
+        expect(audio_pick.fixed_audio).to be_truthy
 
-        expect(video_pick.active).to be_true
-        expect(video_pick.fixed_audio).to be_false
+        expect(video_pick.active).to be_truthy
+        expect(video_pick.fixed_audio).to be_falsey
 
       end
 

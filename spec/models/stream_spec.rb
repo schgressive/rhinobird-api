@@ -85,7 +85,7 @@ describe Stream, type: :model do
       end
       stream.thumb = @image_base64
       stream.save!
-      expect(stream.thumbnail.exists?).to be_true
+      expect(stream.thumbnail.exists?).to be_truthy
     end
 
     it "assigns a new MD5 for the ID" do

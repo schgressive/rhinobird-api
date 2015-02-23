@@ -16,6 +16,7 @@ class Api::UsersController < Api::BaseController
   def create
     @user = User.new(resource_params)
     @user.authentication_token = User.generate_token
+    @user.mobile_signup = params[:is_mobile]
     if @user.save
       render json: UserSessionSerializer.new(@user), status: :created
     else

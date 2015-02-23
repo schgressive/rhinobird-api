@@ -191,6 +191,7 @@ CREATE TABLE `users` (
   `avatar_image_content_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `avatar_image_file_size` int(11) DEFAULT NULL,
   `avatar_image_updated_at` datetime DEFAULT NULL,
+  `mobile_signup` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_users_on_email` (`email`),
   UNIQUE KEY `index_users_on_reset_password_token` (`reset_password_token`),
@@ -198,7 +199,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `index_users_on_authentication_token` (`authentication_token`),
   UNIQUE KEY `index_users_on_username` (`username`),
   KEY `index_users_on_slug` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `vjs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -356,3 +357,5 @@ INSERT INTO schema_migrations (version) VALUES ('20150129124313');
 INSERT INTO schema_migrations (version) VALUES ('20150216173456');
 
 INSERT INTO schema_migrations (version) VALUES ('20150216193814');
+
+INSERT INTO schema_migrations (version) VALUES ('20150223170130');

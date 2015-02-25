@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :user do
-    username { Faker::Internet.user_name }
+    username { "#{Faker::Internet.user_name}#{Random.rand(1000)}" }
     name "Sirius Black"
     email { Faker::Internet.email }
     password "12345678"

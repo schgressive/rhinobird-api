@@ -19,7 +19,7 @@ describe Api::ChannelsController do
       end
 
       it "returns an array of channels" do
-        expect(@channels.items.size).to eq(1)
+        expect(@channels.size).to eq(1)
         expect(@channels[0]["name"]).to eq(@channel.name)
       end
     end

@@ -25,7 +25,7 @@ describe Api::UsersController do
   describe "GET #show" do
 
     before do
-      @user = create(:user)
+      @user = create(:user, likes: 1)
       stream = create(:stream, user: @user)
       create(:like, likeable: stream, user: @user)
       get :show, id: @user.to_param, format: :json

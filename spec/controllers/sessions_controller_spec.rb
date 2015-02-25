@@ -25,7 +25,6 @@ describe Api::SessionsController do
 
       it "returns valid credentials" do
         expect(@json_response["auth_token"]).not_to be("")
-        expect(@json_response["user"]["id"]).to be_nil
         expect(@json_response["user"]["email"]).to eql(@user.email)
         expect(@json_response["user"]["name"]).to eql(@user.name)
       end
@@ -104,7 +103,6 @@ describe Api::SessionsController do
 
       it "returns valid credentials" do
         expect(@json_response["auth_token"]).not_to be("")
-        expect(@json_response["user"]["id"]).to be_nil
         expect(@json_response["user"]["email"]).to eql(@user.email)
         expect(@json_response["user"]["name"]).to eql(@user.name)
       end
@@ -124,7 +122,6 @@ describe Api::SessionsController do
 
       it "returns valid credentials" do
         expect(@json_response["auth_token"]).not_to be("")
-        expect(@json_response["user"]["id"]).to be_nil
         expect(@json_response["user"]["email"]).to eql(@user.email)
         expect(@json_response["user"]["name"]).to eql(@user.name)
       end

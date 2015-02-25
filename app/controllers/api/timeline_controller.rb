@@ -4,8 +4,13 @@ class Api::TimelineController < Api::BaseController
 
   def index
     @entries = if params.key? :user_id
-      @user = User.find params[:user_id]
-      @user.timelines
+       if current_user && params[:user_id] == "current"
+         users = current_user.followed_users.pluck(:id) << current_user.id
+         Timeline.where(user_id: users)
+       else
+         @user = User.find(params[:user_id])
+         @user.timelines
+       end
     else
       Timeline.where(repost: false)
     end

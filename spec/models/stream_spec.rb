@@ -30,24 +30,6 @@ describe Stream, type: :model do
       end
     end
 
-    describe "#live_viewers" do
-      it "returns only viewers" do
-        stream = create(:live_stream)
-        response = "[{\"name\":\"owner_1418217705\",\"role\":\"presenter\", \"permissions\":{\"publish\":true,\"subscribe\":true,\"record\":true}},{\"name\":\"user_1418217895\",\"role\":\"viewer\",\"permissions\":{\"subscribe\":true,\"publish\":true}}]"
-        allow(NUVE).to receive(:getUsers).and_return(response)
-
-        expect(stream.live_viewers).to eq(1)
-      end
-
-      it "returns 0 when room does not exists" do
-        stream = create(:live_stream)
-        response = "Room does not exist"
-        allow(NUVE).to receive(:getUsers).and_return(response)
-
-        expect(stream.live_viewers).to eq(0)
-
-      end
-    end
   end
 
   describe "defaults" do

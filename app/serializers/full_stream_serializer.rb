@@ -33,6 +33,7 @@ class FullStreamSerializer < ActiveModel::Serializer
     {
       small: object.thumbnail.url(:small),
       medium: object.thumbnail.url(:medium),
+      burned: object.thumbnail.url(:burned),
       large: object.thumbnail.url(:large)
     }
   end

@@ -37,9 +37,10 @@ class Stream < ActiveRecord::Base
 
   attr_accessor :ignore_token
 
-  has_attached_file :thumbnail, styles: {
+  has_attached_file :thumbnail, processors: [:watermark], styles: {
     small: '33%',
     medium: '66%',
+    burned: { watermark_path: "#{Rails.root}/public/play_button.png" },
     large: '100%'
   },
   s3_headers: {

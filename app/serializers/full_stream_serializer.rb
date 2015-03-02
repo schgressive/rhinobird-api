@@ -1,6 +1,6 @@
 class FullStreamSerializer < ActiveModel::Serializer
   attributes :id, :caption, :started_on, :type, :properties, :geometry, :owner_token, :token, :thumbs, :status, :status,
-    :archived_url, :stream_id, :promoted, :recording_id, :archive, :live_viewers, :likes, :liked, :playcount, :timeline_id,
+    :archived_url, :stream_id, :promoted, :recording_id, :archive, :likes, :liked, :playcount, :timeline_id,
     :reposted, :reposts
 
   self.root = false
@@ -9,11 +9,6 @@ class FullStreamSerializer < ActiveModel::Serializer
 
   def timeline_id
     object.timeline.id
-  end
-
-  def live_viewers
-    return 0 unless @options[:live]
-    object.live_viewers
   end
 
   def reposted

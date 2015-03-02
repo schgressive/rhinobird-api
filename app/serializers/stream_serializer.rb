@@ -1,6 +1,6 @@
 class StreamSerializer < ActiveModel::Serializer
   attributes :id, :caption, :started_on, :type, :properties, :geometry, :thumbs, :status, :status,
-    :archived_url, :promoted, :live_viewers, :likes, :playcount
+    :archived_url, :promoted, :likes, :playcount
 
   self.root = false
 

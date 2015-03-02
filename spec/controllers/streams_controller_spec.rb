@@ -405,7 +405,6 @@ describe Api::StreamsController do
 
       it "has user information" do
         expect(@json_stream["user"]["name"]).to eq(@user.name)
-        expect(@json_stream["user"]["email"]).to eq(@user.email)
       end
 
     end
@@ -432,8 +431,7 @@ describe Api::StreamsController do
   context "GET #show" do
     before do
       @channel = create(:channel)
-      @new_stream = create(:stream, lat: -25.272062301637, lng: -57.585376739502, caption: "live for #developers")
-      create(:like, likeable: @new_stream)
+      @new_stream = create(:stream, lat: -25.272062301637, lng: -57.585376739502, caption: "live for #developers", likes: 1)
       get :show, id: @new_stream.id, format: :json
       @json_stream = JSON.parse(response.body)
     end
@@ -483,7 +481,6 @@ describe Api::StreamsController do
     it "has user information" do
       user = @new_stream.user
       expect(@json_stream["user"]["name"]).to eq(user.name)
-      expect(@json_stream["user"]["email"]).to eq(user.email)
     end
 
   end

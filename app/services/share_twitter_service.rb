@@ -7,13 +7,7 @@ class ShareTwitterService
 
   def run
     init_client
-    if @stream.thumbnail.present?
-      temp = Tempfile.new(@stream.thumbnail.original_filename)
-      @stream.thumbnail.copy_to_local_file(:large, temp.path)
-      message = @client.update_with_media get_tweet_message, temp
-    else
-      message = @client.update get_tweet_message
-    end
+    message = @client.update get_tweet_message
   rescue Twitter::Error => e
     puts "Couldn't update on twitter: #{e.message}"
   end

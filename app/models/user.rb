@@ -83,4 +83,10 @@ class User < ActiveRecord::Base
     user.id == self.id || self.followers.include?(user)
   end
 
+  def generate_random_profile
+    self.name     = "RhinoBird#{User.count}";
+    self.username = self.name
+    self.password = SecureRandom.hex(16);
+    self.password_confirmation = self.password;
+  end
 end

@@ -1,4 +1,14 @@
 <% content_for :meta do %>
+  <!-- Tags for Facebook -->
+  <meta property="og:description" content="<%= @stream.caption %>">
+  <meta property="og:site_name" content="RhinobirdTv">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="<%= @stream.caption %>" />
+  <meta property="og:url" content="<%= @stream.full_stream_url %>" />
+  <meta property="og:image" content="<%= @stream.thumbnail.url(:burned) %>" />
+
+  <!-- Tags for Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@rhinobirdtv">
   <meta name="twitter:title" content="<%= @stream.caption %>">

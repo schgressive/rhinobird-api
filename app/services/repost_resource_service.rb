@@ -2,7 +2,12 @@ class RepostResourceService < Struct.new(:resource, :user)
 
   def run
     new_resource = build_new_resource
+    increment_repost_count
     new_resource
+  end
+
+  def increment_repost_count
+    resource.update_column :reposts, object_class.where(source_id: resource.id).count
   end
 
   def build_new_resource

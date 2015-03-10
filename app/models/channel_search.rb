@@ -3,7 +3,8 @@ class ChannelSearch < Struct.new(:params)
   def run
     set_basic_scope
     set_search
-    set_pagination unless params.key? :lat
+    set_order
+    set_pagination unless params.key?(:lat) && !params.key?(:order)
     search_geo if params.key?(:lat) && params.key?(:lng)
 
     @records
@@ -12,8 +13,21 @@ class ChannelSearch < Struct.new(:params)
   private
 
   def set_basic_scope
-    @records = Channel.order("name DESC")
+    @records = Channel.includes(:streams)
     @records
+  end
+
+  def set_order
+    the_order = "name DESC"
+    if params.key? :order
+      case params[:order]
+      when "latest"
+        the_order = "created_at DESC"
+      when "popular"
+        the_order = "stream_likes DESC"
+      end
+    end
+    @records = @records.order(the_order)
   end
 
   def set_search
@@ -32,17 +46,23 @@ class ChannelSearch < Struct.new(:params)
 
   def search_geo
 
-    @new = @records.joins(:streams)
-      .where(streams: {id: near_streams})
-      .select("DISTINCT(channels.id), channels.*")
-      .reorder("channels.created_at DESC")
 
-    @popular = @records.joins(:streams)
-      .where(streams: {id: near_streams})
-      .reorder("count(channels.id) DESC")
-      .group("channels.id, channels.name, channels.created_at")
+    if params.key? :order
+      @record = @records
+        .where(streams: {id: near_streams})
+        .select("DISTINCT(channels.id), channels.*")
+    else
+      @new = @records
+        .where(streams: {id: near_streams})
+        .reorder("channels.created_at DESC")
 
-    @records = @popular.zip(@new).flatten.compact.uniq
+      @popular = @records.joins(:streams)
+        .where(streams: {id: near_streams})
+        .reorder("count(channels.id) DESC")
+        .group("channels.id, channels.name, channels.created_at")
+
+      @records = @popular.zip(@new).flatten.compact.uniq
+    end
     @records
   end
 

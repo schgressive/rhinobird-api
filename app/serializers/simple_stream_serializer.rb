@@ -1,12 +1,16 @@
 class SimpleStreamSerializer < ActiveModel::Serializer
   attributes :id, :caption, :started_on, :properties, :thumbs, :status,
-    :archived_url, :playcount
+    :archived_url, :playcount, :likes, :username
 
   self.root = false
 
   # Use hash_token as ID
   def id
     object.to_param
+  end
+
+  def username
+    object.user.try(:username)
   end
 
   def thumbs

@@ -9,6 +9,14 @@ class Channel < ActiveRecord::Base
   # Relations
   has_and_belongs_to_many :streams
 
+  def most_liked_streams
+    streams.with_status(:live, :archived).includes(:user).order("likes DESC").limit(3)
+  end
+
+  def update_total_watches!
+    self.update_column :stream_likes, self.streams.sum(:likes)
+  end
+
   # Parses a caption and returns channel objects
   def self.get_channels(caption)
     channels = []

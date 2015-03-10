@@ -15,7 +15,13 @@ class RepostResourceService < Struct.new(:resource, :user)
     new_resource.user = user
     new_resource.source = resource
     new_resource.thumbnail = resource.thumbnail
-    new_resource.save!
+    begin
+      new_resource.save!
+    rescue Paperclip::Errors::NotIdentifiedByImageMagickError => e
+      Rails.logger.info "Saving without attachment #{e.message}"
+      new_resource.thumbnail = nil
+      new_resource.save!
+    end
     new_resource
   end
 

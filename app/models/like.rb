@@ -23,6 +23,6 @@ class Like < ActiveRecord::Base
   def self.update_likes(likeable)
     return unless (likeable.respond_to? :likes)
     like_count = Like.by_likeable(likeable).count
-    likeable.update_column(:likes, like_count)
+    likeable.update_attribute(:likes, like_count)
   end
 end

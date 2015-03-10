@@ -1,5 +1,6 @@
 class Api::ChannelsController < Api::BaseController
   skip_before_filter :authenticate_user!, only: [:show, :index]
+  after_filter only: [:index] { set_pagination_headers(:channels) }
 
   def index
     @channels = ChannelSearch.new(params).run

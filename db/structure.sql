@@ -38,6 +38,8 @@ CREATE TABLE `channels` (
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
+  `likes` int(11) DEFAULT NULL,
+  `stream_likes` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -132,7 +134,7 @@ CREATE TABLE `streams` (
   UNIQUE KEY `index_streams_on_hash_token` (`hash_token`),
   KEY `index_streams_on_user_id` (`user_id`),
   FULLTEXT KEY `caption_fulltext` (`caption`)
-) ENGINE=MyISAM AUTO_INCREMENT=1165 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=1168 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `timelines` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -145,7 +147,7 @@ CREATE TABLE `timelines` (
   `status` int(11) DEFAULT NULL,
   `repost` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1046 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1050 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -228,7 +230,7 @@ CREATE TABLE `vjs` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_vjs_on_slug` (`slug`),
   KEY `index_vjs_on_user_id_and_channel_id` (`user_id`,`channel_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=latin1;
 
 INSERT INTO schema_migrations (version) VALUES ('20130408152535');
 
@@ -363,3 +365,5 @@ INSERT INTO schema_migrations (version) VALUES ('20150216193814');
 INSERT INTO schema_migrations (version) VALUES ('20150223170130');
 
 INSERT INTO schema_migrations (version) VALUES ('20150304142008');
+
+INSERT INTO schema_migrations (version) VALUES ('20150310130207');

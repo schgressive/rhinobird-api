@@ -1,6 +1,8 @@
 class ChannelSerializer < ActiveModel::Serializer
-  attributes :name, :created_at, :streams_count
+  attributes :name, :created_at, :streams_count, :total_watches, :most_liked_streams, :stream_likes
   self.root = false
+
+  has_many :most_liked_streams, serializer: SimpleStreamSerializer
 
   #format this column
   def created_at
@@ -8,6 +10,10 @@ class ChannelSerializer < ActiveModel::Serializer
   end
 
   def streams_count
-    object.streams.count
+    object.streams.with_status(:live, :archived).count
+  end
+
+  def total_watches
+    object.streams.with_status(:live, :archived).sum(:playcount)
   end
 end

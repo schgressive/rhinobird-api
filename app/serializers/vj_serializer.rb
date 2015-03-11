@@ -3,7 +3,7 @@ class VjSerializer < ActiveModel::Serializer
   attributes :id, :username, :status, :channel_name, :archived_url, :token, :thumbs, :type, :geometry, :properties,
     :likes, :liked, :playcount, :reposted, :reposts
 
-  has_one :user, serializer: PublicUserSerializer
+  has_one :user
   has_one :source
 
   def liked

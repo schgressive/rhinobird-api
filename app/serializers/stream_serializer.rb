@@ -4,7 +4,7 @@ class StreamSerializer < ActiveModel::Serializer
 
   self.root = false
 
-  has_one :user, serializer: PublicUserSerializer
+  has_one :user
   has_one :source
 
   #to make valid geoJSON

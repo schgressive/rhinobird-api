@@ -72,7 +72,7 @@ class Stream < ActiveRecord::Base
 
   def update_channels
     self.channels = Channel.get_channels(self.caption)
-    self.channels.each {|channel| channel.update_total_watches! }
+    self.channels.each {|channel| channel.update_total_likes! }
   end
 
   def setup_stream

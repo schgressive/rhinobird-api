@@ -31,8 +31,10 @@ class Api::BaseController < ApplicationController
 
   def set_pagination_headers(name)
     scope = instance_variable_get("@#{name}")
-    headers["X-Page-Total"] = scope.total_pages.to_s
-    headers["X-Page"] = scope.current_page.to_s
+    unless scope.is_a?(Array)
+      headers["X-Page-Total"] = scope.total_pages.to_s
+      headers["X-Page"] = scope.current_page.to_s
+    end
   end
 
 end

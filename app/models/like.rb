@@ -24,5 +24,6 @@ class Like < ActiveRecord::Base
     return unless (likeable.respond_to? :likes)
     like_count = Like.by_likeable(likeable).count
     likeable.update_attribute(:likes, like_count)
+    likeable.user.update_likes!
   end
 end

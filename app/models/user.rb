@@ -89,4 +89,8 @@ class User < ActiveRecord::Base
     self.password = SecureRandom.hex(16);
     self.password_confirmation = self.password;
   end
+
+  def update_likes!
+    self.update_column :likes, (self.streams.sum(:likes) + self.vjs.sum(:likes))
+  end
 end

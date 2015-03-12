@@ -40,8 +40,9 @@ CREATE TABLE `channels` (
   `updated_at` datetime NOT NULL,
   `likes` int(11) DEFAULT NULL,
   `stream_likes` int(11) DEFAULT NULL,
+  `used_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=152 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=153 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `channels_streams` (
   `channel_id` int(11) DEFAULT NULL,
@@ -70,7 +71,7 @@ CREATE TABLE `follows` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_follows_on_user_id_and_followed_user_id` (`user_id`,`followed_user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `likes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -134,7 +135,7 @@ CREATE TABLE `streams` (
   UNIQUE KEY `index_streams_on_hash_token` (`hash_token`),
   KEY `index_streams_on_user_id` (`user_id`),
   FULLTEXT KEY `caption_fulltext` (`caption`)
-) ENGINE=MyISAM AUTO_INCREMENT=1174 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=1176 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `timelines` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -151,7 +152,7 @@ CREATE TABLE `timelines` (
   `lng` decimal(18,12) DEFAULT NULL,
   `playcount` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1056 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1058 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -376,3 +377,5 @@ INSERT INTO schema_migrations (version) VALUES ('20150310130207');
 INSERT INTO schema_migrations (version) VALUES ('20150311122255');
 
 INSERT INTO schema_migrations (version) VALUES ('20150312122658');
+
+INSERT INTO schema_migrations (version) VALUES ('20150312140253');

@@ -75,7 +75,10 @@ class Stream < ActiveRecord::Base
   end
 
   def update_channels
-    self.channels = Channel.get_channels(self.caption)
+    if self.caption_changed?
+      self.channels = Channel.get_channels(self.caption)
+      self.channels.each {|channel| channel.touch(:used_at) }
+    end
     self.channels.each {|channel| channel.update_total_likes! }
   end
 

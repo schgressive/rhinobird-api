@@ -33,6 +33,7 @@ class Vj < ActiveRecord::Base
 
   after_create do
     Timeline.create! resource: self, status: self.status
+    self.channel.touch(:used_at)
   end
 
   def update_timeline

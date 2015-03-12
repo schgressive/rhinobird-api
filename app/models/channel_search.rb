@@ -22,7 +22,7 @@ class ChannelSearch < Struct.new(:params)
     if params.key? :order
       case params[:order]
       when "latest"
-        the_order = "created_at DESC"
+        the_order = "used_at DESC"
       when "popular"
         the_order = "stream_likes DESC"
       end

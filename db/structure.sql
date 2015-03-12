@@ -70,7 +70,7 @@ CREATE TABLE `follows` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_follows_on_user_id_and_followed_user_id` (`user_id`,`followed_user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `likes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -81,7 +81,7 @@ CREATE TABLE `likes` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_likes_on_user_id_and_likeable_type_and_likeable_id` (`user_id`,`likeable_type`,`likeable_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `picks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -134,7 +134,7 @@ CREATE TABLE `streams` (
   UNIQUE KEY `index_streams_on_hash_token` (`hash_token`),
   KEY `index_streams_on_user_id` (`user_id`),
   FULLTEXT KEY `caption_fulltext` (`caption`)
-) ENGINE=MyISAM AUTO_INCREMENT=1173 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=1174 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `timelines` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -146,8 +146,12 @@ CREATE TABLE `timelines` (
   `promoted` tinyint(1) DEFAULT '0',
   `status` int(11) DEFAULT NULL,
   `repost` tinyint(1) DEFAULT '0',
+  `likes` int(11) DEFAULT NULL,
+  `lat` decimal(18,12) DEFAULT NULL,
+  `lng` decimal(18,12) DEFAULT NULL,
+  `playcount` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1055 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1056 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -370,3 +374,5 @@ INSERT INTO schema_migrations (version) VALUES ('20150304142008');
 INSERT INTO schema_migrations (version) VALUES ('20150310130207');
 
 INSERT INTO schema_migrations (version) VALUES ('20150311122255');
+
+INSERT INTO schema_migrations (version) VALUES ('20150312122658');

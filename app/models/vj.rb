@@ -39,6 +39,10 @@ class Vj < ActiveRecord::Base
     tl = Timeline.where(resource_type: "Vj", resource_id: self.id).first
     if tl
       tl.status = self.status
+      tl.likes = self.likes
+      tl.playcount = self.playcount
+      tl.lat = self.lat
+      tl.lng = self.lng
       tl.save
     end
   end

@@ -62,6 +62,10 @@ class Stream < ActiveRecord::Base
     if tl
       tl.promoted = self.promoted
       tl.status = self.status
+      tl.likes = self.likes
+      tl.lat = self.lat
+      tl.lng = self.lng
+      tl.playcount = self.playcount
       tl.save
     end
   end

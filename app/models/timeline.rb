@@ -1,5 +1,7 @@
 class Timeline < ActiveRecord::Base
 
+  reverse_geocoded_by :lat, :lng
+
   # Relations
   belongs_to :resource, polymorphic: true
   belongs_to :user

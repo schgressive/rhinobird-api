@@ -1,15 +1,8 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes  :id, :name, :email, :username, :photo, :share_facebook,
-    :share_twitter, :facebook_connected, :twitter_connected,
-    :custom_tweet, :enable_custom_tweet, :incomplete_fields,
-    :bio, :backdrop, :avatar,
-    :video_count, :applause, :playcount, :followed #stats
+  attributes :id, :username, :photo, :bio, :backdrop, :avatar,
+    :video_count, :likes, :playcount, :followed
 
   self.root = false
-
-  def twitter_connected
-    object.valid_tw_token?
-  end
 
   def followed
     object.followed_by? current_user
@@ -27,28 +20,15 @@ class UserSerializer < ActiveModel::Serializer
     object.background_image.present? ? object.background_image.url(:thumb) : nil
   end
 
-  def share_facebook
-    object.valid_fb_token? && object.share_facebook
+  def playcount
+    object.streams.sum(:playcount)
   end
 
-  def share_twitter
-    object.valid_tw_token? && object.share_twitter
+  def video_count
+    object.streams.count
   end
-
-  def facebook_connected
-    object.valid_fb_token?
-  end
-
   # optionals
-  def include_applause?
-    @options.include? :stats
-  end
-
   def include_video_count?
-    @options.include? :stats
-  end
-
-  def include_followed?
     @options.include? :stats
   end
 

@@ -5,7 +5,7 @@ class FullStreamSerializer < ActiveModel::Serializer
 
   self.root = false
 
-  has_one :user, serializer: PublicUserSerializer
+  has_one :user
 
   def timeline_id
     object.timeline.id

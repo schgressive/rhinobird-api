@@ -4,12 +4,12 @@ class Api::UsersController < Api::BaseController
   skip_before_filter :verify_authenticity_token
 
   def index
-    users = UserSearch.new(params, %w(name username)).run
+    users = UserSearch.new(params).run
     respond_with users
   end
 
   def show
-    user = User.find(params[:id]).decorate
+    user = User.find(params[:id])
     respond_with user, stats: true
   end
 

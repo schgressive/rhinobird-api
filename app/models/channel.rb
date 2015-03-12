@@ -13,7 +13,7 @@ class Channel < ActiveRecord::Base
     streams.with_status(:live, :archived).includes(:user).order("likes DESC").limit(3)
   end
 
-  def update_total_watches!
+  def update_total_likes!
     self.update_column :stream_likes, self.streams.sum(:likes)
   end
 

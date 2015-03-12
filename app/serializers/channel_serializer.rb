@@ -2,7 +2,7 @@ class ChannelSerializer < ActiveModel::Serializer
   attributes :name, :created_at, :streams_count, :total_watches, :most_liked_streams, :stream_likes
   self.root = false
 
-  has_many :most_liked_streams, serializer: SimpleStreamSerializer
+  has_many :most_liked_streams
 
   #format this column
   def created_at

@@ -9,7 +9,7 @@ class Api::UsersController < Api::BaseController
   end
 
   def show
-    user = User.find(params[:id]).decorate
+    user = User.find(params[:id])
     respond_with user, stats: true
   end
 

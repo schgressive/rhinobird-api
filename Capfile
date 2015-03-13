@@ -20,6 +20,7 @@ require 'capistrano/deploy'
 require 'capistrano/rbenv'
 # require 'capistrano/chruby'
 require 'capistrano/bundler'
+require "whenever/capistrano"
 require 'capistrano/rails/assets'
 require 'capistrano/rails/migrations'
 require 'capistrano-nc/nc'
@@ -36,7 +37,6 @@ require 'capistrano3/unicorn'
 require 'capistrano/nginx'
 # require 'capistrano/puma'
 # require 'capistrano/eye'
-require "whenever/capistrano"
 
 require 'negroku/deploy'
 # require 'negroku/logs'

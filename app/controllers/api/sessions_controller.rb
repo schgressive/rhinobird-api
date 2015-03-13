@@ -25,7 +25,7 @@ class Api::SessionsController < Devise::SessionsController
   def show
     resource = current_user
     if resource
-      render json: {auth_token: resource.authentication_token, user: UserSessionSerializer.new(resource)}, status: :ok
+      respond_with resource, serializer: UserSessionSerializer, root: "user"
     else
       render json: {}, status: 401
     end

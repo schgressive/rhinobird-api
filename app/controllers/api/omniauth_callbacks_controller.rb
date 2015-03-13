@@ -16,13 +16,13 @@ class  Api::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def process_omniauth(auth, user, from)
     social = SocialSignupService.new(auth, user)
     @user = social.signup
-    sign_in @user
 
     oauth_params = request.env["omniauth.params"]
     # if we're using a popup close the window
     if oauth_params && oauth_params["popup"]
       render content_type: 'text/html', inline: "<script>window.close();</script>"
     else
+      sign_in @user
       route = "#{ENV["HOST_PROTOCOL"]}://#{ENV["PUBLIC_HOST"]}"
       route += "/profile/edit/?complete=#{from}" if social.new_user?
       redirect_to route

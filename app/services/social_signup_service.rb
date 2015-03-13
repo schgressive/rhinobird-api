@@ -52,7 +52,7 @@ class SocialSignupService
   end
 
   def data_for_update
-    data_for_create.reject {|k,v| k == :email || k == :username }
+    data_for_create.reject {|k,v| k == :email || k == :username || k == :password }
   end
 
   def email

@@ -19,7 +19,7 @@ describe ShareTwitterService do
     user.save!
 
     stub_request(:post, "https://api.twitter.com/1.1/statuses/update.json").
-       with(:body => {"status"=> /Testing Live/ }).
+       with(:body => {"status"=> /\|LIVE NOW\| Testing Live/ }).
       to_return(status: 200, body: File.open(File.join(Rails.root, '/spec/support/fixtures/twitter_update.json')).read, headers: {})
 
     ShareTwitterService.new(user, stream).run

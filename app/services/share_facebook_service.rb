@@ -15,7 +15,7 @@ class ShareFacebookService < Struct.new(:user, :stream)
       name: "RhinobirdTv",
       link: stream.full_stream_url,
       picture: stream.thumbnail.url(:medium),
-      description: caption,
+      description: "|LIVE NOW| #{caption}",
     })
 
     # Update Facebook Post Id

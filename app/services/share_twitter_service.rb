@@ -15,7 +15,7 @@ class ShareTwitterService
   private
 
   def get_tweet_message
-    msg = "#{@stream.caption} #{@stream.full_stream_url}"
+    msg = "|LIVE NOW| #{@stream.caption} #{@stream.full_stream_url}"
     msg
   end
 

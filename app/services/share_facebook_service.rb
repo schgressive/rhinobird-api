@@ -14,7 +14,7 @@ class ShareFacebookService < Struct.new(:user, :stream)
     post = graph.put_wall_post(caption, {
       name: "RhinobirdTv",
       link: stream.full_stream_url,
-      picture: stream.thumbnail.url(:medium),
+      picture: stream.thumbnail.url(:burned),
       description: "|LIVE NOW| #{caption}",
     })
 

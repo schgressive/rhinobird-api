@@ -1,5 +1,5 @@
 class ChannelSerializer < ActiveModel::Serializer
-  attributes :name, :created_at, :streams_count, :total_watches, :most_liked_streams, :stream_likes
+  attributes :name, :created_at, :streams_count, :total_watches, :most_liked_streams, :stream_likes, :used_at
   self.root = false
 
   has_many :most_liked_streams

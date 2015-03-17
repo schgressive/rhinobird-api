@@ -40,7 +40,10 @@ class Stream < ActiveRecord::Base
   has_attached_file :thumbnail, processors: [:watermark], styles: {
     small: '33%',
     medium: '66%',
-    burned: { watermark_path: "#{Rails.root}/public/play_button.png" },
+    burned: {
+      geometry: "640x480>",
+      watermark_path: "#{Rails.root}/public/play_button.png"
+    },
     large: '100%'
   },
   s3_headers: {

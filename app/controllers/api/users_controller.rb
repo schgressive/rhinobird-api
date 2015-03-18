@@ -2,10 +2,11 @@ class Api::UsersController < Api::BaseController
   skip_before_filter :authenticate_user!, only: [:show, :create, :index]
   skip_before_filter :require_no_authentication
   skip_before_filter :verify_authenticity_token
+  after_filter only: [:index] { set_pagination_headers(:users) }
 
   def index
-    users = UserSearch.new(params).run
-    respond_with users
+    @users = UserSearch.new(params).run
+    respond_with @users
   end
 
   def show

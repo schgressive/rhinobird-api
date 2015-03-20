@@ -3,7 +3,7 @@ class Api::StreamsController < Api::BaseController
   after_filter only: [:index] { set_pagination_headers(:streams) }
 
   def index
-    @streams = StreamSearchService.new(params).run
+    @streams = StreamSearchService.new(stream_params).run
     respond_with @streams.all
   end
 

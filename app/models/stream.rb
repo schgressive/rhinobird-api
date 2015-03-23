@@ -42,7 +42,8 @@ class Stream < ActiveRecord::Base
     medium: '66%',
     burned: {
       geometry: "640x480>",
-      watermark_path: "#{Rails.root}/public/play_button.png"
+      watermark_path: "#{Rails.root}/public/play_button.png",
+      position: "Center"
     },
     large: '100%'
   },

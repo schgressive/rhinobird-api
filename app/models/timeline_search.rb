@@ -33,7 +33,7 @@ class TimelineSearch < Struct.new(:params, :current_user)
     if params.key? :order
       case params[:order]
       when "popular"
-        the_order = "playcount DESC"
+        the_order = "status, playcount DESC"
       end
     end
     @scope = @scope.order(the_order)

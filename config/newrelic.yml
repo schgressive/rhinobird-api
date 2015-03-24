@@ -3,9 +3,9 @@
 # .NET, PHP, Python and Node applications with deep visibility and low
 # overhead.  For more information, visit www.newrelic.com.
 #
-# Generated March 24, 2015
+# Generated December 08, 2014
 #
-# This configuration file is custom generated for RhinoBird_1
+# This configuration file is custom generated for RhinoBird
 
 
 # Here are the settings that are common to all environments
@@ -15,7 +15,7 @@ common: &default_settings
   # You must specify the license key associated with your New Relic
   # account.  This key binds your Agent's data to your account in the
   # New Relic service.
-  license_key: '45fbdd23a6f2321adb9f3ea0f3af35c00fa5cbdf'
+  license_key: '2480ad922eddb6a6d8ae49c1f6d203ff736f861d'
 
   # Agent Enabled (Ruby/Rails Only)
   # Use this setting to force the agent to run or not run.
@@ -49,7 +49,7 @@ common: &default_settings
   # See https://newrelic.com/docs/site/renaming-applications for more details
   # on renaming your New Relic applications.
   #
-  app_name: My Application
+  app_name: RhinoBird
 
   # When "true", the agent collects performance data about your
   # application and reports this data to the New Relic service at
@@ -191,8 +191,8 @@ common: &default_settings
 development:
   <<: *default_settings
   # Turn on communication to New Relic service in development mode
-  monitor_mode: true
-  app_name: My Application (Development)
+  monitor_mode: false
+  app_name: RhinoBird (Development)
 
   # Rails Only - when running in Developer Mode, the New Relic Agent will
   # present performance information on the last 100 transactions you have
@@ -221,4 +221,4 @@ production:
 staging:
   <<: *default_settings
   monitor_mode: true
-  app_name: My Application (Staging)
+  app_name: RhinoBird (Staging)

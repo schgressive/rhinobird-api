@@ -20,6 +20,10 @@ class UserSerializer < ActiveModel::Serializer
     object.background_image.present? ? object.background_image.url(:thumb) : nil
   end
 
+  def id
+    object.to_param
+  end
+
   def playcount
     object.streams.sum(:playcount)
   end
